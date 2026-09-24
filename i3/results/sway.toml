@@ -1,0 +1,1932 @@
+# Curated result of an unchanged upstream i3 test-suite run.
+# Counts use the first unindented TAP plan and first TAP stream.
+# pass, skip, fail, and unreached together cover each emitted plan.
+
+[run]
+compositor = "sway"
+version = "sway version 1.12-88869399 (Sep 24 2026, branch 'HEAD')"
+commit = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
+environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
+
+[files."001-tile.t"]
+assertions = 3
+tap_plan = 3
+pass = 2
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."003-ipc.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."005-floating.t"]
+assertions = 13
+tap_plan = 13
+pass = 11
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."100-fullscreen.t"]
+plan_unknown = true
+assertions = 79
+tap_plan = "none"
+pass = 16
+fail = 7
+unreached = 56
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."101-focus.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."102-dock.t"]
+assertions = 23
+tap_plan = 23
+pass = 5
+fail = 18
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."104-focus-stack.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."111-goto.t"]
+assertions = 13
+tap_plan = 13
+pass = 13
+
+[files."112-floating-resize.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."113-urgent.t"]
+plan_unknown = true
+assertions = 50
+tap_plan = "none"
+pass = 21
+fail = 2
+unreached = 27
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."115-ipc-workspaces.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."116-nestedcons.t"]
+plan_unknown = true
+assertions = 5
+tap_plan = "none"
+pass = 4
+fail = 1
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."117-workspace.t"]
+plan_unknown = true
+assertions = 92
+tap_plan = "none"
+pass = 34
+fail = 16
+unreached = 42
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."118-openkill.t"]
+assertions = 6
+tap_plan = 6
+pass = 2
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."119-match.t"]
+plan_unknown = true
+assertions = 27
+tap_plan = "none"
+pass = 4
+fail = 0
+unreached = 23
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."120-multiple-cmds.t"]
+assertions = 31
+tap_plan = 31
+pass = 17
+fail = 14
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."121-next-prev.t"]
+assertions = 12
+tap_plan = 12
+pass = 9
+fail = 3
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."122-split.t"]
+plan_unknown = true
+assertions = 31
+tap_plan = "none"
+pass = 16
+fail = 15
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."124-move.t"]
+assertions = 54
+tap_plan = 54
+pass = 37
+fail = 17
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."126-regress-close.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."127-regress-floating-parent.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."128-open-order.t"]
+assertions = 7
+tap_plan = 7
+pass = 3
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."129-focus-after-close.t"]
+plan_unknown = true
+assertions = 15
+tap_plan = "none"
+pass = 8
+fail = 4
+unreached = 3
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."130-close-empty-split.t"]
+assertions = 8
+tap_plan = 8
+pass = 2
+fail = 6
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."131-stacking-order.t"]
+assertions = 7
+tap_plan = 7
+pass = 6
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."132-move-workspace.t"]
+plan_unknown = true
+assertions = 160
+tap_plan = "none"
+pass = 61
+fail = 30
+unreached = 60
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."133-size-hints.t"]
+assertions = 16
+tap_plan = 16
+pass = 9
+fail = 7
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."134-invalid-command.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."135-floating-focus.t"]
+plan_unknown = true
+assertions = 82
+tap_plan = "none"
+pass = 4
+fail = 0
+unreached = 78
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."136-floating-ws-empty.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."137-floating-unmap.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."138-floating-attach.t"]
+assertions = 11
+tap_plan = 11
+pass = 8
+fail = 3
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."139-ws-numbers.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."140-focus-lost.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."141-resize.t"]
+assertions = 84
+tap_plan = 84
+pass = 60
+fail = 24
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."142-regress-move-floating.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."143-regress-floating-restart.t"]
+assertions = 5
+tap_plan = 5
+pass = 3
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."144-regress-floating-resize.t"]
+plan_unknown = true
+assertions = 1
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 1
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."145-flattening.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."146-floating-reinsert.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."147-regress-floatingmove.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."148-regress-floatingmovews.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."150-regress-dock-restart.t"]
+assertions = 11
+tap_plan = 11
+pass = 3
+fail = 8
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."151-regress-float-size.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."152-regress-level-up.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."153-floating-originalsize.t"]
+assertions = 7
+tap_plan = 7
+pass = 7
+
+[files."154-regress-multiple-dock.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."155-floating-split-size.t"]
+assertions = 4
+tap_plan = 4
+pass = 2
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."156-fullscreen-focus.t"]
+plan_unknown = true
+assertions = 64
+tap_plan = "none"
+pass = 1
+fail = 1
+unreached = 62
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."159-socketpaths.t"]
+plan_unknown = true
+assertions = 0
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."161-regress-borders-restart.t"]
+assertions = 4
+tap_plan = 4
+pass = 2
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."162-regress-dock-urgent.t"]
+assertions = 4
+tap_plan = 4
+pass = 2
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."164-kill-win-vs-client.t"]
+plan_unknown = true
+assertions = 12
+tap_plan = "none"
+pass = 3
+fail = 0
+unreached = 9
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."165-for_window.t"]
+plan_unknown = true
+assertions = 0
+tap_plan = "none"
+pass = 19
+fail = 0
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."166-assign.t"]
+plan_unknown = true
+assertions = 106
+tap_plan = "none"
+pass = 17
+fail = 6
+unreached = 83
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."167-workspace_layout.t"]
+plan_unknown = true
+assertions = 5
+tap_plan = "none"
+pass = 9
+fail = 19
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."168-regress-fullscreen-restart.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."169-border-toggle.t"]
+assertions = 20
+tap_plan = 20
+pass = 0
+fail = 20
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."170-force_focus_wrapping.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."172-start-on-named-ws.t"]
+assertions = 7
+tap_plan = 7
+pass = 6
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."173-get-marks.t"]
+assertions = 3
+tap_plan = 3
+pass = 2
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."174-border-config.t"]
+assertions = 13
+tap_plan = 13
+pass = 9
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."176-workspace-baf.t"]
+plan_unknown = true
+assertions = 26
+tap_plan = "none"
+pass = 21
+fail = 2
+unreached = 3
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."177-bar-config.t"]
+plan_unknown = true
+assertions = 50
+tap_plan = "none"
+pass = 23
+fail = 5
+unreached = 22
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."178-regress-workspace-open.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."179-regress-multiple-ws.t"]
+assertions = 6
+tap_plan = 6
+pass = 1
+reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
+reason_verified = true
+[[files."179-regress-multiple-ws.t".skip]]
+n = 4
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/179-regress-multiple-ws.t:1"
+[[files."179-regress-multiple-ws.t".skip]]
+n = 6
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/179-regress-multiple-ws.t:1"
+fail = 3
+
+[files."180-fd-leaks.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."181-regress-float-border.t"]
+assertions = 6
+tap_plan = 6
+pass = 4
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."182-regress-focus-dock.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."183-config-variables.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."184-regress-float-split-resize.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."185-scratchpad.t"]
+plan_unknown = true
+assertions = 2
+tap_plan = "none"
+pass = 2
+fail = 0
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."186-regress-assign-focus-parent.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."187-commands-parser.t"]
+assertions = 25
+tap_plan = 25
+pass = 0
+fail = 25
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."188-regress-focus-restart.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."189-floating-constraints.t"]
+assertions = 28
+tap_plan = 28
+pass = 22
+fail = 6
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."190-scratchpad-diff-ws.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."191-resize-levels.t"]
+assertions = 3
+tap_plan = 3
+pass = 1
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."192-layout.t"]
+assertions = 34
+tap_plan = 34
+pass = 22
+fail = 12
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."193-ipc-version.t"]
+assertions = 4
+tap_plan = 4
+pass = 3
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."194-regress-floating-size.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."196-randr-output-names.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."197-regression-move-vanish.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."198-regression-scratchpad-crash.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."199-ipc-mode-event.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."200-urgency-timer.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."201-config-parser.t"]
+plan_unknown = true
+assertions = 0
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."202-scratchpad-criteria.t"]
+plan_unknown = true
+assertions = 27
+tap_plan = "none"
+pass = 8
+fail = 3
+unreached = 16
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."203-regress-assign-and-move.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."204-regress-scratchpad-move.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."205-ipc-windows.t"]
+assertions = 4
+tap_plan = 4
+pass = 2
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."206-fullscreen-scratchpad.t"]
+plan_unknown = true
+assertions = 8
+tap_plan = "none"
+pass = 4
+fail = 0
+unreached = 4
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."208-regress-floating-criteria.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."210-mark-unmark.t"]
+assertions = 17
+tap_plan = 17
+pass = 14
+fail = 3
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."211-regress-urgency-assign.t"]
+assertions = 3
+tap_plan = 3
+pass = 2
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."212-assign-urgency.t"]
+assertions = 3
+tap_plan = 3
+pass = 2
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."213-layout-restore-simple.t"]
+assertions = 18
+tap_plan = 18
+pass = 8
+fail = 10
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."218-regress-floating-split.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."219-ipc-window-focus.t"]
+plan_unknown = true
+assertions = 30
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 30
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."220-ipc-window-title.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."221-floating-type-hints.t"]
+assertions = 8
+tap_plan = 8
+pass = 0
+fail = 8
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."222-regress-dock-resize.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."224-regress-resize-branch.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."225-ipc-window-fullscreen.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."226-internal-workspaces.t"]
+assertions = 5
+tap_plan = 5
+pass = 1
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."227-ipc-workspace-empty.t"]
+plan_unknown = true
+assertions = 8
+tap_plan = "none"
+pass = 0
+fail = 1
+unreached = 7
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."228-border-widths.t"]
+assertions = 21
+tap_plan = 21
+pass = 18
+fail = 3
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."231-ipc-floating-event.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."232-cmd-move-criteria.t"]
+assertions = 22
+tap_plan = 22
+pass = 22
+
+[files."233-regress-manage-focus-unmapped.t"]
+plan_unknown = true
+assertions = 2
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 1
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."235-check-config-no-x.t"]
+assertions = 8
+tap_plan = 8
+pass = 0
+fail = 8
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."236-floating-focus-raise.t"]
+assertions = 6
+tap_plan = 6
+pass = 0
+fail = 6
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."237-regress-assign-focus.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."238-ipc-binding-event.t"]
+assertions = 15
+tap_plan = 15
+pass = 2
+fail = 13
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."240-focus-on-window-activation.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."241-consistent-center.t"]
+assertions = 12
+tap_plan = 12
+pass = 5
+fail = 7
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."242-no-focus.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."243-move-to-mark.t"]
+assertions = 50
+tap_plan = 50
+pass = 41
+fail = 9
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."244-new-workspace-floating-enable-center.t"]
+assertions = 2
+tap_plan = 2
+pass = 0
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."245-move-position-mouse.t"]
+assertions = 8
+tap_plan = 8
+pass = 0
+fail = 8
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."246-window-decoration-focus.t"]
+assertions = 3
+tap_plan = 3
+pass = 2
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."247-config-line-continuation.t"]
+assertions = 8
+tap_plan = 8
+pass = 4
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."248-regress-urgency-clear.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."251-command-criteria-focused.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."252-floating-size.t"]
+assertions = 49
+tap_plan = 49
+pass = 36
+fail = 13
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."254-move-to-output-with-criteria.t"]
+plan_unknown = true
+assertions = 16
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 16
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."255-multiple-marks.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."256-no-auto-back-and-forth.t"]
+plan_unknown = true
+assertions = 10
+tap_plan = "none"
+pass = 8
+fail = 0
+unreached = 2
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."257-keypress-group1-fallback.t"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 3
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."258-keypress-release.t"]
+plan_unknown = true
+assertions = 36
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 35
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."260-invalid-criteria.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."261-match-con_id-con_mark-combinations.t"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 3
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."262-config-validation.t"]
+plan_unknown = true
+assertions = 0
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."263-config-reload-reverts-bind-mode.t"]
+assertions = 3
+tap_plan = 3
+pass = 1
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."264-dock-criteria.t"]
+plan_unknown = true
+assertions = 14
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 14
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."265-ipc-mark.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."266-net-moveresize-window.t"]
+plan_unknown = true
+assertions = 12
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 12
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."267-regress-mark-restart.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."268-ipc-config.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."269-focus-stack-above.t"]
+assertions = 5
+tap_plan = 5
+pass = 3
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."270-config-no-newline-end.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."271-for_window_tilingfloating.t"]
+assertions = 20
+tap_plan = 20
+pass = 11
+fail = 9
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."272-regress-focus-assign.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."273-regress-focus-toggle.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."274-move-branch-position.t"]
+assertions = 16
+tap_plan = 16
+pass = 12
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."275-ipc-window-close.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."276-ipc-window-move.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."277-ipc-window-urgent.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."279-regress-default-floating-border.t"]
+assertions = 1
+tap_plan = 1
+pass = 0
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."280-wm-class-change-handler.t"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+pass = 3
+fail = 0
+unreached = 1
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."281-regress-reload-bindsym.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."282-tabbed-floating-disable-crash.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."284-ewmh-visible-name.t"]
+plan_unknown = true
+assertions = 5
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 5
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."285-sticky.t"]
+plan_unknown = true
+assertions = 11
+tap_plan = "none"
+pass = 2
+fail = 0
+unreached = 9
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."286-root-window-mouse-binding.t"]
+plan_unknown = true
+assertions = 1
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."287-edge-borders.t"]
+assertions = 31
+tap_plan = 31
+pass = 29
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."289-ipc-shutdown-event.t"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 4
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."290-keypress-numlock.t"]
+assertions = 85
+tap_plan = 85
+pass = 25
+fail = 60
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."291-swap.t"]
+plan_unknown = true
+assertions = 11
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 10
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."292-regress-layout-toggle.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."293-focus-follows-mouse.t"]
+assertions = 10
+tap_plan = 10
+pass = 4
+fail = 6
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."293-sticky-output-crash.t"]
+plan_unknown = true
+assertions = 3
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 3
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."294-focus-order.t"]
+plan_unknown = true
+assertions = 61
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 60
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."295-net-wm-state-focused.t"]
+plan_unknown = true
+assertions = 5
+tap_plan = "none"
+pass = 3
+fail = 0
+unreached = 2
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."296-regress-focus-behind-fullscreen-floating.t"]
+plan_unknown = true
+assertions = 1
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 1
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."297-assign-workspace-to-output.t"]
+assertions = 25
+tap_plan = 25
+pass = 5
+fail = 20
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."297-scroll-tabbed.t"]
+plan_unknown = true
+assertions = 14
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 13
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."298-ipc-misbehaving-connection.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."299-regress-scratchpad-focus.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."301-shape.t"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+pass = 1
+fail = 1
+unreached = 2
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."302-tree.t"]
+plan_unknown = true
+assertions = 15
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 15
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."303-regress-move-floating.t"]
+assertions = 3
+tap_plan = 3
+pass = 1
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."304-ipc-workspace-init.t"]
+assertions = 9
+tap_plan = 9
+pass = 1
+fail = 8
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."306-move-to-parent.t"]
+plan_unknown = true
+assertions = 2
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 2
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."307-focus-next-prev.t"]
+plan_unknown = true
+assertions = 9
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 9
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."308-focus_wrapping.t"]
+plan_unknown = true
+assertions = 32
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 32
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."309-crash-move-parent.t"]
+plan_unknown = true
+assertions = 2
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 2
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."310-client-message-sticky.t"]
+plan_unknown = true
+assertions = 6
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 5
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."311-get-binding-modes.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."312-regress-layout-default.t"]
+assertions = 0
+tap_plan = 0
+pass = 0
+reason = "Upstream declares this test not applicable on this build."
+file_skip = { reason = "Upstream TAP plan is 1..0", citation = "i3/t/312-regress-layout-default.t:1" }
+
+[files."313-include.t"]
+assertions = 30
+tap_plan = 30
+pass = 22
+reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
+reason_verified = true
+[[files."313-include.t".skip]]
+n = 19
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/313-include.t:1"
+fail = 7
+
+[files."315-all-criterion.t"]
+plan_unknown = true
+assertions = 18
+tap_plan = "none"
+pass = 2
+fail = 0
+unreached = 16
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."315-long-commands.t"]
+assertions = 4
+tap_plan = 4
+pass = 3
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."316-drag-container.t"]
+plan_unknown = true
+assertions = 17
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 16
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."316-transient-for-loop.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."317-bar-config-font-fallback.t"]
+plan_unknown = true
+assertions = 1
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 1
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."317-bar-config-font-order.t"]
+plan_unknown = true
+assertions = 1
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 1
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."317-bar-output-trailing-space.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."319-gaps.t"]
+plan_unknown = true
+assertions = 28
+tap_plan = "none"
+pass = 2
+fail = 16
+unreached = 10
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."320-mouse-bindings.t"]
+plan_unknown = true
+assertions = 13
+tap_plan = "none"
+pass = 3
+fail = 0
+unreached = 10
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."321-crash-criteria-scratchpad.t"]
+assertions = 6
+tap_plan = 6
+pass = 4
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."322-match-error-crash.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."324-for-window-reload-crash.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."325-layout-percent-and-marks.t"]
+plan_unknown = true
+assertions = 3
+tap_plan = "none"
+pass = 2
+fail = 1
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."500-multi-monitor.t"]
+assertions = 1
+tap_plan = 1
+pass = 0
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."501-scratchpad.t"]
+plan_unknown = true
+assertions = 44
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 44
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."502-focus-output.t"]
+assertions = 19
+tap_plan = 19
+pass = 1
+fail = 18
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."503-workspace.t"]
+assertions = 18
+tap_plan = 18
+pass = 5
+fail = 13
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."504-move-workspace-to-output.t"]
+plan_unknown = true
+assertions = 31
+tap_plan = "none"
+pass = 6
+fail = 10
+unreached = 15
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."505-scratchpad-resolution.t"]
+plan_unknown = true
+assertions = 90
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 90
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."506-focus-right.t"]
+plan_unknown = true
+assertions = 31
+tap_plan = "none"
+pass = 3
+fail = 2
+unreached = 26
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."507-workspace-move-crash.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."509-workspace_layout.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."510-focus-across-outputs.t"]
+plan_unknown = true
+assertions = 19
+tap_plan = "none"
+pass = 2
+fail = 8
+unreached = 9
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."511-scratchpad-configure-request.t"]
+plan_unknown = true
+assertions = 2
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 2
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."512-move-wraps.t"]
+plan_unknown = true
+assertions = 10
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 10
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."513-move-workspace.t"]
+plan_unknown = true
+assertions = 6
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 6
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."514-ipc-workspace-multi-monitor.t"]
+assertions = 4
+tap_plan = 4
+pass = 1
+fail = 3
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."515-create-workspace.t"]
+assertions = 2
+tap_plan = 2
+pass = 1
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."516-move.t"]
+plan_unknown = true
+assertions = 14
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 14
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."517-regress-move-direction-ipc.t"]
+assertions = 2
+tap_plan = 2
+pass = 0
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."518-interpret-workspace-numbers.t"]
+assertions = 4
+tap_plan = 4
+pass = 0
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."519-mouse-warping.t"]
+assertions = 3
+tap_plan = 3
+pass = 1
+fail = 2
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."520-regress-focus-direction-floating.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."522-rename-assigned-workspace.t"]
+plan_unknown = true
+assertions = 9
+tap_plan = "none"
+pass = 1
+fail = 6
+unreached = 2
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."523-move-position-center.t"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 3
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."524-move.t"]
+assertions = 38
+tap_plan = 38
+pass = 8
+reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
+reason_verified = true
+[[files."524-move.t".skip]]
+n = 4
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 10
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 14
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 16
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 18
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 20
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 22
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 24
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 26
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 28
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 30
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 32
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+[[files."524-move.t".skip]]
+n = 36
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/524-move.t:1"
+fail = 17
+
+[files."526-reconfigure-dock.t"]
+assertions = 3
+tap_plan = 3
+pass = 0
+fail = 3
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."527-focus-fallback.t"]
+plan_unknown = true
+assertions = 2
+tap_plan = "none"
+pass = 1
+fail = 0
+unreached = 1
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."528-workspace-next-prev-reversed.t"]
+plan_unknown = true
+assertions = 38
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 38
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."530-bug-2229.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."531-fullscreen-on-given-output.t"]
+assertions = 4
+tap_plan = 4
+pass = 1
+fail = 3
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."534-dont-warp.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."535-workspace-next-prev.t"]
+assertions = 38
+tap_plan = 38
+pass = 8
+fail = 30
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."537-move-single-to-output.t"]
+assertions = 8
+tap_plan = 8
+pass = 4
+reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
+reason_verified = true
+[[files."537-move-single-to-output.t".skip]]
+n = 2
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/537-move-single-to-output.t:1"
+[[files."537-move-single-to-output.t".skip]]
+n = 6
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/537-move-single-to-output.t:1"
+fail = 2
+
+[files."538-i3bar-primary-output.t"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 4
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."539-disable_focus_wrapping.t"]
+assertions = 10
+tap_plan = 10
+pass = 10
+
+[files."540-sigterm-cleanup.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."541-resize-set-tiling.t"]
+assertions = 32
+tap_plan = 32
+pass = 20
+fail = 12
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."543-move-workspace-to-multiple-outputs.t"]
+assertions = 63
+tap_plan = 63
+pass = 0
+fail = 63
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."544-focus-multiple-outputs.t"]
+assertions = 41
+tap_plan = 41
+pass = 0
+fail = 41
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."545-i3-registration.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."546-empty-bindcommand.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."547-explicit-mode-default.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."547-nested-variables.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."549-focus-wrapping-gaps.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."550-focus-workspace.t"]
+plan_unknown = true
+assertions = 17
+tap_plan = "none"
+pass = 5
+fail = 3
+unreached = 9
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."550-split-redundant-containers.t"]
+plan_unknown = true
+assertions = 8
+tap_plan = "none"
+pass = 0
+fail = 0
+unreached = 8
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."551-net-wm-state-maximized.t"]
+plan_unknown = true
+assertions = 35
+tap_plan = "none"
+pass = 1
+fail = 1
+unreached = 33
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
+
+[files."553-popup_during_fullscreen.t"]
+assertions = 20
+tap_plan = 20
+pass = 16
+fail = 4
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."554-commands-crash-for-window.t"]
+assertions = 101
+tap_plan = 101
+pass = 67
+fail = 34
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."556-workspace-keeps-focus-after-move.t"]
+plan_unknown = true
+assertions = 3
+tap_plan = "none"
+pass = 3
+fail = 0
+unreached = 0
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = true
