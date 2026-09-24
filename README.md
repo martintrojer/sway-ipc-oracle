@@ -102,7 +102,7 @@ Publish black-box results from the oracle's runners under the matching oracle's 
 
 ## i3 suite comparison
 
-These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The pinned runs record i3 **3,754/1/0**, sway **1,311/412/493**, and swayward **1,427/8/1,040**. Of sway's 493 fails, 272 assertions are unclassified and pending classification. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The pinned runs record i3 **3,754/1/0**, sway **1,311/412/493**, and swayward **1,427/8/1,040**. Of sway's 493 fails, 102 assertions are unclassified and pending classification. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
 
 | File | i3 P/S/F | sway P/S/F | swayward P/S/F |
 | --- | ---: | ---: | ---: |
