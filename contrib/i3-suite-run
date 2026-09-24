@@ -74,12 +74,15 @@ def emit(path: Path, compositor: str, version: str, commit: str,
         lines += ["", f'[files."{test.name}"]']
         if plan is None:
             observed = len(verdicts)
+            total = observed or static
             skip_numbers = [n for n, v in verdicts.items() if v == "skip"]
-            lines += ["plan_unknown = true", f"assertions = {observed}", 'tap_plan = "none"',
+            lines += ["plan_unknown = true", f"assertions = {total}", 'tap_plan = "none"',
                       f"source_assertions = {static}",
                       f"pass = {sum(v == 'pass' for v in verdicts.values())}",
-                      f"fail = {sum(v == 'fail' for v in verdicts.values())}",
-                      'reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."',
+                      f"fail = {sum(v == 'fail' for v in verdicts.values())}"]
+            if not observed and static:
+                lines.append(f"unreached = {static}")
+            lines += ['reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."',
                       "reason_verified = false"]
             for n in skip_numbers:
                 lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
@@ -114,7 +117,7 @@ def static_plan(path: Path) -> int:
     for line in path.read_text(errors="replace").splitlines():
         if m := re.match(r"^plan tests => (\d+);", line):
             return int(m.group(1))
-    with (ROOT / "i3/results/swayward.toml").open("rb") as fh:
+    with (ROOT / "i3/results/i3.toml").open("rb") as fh:
         return tomllib.load(fh)["files"][path.name].get("assertions", 0)
 
 
