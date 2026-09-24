@@ -114,9 +114,10 @@ assertions = 33
 tap_plan = "none"
 source_assertions = 64
 pass = 18
-fail = 15
-reason = "swayward_tree_finding"
+reason = "xwayland_satellite_metadata_limit"
 reason_verified = true
+citation = "sway/sway/tree/view.c:488-510,1197-1224; xwayland-satellite/src/server/clientside.rs:294-296"
+skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 4, reason = "xwayland_satellite_metadata_limit" }, { n = 8, reason = "xwayland_satellite_metadata_limit" }, { n = 11, reason = "xwayland_satellite_metadata_limit" }, { n = 12, reason = "xwayland_satellite_metadata_limit" }, { n = 14, reason = "xwayland_satellite_metadata_limit" }, { n = 15, reason = "xwayland_satellite_metadata_limit" }, { n = 17, reason = "xwayland_satellite_metadata_limit" }, { n = 18, reason = "xwayland_satellite_metadata_limit" }, { n = 20, reason = "xwayland_satellite_metadata_limit" }, { n = 21, reason = "xwayland_satellite_metadata_limit" }, { n = 27, reason = "xwayland_satellite_metadata_limit" }, { n = 28, reason = "xwayland_satellite_metadata_limit" }, { n = 29, reason = "xwayland_satellite_metadata_limit" }, { n = 32, reason = "xwayland_satellite_metadata_limit" }]
 
 [files."115-ipc-workspaces.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1230,9 +1231,10 @@ assertions = 2
 tap_plan = "none"
 source_assertions = 3
 pass = 1
-fail = 1
-reason = "swayward_tree_finding"
+reason = "xwayland_satellite_metadata_limit"
 reason_verified = true
+citation = "sway/sway/criteria.c:355-390; sway/sway/tree/view.c:488-510; xwayland-satellite/src/server/clientside.rs:294-296"
+skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }]
 
 [files."212-assign-urgency.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -1495,9 +1497,10 @@ assertions = 11
 tap_plan = "none"
 source_assertions = 50
 pass = 3
-fail = 8
-reason = "swayward_tree_finding"
+reason = "xwayland_satellite_metadata_limit"
 reason_verified = true
+citation = "sway/sway/criteria.c:184-186; sway/sway/tree/view.c:488-510; xwayland-satellite/src/server/clientside.rs:294-296"
+skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 3, reason = "xwayland_satellite_metadata_limit" }, { n = 5, reason = "xwayland_satellite_metadata_limit" }, { n = 6, reason = "xwayland_satellite_metadata_limit" }, { n = 8, reason = "xwayland_satellite_metadata_limit" }, { n = 9, reason = "xwayland_satellite_metadata_limit" }, { n = 10, reason = "xwayland_satellite_metadata_limit" }, { n = 11, reason = "xwayland_satellite_metadata_limit" }]
 
 [files."244-new-workspace-floating-enable-center.t"]
 adapted = ["remove-adapter-ipc-socket"]
