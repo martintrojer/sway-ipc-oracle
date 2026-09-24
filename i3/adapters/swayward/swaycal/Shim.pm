@@ -278,15 +278,9 @@ if ($ENV{SWAY_CAL_CONTENT_SHIM}) {
     };
 
     *i3test::focused_ws = sub {
-        my $tree = AnyEvent::I3::i3(i3test::get_socket_path())->get_tree->recv;
-        my ($output) = grep {
-            ($_->{type} // '') eq 'output' && ($_->{name} // '') ne '__i3'
-                && @{$_->{focus} // []}
-        } @{$tree->{nodes}};
-        return undef unless $output;
-        my $focused = $output->{focus}->[0];
-        my $ws = List::Util::first { $_->{id} == $focused } @{$output->{nodes}};
-        return $ws ? $ws->{name} : undef;
+        my $workspaces = AnyEvent::I3::i3(i3test::get_socket_path())->get_workspaces->recv;
+        my $workspace = List::Util::first { $_->{focused} } @$workspaces;
+        return $workspace ? $workspace->{name} : undef;
     };
 }
 
