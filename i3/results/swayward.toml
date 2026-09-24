@@ -4,8 +4,8 @@
 
 [run]
 compositor = "swayward"
-version = "swayward 26.04 (v26.04-122-g2180eeeb)"
-commit = "2180eeebd8e2370af034c3ebd5a9bbe504093b01"
+version = "swayward 26.04 (v26.04-123-gb420c1a4)"
+commit = "b420c1a4316af8ed55c83d73fbad93d66f4d8530"
 i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
 
@@ -788,14 +788,11 @@ tap_plan = 2
 pass = 2
 
 [files."219-ipc-window-focus.t"]
-plan_unknown = true
 assertions = 10
-tap_plan = "none"
-source_assertions = 10
-pass = 0
-fail = 0
-unreached = 10
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+tap_plan = 10
+pass = 1
+fail = 9
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."220-ipc-window-title.t"]
@@ -874,11 +871,11 @@ reason_verified = false
 
 [files."232-cmd-move-criteria.t"]
 plan_unknown = true
-assertions = 2
+assertions = 12
 tap_plan = "none"
 source_assertions = 22
-pass = 1
-fail = 1
+pass = 6
+fail = 6
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
 
@@ -1006,14 +1003,11 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."254-move-to-output-with-criteria.t"]
-plan_unknown = true
 assertions = 16
-tap_plan = "none"
-source_assertions = 16
-pass = 0
-fail = 0
-unreached = 16
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+tap_plan = 16
+pass = 10
+fail = 6
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."255-multiple-marks.t"]
@@ -1306,15 +1300,9 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."293-sticky-output-crash.t"]
-plan_unknown = true
 assertions = 3
-tap_plan = "none"
-source_assertions = 3
-pass = 0
-fail = 0
-unreached = 3
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+tap_plan = 3
+pass = 3
 
 [files."294-focus-order.t"]
 plan_unknown = true
@@ -1337,15 +1325,9 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."296-regress-focus-behind-fullscreen-floating.t"]
-plan_unknown = true
 assertions = 1
-tap_plan = "none"
-source_assertions = 1
-pass = 0
-fail = 0
-unreached = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+tap_plan = 1
+pass = 1
 
 [files."297-assign-workspace-to-output.t"]
 assertions = 25
@@ -1605,29 +1587,17 @@ reason_verified = false
 [files."500-multi-monitor.t"]
 assertions = 1
 tap_plan = 1
-pass = 0
-fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+pass = 1
 
 [files."501-scratchpad.t"]
-plan_unknown = true
 assertions = 44
-tap_plan = "none"
-source_assertions = 44
-pass = 0
-fail = 0
-unreached = 44
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+tap_plan = 44
+pass = 44
 
 [files."502-focus-output.t"]
 assertions = 19
 tap_plan = 19
-pass = 1
-fail = 18
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+pass = 19
 
 [files."503-workspace.t"]
 assertions = 18
@@ -1638,34 +1608,29 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."504-move-workspace-to-output.t"]
-plan_unknown = true
-assertions = 16
-tap_plan = "none"
-source_assertions = 31
-pass = 3
-fail = 13
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+assertions = 31
+tap_plan = 31
+pass = 24
+fail = 7
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."505-scratchpad-resolution.t"]
 plan_unknown = true
-assertions = 90
+assertions = 45
 tap_plan = "none"
 source_assertions = 90
-pass = 0
+pass = 45
 fail = 0
-unreached = 90
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
 
 [files."506-focus-right.t"]
-plan_unknown = true
-assertions = 5
-tap_plan = "none"
-source_assertions = 31
-pass = 3
-fail = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+assertions = 31
+tap_plan = 31
+pass = 28
+fail = 3
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."507-workspace-move-crash.t"]
@@ -1695,62 +1660,43 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."511-scratchpad-configure-request.t"]
-plan_unknown = true
 assertions = 2
-tap_plan = "none"
-source_assertions = 2
-pass = 0
-fail = 0
-unreached = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+tap_plan = 2
+pass = 2
 
 [files."512-move-wraps.t"]
-plan_unknown = true
 assertions = 10
-tap_plan = "none"
-source_assertions = 10
-pass = 0
-fail = 0
-unreached = 10
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+tap_plan = 10
+pass = 10
 
 [files."513-move-workspace.t"]
-plan_unknown = true
 assertions = 6
-tap_plan = "none"
-source_assertions = 6
-pass = 0
-fail = 0
-unreached = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+tap_plan = 6
+pass = 2
+fail = 4
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."514-ipc-workspace-multi-monitor.t"]
 assertions = 4
 tap_plan = 4
-pass = 2
-fail = 2
+pass = 1
+fail = 3
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."515-create-workspace.t"]
 assertions = 2
 tap_plan = 2
-pass = 1
-fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+pass = 2
 
 [files."516-move.t"]
 plan_unknown = true
-assertions = 14
+assertions = 12
 tap_plan = "none"
 source_assertions = 14
-pass = 0
-fail = 0
-unreached = 14
+pass = 6
+fail = 6
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
 
@@ -1794,74 +1740,20 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."523-move-position-center.t"]
-plan_unknown = true
-assertions = 1
-tap_plan = "none"
-source_assertions = 4
-pass = 0
-fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+assertions = 4
+tap_plan = 4
+pass = 2
+fail = 2
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."524-move.t"]
 assertions = 38
 tap_plan = 38
-pass = 8
-fail = 17
+pass = 26
+fail = 12
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
-[[files."524-move.t".skip]]
-n = 4
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 10
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 14
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 16
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 18
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 20
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 22
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 24
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 26
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 28
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 30
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 32
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
-[[files."524-move.t".skip]]
-n = 36
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/524-move.t:1"
 
 [files."526-reconfigure-dock.t"]
 plan_unknown = true
@@ -1921,18 +1813,7 @@ reason_verified = false
 [files."537-move-single-to-output.t"]
 assertions = 8
 tap_plan = 8
-pass = 4
-fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
-[[files."537-move-single-to-output.t".skip]]
-n = 2
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/537-move-single-to-output.t:1"
-[[files."537-move-single-to-output.t".skip]]
-n = 6
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/537-move-single-to-output.t:1"
+pass = 8
 
 [files."538-i3bar-primary-output.t"]
 plan_unknown = true
@@ -1966,16 +1847,16 @@ reason_verified = false
 [files."543-move-workspace-to-multiple-outputs.t"]
 assertions = 63
 tap_plan = 63
-pass = 0
-fail = 63
+pass = 1
+fail = 62
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
 [files."544-focus-multiple-outputs.t"]
 assertions = 41
 tap_plan = 41
-pass = 0
-fail = 41
+pass = 8
+fail = 33
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = false
 
@@ -2002,10 +1883,7 @@ pass = 2
 [files."549-focus-wrapping-gaps.t"]
 assertions = 2
 tap_plan = 2
-pass = 1
-fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+pass = 2
 
 [files."550-focus-workspace.t"]
 plan_unknown = true

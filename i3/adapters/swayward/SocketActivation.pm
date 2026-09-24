@@ -57,6 +57,21 @@ my $rundir    = $ENV{I3_SUITE_RUNDIR} or die 'I3_SUITE_RUNDIR is unset';
 
 my $instance = 0;
 
+sub _fake_outputs {
+    my ($config) = @_;
+    my ($spec) = $config =~ /^\s*fake[-_]outputs\s+(\S+)\s*$/m;
+    return undef unless defined $spec;
+
+    my @outputs;
+    for my $entry (split /,/, $spec) {
+        my $primary = $entry =~ s/P$//;
+        $entry =~ /^(\d+)x(\d+)\+(\d+)\+(\d+)$/
+            or die "invalid fake-outputs entry '$entry'";
+        push @outputs, [ $1, $2, $3, $4, $primary ];
+    }
+    return \@outputs;
+}
+
 sub _read_display {
     my ($log) = @_;
     for (1 .. 300) {
@@ -110,19 +125,38 @@ sub activate_i3 {
     unlink($sock, $log);
 
     my $source = "$rundir/sway-source-$n";
+    my $source_text;
     {
-        open(my $in,  '<', $args{configfile}) or die "config: $!";
-        open(my $out, '>', $source) or die "config copy: $!";
-        while (my $line = <$in>) {
-            print $out $line unless $line =~ /^ipc-socket\s/;
-        }
+        open(my $in, '<', $args{configfile}) or die "config: $!";
+        local $/;
+        $source_text = <$in>;
         close($in);
+    }
+    my $outputs = _fake_outputs($source_text);
+    $ENV{I3_SUITE_FAKE_OUTPUTS} = $outputs ? 1 : 0;
+    $source_text =~ s/^ipc-socket\s.*\n?//mg;
+    $source_text =~ s/^\s*fake[-_]outputs\s+\S+\s*\n?//mg;
+    $source_text =~ s/\bfake-(\d+)\b/'headless-' . ($1 + 1)/eg if $outputs;
+    {
+        open(my $out, '>', $source) or die "config copy: $!";
+        print $out $source_text;
         close($out);
     }
     open(my $translated, '-|', $translator, $source) or die "translator: $!";
     open(my $out, '>', $cfg) or die "translated config: $!";
     while (my $line = <$translated>) {
         print $out $line;
+    }
+    if ($outputs) {
+        for my $i (0 .. $#$outputs) {
+            my ($width, $height, $x, $y, $primary) = @{$outputs->[$i]};
+            my $name = $i + 1;
+            print $out qq(\noutput "headless-$name" {\n);
+            print $out qq(    mode custom=true "${width}x${height}\@60"\n);
+            print $out qq(    position x=$x y=$y\n);
+            print $out "    focus-at-startup\n" if $primary;
+            print $out "}\n";
+        }
     }
     close($out);
     close($translated) or die "config translation failed: $?";
@@ -135,7 +169,7 @@ sub activate_i3 {
         delete $ENV{DESKTOP_STARTUP_ID};
         delete $ENV{SHELL};
         delete $ENV{DISPLAY};     # sway must create its own, not join ours
-        $ENV{WLR_HEADLESS_OUTPUTS} = '1';
+        $ENV{WLR_HEADLESS_OUTPUTS} = $outputs ? scalar(@$outputs) : 1;
         $ENV{RUST_LOG} = 'swayward=info';
         open(STDOUT, '>>', $log);
         open(STDERR, '>&', \*STDOUT);

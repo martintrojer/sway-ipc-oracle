@@ -114,6 +114,12 @@ sub sway_sync {
     my $wait_for_map = \&i3test::wait_for_map;
     my $cmd = \&i3test::cmd;
     my $cmd_nosync = \&i3test::cmd_nosync;
+    my $map_fake_outputs = sub {
+        my ($command) = @_;
+        $command =~ s/\bfake-(\d+)\b/'headless-' . ($1 + 1)/eg
+            if $ENV{I3_SUITE_FAKE_OUTPUTS};
+        return $command;
+    };
     my @open_windows;
     my $toggle_split = sub {
         my $tree = _tree_object();
@@ -141,6 +147,7 @@ sub sway_sync {
             return [{ success => 1 }];
         }
         return $cmd_nosync->($toggle_split->()) if @_ == 1 && $_[0] eq 'split toggle';
+        return $cmd_nosync->($map_fake_outputs->($_[0])) if @_ == 1;
         return $cmd_nosync->(@_);
     };
     *i3test::cmd = sub {
@@ -150,6 +157,7 @@ sub sway_sync {
             sway_sync();
             return $result;
         }
+        return $cmd->($map_fake_outputs->($_[0])) if @_ == 1;
         return $cmd->(@_);
     };
 }
@@ -192,11 +200,44 @@ if ($ENV{SWAY_CAL_CONTENT_SHIM}) {
         return @ws;
     };
 
+    my $rename_output;
+    $rename_output = sub {
+        my ($value) = @_;
+        return unless $ENV{I3_SUITE_FAKE_OUTPUTS};
+        if (ref($value) eq 'HASH') {
+            $value->{name} =~ s/^headless-(\d+)$/'fake-' . ($1 - 1)/e
+                if ($value->{type} // '') eq 'output' && defined $value->{name};
+            $value->{output} =~ s/^headless-(\d+)$/'fake-' . ($1 - 1)/e
+                if defined $value->{output};
+            $rename_output->($_) for values %$value;
+        } elsif (ref($value) eq 'ARRAY') {
+            $rename_output->($_) for @$value;
+        }
+    };
+    my $get_outputs = \&AnyEvent::I3::get_outputs;
+    *AnyEvent::I3::get_outputs = sub {
+        my $cv = $get_outputs->(@_);
+        $cv->cb(sub {
+            my $outputs = $_[0]->recv;
+            $rename_output->($outputs);
+        });
+        return $cv;
+    };
+    my $get_workspaces = \&AnyEvent::I3::get_workspaces;
+    *AnyEvent::I3::get_workspaces = sub {
+        my $cv = $get_workspaces->(@_);
+        $cv->cb(sub {
+            my $workspaces = $_[0]->recv;
+            $rename_output->($workspaces);
+        });
+        return $cv;
+    };
     my $get_tree = \&AnyEvent::I3::get_tree;
     *AnyEvent::I3::get_tree = sub {
         my $cv = $get_tree->(@_);
         $cv->cb(sub {
             my $tree = $_[0]->recv;
+            $rename_output->($tree);
             for my $output (grep { ($_->{type} // '') eq 'output' && ($_->{name} // '') !~ /^__/ } @{$tree->{nodes}}) {
                 my @workspaces = grep { ($_->{type} // '') eq 'workspace' } @{$output->{nodes}};
                 $output->{nodes} = [{
