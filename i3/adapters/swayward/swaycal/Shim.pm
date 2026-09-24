@@ -40,6 +40,7 @@ use v5.10;
 use IO::Socket::UNIX;
 use List::Util ();
 use AnyEvent::I3 ();
+use JSON::PP ();
 
 require i3test;
 
@@ -79,6 +80,11 @@ sub _tree {
     return _ipc(4, '');                                # IPC_GET_TREE
 }
 
+sub _tree_object {
+    my $body = _tree();
+    return defined($body) ? JSON::PP::decode_json($body) : undef;
+}
+
 sub sway_sync {
     # Accept and ignore i3's no_cache/window_id options. They select details
     # of I3_SYNC, which sway does not implement.
@@ -105,7 +111,47 @@ sub sway_sync {
 {
     no warnings 'redefine';
     no strict 'refs';
+    my $wait_for_map = \&i3test::wait_for_map;
+    my $cmd = \&i3test::cmd;
+    my $cmd_nosync = \&i3test::cmd_nosync;
+    my @open_windows;
+    my $toggle_split = sub {
+        my $tree = _tree_object();
+        my ($node, $parent) = ($tree, undef);
+        while (@{$node->{focus} // []}) {
+            my $focused = $node->{focus}->[0];
+            my ($child) = grep { $_->{id} == $focused }
+                (@{$node->{nodes} // []}, @{$node->{floating_nodes} // []});
+            last unless $child;
+            ($parent, $node) = ($node, $child);
+        }
+        $node = $parent if $parent && ($node->{type} // '') eq 'con' && !@{$node->{nodes} // []};
+        return ($node->{layout} // '') eq 'splitv' ? 'split h' : 'split v';
+    };
+
     *i3test::sync_with_i3 = \&sway_sync;
+    *i3test::wait_for_map = sub {
+        my $result = $wait_for_map->(@_);
+        sway_sync();
+        return $result;
+    };
+    *i3test::cmd_nosync = sub {
+        if (@_ == 1 && $_[0] eq 'open') {
+            push @open_windows, i3test::open_window();
+            return [{ success => 1 }];
+        }
+        return $cmd_nosync->($toggle_split->()) if @_ == 1 && $_[0] eq 'split toggle';
+        return $cmd_nosync->(@_);
+    };
+    *i3test::cmd = sub {
+        return i3test::cmd_nosync(@_) if @_ == 1 && $_[0] eq 'open';
+        if (@_ == 1 && $_[0] eq 'split toggle') {
+            my $result = $cmd_nosync->($toggle_split->());
+            sway_sync();
+            return $result;
+        }
+        return $cmd->(@_);
+    };
 }
 
 # ---------------------------------------------------------------------------
@@ -137,13 +183,30 @@ if ($ENV{SWAY_CAL_CONTENT_SHIM}) {
     no strict 'refs';
 
     my $workspaces_of = sub {
-        my $tree = AnyEvent::I3::i3(i3test::get_socket_path())->get_tree->recv;
+        my $tree = _tree_object();
         my @ws;
         for my $output (@{$tree->{nodes}}) {
             next if ($output->{name} // '') eq '__i3';
             push @ws, grep { ($_->{type} // '') eq 'workspace' } @{$output->{nodes}};
         }
         return @ws;
+    };
+
+    my $get_tree = \&AnyEvent::I3::get_tree;
+    *AnyEvent::I3::get_tree = sub {
+        my $cv = $get_tree->(@_);
+        $cv->cb(sub {
+            my $tree = $_[0]->recv;
+            for my $output (grep { ($_->{type} // '') eq 'output' && ($_->{name} // '') !~ /^__/ } @{$tree->{nodes}}) {
+                my @workspaces = grep { ($_->{type} // '') eq 'workspace' } @{$output->{nodes}};
+                $output->{nodes} = [{
+                    id => -$output->{id}, type => 'con', name => 'content',
+                    layout => 'splith', orientation => 'horizontal', nodes => \@workspaces,
+                    floating_nodes => [], focus => $output->{focus},
+                }];
+            }
+        });
+        return $cv;
     };
 
     *i3test::get_workspace_names = sub {

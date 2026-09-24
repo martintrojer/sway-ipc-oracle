@@ -162,7 +162,8 @@ def wayland_adapter(args) -> None:
     if not args.tests:
         shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="i3-suite-") as td:
+    runtime = Path(f"/run/user/{os.getuid()}")
+    with tempfile.TemporaryDirectory(prefix="i3-suite-", dir=runtime) as td:
         stage = Path(td) / "lib"; shutil.copytree(src / "testcases/lib", stage)
         text = (src / "testcases/lib/i3test.pm.in").read_text().replace("@abs_top_builddir@", str(src)).replace("@abs_top_srcdir@", str(src))
         (stage / "i3test.pm").write_text(text)
@@ -175,9 +176,12 @@ def wayland_adapter(args) -> None:
             env = os.environ | {"I3SRC": str(src), "STAGE": str(stage), "TESTNAME": test.name,
                   "OUTDIR": str(rundir), "I3_SUITE_RUNDIR": str(rundir), "I3_SUITE_BINARY": str(binary),
                   "I3_SUITE_COMPOSITOR": args.compositor, "SWAY_CAL_CONTENT_SHIM": "1"}
+            if args.compositor == "swayward":
+                env["I3_SUITE_TRANSLATOR"] = str(binary.parents[2] / "contrib/sway-to-kdl")
             inner = f'''set -uo pipefail
 trap 'test -f "$I3_SUITE_RUNDIR/pids" && while read -r p; do kill -9 -- -"$p" 2>/dev/null || true; done < "$I3_SUITE_RUNDIR/pids"; test -n "${{xp:-}}" && kill -9 "$xp" 2>/dev/null || true' EXIT
-mkdir -p /tmp/.X11-unix; mount --bind "$I3_SUITE_RUNDIR/x11u" /tmp/.X11-unix
+mount -t tmpfs -o mode=1777,size=16m tmpfs /tmp
+mkdir -m 1777 /tmp/.X11-unix
 export XDG_RUNTIME_DIR="$I3_SUITE_RUNDIR"; unset SWAYSOCK I3SOCK WAYLAND_DISPLAY
 Xvfb :99 -screen 0 1280x800x24 >/dev/null 2>&1 & xp=$!; export DISPLAY=:99
 for i in $(seq 1 100); do test -S /tmp/.X11-unix/X99 && break; sleep .05; done
@@ -185,7 +189,7 @@ cd {shlex.quote(str(src / 'testcases'))}
 export PERL5LIB="$STAGE:$HOME/perl5/lib/perl5${{PERL5LIB:+:$PERL5LIB}}"
 perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
 '''
-            cp = subprocess.run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", "--kill-after=5", str(args.file_timeout), "unshare", "-rm", "bash", "-lc", inner], env=env, text=True, capture_output=True)
+            cp = subprocess.run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", "--kill-after=5", str(args.file_timeout), "unshare", "-rmn", "bash", "-lc", inner], env=env, text=True, capture_output=True)
             (out / f"{test.name}.tap").write_text(cp.stdout + cp.stderr)
             diagnostics = out / test.name
             shutil.rmtree(diagnostics, ignore_errors=True)

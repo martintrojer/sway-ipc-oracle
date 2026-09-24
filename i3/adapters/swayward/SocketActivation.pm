@@ -51,8 +51,9 @@ use Exporter 'import';
 
 our @EXPORT = qw(activate_i3);
 
-my $sway_bin = $ENV{I3_SUITE_BINARY} or die 'I3_SUITE_BINARY is unset';
-my $rundir   = $ENV{I3_SUITE_RUNDIR} or die 'I3_SUITE_RUNDIR is unset';
+my $sway_bin  = $ENV{I3_SUITE_BINARY} or die 'I3_SUITE_BINARY is unset';
+my $translator = $ENV{I3_SUITE_TRANSLATOR} or die 'I3_SUITE_TRANSLATOR is unset';
+my $rundir    = $ENV{I3_SUITE_RUNDIR} or die 'I3_SUITE_RUNDIR is unset';
 
 my $instance = 0;
 
@@ -108,15 +109,23 @@ sub activate_i3 {
     my $cfg  = "$rundir/sway-config-$n";
     unlink($sock, $log);
 
+    my $source = "$rundir/sway-source-$n";
     {
         open(my $in,  '<', $args{configfile}) or die "config: $!";
-        open(my $out, '>', $cfg) or die "config copy: $!";
-        print $out "";
-        local $/;
-        print $out scalar <$in>;
+        open(my $out, '>', $source) or die "config copy: $!";
+        while (my $line = <$in>) {
+            print $out $line unless $line =~ /^ipc-socket\s/;
+        }
         close($in);
         close($out);
     }
+    open(my $translated, '-|', $translator, $source) or die "translator: $!";
+    open(my $out, '>', $cfg) or die "translated config: $!";
+    while (my $line = <$translated>) {
+        print $out $line;
+    }
+    close($out);
+    close($translated) or die "config translation failed: $?";
 
     my $pid = fork // die 'fork';
     if ($pid == 0) {
