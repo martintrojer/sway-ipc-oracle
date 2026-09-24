@@ -63,6 +63,14 @@ for name in docs["i3"]["files"]:
         raise SystemExit(f"README i3-suite row is stale: {name}")
 
 wayland_docs = {name: docs[name] for name in ("sway", "swayward")}
+for compositor, doc in wayland_docs.items():
+    for filename, entry in doc["files"].items():
+        if "fake-outputs->headless-outputs" in entry.get("adapted", []):
+            reasons = {entry.get("reason")} | {skip.get("reason") for skip in entry.get("skip", [])}
+            if "i3_fake_outputs" in reasons:
+                raise SystemExit(
+                    f"{compositor} {filename} translates fake outputs but retains an i3_fake_outputs skip"
+                )
 boundary_families = {
     family
     for doc in wayland_docs.values()

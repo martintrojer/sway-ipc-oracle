@@ -106,6 +106,22 @@ sub sway_sync {
     no warnings 'redefine';
     no strict 'refs';
     *i3test::sync_with_i3 = \&sway_sync;
+    my $cmd = \&i3test::cmd;
+    my $cmd_nosync = \&i3test::cmd_nosync;
+    my $map_fake_outputs = sub {
+        my ($command) = @_;
+        $command =~ s/\bfake-(\d+)\b/'HEADLESS-' . ($1 + 1)/eg
+            if $ENV{I3_SUITE_FAKE_OUTPUTS};
+        return $command;
+    };
+    *i3test::cmd_nosync = sub {
+        return $cmd_nosync->($map_fake_outputs->($_[0])) if @_ == 1;
+        return $cmd_nosync->(@_);
+    };
+    *i3test::cmd = sub {
+        return $cmd->($map_fake_outputs->($_[0])) if @_ == 1;
+        return $cmd->(@_);
+    };
 }
 
 # Optional recorder for deriving sway IPC fixtures. It records only operations
@@ -178,6 +194,48 @@ if (my $path = $ENV{SWAY_CAL_RECORD}) {
 if ($ENV{SWAY_CAL_CONTENT_SHIM}) {
     no warnings 'redefine';
     no strict 'refs';
+
+    my $rename_output;
+    $rename_output = sub {
+        my ($value) = @_;
+        return unless $ENV{I3_SUITE_FAKE_OUTPUTS};
+        if (ref($value) eq 'HASH') {
+            $value->{name} =~ s/^HEADLESS-(\d+)$/'fake-' . ($1 - 1)/e
+                if ($value->{type} // '') eq 'output' && defined $value->{name};
+            $value->{output} =~ s/^HEADLESS-(\d+)$/'fake-' . ($1 - 1)/e
+                if defined $value->{output};
+            $rename_output->($_) for values %$value;
+        } elsif (ref($value) eq 'ARRAY') {
+            $rename_output->($_) for @$value;
+        }
+    };
+    my $get_outputs = \&AnyEvent::I3::get_outputs;
+    *AnyEvent::I3::get_outputs = sub {
+        my $cv = $get_outputs->(@_);
+        $cv->cb(sub {
+            my $outputs = $_[0]->recv;
+            $rename_output->($outputs);
+        });
+        return $cv;
+    };
+    my $get_workspaces = \&AnyEvent::I3::get_workspaces;
+    *AnyEvent::I3::get_workspaces = sub {
+        my $cv = $get_workspaces->(@_);
+        $cv->cb(sub {
+            my $workspaces = $_[0]->recv;
+            $rename_output->($workspaces);
+        });
+        return $cv;
+    };
+    my $get_tree = \&AnyEvent::I3::get_tree;
+    *AnyEvent::I3::get_tree = sub {
+        my $cv = $get_tree->(@_);
+        $cv->cb(sub {
+            my $tree = $_[0]->recv;
+            $rename_output->($tree);
+        });
+        return $cv;
+    };
 
     my $workspaces_of = sub {
         my $tree = AnyEvent::I3::i3(i3test::get_socket_path())->get_tree->recv;

@@ -1243,22 +1243,10 @@ assertions = 3
 tap_plan = "none"
 source_assertions = 3
 pass = 0
-reason = "i3_fake_outputs"
-reason_verified = true
+fail = 3
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = false
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."212-assign-urgency.t".skip]]
-n = 1
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."212-assign-urgency.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."212-assign-urgency.t".skip]]
-n = 3
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."213-layout-restore-simple.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 18
@@ -1513,42 +1501,10 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 8
 tap_plan = 8
 pass = 0
-reason = "i3_fake_outputs"
-reason_verified = true
+fail = 8
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = false
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 1
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 3
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 4
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 5
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 6
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 7
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."245-move-position-mouse.t".skip]]
-n = 8
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."246-window-decoration-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
@@ -1586,58 +1542,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 49
 tap_plan = 49
 pass = 31
-fail = 6
+fail = 18
 reason = "swayward_geometry_finding"
 reason_verified = true
-[[files."252-floating-size.t".skip]]
-n = 5
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 8
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 9
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 12
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 13
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 17
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 21
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 32
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 41
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 45
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 48
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."252-floating-size.t".skip]]
-n = 49
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."254-move-to-output-with-criteria.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 16
@@ -1975,34 +1882,10 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 10
 tap_plan = 10
 pass = 4
-reason = "i3_fake_outputs"
-reason_verified = true
+fail = 6
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = false
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."293-focus-follows-mouse.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."293-focus-follows-mouse.t".skip]]
-n = 6
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."293-focus-follows-mouse.t".skip]]
-n = 7
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."293-focus-follows-mouse.t".skip]]
-n = 8
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."293-focus-follows-mouse.t".skip]]
-n = 9
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."293-focus-follows-mouse.t".skip]]
-n = 10
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."293-sticky-output-crash.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 3
@@ -2044,90 +1927,10 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 25
 tap_plan = 25
 pass = 5
-reason = "i3_fake_outputs"
-reason_verified = true
+fail = 20
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = false
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 3
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 4
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 7
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 10
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 11
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 12
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 13
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 14
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 15
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 16
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 17
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 18
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 19
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 20
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 21
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 22
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 23
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 24
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."297-assign-workspace-to-output.t".skip]]
-n = 25
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."297-scroll-tabbed.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
@@ -2189,42 +1992,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 9
 tap_plan = 9
 pass = 0
-fail = 1
+fail = 9
 reason = "swayward_tree_finding"
 reason_verified = true
-[[files."304-ipc-workspace-init.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."304-ipc-workspace-init.t".skip]]
-n = 3
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."304-ipc-workspace-init.t".skip]]
-n = 4
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."304-ipc-workspace-init.t".skip]]
-n = 5
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."304-ipc-workspace-init.t".skip]]
-n = 6
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."304-ipc-workspace-init.t".skip]]
-n = 7
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."304-ipc-workspace-init.t".skip]]
-n = 8
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."304-ipc-workspace-init.t".skip]]
-n = 9
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."306-move-to-parent.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
@@ -2500,14 +2270,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 18
 tap_plan = 18
 pass = 0
-fail = 17
+fail = 18
 reason = "swayward_tree_finding"
 reason_verified = true
-[[files."503-workspace.t".skip]]
-n = 7
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."504-move-workspace-to-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 31
@@ -2552,14 +2317,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 0
-fail = 1
+fail = 2
 reason = "swayward_tree_finding"
 reason_verified = true
-[[files."509-workspace_layout.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."510-focus-across-outputs.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
@@ -2634,26 +2394,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 4
 tap_plan = 4
 pass = 0
-fail = 0
-reason = "i3_fake_outputs"
-reason_verified = true
-[[files."518-interpret-workspace-numbers.t".skip]]
-n = 1
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."518-interpret-workspace-numbers.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."518-interpret-workspace-numbers.t".skip]]
-n = 3
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."518-interpret-workspace-numbers.t".skip]]
-n = 4
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
+fail = 4
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = false
 [files."519-mouse-warping.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 3
@@ -2695,18 +2438,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 38
 tap_plan = 38
 pass = 26
-fail = 10
+fail = 12
 reason = "swayward_tree_finding"
 reason_verified = true
-[[files."524-move.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."524-move.t".skip]]
-n = 12
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."526-reconfigure-dock.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
@@ -2751,22 +2485,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 4
 tap_plan = 4
 pass = 0
-fail = 1
+fail = 4
 reason = "swayward_tree_finding"
 reason_verified = true
-[[files."531-fullscreen-on-given-output.t".skip]]
-n = 1
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."531-fullscreen-on-given-output.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."531-fullscreen-on-given-output.t".skip]]
-n = 3
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
 [files."534-dont-warp.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
@@ -2778,98 +2499,9 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 38
 tap_plan = 38
 pass = 0
-fail = 16
+fail = 38
 reason = "swayward_tree_finding"
 reason_verified = true
-[[files."535-workspace-next-prev.t".skip]]
-n = 9
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 10
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 11
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 12
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 13
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 14
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 15
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 16
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 17
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 18
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 19
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 28
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 29
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 30
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 31
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 32
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 33
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 34
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 35
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 36
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 37
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-[[files."535-workspace-next-prev.t".skip]]
-n = 38
-reason = "i3_fake_outputs"
-citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
-
 [files."537-move-single-to-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 8
@@ -2914,399 +2546,17 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 63
 tap_plan = 63
 pass = 1
-fail = 0
-reason = "i3_fake_outputs"
-reason_verified = true
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 1
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 4
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 5
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 6
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 7
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 8
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 9
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 10
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 11
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 12
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 13
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 14
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 15
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 16
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 17
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 18
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 19
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 20
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 21
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 22
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 23
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 24
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 25
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 26
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 27
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 28
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 29
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 30
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 31
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 32
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 33
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 34
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 35
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 36
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 37
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 38
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 39
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 40
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 41
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 42
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 43
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 44
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 45
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 46
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 47
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 48
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 49
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 50
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 51
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 52
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 53
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 54
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 55
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 56
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 57
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 58
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 59
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 60
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 61
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 62
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."543-move-workspace-to-multiple-outputs.t".skip]]
-n = 63
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
+fail = 62
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = false
 [files."544-focus-multiple-outputs.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 41
 tap_plan = 41
 pass = 8
-fail = 0
-reason = "i3_fake_outputs"
-reason_verified = true
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 2
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 3
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 4
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 6
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 7
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 8
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 11
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 12
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 13
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 15
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 16
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 17
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 19
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 21
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 22
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 23
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 24
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 25
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 26
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 27
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 28
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 29
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 30
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 32
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 33
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 34
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 35
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 36
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 37
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 38
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 39
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 40
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-[[files."544-focus-multiple-outputs.t".skip]]
-n = 41
-reason = "i3_fake_outputs"
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
-
+fail = 33
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = false
 [files."545-i3-registration.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
