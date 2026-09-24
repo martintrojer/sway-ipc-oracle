@@ -59,6 +59,16 @@ def extract_complete_log(text: str) -> dict[str, str]:
     return found
 
 
+def swayward_adaptations(test: Path) -> list[str]:
+    source = test.read_text(errors="replace")
+    adaptations = ["remove-adapter-ipc-socket"]
+    if re.search(r"^\s*fake[-_]outputs\s", source, re.M):
+        adaptations.append("fake-outputs->headless-outputs")
+    if test.name == "316-drag-container.t":
+        adaptations.append("remove-bar-primary-output")
+    return adaptations
+
+
 def emit(path: Path, compositor: str, version: str, commit: str,
          taps: dict[str, str], environment: str = "") -> None:
     lines = [
@@ -74,6 +84,9 @@ def emit(path: Path, compositor: str, version: str, commit: str,
         verdicts, plan = parse_tap(taps.get(test.name, ""))
         static = static_plan(test)
         lines += ["", f'[files."{test.name}"]']
+        if compositor == "swayward":
+            adapted = ", ".join(f'"{rule}"' for rule in swayward_adaptations(test))
+            lines.append(f"adapted = [{adapted}]")
         if plan is None:
             observed = len(verdicts)
             total = observed or static

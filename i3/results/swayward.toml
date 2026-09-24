@@ -10,20 +10,24 @@ i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
 
 [families]
+xwayland_satellite_no_x11_class = "Swayward receives xwayland-satellite windows as xdg_toplevels whose app_id contains WM_CLASS; it does not receive a separate X11 class field for sway class criteria."
 headless_xtest_boundary = "The headless harness cannot deliver XTEST events from Xwayland to a Wayland compositor, so assertions that depend on those events are not measured."
 xwayland_satellite_kill_disconnects_client = "Swayward sends xdg_toplevel.close when its kill command closes an Xwayland surface. xwayland-satellite handles that event by sending X KillClient when WM_DELETE_WINDOW is absent; i3 instead destroys only the selected window for its default kill mode. i3test creates every test window on one connection without WM_PROTOCOLS, so later assertions cannot run after the first kill."
 
 [files."001-tile.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 3
 
 [files."003-ipc.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."005-floating.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 13
 tap_plan = 13
 pass = 6
@@ -32,6 +36,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."100-fullscreen.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 79
 tap_plan = "none"
@@ -43,6 +48,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."101-focus.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 4
@@ -51,6 +57,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."102-dock.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -61,11 +68,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."104-focus-stack.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."111-goto.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 13
 tap_plan = 13
 pass = 11
@@ -74,11 +83,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."112-floating-resize.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 15
 tap_plan = 15
 pass = 15
 
 [files."113-urgent.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 33
 tap_plan = "none"
@@ -89,6 +100,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."115-ipc-workspaces.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 9
 tap_plan = 9
 pass = 4
@@ -97,6 +109,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."116-nestedcons.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 5
 tap_plan = "none"
@@ -107,6 +120,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."117-workspace.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 50
 tap_plan = "none"
@@ -117,6 +131,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."118-openkill.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 6
 tap_plan = "none"
@@ -128,6 +143,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."119-match.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 27
 tap_plan = "none"
@@ -139,6 +155,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."120-multiple-cmds.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 31
 tap_plan = "none"
@@ -150,16 +167,19 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."121-next-prev.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 12
 tap_plan = 12
 pass = 12
 
 [files."122-split.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 41
 tap_plan = 41
 pass = 41
 
 [files."124-move.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 54
 tap_plan = 54
 pass = 38
@@ -168,6 +188,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."126-regress-close.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -179,6 +200,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 1, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."127-regress-floating-parent.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 4
 tap_plan = "none"
@@ -190,6 +212,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."128-open-order.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 7
 tap_plan = 7
 pass = 2
@@ -198,6 +221,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."129-focus-after-close.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 15
 tap_plan = "none"
@@ -209,6 +233,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."130-close-empty-split.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 2
@@ -217,6 +242,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."131-stacking-order.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 7
 tap_plan = 7
 pass = 6
@@ -225,6 +251,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."132-move-workspace.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 160
 tap_plan = 160
 pass = 131
@@ -257,6 +284,7 @@ reason = "The unchanged upstream test marked this assertion skipped in this envi
 citation = "i3/t/132-move-workspace.t:1"
 
 [files."133-size-hints.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 16
 tap_plan = 16
 pass = 0
@@ -265,11 +293,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."134-invalid-command.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."135-floating-focus.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 4
 tap_plan = "none"
@@ -280,11 +310,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."136-floating-ws-empty.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 11
 tap_plan = 11
 pass = 11
 
 [files."137-floating-unmap.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 1
@@ -293,6 +325,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."138-floating-attach.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 11
 tap_plan = 11
 pass = 6
@@ -301,16 +334,19 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."139-ws-numbers.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 8
 
 [files."140-focus-lost.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 3
 
 [files."141-resize.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 84
 tap_plan = 84
 pass = 61
@@ -319,16 +355,19 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."142-regress-move-floating.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."143-regress-floating-restart.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 5
 tap_plan = 5
 pass = 5
 
 [files."144-regress-floating-resize.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -340,11 +379,13 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 1, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."145-flattening.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 8
 
 [files."146-floating-reinsert.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 1
@@ -353,16 +394,19 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."147-regress-floatingmove.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."148-regress-floatingmovews.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."150-regress-dock-restart.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -373,16 +417,19 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."151-regress-float-size.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."152-regress-level-up.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."153-floating-originalsize.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 7
 tap_plan = 7
 pass = 5
@@ -391,6 +438,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."154-regress-multiple-dock.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -401,6 +449,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."155-floating-split-size.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 2
@@ -409,6 +458,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."156-fullscreen-focus.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 64
 tap_plan = "none"
@@ -420,6 +470,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."159-socketpaths.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 8
 tap_plan = "none"
@@ -431,6 +482,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."161-regress-borders-restart.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 1
@@ -439,6 +491,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."162-regress-dock-urgent.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -449,6 +502,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."164-kill-win-vs-client.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 12
 tap_plan = "none"
@@ -460,6 +514,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."165-for_window.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 79
 tap_plan = "none"
@@ -471,6 +526,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."166-assign.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 106
 tap_plan = "none"
@@ -482,6 +538,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 91, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 92, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 93, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 94, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 95, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 96, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 97, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 98, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 99, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 100, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 101, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 102, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 103, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 104, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 105, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 106, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."167-workspace_layout.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 87
 tap_plan = 87
 pass = 45
@@ -490,11 +547,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."168-regress-fullscreen-restart.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."169-border-toggle.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 20
 tap_plan = 20
 pass = 15
@@ -503,16 +562,19 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."170-force_focus_wrapping.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 12
 tap_plan = 12
 pass = 12
 
 [files."172-start-on-named-ws.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 7
 tap_plan = 7
 pass = 7
 
 [files."173-get-marks.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
@@ -524,6 +586,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."174-border-config.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 13
 tap_plan = 13
 pass = 9
@@ -532,6 +595,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."176-workspace-baf.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 26
 tap_plan = "none"
@@ -543,6 +607,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."177-bar-config.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
@@ -553,11 +618,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."178-regress-workspace-open.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."179-regress-multiple-ws.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 6
 tap_plan = 6
 pass = 2
@@ -570,11 +637,13 @@ reason = "The unchanged upstream test marked this assertion skipped in this envi
 citation = "i3/t/179-regress-multiple-ws.t:1"
 
 [files."180-fd-leaks.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."181-regress-float-border.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 6
 tap_plan = 6
 pass = 2
@@ -583,6 +652,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."182-regress-focus-dock.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -594,16 +664,19 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."183-config-variables.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 9
 tap_plan = 9
 pass = 9
 
 [files."184-regress-float-split-resize.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."185-scratchpad.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
@@ -614,11 +687,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."186-regress-assign-focus-parent.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 8
 
 [files."187-commands-parser.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 25
 tap_plan = 25
 pass = 0
@@ -627,11 +702,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."188-regress-focus-restart.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 11
 tap_plan = 11
 pass = 11
 
 [files."189-floating-constraints.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 28
 tap_plan = 28
 pass = 12
@@ -640,6 +717,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."190-scratchpad-diff-ws.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 2
@@ -648,6 +726,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."191-resize-levels.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 0
@@ -656,11 +735,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."192-layout.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 34
 tap_plan = 34
 pass = 34
 
 [files."193-ipc-version.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 3
@@ -669,6 +750,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."194-regress-floating-size.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 15
 tap_plan = 15
 pass = 5
@@ -677,21 +759,25 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."196-randr-output-names.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."197-regression-move-vanish.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 4
 
 [files."198-regression-scratchpad-crash.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."199-ipc-mode-event.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 1
@@ -700,6 +786,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."200-urgency-timer.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 12
 tap_plan = 12
 pass = 8
@@ -708,6 +795,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."201-config-parser.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 32
 tap_plan = "none"
@@ -719,6 +807,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."202-scratchpad-criteria.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 11
 tap_plan = "none"
@@ -729,16 +818,19 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."203-regress-assign-and-move.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."204-regress-scratchpad-move.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."205-ipc-windows.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 3
@@ -747,6 +839,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."206-fullscreen-scratchpad.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 8
 tap_plan = "none"
@@ -758,11 +851,13 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."208-regress-floating-criteria.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."210-mark-unmark.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 17
 tap_plan = 17
 pass = 7
@@ -771,6 +866,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."211-regress-urgency-assign.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
@@ -781,6 +877,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."212-assign-urgency.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
@@ -792,6 +889,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."213-layout-restore-simple.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 18
 tap_plan = 18
 pass = 8
@@ -800,11 +898,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."218-regress-floating-split.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."219-ipc-window-focus.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 10
 tap_plan = 10
 pass = 1
@@ -813,6 +913,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."220-ipc-window-title.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 3
@@ -821,6 +922,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."221-floating-type-hints.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
@@ -831,6 +933,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."222-regress-dock-resize.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -842,11 +945,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."224-regress-resize-branch.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."225-ipc-window-fullscreen.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -855,6 +960,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."226-internal-workspaces.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 5
 tap_plan = 5
 pass = 1
@@ -863,6 +969,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."227-ipc-workspace-empty.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 0
@@ -871,6 +978,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."228-border-widths.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 21
 tap_plan = 21
 pass = 6
@@ -879,6 +987,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."231-ipc-floating-event.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -887,6 +996,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."232-cmd-move-criteria.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 12
 tap_plan = "none"
@@ -897,6 +1007,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."233-regress-manage-focus-unmapped.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -905,6 +1016,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."235-check-config-no-x.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 0
@@ -913,6 +1025,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."236-floating-focus-raise.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 6
 tap_plan = "none"
@@ -924,11 +1037,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."237-regress-assign-focus.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."238-ipc-binding-event.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 15
 tap_plan = 15
 pass = 2
@@ -937,6 +1052,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."240-focus-on-window-activation.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 15
 tap_plan = 15
 pass = 10
@@ -945,6 +1061,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."241-consistent-center.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 12
 tap_plan = 12
 pass = 10
@@ -953,6 +1070,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."242-no-focus.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 6
 tap_plan = 6
 pass = 3
@@ -961,6 +1079,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."243-move-to-mark.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 11
 tap_plan = "none"
@@ -971,11 +1090,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."244-new-workspace-floating-enable-center.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."245-move-position-mouse.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 8
 tap_plan = 8
 pass = 0
@@ -984,11 +1105,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."246-window-decoration-focus.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 3
 
 [files."247-config-line-continuation.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 7
@@ -997,11 +1120,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."248-regress-urgency-clear.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 4
 
 [files."251-command-criteria-focused.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 6
 tap_plan = "none"
@@ -1012,6 +1137,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."252-floating-size.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 49
 tap_plan = 49
 pass = 31
@@ -1020,6 +1146,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."254-move-to-output-with-criteria.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 16
 tap_plan = 16
 pass = 10
@@ -1028,6 +1155,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."255-multiple-marks.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 9
 tap_plan = 9
 pass = 3
@@ -1036,6 +1164,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."256-no-auto-back-and-forth.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 10
 tap_plan = "none"
@@ -1047,6 +1176,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."257-keypress-group1-fallback.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 17
 tap_plan = "none"
@@ -1057,6 +1187,7 @@ reason_verified = true
 citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
 
 [files."258-keypress-release.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 49
 tap_plan = "none"
@@ -1067,6 +1198,7 @@ reason_verified = true
 citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
 
 [files."260-invalid-criteria.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 1
@@ -1075,6 +1207,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."261-match-con_id-con_mark-combinations.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 2
@@ -1083,6 +1216,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."262-config-validation.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -1093,6 +1227,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."263-config-reload-reverts-bind-mode.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 2
@@ -1101,6 +1236,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."264-dock-criteria.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 19
 tap_plan = "none"
@@ -1112,6 +1248,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."265-ipc-mark.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -1120,6 +1257,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."266-net-moveresize-window.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 12
 tap_plan = "none"
@@ -1131,11 +1269,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."267-regress-mark-restart.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."268-ipc-config.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 1
@@ -1144,6 +1284,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."269-focus-stack-above.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 5
 tap_plan = 5
 pass = 3
@@ -1152,11 +1293,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."270-config-no-newline-end.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."271-for_window_tilingfloating.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 20
 tap_plan = 20
 pass = 0
@@ -1165,6 +1308,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."272-regress-focus-assign.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
@@ -1175,16 +1319,19 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."273-regress-focus-toggle.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."274-move-branch-position.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 16
 tap_plan = 16
 pass = 16
 
 [files."275-ipc-window-close.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 1
@@ -1193,6 +1340,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."276-ipc-window-move.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -1201,6 +1349,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."277-ipc-window-urgent.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -1209,6 +1358,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."279-regress-default-floating-border.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 0
@@ -1217,6 +1367,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."280-wm-class-change-handler.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 0
@@ -1225,16 +1376,19 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."281-regress-reload-bindsym.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."282-tabbed-floating-disable-crash.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."284-ewmh-visible-name.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 5
 tap_plan = "none"
@@ -1246,6 +1400,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."285-sticky.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 11
 tap_plan = "none"
@@ -1257,6 +1412,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."286-root-window-mouse-binding.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -1267,6 +1423,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."287-edge-borders.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 31
 tap_plan = 31
 pass = 22
@@ -1275,6 +1432,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."289-ipc-shutdown-event.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 4
 tap_plan = "none"
@@ -1286,6 +1444,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."290-keypress-numlock.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 85
 tap_plan = "none"
@@ -1296,6 +1455,7 @@ reason_verified = true
 citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
 
 [files."291-swap.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 148
 tap_plan = "none"
@@ -1307,11 +1467,13 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 91, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 92, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 93, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 94, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 95, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 96, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 97, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 98, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 99, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 100, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 101, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 102, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 103, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 104, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 105, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 106, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 107, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 108, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 109, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 110, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 111, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 112, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 113, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 114, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 115, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 116, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 117, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 118, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 119, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 120, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 121, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 122, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 123, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 124, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 125, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 126, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 127, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 128, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 129, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 130, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 131, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 132, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 133, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 134, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 135, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 136, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 137, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 138, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 139, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 140, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 141, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 142, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 143, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 144, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 145, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 146, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 147, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 148, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."292-regress-layout-toggle.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."293-focus-follows-mouse.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 10
 tap_plan = 10
 pass = 4
@@ -1320,11 +1482,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."293-sticky-output-crash.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 3
 tap_plan = 3
 pass = 3
 
 [files."294-focus-order.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 61
 tap_plan = "none"
@@ -1336,6 +1500,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."295-net-wm-state-focused.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 5
 tap_plan = "none"
@@ -1347,11 +1512,13 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."296-regress-focus-behind-fullscreen-floating.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."297-assign-workspace-to-output.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 25
 tap_plan = 25
 pass = 5
@@ -1360,6 +1527,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."297-scroll-tabbed.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 16
 tap_plan = "none"
@@ -1370,6 +1538,7 @@ reason_verified = true
 citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
 
 [files."298-ipc-misbehaving-connection.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 1
@@ -1378,11 +1547,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."299-regress-scratchpad-focus.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."301-shape.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 4
 tap_plan = "none"
@@ -1394,6 +1565,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."302-tree.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 15
 tap_plan = "none"
@@ -1405,11 +1577,13 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."303-regress-move-floating.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 3
 
 [files."304-ipc-workspace-init.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 9
 tap_plan = 9
 pass = 0
@@ -1418,6 +1592,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."306-move-to-parent.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
@@ -1429,6 +1604,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."307-focus-next-prev.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 9
 tap_plan = "none"
@@ -1440,6 +1616,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."308-focus_wrapping.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 32
 tap_plan = "none"
@@ -1451,6 +1628,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."309-crash-move-parent.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
@@ -1462,6 +1640,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."310-client-message-sticky.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -1472,17 +1651,20 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."311-get-binding-modes.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."312-regress-layout-default.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 0
 tap_plan = 0
 pass = 0
 survived = true
 
 [files."313-include.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 30
 tap_plan = 30
 pass = 21
@@ -1495,6 +1677,7 @@ reason = "The unchanged upstream test marked this assertion skipped in this envi
 citation = "i3/t/313-include.t:1"
 
 [files."315-all-criterion.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 18
 tap_plan = "none"
@@ -1506,6 +1689,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."315-long-commands.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 3
@@ -1514,6 +1698,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."316-drag-container.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs", "remove-bar-primary-output"]
 plan_unknown = true
 assertions = 18
 tap_plan = "none"
@@ -1524,11 +1709,13 @@ reason_verified = true
 citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
 
 [files."316-transient-for-loop.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."317-bar-config-font-fallback.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -1540,6 +1727,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."317-bar-config-font-order.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -1551,6 +1739,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."317-bar-output-trailing-space.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
@@ -1561,6 +1750,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."319-gaps.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 18
 tap_plan = "none"
@@ -1571,6 +1761,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."320-mouse-bindings.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 14
 tap_plan = "none"
@@ -1581,6 +1772,7 @@ reason_verified = true
 citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
 
 [files."321-crash-criteria-scratchpad.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 6
 tap_plan = 6
 pass = 1
@@ -1589,16 +1781,19 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."322-match-error-crash.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."324-for-window-reload-crash.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."325-layout-percent-and-marks.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
@@ -1609,21 +1804,25 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."500-multi-monitor.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."501-scratchpad.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 44
 tap_plan = 44
 pass = 44
 
 [files."502-focus-output.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 19
 tap_plan = 19
 pass = 19
 
 [files."503-workspace.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 18
 tap_plan = 18
 pass = 0
@@ -1632,6 +1831,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."504-move-workspace-to-output.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 31
 tap_plan = 31
 pass = 24
@@ -1640,6 +1840,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."505-scratchpad-resolution.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 90
 tap_plan = "none"
@@ -1651,6 +1852,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."506-focus-right.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 31
 tap_plan = 31
 pass = 28
@@ -1659,6 +1861,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."507-workspace-move-crash.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 1
@@ -1667,6 +1870,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."509-workspace_layout.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -1675,6 +1879,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."510-focus-across-outputs.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 19
 tap_plan = "none"
@@ -1686,16 +1891,19 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."511-scratchpad-configure-request.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."512-move-wraps.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 10
 tap_plan = 10
 pass = 10
 
 [files."513-move-workspace.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 6
 tap_plan = 6
 pass = 2
@@ -1704,6 +1912,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."514-ipc-workspace-multi-monitor.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 4
 tap_plan = 4
 pass = 1
@@ -1712,11 +1921,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."515-create-workspace.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."516-move.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 14
 tap_plan = "none"
@@ -1728,6 +1939,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."517-regress-move-direction-ipc.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 0
@@ -1736,6 +1948,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."518-interpret-workspace-numbers.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 4
 tap_plan = 4
 pass = 0
@@ -1744,6 +1957,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."519-mouse-warping.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 3
 tap_plan = 3
 pass = 0
@@ -1752,11 +1966,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."520-regress-focus-direction-floating.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."522-rename-assigned-workspace.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 9
 tap_plan = "none"
@@ -1768,6 +1984,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."523-move-position-center.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 4
 tap_plan = 4
 pass = 2
@@ -1776,6 +1993,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."524-move.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 38
 tap_plan = 38
 pass = 26
@@ -1784,6 +2002,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."526-reconfigure-dock.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
@@ -1795,6 +2014,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."527-focus-fallback.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
@@ -1806,6 +2026,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."528-workspace-next-prev-reversed.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 38
 tap_plan = 38
 pass = 0
@@ -1814,11 +2035,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."530-bug-2229.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."531-fullscreen-on-given-output.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 4
 tap_plan = 4
 pass = 0
@@ -1827,11 +2050,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."534-dont-warp.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."535-workspace-next-prev.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 38
 tap_plan = 38
 pass = 0
@@ -1840,11 +2065,13 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."537-move-single-to-output.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 8
 tap_plan = 8
 pass = 8
 
 [files."538-i3bar-primary-output.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 4
 tap_plan = "none"
@@ -1856,16 +2083,19 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."539-disable_focus_wrapping.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 10
 tap_plan = 10
 pass = 10
 
 [files."540-sigterm-cleanup.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."541-resize-set-tiling.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 32
 tap_plan = 32
 pass = 30
@@ -1874,6 +2104,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."543-move-workspace-to-multiple-outputs.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 63
 tap_plan = 63
 pass = 1
@@ -1882,6 +2113,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."544-focus-multiple-outputs.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 41
 tap_plan = 41
 pass = 8
@@ -1890,31 +2122,37 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."545-i3-registration.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."546-empty-bindcommand.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."547-explicit-mode-default.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
 
 [files."547-nested-variables.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."549-focus-wrapping-gaps.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
 tap_plan = 2
 pass = 2
 
 [files."550-focus-workspace.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 17
 tap_plan = "none"
@@ -1926,6 +2164,7 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."550-split-redundant-containers.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 8
 tap_plan = "none"
@@ -1937,6 +2176,7 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [files."551-net-wm-state-maximized.t"]
+adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 12
 tap_plan = "none"
@@ -1948,11 +2188,13 @@ citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/
 skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."553-popup_during_fullscreen.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 20
 tap_plan = 20
 pass = 20
 
 [files."554-commands-crash-for-window.t"]
+adapted = ["remove-adapter-ipc-socket"]
 assertions = 101
 tap_plan = 101
 pass = 69
@@ -1961,6 +2203,7 @@ reason = "The pinned run reported environment skips, failures, or assertions it 
 reason_verified = false
 
 [files."556-workspace-keeps-focus-after-move.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"

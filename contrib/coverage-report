@@ -85,6 +85,7 @@ def validate(doc):
     bad = []
     families = doc.get("families", {})
     files = doc.get("files", {})
+    compositor = doc.get("run", {}).get("compositor")
 
     vendored = {path.name for path in VENDOR.glob("*.t")}
     for missing in sorted(vendored - set(files)):
@@ -93,6 +94,9 @@ def validate(doc):
         bad.append(f"{extra}: has an entry but is not vendored")
 
     for name, entry in sorted(files.items()):
+        if compositor == "swayward" and "adapted" not in entry:
+            bad.append(f"{name}: swayward row does not flag its adapter translations")
+
         plan = entry.get("assertions", 0)
         captured_plan = entry.get("tap_plan")
         skips = entry.get("skip", [])

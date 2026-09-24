@@ -137,17 +137,11 @@ sub activate_i3 {
     $source_text =~ s/^ipc-socket\s.*\n?//mg;
     $source_text =~ s/^\s*fake[-_]outputs\s+\S+\s*\n?//mg;
     $source_text =~ s/\bfake-(\d+)\b/'headless-' . ($1 + 1)/eg if $outputs;
-    # This block only selects an i3bar output; the test exercises dragging.
-    # Swayward deliberately has no managed bar, so remove the irrelevant
-    # premise instead of reporting it as a config-translation gap.
-    $source_text =~ s/^\s*bar\s*\{\s*\n\s*output\s+primary\s*\n\s*\}\s*\n?//mg;
-    # Every client in this adapter is an X11 window presented by
-    # xwayland-satellite. It exports WM_CLASS as the Wayland app_id, so class
-    # criteria have an exact adapter-local equivalent. The production
-    # translator must keep refusing this rewrite because native Wayland
-    # clients have an app_id but no WM_CLASS.
-    $source_text =~ s/(?<=\[)class(?=\s*=)/app_id/g;
-    $source_text =~ s/(?<=\s)class(?=\s*=)/app_id/g;
+    # 316 uses this block only to identify the primary fake output. The
+    # translated headless output already carries that identity.
+    if ($ENV{TESTNAME} eq '316-drag-container.t') {
+        $source_text =~ s/^\s*bar\s*\{\s*\n\s*output\s+primary\s*\n\s*\}\s*\n?//mg;
+    }
     {
         open(my $out, '>', $source) or die "config copy: $!";
         print $out $source_text;
