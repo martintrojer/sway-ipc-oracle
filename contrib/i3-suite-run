@@ -9,6 +9,7 @@ swayward adapters use the Perl launch and synchronization modules under
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import os
 from pathlib import Path
 import re
@@ -72,12 +73,18 @@ def emit(path: Path, compositor: str, version: str, commit: str,
         static = static_plan(test)
         lines += ["", f'[files."{test.name}"]']
         if plan is None:
-            lines += ["plan_unknown = true", f"assertions = {static}", 'tap_plan = "none"',
+            observed = len(verdicts)
+            skip_numbers = [n for n, v in verdicts.items() if v == "skip"]
+            lines += ["plan_unknown = true", f"assertions = {observed}", 'tap_plan = "none"',
+                      f"source_assertions = {static}",
                       f"pass = {sum(v == 'pass' for v in verdicts.values())}",
                       f"fail = {sum(v == 'fail' for v in verdicts.values())}",
-                      f"unreached = {max(0, static-len(verdicts))}",
                       'reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."',
-                      "reason_verified = true"]
+                      "reason_verified = false"]
+            for n in skip_numbers:
+                lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
+                          'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
+                          f'citation = "i3/t/{test.name}:1"']
         elif plan == 0:
             lines += ["assertions = 0", "tap_plan = 0", "pass = 0", "survived = true"]
         else:
@@ -159,7 +166,7 @@ def wayland_adapter(args) -> None:
         (stage / "i3test.pm.in").unlink(missing_ok=True)
         shutil.copy2(adapter / "SocketActivation.pm", stage)
         shutil.copytree(adapter / "swaycal", stage / "swaycal")
-        for test in selected_tests(args):
+        def run_one(test: Path):
             rundir = Path(td) / test.name; rundir.mkdir(); (rundir / "x11u").mkdir()
             os.chmod(rundir, 0o700); os.chmod(rundir / "x11u", 0o1777)
             env = os.environ | {"I3SRC": str(src), "STAGE": str(stage), "TESTNAME": test.name,
@@ -175,7 +182,7 @@ cd {shlex.quote(str(src / 'testcases'))}
 export PERL5LIB="$STAGE:$HOME/perl5/lib/perl5${{PERL5LIB:+:$PERL5LIB}}"
 perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
 '''
-            cp = run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", "--kill-after=5", str(args.file_timeout), "unshare", "-rm", "bash", "-lc", inner], env=env, capture_output=True)
+            cp = subprocess.run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", "--kill-after=5", str(args.file_timeout), "unshare", "-rm", "bash", "-lc", inner], env=env, text=True, capture_output=True)
             (out / f"{test.name}.tap").write_text(cp.stdout + cp.stderr)
             diagnostics = out / test.name
             shutil.rmtree(diagnostics, ignore_errors=True)
@@ -183,7 +190,11 @@ perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
             for artifact in rundir.glob("sway-*"):
                 if artifact.is_file():
                     shutil.copy2(artifact, diagnostics)
-            print(f"EXIT={cp.returncode} {test.name}")
+            return cp.returncode, test.name
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=args.parallel) as pool:
+            for code, name in pool.map(run_one, selected_tests(args)):
+                print(f"EXIT={code} {name}")
     taps = {p.name.removesuffix('.tap'): p.read_text(errors='replace') for p in out.glob('*.tap')}
     version = run([str(binary), "--version"], capture_output=True).stdout.strip()
     commit = SWAY_PIN if args.compositor == "sway" else run(["git", "-C", str(binary.parents[2]), "rev-parse", "HEAD"], capture_output=True).stdout.strip()

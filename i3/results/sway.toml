@@ -9,15 +9,12 @@ commit = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
 
-[families]
-xwayland_kill_disconnects_client = "Sway closes an Xwayland surface through wlroots. When the client has no WM_DELETE_WINDOW protocol, wlroots kills the owning X connection; i3 instead destroys only the selected window for its default kill mode. i3test creates every test window on one connection without WM_PROTOCOLS, so later assertions cannot run after the first kill."
-
 [files."001-tile.t"]
 assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."003-ipc.t"]
@@ -30,19 +27,18 @@ assertions = 13
 tap_plan = 13
 pass = 11
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."100-fullscreen.t"]
 plan_unknown = true
-assertions = 79
+assertions = 23
 tap_plan = "none"
+source_assertions = 79
 pass = 16
 fail = 7
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }, { n = 28, reason = "xwayland_kill_disconnects_client" }, { n = 29, reason = "xwayland_kill_disconnects_client" }, { n = 30, reason = "xwayland_kill_disconnects_client" }, { n = 31, reason = "xwayland_kill_disconnects_client" }, { n = 32, reason = "xwayland_kill_disconnects_client" }, { n = 33, reason = "xwayland_kill_disconnects_client" }, { n = 34, reason = "xwayland_kill_disconnects_client" }, { n = 35, reason = "xwayland_kill_disconnects_client" }, { n = 36, reason = "xwayland_kill_disconnects_client" }, { n = 37, reason = "xwayland_kill_disconnects_client" }, { n = 38, reason = "xwayland_kill_disconnects_client" }, { n = 39, reason = "xwayland_kill_disconnects_client" }, { n = 40, reason = "xwayland_kill_disconnects_client" }, { n = 41, reason = "xwayland_kill_disconnects_client" }, { n = 42, reason = "xwayland_kill_disconnects_client" }, { n = 43, reason = "xwayland_kill_disconnects_client" }, { n = 44, reason = "xwayland_kill_disconnects_client" }, { n = 45, reason = "xwayland_kill_disconnects_client" }, { n = 46, reason = "xwayland_kill_disconnects_client" }, { n = 47, reason = "xwayland_kill_disconnects_client" }, { n = 48, reason = "xwayland_kill_disconnects_client" }, { n = 49, reason = "xwayland_kill_disconnects_client" }, { n = 50, reason = "xwayland_kill_disconnects_client" }, { n = 51, reason = "xwayland_kill_disconnects_client" }, { n = 52, reason = "xwayland_kill_disconnects_client" }, { n = 53, reason = "xwayland_kill_disconnects_client" }, { n = 54, reason = "xwayland_kill_disconnects_client" }, { n = 55, reason = "xwayland_kill_disconnects_client" }, { n = 56, reason = "xwayland_kill_disconnects_client" }, { n = 57, reason = "xwayland_kill_disconnects_client" }, { n = 58, reason = "xwayland_kill_disconnects_client" }, { n = 59, reason = "xwayland_kill_disconnects_client" }, { n = 60, reason = "xwayland_kill_disconnects_client" }, { n = 61, reason = "xwayland_kill_disconnects_client" }, { n = 62, reason = "xwayland_kill_disconnects_client" }, { n = 63, reason = "xwayland_kill_disconnects_client" }, { n = 64, reason = "xwayland_kill_disconnects_client" }, { n = 65, reason = "xwayland_kill_disconnects_client" }, { n = 66, reason = "xwayland_kill_disconnects_client" }, { n = 67, reason = "xwayland_kill_disconnects_client" }, { n = 68, reason = "xwayland_kill_disconnects_client" }, { n = 69, reason = "xwayland_kill_disconnects_client" }, { n = 70, reason = "xwayland_kill_disconnects_client" }, { n = 71, reason = "xwayland_kill_disconnects_client" }, { n = 72, reason = "xwayland_kill_disconnects_client" }, { n = 73, reason = "xwayland_kill_disconnects_client" }, { n = 74, reason = "xwayland_kill_disconnects_client" }, { n = 75, reason = "xwayland_kill_disconnects_client" }, { n = 76, reason = "xwayland_kill_disconnects_client" }, { n = 77, reason = "xwayland_kill_disconnects_client" }, { n = 78, reason = "xwayland_kill_disconnects_client" }, { n = 79, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."101-focus.t"]
 assertions = 8
@@ -54,7 +50,7 @@ assertions = 23
 tap_plan = 23
 pass = 5
 fail = 18
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."104-focus-stack.t"]
@@ -74,14 +70,13 @@ pass = 15
 
 [files."113-urgent.t"]
 plan_unknown = true
-assertions = 50
+assertions = 23
 tap_plan = "none"
+source_assertions = 50
 pass = 21
 fail = 2
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }, { n = 28, reason = "xwayland_kill_disconnects_client" }, { n = 29, reason = "xwayland_kill_disconnects_client" }, { n = 30, reason = "xwayland_kill_disconnects_client" }, { n = 31, reason = "xwayland_kill_disconnects_client" }, { n = 32, reason = "xwayland_kill_disconnects_client" }, { n = 33, reason = "xwayland_kill_disconnects_client" }, { n = 34, reason = "xwayland_kill_disconnects_client" }, { n = 35, reason = "xwayland_kill_disconnects_client" }, { n = 36, reason = "xwayland_kill_disconnects_client" }, { n = 37, reason = "xwayland_kill_disconnects_client" }, { n = 38, reason = "xwayland_kill_disconnects_client" }, { n = 39, reason = "xwayland_kill_disconnects_client" }, { n = 40, reason = "xwayland_kill_disconnects_client" }, { n = 41, reason = "xwayland_kill_disconnects_client" }, { n = 42, reason = "xwayland_kill_disconnects_client" }, { n = 43, reason = "xwayland_kill_disconnects_client" }, { n = 44, reason = "xwayland_kill_disconnects_client" }, { n = 45, reason = "xwayland_kill_disconnects_client" }, { n = 46, reason = "xwayland_kill_disconnects_client" }, { n = 47, reason = "xwayland_kill_disconnects_client" }, { n = 48, reason = "xwayland_kill_disconnects_client" }, { n = 49, reason = "xwayland_kill_disconnects_client" }, { n = 50, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."115-ipc-workspaces.t"]
 assertions = 9
@@ -92,47 +87,46 @@ pass = 9
 plan_unknown = true
 assertions = 5
 tap_plan = "none"
+source_assertions = 5
 pass = 4
 fail = 1
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."117-workspace.t"]
 plan_unknown = true
-assertions = 92
+assertions = 50
 tap_plan = "none"
+source_assertions = 92
 pass = 34
 fail = 16
-unreached = 42
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."118-openkill.t"]
 assertions = 6
 tap_plan = 6
 pass = 2
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."119-match.t"]
 plan_unknown = true
-assertions = 27
+assertions = 4
 tap_plan = "none"
+source_assertions = 27
 pass = 4
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }, { n = 19, reason = "xwayland_kill_disconnects_client" }, { n = 20, reason = "xwayland_kill_disconnects_client" }, { n = 21, reason = "xwayland_kill_disconnects_client" }, { n = 22, reason = "xwayland_kill_disconnects_client" }, { n = 23, reason = "xwayland_kill_disconnects_client" }, { n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."120-multiple-cmds.t"]
 assertions = 31
 tap_plan = 31
 pass = 17
 fail = 14
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."121-next-prev.t"]
@@ -140,25 +134,25 @@ assertions = 12
 tap_plan = 12
 pass = 9
 fail = 3
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."122-split.t"]
 plan_unknown = true
 assertions = 31
 tap_plan = "none"
+source_assertions = 31
 pass = 16
 fail = 15
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."124-move.t"]
 assertions = 54
 tap_plan = 54
 pass = 37
 fail = 17
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."126-regress-close.t"]
@@ -176,26 +170,25 @@ assertions = 7
 tap_plan = 7
 pass = 3
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."129-focus-after-close.t"]
 plan_unknown = true
-assertions = 15
+assertions = 12
 tap_plan = "none"
+source_assertions = 15
 pass = 8
 fail = 4
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."130-close-empty-split.t"]
 assertions = 8
 tap_plan = 8
 pass = 2
 fail = 6
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."131-stacking-order.t"]
@@ -203,25 +196,61 @@ assertions = 7
 tap_plan = 7
 pass = 6
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."132-move-workspace.t"]
 plan_unknown = true
-assertions = 160
+assertions = 100
 tap_plan = "none"
+source_assertions = 160
 pass = 61
 fail = 30
-unreached = 69
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
+[[files."132-move-workspace.t".skip]]
+n = 10
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 22
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 34
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 46
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 53
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 62
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 78
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 80
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
+[[files."132-move-workspace.t".skip]]
+n = 98
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+citation = "i3/t/132-move-workspace.t:1"
 
 [files."133-size-hints.t"]
 assertions = 16
 tap_plan = 16
 pass = 9
 fail = 7
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."134-invalid-command.t"]
@@ -231,14 +260,13 @@ pass = 1
 
 [files."135-floating-focus.t"]
 plan_unknown = true
-assertions = 82
+assertions = 4
 tap_plan = "none"
+source_assertions = 82
 pass = 4
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }, { n = 19, reason = "xwayland_kill_disconnects_client" }, { n = 20, reason = "xwayland_kill_disconnects_client" }, { n = 21, reason = "xwayland_kill_disconnects_client" }, { n = 22, reason = "xwayland_kill_disconnects_client" }, { n = 23, reason = "xwayland_kill_disconnects_client" }, { n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }, { n = 28, reason = "xwayland_kill_disconnects_client" }, { n = 29, reason = "xwayland_kill_disconnects_client" }, { n = 30, reason = "xwayland_kill_disconnects_client" }, { n = 31, reason = "xwayland_kill_disconnects_client" }, { n = 32, reason = "xwayland_kill_disconnects_client" }, { n = 33, reason = "xwayland_kill_disconnects_client" }, { n = 34, reason = "xwayland_kill_disconnects_client" }, { n = 35, reason = "xwayland_kill_disconnects_client" }, { n = 36, reason = "xwayland_kill_disconnects_client" }, { n = 37, reason = "xwayland_kill_disconnects_client" }, { n = 38, reason = "xwayland_kill_disconnects_client" }, { n = 39, reason = "xwayland_kill_disconnects_client" }, { n = 40, reason = "xwayland_kill_disconnects_client" }, { n = 41, reason = "xwayland_kill_disconnects_client" }, { n = 42, reason = "xwayland_kill_disconnects_client" }, { n = 43, reason = "xwayland_kill_disconnects_client" }, { n = 44, reason = "xwayland_kill_disconnects_client" }, { n = 45, reason = "xwayland_kill_disconnects_client" }, { n = 46, reason = "xwayland_kill_disconnects_client" }, { n = 47, reason = "xwayland_kill_disconnects_client" }, { n = 48, reason = "xwayland_kill_disconnects_client" }, { n = 49, reason = "xwayland_kill_disconnects_client" }, { n = 50, reason = "xwayland_kill_disconnects_client" }, { n = 51, reason = "xwayland_kill_disconnects_client" }, { n = 52, reason = "xwayland_kill_disconnects_client" }, { n = 53, reason = "xwayland_kill_disconnects_client" }, { n = 54, reason = "xwayland_kill_disconnects_client" }, { n = 55, reason = "xwayland_kill_disconnects_client" }, { n = 56, reason = "xwayland_kill_disconnects_client" }, { n = 57, reason = "xwayland_kill_disconnects_client" }, { n = 58, reason = "xwayland_kill_disconnects_client" }, { n = 59, reason = "xwayland_kill_disconnects_client" }, { n = 60, reason = "xwayland_kill_disconnects_client" }, { n = 61, reason = "xwayland_kill_disconnects_client" }, { n = 62, reason = "xwayland_kill_disconnects_client" }, { n = 63, reason = "xwayland_kill_disconnects_client" }, { n = 64, reason = "xwayland_kill_disconnects_client" }, { n = 65, reason = "xwayland_kill_disconnects_client" }, { n = 66, reason = "xwayland_kill_disconnects_client" }, { n = 67, reason = "xwayland_kill_disconnects_client" }, { n = 68, reason = "xwayland_kill_disconnects_client" }, { n = 69, reason = "xwayland_kill_disconnects_client" }, { n = 70, reason = "xwayland_kill_disconnects_client" }, { n = 71, reason = "xwayland_kill_disconnects_client" }, { n = 72, reason = "xwayland_kill_disconnects_client" }, { n = 73, reason = "xwayland_kill_disconnects_client" }, { n = 74, reason = "xwayland_kill_disconnects_client" }, { n = 75, reason = "xwayland_kill_disconnects_client" }, { n = 76, reason = "xwayland_kill_disconnects_client" }, { n = 77, reason = "xwayland_kill_disconnects_client" }, { n = 78, reason = "xwayland_kill_disconnects_client" }, { n = 79, reason = "xwayland_kill_disconnects_client" }, { n = 80, reason = "xwayland_kill_disconnects_client" }, { n = 81, reason = "xwayland_kill_disconnects_client" }, { n = 82, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."136-floating-ws-empty.t"]
 assertions = 11
@@ -250,7 +278,7 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."138-floating-attach.t"]
@@ -258,7 +286,7 @@ assertions = 11
 tap_plan = 11
 pass = 8
 fail = 3
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."139-ws-numbers.t"]
@@ -276,7 +304,7 @@ assertions = 84
 tap_plan = 84
 pass = 60
 fail = 24
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."142-regress-move-floating.t"]
@@ -289,19 +317,18 @@ assertions = 5
 tap_plan = 5
 pass = 3
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."144-regress-floating-resize.t"]
 plan_unknown = true
-assertions = 1
+assertions = 0
 tap_plan = "none"
+source_assertions = 1
 pass = 0
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 1, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."145-flattening.t"]
 assertions = 8
@@ -328,7 +355,7 @@ assertions = 11
 tap_plan = 11
 pass = 3
 fail = 8
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."151-regress-float-size.t"]
@@ -356,36 +383,35 @@ assertions = 4
 tap_plan = 4
 pass = 2
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."156-fullscreen-focus.t"]
 plan_unknown = true
-assertions = 64
+assertions = 2
 tap_plan = "none"
+source_assertions = 64
 pass = 1
 fail = 1
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }, { n = 19, reason = "xwayland_kill_disconnects_client" }, { n = 20, reason = "xwayland_kill_disconnects_client" }, { n = 21, reason = "xwayland_kill_disconnects_client" }, { n = 22, reason = "xwayland_kill_disconnects_client" }, { n = 23, reason = "xwayland_kill_disconnects_client" }, { n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }, { n = 28, reason = "xwayland_kill_disconnects_client" }, { n = 29, reason = "xwayland_kill_disconnects_client" }, { n = 30, reason = "xwayland_kill_disconnects_client" }, { n = 31, reason = "xwayland_kill_disconnects_client" }, { n = 32, reason = "xwayland_kill_disconnects_client" }, { n = 33, reason = "xwayland_kill_disconnects_client" }, { n = 34, reason = "xwayland_kill_disconnects_client" }, { n = 35, reason = "xwayland_kill_disconnects_client" }, { n = 36, reason = "xwayland_kill_disconnects_client" }, { n = 37, reason = "xwayland_kill_disconnects_client" }, { n = 38, reason = "xwayland_kill_disconnects_client" }, { n = 39, reason = "xwayland_kill_disconnects_client" }, { n = 40, reason = "xwayland_kill_disconnects_client" }, { n = 41, reason = "xwayland_kill_disconnects_client" }, { n = 42, reason = "xwayland_kill_disconnects_client" }, { n = 43, reason = "xwayland_kill_disconnects_client" }, { n = 44, reason = "xwayland_kill_disconnects_client" }, { n = 45, reason = "xwayland_kill_disconnects_client" }, { n = 46, reason = "xwayland_kill_disconnects_client" }, { n = 47, reason = "xwayland_kill_disconnects_client" }, { n = 48, reason = "xwayland_kill_disconnects_client" }, { n = 49, reason = "xwayland_kill_disconnects_client" }, { n = 50, reason = "xwayland_kill_disconnects_client" }, { n = 51, reason = "xwayland_kill_disconnects_client" }, { n = 52, reason = "xwayland_kill_disconnects_client" }, { n = 53, reason = "xwayland_kill_disconnects_client" }, { n = 54, reason = "xwayland_kill_disconnects_client" }, { n = 55, reason = "xwayland_kill_disconnects_client" }, { n = 56, reason = "xwayland_kill_disconnects_client" }, { n = 57, reason = "xwayland_kill_disconnects_client" }, { n = 58, reason = "xwayland_kill_disconnects_client" }, { n = 59, reason = "xwayland_kill_disconnects_client" }, { n = 60, reason = "xwayland_kill_disconnects_client" }, { n = 61, reason = "xwayland_kill_disconnects_client" }, { n = 62, reason = "xwayland_kill_disconnects_client" }, { n = 63, reason = "xwayland_kill_disconnects_client" }, { n = 64, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."159-socketpaths.t"]
 plan_unknown = true
 assertions = 0
 tap_plan = "none"
+source_assertions = 0
 pass = 0
 fail = 0
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."161-regress-borders-restart.t"]
 assertions = 4
 tap_plan = 4
 pass = 2
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."162-regress-dock-urgent.t"]
@@ -393,49 +419,48 @@ assertions = 4
 tap_plan = 4
 pass = 2
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."164-kill-win-vs-client.t"]
 plan_unknown = true
-assertions = 12
+assertions = 3
 tap_plan = "none"
+source_assertions = 12
 pass = 3
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."165-for_window.t"]
 plan_unknown = true
-assertions = 0
+assertions = 19
 tap_plan = "none"
+source_assertions = 0
 pass = 19
 fail = 0
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."166-assign.t"]
 plan_unknown = true
-assertions = 106
+assertions = 23
 tap_plan = "none"
+source_assertions = 106
 pass = 17
 fail = 6
-unreached = 83
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."167-workspace_layout.t"]
 plan_unknown = true
-assertions = 5
+assertions = 28
 tap_plan = "none"
-pass = 5
-fail = 0
-unreached = 0
+source_assertions = 5
+pass = 9
+fail = 19
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."168-regress-fullscreen-restart.t"]
 assertions = 1
@@ -447,7 +472,7 @@ assertions = 20
 tap_plan = 20
 pass = 0
 fail = 20
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."170-force_focus_wrapping.t"]
@@ -460,7 +485,7 @@ assertions = 7
 tap_plan = 7
 pass = 6
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."173-get-marks.t"]
@@ -468,7 +493,7 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."174-border-config.t"]
@@ -476,29 +501,28 @@ assertions = 13
 tap_plan = 13
 pass = 9
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."176-workspace-baf.t"]
 plan_unknown = true
-assertions = 26
+assertions = 23
 tap_plan = "none"
+source_assertions = 26
 pass = 21
 fail = 2
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."177-bar-config.t"]
 plan_unknown = true
-assertions = 50
+assertions = 28
 tap_plan = "none"
+source_assertions = 50
 pass = 23
 fail = 5
-unreached = 22
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."178-regress-workspace-open.t"]
 assertions = 1
@@ -509,9 +533,9 @@ pass = 1
 assertions = 6
 tap_plan = 6
 pass = 1
-reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
-reason_verified = true
 fail = 3
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = true
 [[files."179-regress-multiple-ws.t".skip]]
 n = 4
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -531,7 +555,7 @@ assertions = 6
 tap_plan = 6
 pass = 4
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."182-regress-focus-dock.t"]
@@ -553,11 +577,11 @@ pass = 1
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
+source_assertions = 2
 pass = 2
 fail = 0
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."186-regress-assign-focus-parent.t"]
 assertions = 8
@@ -569,7 +593,7 @@ assertions = 25
 tap_plan = 25
 pass = 0
 fail = 25
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."188-regress-focus-restart.t"]
@@ -582,7 +606,7 @@ assertions = 28
 tap_plan = 28
 pass = 22
 fail = 6
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."190-scratchpad-diff-ws.t"]
@@ -595,7 +619,7 @@ assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."192-layout.t"]
@@ -603,7 +627,7 @@ assertions = 34
 tap_plan = 34
 pass = 22
 fail = 12
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."193-ipc-version.t"]
@@ -611,7 +635,7 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."194-regress-floating-size.t"]
@@ -648,21 +672,21 @@ pass = 12
 plan_unknown = true
 assertions = 0
 tap_plan = "none"
+source_assertions = 0
 pass = 0
 fail = 0
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."202-scratchpad-criteria.t"]
 plan_unknown = true
-assertions = 27
+assertions = 11
 tap_plan = "none"
+source_assertions = 27
 pass = 8
 fail = 3
-unreached = 16
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."203-regress-assign-and-move.t"]
 assertions = 2
@@ -679,19 +703,18 @@ assertions = 4
 tap_plan = 4
 pass = 2
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."206-fullscreen-scratchpad.t"]
 plan_unknown = true
-assertions = 8
+assertions = 4
 tap_plan = "none"
+source_assertions = 8
 pass = 4
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."208-regress-floating-criteria.t"]
 assertions = 1
@@ -703,7 +726,7 @@ assertions = 17
 tap_plan = 17
 pass = 14
 fail = 3
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."211-regress-urgency-assign.t"]
@@ -711,7 +734,7 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."212-assign-urgency.t"]
@@ -719,7 +742,7 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."213-layout-restore-simple.t"]
@@ -727,7 +750,7 @@ assertions = 18
 tap_plan = 18
 pass = 8
 fail = 10
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."218-regress-floating-split.t"]
@@ -737,13 +760,13 @@ pass = 2
 
 [files."219-ipc-window-focus.t"]
 plan_unknown = true
-assertions = 30
+assertions = 0
 tap_plan = "none"
+source_assertions = 30
 pass = 0
 fail = 0
-unreached = 30
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."220-ipc-window-title.t"]
 assertions = 4
@@ -755,7 +778,7 @@ assertions = 8
 tap_plan = 8
 pass = 0
 fail = 8
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."222-regress-dock-resize.t"]
@@ -778,26 +801,25 @@ assertions = 5
 tap_plan = 5
 pass = 1
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."227-ipc-workspace-empty.t"]
 plan_unknown = true
-assertions = 8
+assertions = 1
 tap_plan = "none"
+source_assertions = 8
 pass = 0
 fail = 1
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_kill_disconnects_client" }, { n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."228-border-widths.t"]
 assertions = 21
 tap_plan = 21
 pass = 18
 fail = 3
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."231-ipc-floating-event.t"]
@@ -805,7 +827,7 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."232-cmd-move-criteria.t"]
@@ -815,21 +837,20 @@ pass = 22
 
 [files."233-regress-manage-focus-unmapped.t"]
 plan_unknown = true
-assertions = 2
+assertions = 1
 tap_plan = "none"
+source_assertions = 2
 pass = 1
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."235-check-config-no-x.t"]
 assertions = 8
 tap_plan = 8
 pass = 0
 fail = 8
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."236-floating-focus-raise.t"]
@@ -837,7 +858,7 @@ assertions = 6
 tap_plan = 6
 pass = 0
 fail = 6
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."237-regress-assign-focus.t"]
@@ -850,7 +871,7 @@ assertions = 15
 tap_plan = 15
 pass = 2
 fail = 13
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."240-focus-on-window-activation.t"]
@@ -863,7 +884,7 @@ assertions = 12
 tap_plan = 12
 pass = 5
 fail = 7
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."242-no-focus.t"]
@@ -876,7 +897,7 @@ assertions = 50
 tap_plan = 50
 pass = 41
 fail = 9
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."244-new-workspace-floating-enable-center.t"]
@@ -884,7 +905,7 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."245-move-position-mouse.t"]
@@ -892,7 +913,7 @@ assertions = 8
 tap_plan = 8
 pass = 0
 fail = 8
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."246-window-decoration-focus.t"]
@@ -900,7 +921,7 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."247-config-line-continuation.t"]
@@ -908,7 +929,7 @@ assertions = 8
 tap_plan = 8
 pass = 4
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."248-regress-urgency-clear.t"]
@@ -926,18 +947,18 @@ assertions = 49
 tap_plan = 49
 pass = 36
 fail = 13
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."254-move-to-output-with-criteria.t"]
 plan_unknown = true
-assertions = 16
+assertions = 0
 tap_plan = "none"
+source_assertions = 16
 pass = 0
 fail = 0
-unreached = 16
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."255-multiple-marks.t"]
 assertions = 9
@@ -946,100 +967,97 @@ pass = 9
 
 [files."256-no-auto-back-and-forth.t"]
 plan_unknown = true
-assertions = 10
+assertions = 8
 tap_plan = "none"
+source_assertions = 10
 pass = 8
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."257-keypress-group1-fallback.t"]
 plan_unknown = true
-assertions = 4
+assertions = 1
 tap_plan = "none"
+source_assertions = 4
 pass = 1
 fail = 0
-unreached = 3
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."258-keypress-release.t"]
 plan_unknown = true
-assertions = 36
+assertions = 1
 tap_plan = "none"
+source_assertions = 36
 pass = 1
 fail = 0
-unreached = 35
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."260-invalid-criteria.t"]
 assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."261-match-con_id-con_mark-combinations.t"]
 plan_unknown = true
-assertions = 4
+assertions = 1
 tap_plan = "none"
+source_assertions = 4
 pass = 1
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_kill_disconnects_client" }, { n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."262-config-validation.t"]
 plan_unknown = true
-assertions = 0
+assertions = 1
 tap_plan = "none"
+source_assertions = 0
 pass = 1
 fail = 0
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."263-config-reload-reverts-bind-mode.t"]
 assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."264-dock-criteria.t"]
 plan_unknown = true
-assertions = 14
+assertions = 0
 tap_plan = "none"
+source_assertions = 14
 pass = 0
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 1, reason = "xwayland_kill_disconnects_client" }, { n = 2, reason = "xwayland_kill_disconnects_client" }, { n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."265-ipc-mark.t"]
 assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."266-net-moveresize-window.t"]
 plan_unknown = true
-assertions = 12
+assertions = 0
 tap_plan = "none"
+source_assertions = 12
 pass = 0
 fail = 0
-unreached = 12
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."267-regress-mark-restart.t"]
 assertions = 1
@@ -1051,7 +1069,7 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."269-focus-stack-above.t"]
@@ -1059,7 +1077,7 @@ assertions = 5
 tap_plan = 5
 pass = 3
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."270-config-no-newline-end.t"]
@@ -1072,7 +1090,7 @@ assertions = 20
 tap_plan = 20
 pass = 11
 fail = 9
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."272-regress-focus-assign.t"]
@@ -1090,7 +1108,7 @@ assertions = 16
 tap_plan = 16
 pass = 12
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."275-ipc-window-close.t"]
@@ -1113,18 +1131,18 @@ assertions = 1
 tap_plan = 1
 pass = 0
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."280-wm-class-change-handler.t"]
 plan_unknown = true
-assertions = 4
+assertions = 3
 tap_plan = "none"
+source_assertions = 4
 pass = 3
 fail = 0
-unreached = 1
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."281-regress-reload-bindsym.t"]
 assertions = 1
@@ -1138,71 +1156,69 @@ pass = 1
 
 [files."284-ewmh-visible-name.t"]
 plan_unknown = true
-assertions = 5
+assertions = 0
 tap_plan = "none"
+source_assertions = 5
 pass = 0
 fail = 0
-unreached = 5
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."285-sticky.t"]
 plan_unknown = true
-assertions = 11
+assertions = 2
 tap_plan = "none"
+source_assertions = 11
 pass = 2
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."286-root-window-mouse-binding.t"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
+source_assertions = 1
 pass = 1
 fail = 0
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."287-edge-borders.t"]
 assertions = 31
 tap_plan = 31
 pass = 29
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."289-ipc-shutdown-event.t"]
 plan_unknown = true
-assertions = 4
+assertions = 0
 tap_plan = "none"
+source_assertions = 4
 pass = 0
 fail = 0
-unreached = 4
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."290-keypress-numlock.t"]
 assertions = 85
 tap_plan = 85
 pass = 25
 fail = 60
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."291-swap.t"]
 plan_unknown = true
-assertions = 11
+assertions = 1
 tap_plan = "none"
+source_assertions = 11
 pass = 1
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_kill_disconnects_client" }, { n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."292-regress-layout-toggle.t"]
 assertions = 1
@@ -1214,75 +1230,73 @@ assertions = 10
 tap_plan = 10
 pass = 4
 fail = 6
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."293-sticky-output-crash.t"]
 plan_unknown = true
-assertions = 3
+assertions = 0
 tap_plan = "none"
+source_assertions = 3
 pass = 0
 fail = 0
-unreached = 3
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."294-focus-order.t"]
 plan_unknown = true
-assertions = 61
+assertions = 1
 tap_plan = "none"
+source_assertions = 61
 pass = 1
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_kill_disconnects_client" }, { n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }, { n = 19, reason = "xwayland_kill_disconnects_client" }, { n = 20, reason = "xwayland_kill_disconnects_client" }, { n = 21, reason = "xwayland_kill_disconnects_client" }, { n = 22, reason = "xwayland_kill_disconnects_client" }, { n = 23, reason = "xwayland_kill_disconnects_client" }, { n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }, { n = 28, reason = "xwayland_kill_disconnects_client" }, { n = 29, reason = "xwayland_kill_disconnects_client" }, { n = 30, reason = "xwayland_kill_disconnects_client" }, { n = 31, reason = "xwayland_kill_disconnects_client" }, { n = 32, reason = "xwayland_kill_disconnects_client" }, { n = 33, reason = "xwayland_kill_disconnects_client" }, { n = 34, reason = "xwayland_kill_disconnects_client" }, { n = 35, reason = "xwayland_kill_disconnects_client" }, { n = 36, reason = "xwayland_kill_disconnects_client" }, { n = 37, reason = "xwayland_kill_disconnects_client" }, { n = 38, reason = "xwayland_kill_disconnects_client" }, { n = 39, reason = "xwayland_kill_disconnects_client" }, { n = 40, reason = "xwayland_kill_disconnects_client" }, { n = 41, reason = "xwayland_kill_disconnects_client" }, { n = 42, reason = "xwayland_kill_disconnects_client" }, { n = 43, reason = "xwayland_kill_disconnects_client" }, { n = 44, reason = "xwayland_kill_disconnects_client" }, { n = 45, reason = "xwayland_kill_disconnects_client" }, { n = 46, reason = "xwayland_kill_disconnects_client" }, { n = 47, reason = "xwayland_kill_disconnects_client" }, { n = 48, reason = "xwayland_kill_disconnects_client" }, { n = 49, reason = "xwayland_kill_disconnects_client" }, { n = 50, reason = "xwayland_kill_disconnects_client" }, { n = 51, reason = "xwayland_kill_disconnects_client" }, { n = 52, reason = "xwayland_kill_disconnects_client" }, { n = 53, reason = "xwayland_kill_disconnects_client" }, { n = 54, reason = "xwayland_kill_disconnects_client" }, { n = 55, reason = "xwayland_kill_disconnects_client" }, { n = 56, reason = "xwayland_kill_disconnects_client" }, { n = 57, reason = "xwayland_kill_disconnects_client" }, { n = 58, reason = "xwayland_kill_disconnects_client" }, { n = 59, reason = "xwayland_kill_disconnects_client" }, { n = 60, reason = "xwayland_kill_disconnects_client" }, { n = 61, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."295-net-wm-state-focused.t"]
 plan_unknown = true
-assertions = 5
+assertions = 3
 tap_plan = "none"
+source_assertions = 5
 pass = 3
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."296-regress-focus-behind-fullscreen-floating.t"]
 plan_unknown = true
-assertions = 1
+assertions = 0
 tap_plan = "none"
+source_assertions = 1
 pass = 0
 fail = 0
-unreached = 1
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."297-assign-workspace-to-output.t"]
 assertions = 25
 tap_plan = 25
 pass = 5
 fail = 20
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."297-scroll-tabbed.t"]
 plan_unknown = true
-assertions = 14
+assertions = 1
 tap_plan = "none"
+source_assertions = 14
 pass = 1
 fail = 0
-unreached = 13
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."298-ipc-misbehaving-connection.t"]
 assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."299-regress-scratchpad-focus.t"]
@@ -1292,31 +1306,30 @@ pass = 1
 
 [files."301-shape.t"]
 plan_unknown = true
-assertions = 4
+assertions = 2
 tap_plan = "none"
+source_assertions = 4
 pass = 1
 fail = 1
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."302-tree.t"]
 plan_unknown = true
-assertions = 15
+assertions = 0
 tap_plan = "none"
+source_assertions = 15
 pass = 0
 fail = 0
-unreached = 15
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."303-regress-move-floating.t"]
 assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."304-ipc-workspace-init.t"]
@@ -1324,58 +1337,58 @@ assertions = 9
 tap_plan = 9
 pass = 1
 fail = 8
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."306-move-to-parent.t"]
 plan_unknown = true
-assertions = 2
+assertions = 0
 tap_plan = "none"
+source_assertions = 2
 pass = 0
 fail = 0
-unreached = 2
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."307-focus-next-prev.t"]
 plan_unknown = true
-assertions = 9
+assertions = 0
 tap_plan = "none"
+source_assertions = 9
 pass = 0
 fail = 0
-unreached = 9
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."308-focus_wrapping.t"]
 plan_unknown = true
-assertions = 32
+assertions = 0
 tap_plan = "none"
+source_assertions = 32
 pass = 0
 fail = 0
-unreached = 32
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."309-crash-move-parent.t"]
 plan_unknown = true
-assertions = 2
+assertions = 0
 tap_plan = "none"
+source_assertions = 2
 pass = 0
 fail = 0
-unreached = 2
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."310-client-message-sticky.t"]
 plan_unknown = true
-assertions = 6
+assertions = 1
 tap_plan = "none"
+source_assertions = 6
 pass = 1
 fail = 0
-unreached = 5
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."311-get-binding-modes.t"]
 assertions = 2
@@ -1392,9 +1405,9 @@ survived = true
 assertions = 30
 tap_plan = 30
 pass = 22
-reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
-reason_verified = true
 fail = 7
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = true
 [[files."313-include.t".skip]]
 n = 19
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -1402,32 +1415,31 @@ citation = "i3/t/313-include.t:1"
 
 [files."315-all-criterion.t"]
 plan_unknown = true
-assertions = 18
+assertions = 2
 tap_plan = "none"
+source_assertions = 18
 pass = 2
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."315-long-commands.t"]
 assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."316-drag-container.t"]
 plan_unknown = true
-assertions = 17
+assertions = 1
 tap_plan = "none"
+source_assertions = 17
 pass = 1
 fail = 0
-unreached = 16
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."316-transient-for-loop.t"]
 assertions = 1
@@ -1436,23 +1448,23 @@ pass = 1
 
 [files."317-bar-config-font-fallback.t"]
 plan_unknown = true
-assertions = 1
+assertions = 0
 tap_plan = "none"
+source_assertions = 1
 pass = 0
 fail = 0
-unreached = 1
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."317-bar-config-font-order.t"]
 plan_unknown = true
-assertions = 1
+assertions = 0
 tap_plan = "none"
+source_assertions = 1
 pass = 0
 fail = 0
-unreached = 1
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."317-bar-output-trailing-space.t"]
 assertions = 4
@@ -1461,30 +1473,30 @@ pass = 4
 
 [files."319-gaps.t"]
 plan_unknown = true
-assertions = 28
+assertions = 18
 tap_plan = "none"
+source_assertions = 28
 pass = 2
 fail = 16
-unreached = 10
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."320-mouse-bindings.t"]
 plan_unknown = true
-assertions = 13
+assertions = 3
 tap_plan = "none"
+source_assertions = 13
 pass = 3
 fail = 0
-unreached = 10
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."321-crash-criteria-scratchpad.t"]
 assertions = 6
 tap_plan = 6
 pass = 4
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."322-match-error-crash.t"]
@@ -1501,36 +1513,36 @@ pass = 1
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
+source_assertions = 3
 pass = 2
 fail = 1
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."500-multi-monitor.t"]
 assertions = 1
 tap_plan = 1
 pass = 0
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."501-scratchpad.t"]
 plan_unknown = true
-assertions = 44
+assertions = 0
 tap_plan = "none"
+source_assertions = 44
 pass = 0
 fail = 0
-unreached = 44
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."502-focus-output.t"]
 assertions = 19
 tap_plan = 19
 pass = 1
 fail = 18
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."503-workspace.t"]
@@ -1538,38 +1550,38 @@ assertions = 18
 tap_plan = 18
 pass = 5
 fail = 13
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."504-move-workspace-to-output.t"]
 plan_unknown = true
-assertions = 31
+assertions = 16
 tap_plan = "none"
+source_assertions = 31
 pass = 6
 fail = 10
-unreached = 15
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."505-scratchpad-resolution.t"]
 plan_unknown = true
-assertions = 90
+assertions = 0
 tap_plan = "none"
+source_assertions = 90
 pass = 0
 fail = 0
-unreached = 90
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."506-focus-right.t"]
 plan_unknown = true
-assertions = 31
+assertions = 5
 tap_plan = "none"
+source_assertions = 31
 pass = 3
 fail = 2
-unreached = 26
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."507-workspace-move-crash.t"]
 assertions = 2
@@ -1581,56 +1593,55 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."510-focus-across-outputs.t"]
 plan_unknown = true
-assertions = 19
+assertions = 10
 tap_plan = "none"
+source_assertions = 19
 pass = 2
 fail = 8
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }, { n = 19, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."511-scratchpad-configure-request.t"]
 plan_unknown = true
-assertions = 2
+assertions = 0
 tap_plan = "none"
+source_assertions = 2
 pass = 0
 fail = 0
-unreached = 2
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."512-move-wraps.t"]
 plan_unknown = true
-assertions = 10
+assertions = 0
 tap_plan = "none"
+source_assertions = 10
 pass = 0
 fail = 0
-unreached = 10
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."513-move-workspace.t"]
 plan_unknown = true
-assertions = 6
+assertions = 0
 tap_plan = "none"
+source_assertions = 6
 pass = 0
 fail = 0
-unreached = 6
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."514-ipc-workspace-multi-monitor.t"]
 assertions = 4
 tap_plan = 4
 pass = 1
 fail = 3
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."515-create-workspace.t"]
@@ -1638,25 +1649,25 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."516-move.t"]
 plan_unknown = true
-assertions = 14
+assertions = 0
 tap_plan = "none"
+source_assertions = 14
 pass = 0
 fail = 0
-unreached = 14
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."517-regress-move-direction-ipc.t"]
 assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."518-interpret-workspace-numbers.t"]
@@ -1664,7 +1675,7 @@ assertions = 4
 tap_plan = 4
 pass = 0
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."519-mouse-warping.t"]
@@ -1672,7 +1683,7 @@ assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."520-regress-focus-direction-floating.t"]
@@ -1682,32 +1693,31 @@ pass = 1
 
 [files."522-rename-assigned-workspace.t"]
 plan_unknown = true
-assertions = 9
+assertions = 7
 tap_plan = "none"
+source_assertions = 9
 pass = 1
 fail = 6
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."523-move-position-center.t"]
 plan_unknown = true
-assertions = 4
+assertions = 1
 tap_plan = "none"
+source_assertions = 4
 pass = 1
 fail = 0
-unreached = 3
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."524-move.t"]
 assertions = 38
 tap_plan = 38
 pass = 8
-reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
-reason_verified = true
 fail = 17
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = true
 [[files."524-move.t".skip]]
 n = 4
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -1766,30 +1776,28 @@ assertions = 3
 tap_plan = 3
 pass = 0
 fail = 3
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."527-focus-fallback.t"]
 plan_unknown = true
-assertions = 2
+assertions = 1
 tap_plan = "none"
+source_assertions = 2
 pass = 1
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."528-workspace-next-prev-reversed.t"]
 plan_unknown = true
-assertions = 38
+assertions = 0
 tap_plan = "none"
+source_assertions = 38
 pass = 0
 fail = 0
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 1, reason = "xwayland_kill_disconnects_client" }, { n = 2, reason = "xwayland_kill_disconnects_client" }, { n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }, { n = 19, reason = "xwayland_kill_disconnects_client" }, { n = 20, reason = "xwayland_kill_disconnects_client" }, { n = 21, reason = "xwayland_kill_disconnects_client" }, { n = 22, reason = "xwayland_kill_disconnects_client" }, { n = 23, reason = "xwayland_kill_disconnects_client" }, { n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }, { n = 28, reason = "xwayland_kill_disconnects_client" }, { n = 29, reason = "xwayland_kill_disconnects_client" }, { n = 30, reason = "xwayland_kill_disconnects_client" }, { n = 31, reason = "xwayland_kill_disconnects_client" }, { n = 32, reason = "xwayland_kill_disconnects_client" }, { n = 33, reason = "xwayland_kill_disconnects_client" }, { n = 34, reason = "xwayland_kill_disconnects_client" }, { n = 35, reason = "xwayland_kill_disconnects_client" }, { n = 36, reason = "xwayland_kill_disconnects_client" }, { n = 37, reason = "xwayland_kill_disconnects_client" }, { n = 38, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."530-bug-2229.t"]
 assertions = 1
@@ -1801,7 +1809,7 @@ assertions = 4
 tap_plan = 4
 pass = 1
 fail = 3
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."534-dont-warp.t"]
@@ -1814,16 +1822,16 @@ assertions = 38
 tap_plan = 38
 pass = 8
 fail = 30
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."537-move-single-to-output.t"]
 assertions = 8
 tap_plan = 8
 pass = 4
-reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."
-reason_verified = true
 fail = 2
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason_verified = true
 [[files."537-move-single-to-output.t".skip]]
 n = 2
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -1835,13 +1843,13 @@ citation = "i3/t/537-move-single-to-output.t:1"
 
 [files."538-i3bar-primary-output.t"]
 plan_unknown = true
-assertions = 4
+assertions = 0
 tap_plan = "none"
+source_assertions = 4
 pass = 0
 fail = 0
-unreached = 4
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."539-disable_focus_wrapping.t"]
 assertions = 10
@@ -1858,7 +1866,7 @@ assertions = 32
 tap_plan = 32
 pass = 20
 fail = 12
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."543-move-workspace-to-multiple-outputs.t"]
@@ -1866,7 +1874,7 @@ assertions = 63
 tap_plan = 63
 pass = 0
 fail = 63
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."544-focus-multiple-outputs.t"]
@@ -1874,7 +1882,7 @@ assertions = 41
 tap_plan = 41
 pass = 0
 fail = 41
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."545-i3-registration.t"]
@@ -1904,42 +1912,40 @@ pass = 2
 
 [files."550-focus-workspace.t"]
 plan_unknown = true
-assertions = 17
+assertions = 8
 tap_plan = "none"
+source_assertions = 17
 pass = 5
 fail = 3
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."550-split-redundant-containers.t"]
 plan_unknown = true
-assertions = 8
+assertions = 0
 tap_plan = "none"
+source_assertions = 8
 pass = 0
 fail = 0
-unreached = 8
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
 
 [files."551-net-wm-state-maximized.t"]
 plan_unknown = true
-assertions = 35
+assertions = 2
 tap_plan = "none"
+source_assertions = 35
 pass = 1
 fail = 1
-reason = "xwayland_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1213-1224; sway/sway/desktop/xwayland.c:367-371; wlroots/xwayland/xwm.c:2194-2213; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_kill_disconnects_client" }, { n = 4, reason = "xwayland_kill_disconnects_client" }, { n = 5, reason = "xwayland_kill_disconnects_client" }, { n = 6, reason = "xwayland_kill_disconnects_client" }, { n = 7, reason = "xwayland_kill_disconnects_client" }, { n = 8, reason = "xwayland_kill_disconnects_client" }, { n = 9, reason = "xwayland_kill_disconnects_client" }, { n = 10, reason = "xwayland_kill_disconnects_client" }, { n = 11, reason = "xwayland_kill_disconnects_client" }, { n = 12, reason = "xwayland_kill_disconnects_client" }, { n = 13, reason = "xwayland_kill_disconnects_client" }, { n = 14, reason = "xwayland_kill_disconnects_client" }, { n = 15, reason = "xwayland_kill_disconnects_client" }, { n = 16, reason = "xwayland_kill_disconnects_client" }, { n = 17, reason = "xwayland_kill_disconnects_client" }, { n = 18, reason = "xwayland_kill_disconnects_client" }, { n = 19, reason = "xwayland_kill_disconnects_client" }, { n = 20, reason = "xwayland_kill_disconnects_client" }, { n = 21, reason = "xwayland_kill_disconnects_client" }, { n = 22, reason = "xwayland_kill_disconnects_client" }, { n = 23, reason = "xwayland_kill_disconnects_client" }, { n = 24, reason = "xwayland_kill_disconnects_client" }, { n = 25, reason = "xwayland_kill_disconnects_client" }, { n = 26, reason = "xwayland_kill_disconnects_client" }, { n = 27, reason = "xwayland_kill_disconnects_client" }, { n = 28, reason = "xwayland_kill_disconnects_client" }, { n = 29, reason = "xwayland_kill_disconnects_client" }, { n = 30, reason = "xwayland_kill_disconnects_client" }, { n = 31, reason = "xwayland_kill_disconnects_client" }, { n = 32, reason = "xwayland_kill_disconnects_client" }, { n = 33, reason = "xwayland_kill_disconnects_client" }, { n = 34, reason = "xwayland_kill_disconnects_client" }, { n = 35, reason = "xwayland_kill_disconnects_client" }]
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
 
 [files."553-popup_during_fullscreen.t"]
 assertions = 20
 tap_plan = 20
 pass = 16
 fail = 4
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."554-commands-crash-for-window.t"]
@@ -1947,15 +1953,15 @@ assertions = 101
 tap_plan = 101
 pass = 67
 fail = 34
-reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
 reason_verified = true
 
 [files."556-workspace-keeps-focus-after-move.t"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
+source_assertions = 3
 pass = 3
 fail = 0
-unreached = 0
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = true
+reason_verified = false
