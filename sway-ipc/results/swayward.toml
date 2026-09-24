@@ -6,9 +6,10 @@
 compositor = "swayward"
 version = "26.04 (v26.04-103-g4faeb28d)"
 commit = "4faeb28d"
-oracle_commit = "b8e7d2613920a7306361ac1d4c132e04d5e0aebc"
+oracle_commit = "089f857e1d1e3f313aac66343403c21db93bed05"
 date = "2026-09-24"
 normalization = "sway-ipc/normalize.toml"
+scenario_isolation = "sequential in one compositor"
 match = 10
 mismatch = 41
 not_applicable = 0
@@ -85,7 +86,7 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "nested_h_in_v"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[1].scratchpad_state: type str != NoneType", "$tree.nodes[1].nodes[0].nodes[1].floating: type str != NoneType", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].floating: type str != NoneType", "$tree.nodes[1].nodes[0].nodes[1].scratchpad_state: type str != NoneType", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "nested_h_in_v"
@@ -136,13 +137,13 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "one_floating"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "one_floating"
 request = "workspaces"
 verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].orientation: 'vertical' != 'none'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'"]
+differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$workspaces[0].orientation: 'vertical' != 'none'"]
 
 [[result]]
 scenario = "one_floating"
@@ -154,13 +155,13 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "two_floating"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: type str != NoneType", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: type str != NoneType", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "two_floating"
 request = "workspaces"
 verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].orientation: 'vertical' != 'none'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: type str != NoneType"]
+differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: type str != NoneType", "$workspaces[0].orientation: 'vertical' != 'none'"]
 
 [[result]]
 scenario = "two_floating"
@@ -172,13 +173,13 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "three_floating_before_raise"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "three_floating_before_raise"
 request = "workspaces"
 verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].orientation: 'vertical' != 'none'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'"]
+differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'", "$workspaces[0].orientation: 'vertical' != 'none'"]
 
 [[result]]
 scenario = "three_floating_before_raise"
@@ -190,13 +191,13 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "three_floating_after_raise"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$tree.nodes[1].nodes[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "three_floating_after_raise"
 request = "workspaces"
 verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].orientation: 'vertical' != 'none'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'"]
+differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].floating_nodes[0].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[1].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].floating_nodes[2].percent: 0.20356120257695062 != 0.95875", "$workspaces[0].representation: 'V[fixture-tiled]' != 'S[fixture-tiled]'", "$workspaces[0].orientation: 'vertical' != 'none'"]
 
 [[result]]
 scenario = "three_floating_after_raise"
@@ -208,13 +209,13 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "fullscreen"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "fullscreen"
 request = "workspaces"
 verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].orientation: 'vertical' != 'none'", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'"]
+differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$workspaces[0].orientation: 'vertical' != 'none'"]
 
 [[result]]
 scenario = "fullscreen"
@@ -226,13 +227,13 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "marked"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "marked"
 request = "workspaces"
 verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].orientation: 'vertical' != 'none'", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'"]
+differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$workspaces[0].orientation: 'vertical' != 'none'"]
 
 [[result]]
 scenario = "marked"
@@ -244,13 +245,13 @@ differences = ["$outputs[0].current_mode.height: 1408 != 720", "$outputs[0].curr
 scenario = "two_workspaces"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'stacked'", "$tree.nodes[1].nodes[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].current_mode.height: 1408 != 720", "$tree.nodes[1].current_mode.width: 1270 != 1280"]
 
 [[result]]
 scenario = "two_workspaces"
 request = "workspaces"
 verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].orientation: 'vertical' != 'none'", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'"]
+differences = ["$workspaces[0].layout: 'splitv' != 'stacked'", "$workspaces[0].representation: 'V[fixture-1]' != 'S[fixture-1]'", "$workspaces[0].orientation: 'vertical' != 'none'"]
 
 [[result]]
 scenario = "two_workspaces"

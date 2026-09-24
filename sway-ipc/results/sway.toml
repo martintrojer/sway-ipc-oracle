@@ -6,9 +6,10 @@
 compositor = "sway"
 version = "1.12-88869399 (Sep 22 2026, branch 'HEAD')"
 commit = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
-oracle_commit = "b8e7d2613920a7306361ac1d4c132e04d5e0aebc"
+oracle_commit = "089f857e1d1e3f313aac66343403c21db93bed05"
 date = "2026-09-24"
 normalization = "sway-ipc/normalize.toml"
+scenario_isolation = "sequential in one compositor"
 match = 51
 mismatch = 0
 not_applicable = 0

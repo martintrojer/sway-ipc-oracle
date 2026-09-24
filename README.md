@@ -58,10 +58,11 @@ uses the ambient `SWAYSOCK`, `I3SOCK`, `WAYLAND_DISPLAY`, or `DISPLAY`.
 
 Recipes live in `sway-ipc/scenarios.toml`; comparison rules and their reasons
 live in `sway-ipc/normalize.toml`. Use repeated `--scenario NAME` arguments for
-a subset. `--capture` is restricted to sway and replaces the selected query
-fixtures after running the same comparisons. The i3 adapter requires Xvfb and
-an X11 client, which are not installed in the current development containers;
-it reports that missing premise instead of producing inferred data.
+a subset. `--fresh-per-scenario` restarts the compositor for each recipe;
+the default sequential mode matches the original capture. `--capture` is
+restricted to sway and replaces the selected query fixtures after running the
+same comparisons. The i3 adapter runs i3 under private Xvfb and opens xterm
+clients; both programs must be installed beside the runner.
 
 ## Adopt the oracle in another compositor
 
