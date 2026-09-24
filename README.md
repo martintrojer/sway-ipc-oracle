@@ -21,26 +21,26 @@ A result must publish pass, skip, and fail counts together for each compositor. 
 
 A skip needs a reason and a source citation. In particular, sway deliberately differs from i3 where the X11 premise or design does not apply. Those rows describe where sway differs from i3. They do not imply a defect or a quality comparison.
 
-The repository currently includes only [`i3/results/swayward.toml`](i3/results/swayward.toml), imported from swayward. `i3/results/i3.toml` and `i3/results/sway.toml` are omitted until pinned runs produce them. No i3 or sway result is inferred from the existing calibration report.
+The repository includes pinned black-box measurements for i3, sway, and
+swayward. These are raw observations. Unclassified failures and assertions that
+the harness did not reach remain visible rather than being converted to skips.
 
-## Run the suite against sway
+## Run the i3 suite
 
-The sway calibration runner is useful without swayward. It runs i3's original tests against a real sway process and uses i3's original `i3test.pm`. The runner replaces only process startup and i3's X11 synchronization barrier. Read [`i3/calibration/README.md`](i3/calibration/README.md) for the method and limits.
-
-Check out the pinned sources and build sway 1.12, then run:
+Build the pinned i3 and compositor revisions, then run one command per result:
 
 ```sh
-I3SRC=/path/to/i3 \
-SWAYBUILD=/path/to/sway-build/build \
-CONTAINER=swayward-dev \
-TIMEOUT=60 \
-./contrib/sway-calibration-run --all
-./contrib/sway-calibration-report --results i3/results/swayward.toml
+./contrib/i3-suite-run --compositor i3
+./contrib/i3-suite-run --compositor sway --binary /path/to/pinned/sway
+./contrib/i3-suite-run --compositor swayward --binary /path/to/pinned/swayward
 ```
 
-`I3SRC` must be at `9be3249ac5b377ed3270e36bca83df53d8023337`. The sway binary must identify commit `88869399`. The default container name reflects the development environment where the runner began; set `CONTAINER` to any distrobox with the dependencies listed in the calibration guide.
-
-The same runner command will produce the pinned i3 and sway measurements after the dedicated i3 baseline mode lands. The repository does not currently claim that mode exists.
+The i3 adapter delegates to upstream `complete-run.pl` on Xvfb. The sway and
+swayward adapters run each unchanged test against a headless compositor with a
+private IPC socket and private X11 socket directory. Sway owns Xwayland;
+swayward uses xwayland-satellite. Every compositor run has a 2 GiB memory cap,
+no swap, and a wall-time limit. See [`i3/adapters/`](i3/adapters/) for the
+adapter boundaries.
 
 ## Run the sway IPC scenarios
 
@@ -96,6 +96,255 @@ source-cited documented deviation, or a harness issue.
 The oracle's runners contain adapters that start isolated i3, sway, and swayward instances, open real client windows, and connect through private IPC sockets. A compositor can also keep an in-process harness in its own repository. Swayward's [`tests/i3/lib/i3test.pm`](https://github.com/martintrojer/swayward/blob/4faeb28d391c8ede3ead6f9b7cbe4388422d3887/tests/i3/lib/i3test.pm) is one such harness, but this repository does not publish its numbers as black-box oracle measurements.
 
 Publish black-box results from the oracle's runners under the matching oracle's `results/` directory. Publish every verdict count together, pin the compositor and oracle versions, and cite every deliberate difference.
+
+## i3 suite comparison
+
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The pinned runs record i3 **3,754/1/0**, sway **1,311/27/846**, and swayward **232/0/3,061**. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
+
+| File | i3 P/S/F | sway P/S/F | swayward P/S/F |
+| --- | ---: | ---: | ---: |
+| `001-tile.t` | 3/0/0 | 2/0/1 | 0/0/3 |
+| `003-ipc.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `005-floating.t` | 13/0/0 | 11/0/2 | 0/0/13 |
+| `100-fullscreen.t` | 79/0/0 | 16/0/7 | 0/0/79 |
+| `101-focus.t` | 8/0/0 | 8/0/0 | 0/0/8 |
+| `102-dock.t` | 23/0/0 | 5/0/18 | 1/0/0 |
+| `104-focus-stack.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `111-goto.t` | 13/0/0 | 13/0/0 | 0/0/13 |
+| `112-floating-resize.t` | 15/0/0 | 15/0/0 | 15/0/0 |
+| `113-urgent.t` | 64/0/0 | 21/0/2 | 18/0/15 |
+| `115-ipc-workspaces.t` | 9/0/0 | 9/0/0 | 8/0/1 |
+| `116-nestedcons.t` | 7/0/0 | 4/0/1 | 4/0/1 |
+| `117-workspace.t` | 92/0/0 | 34/0/16 | 47/0/3 |
+| `118-openkill.t` | 6/0/0 | 2/0/4 | 0/0/6 |
+| `119-match.t` | 27/0/0 | 4/0/0 | 0/0/27 |
+| `120-multiple-cmds.t` | 31/0/0 | 17/0/14 | 17/0/14 |
+| `121-next-prev.t` | 12/0/0 | 9/0/3 | 0/0/12 |
+| `122-split.t` | 41/0/0 | 16/0/15 | 0/0/41 |
+| `124-move.t` | 54/0/0 | 37/0/17 | 0/0/54 |
+| `126-regress-close.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `127-regress-floating-parent.t` | 4/0/0 | 4/0/0 | 0/0/4 |
+| `128-open-order.t` | 7/0/0 | 3/0/4 | 0/0/7 |
+| `129-focus-after-close.t` | 15/0/0 | 8/0/4 | 0/0/15 |
+| `130-close-empty-split.t` | 8/0/0 | 2/0/6 | 0/0/8 |
+| `131-stacking-order.t` | 7/0/0 | 6/0/1 | 0/0/7 |
+| `132-move-workspace.t` | 160/0/0 | 61/9/30 | 0/0/160 |
+| `133-size-hints.t` | 16/0/0 | 9/0/7 | 0/0/16 |
+| `134-invalid-command.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `135-floating-focus.t` | 82/0/0 | 4/0/0 | 0/0/82 |
+| `136-floating-ws-empty.t` | 11/0/0 | 11/0/0 | 0/0/11 |
+| `137-floating-unmap.t` | 2/0/0 | 1/0/1 | 0/0/2 |
+| `138-floating-attach.t` | 11/0/0 | 8/0/3 | 0/0/11 |
+| `139-ws-numbers.t` | 8/0/0 | 8/0/0 | 0/0/8 |
+| `140-focus-lost.t` | 3/0/0 | 3/0/0 | 0/0/3 |
+| `141-resize.t` | 84/0/0 | 60/0/24 | 0/0/84 |
+| `142-regress-move-floating.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `143-regress-floating-restart.t` | 5/0/0 | 3/0/2 | 0/0/5 |
+| `144-regress-floating-resize.t` | 1/0/0 | 0/0/0 | 0/0/1 |
+| `145-flattening.t` | 8/0/0 | 8/0/0 | 0/0/8 |
+| `146-floating-reinsert.t` | 3/0/0 | 3/0/0 | 0/0/3 |
+| `147-regress-floatingmove.t` | 2/0/0 | 2/0/0 | 2/0/0 |
+| `148-regress-floatingmovews.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `150-regress-dock-restart.t` | 11/0/0 | 3/0/8 | 0/0/11 |
+| `151-regress-float-size.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `152-regress-level-up.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `153-floating-originalsize.t` | 7/0/0 | 7/0/0 | 0/0/7 |
+| `154-regress-multiple-dock.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `155-floating-split-size.t` | 4/0/0 | 2/0/2 | 0/0/4 |
+| `156-fullscreen-focus.t` | 64/0/0 | 1/0/1 | 0/0/64 |
+| `159-socketpaths.t` | 8/0/0 | 0/0/0 | 0/0/8 |
+| `161-regress-borders-restart.t` | 4/0/0 | 2/0/2 | 1/0/3 |
+| `162-regress-dock-urgent.t` | 4/0/0 | 2/0/2 | 0/0/4 |
+| `164-kill-win-vs-client.t` | 12/0/0 | 3/0/0 | 3/0/0 |
+| `165-for_window.t` | 79/0/0 | 19/0/0 | 14/0/5 |
+| `166-assign.t` | 106/0/0 | 17/0/6 | 0/0/106 |
+| `167-workspace_layout.t` | 87/0/0 | 9/0/19 | 0/0/87 |
+| `168-regress-fullscreen-restart.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `169-border-toggle.t` | 20/0/0 | 0/0/20 | 0/0/20 |
+| `170-force_focus_wrapping.t` | 12/0/0 | 12/0/0 | 11/0/1 |
+| `172-start-on-named-ws.t` | 7/0/0 | 6/0/1 | 1/0/1 |
+| `173-get-marks.t` | 3/0/0 | 2/0/1 | 0/0/3 |
+| `174-border-config.t` | 13/0/0 | 9/0/4 | 7/0/6 |
+| `176-workspace-baf.t` | 26/0/0 | 21/0/2 | 0/0/26 |
+| `177-bar-config.t` | 50/0/0 | 23/0/5 | 1/0/1 |
+| `178-regress-workspace-open.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `179-regress-multiple-ws.t` | 6/0/0 | 1/2/3 | 0/0/6 |
+| `180-fd-leaks.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `181-regress-float-border.t` | 6/0/0 | 4/0/2 | 0/0/6 |
+| `182-regress-focus-dock.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `183-config-variables.t` | 9/0/0 | 9/0/0 | 0/0/9 |
+| `184-regress-float-split-resize.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `185-scratchpad.t` | 100/0/0 | 2/0/0 | 2/0/0 |
+| `186-regress-assign-focus-parent.t` | 8/0/0 | 8/0/0 | 0/0/8 |
+| `187-commands-parser.t` | 25/0/0 | 0/0/25 | 0/0/25 |
+| `188-regress-focus-restart.t` | 11/0/0 | 11/0/0 | 11/0/0 |
+| `189-floating-constraints.t` | 28/0/0 | 22/0/6 | 0/0/28 |
+| `190-scratchpad-diff-ws.t` | 3/0/0 | 3/0/0 | 2/0/1 |
+| `191-resize-levels.t` | 3/0/0 | 1/0/2 | 0/0/3 |
+| `192-layout.t` | 34/0/0 | 22/0/12 | 34/0/0 |
+| `193-ipc-version.t` | 4/0/0 | 3/0/1 | 0/0/4 |
+| `194-regress-floating-size.t` | 15/0/0 | 15/0/0 | 5/0/10 |
+| `196-randr-output-names.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `197-regression-move-vanish.t` | 4/0/0 | 4/0/0 | 4/0/0 |
+| `198-regression-scratchpad-crash.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `199-ipc-mode-event.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `200-urgency-timer.t` | 12/0/0 | 12/0/0 | 0/0/12 |
+| `201-config-parser.t` | 32/0/0 | 0/0/0 | 0/0/32 |
+| `202-scratchpad-criteria.t` | 27/0/0 | 8/0/3 | 0/0/27 |
+| `203-regress-assign-and-move.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `204-regress-scratchpad-move.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `205-ipc-windows.t` | 4/0/0 | 2/0/2 | 0/0/4 |
+| `206-fullscreen-scratchpad.t` | 8/0/0 | 4/0/0 | 0/0/8 |
+| `208-regress-floating-criteria.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `210-mark-unmark.t` | 17/0/0 | 14/0/3 | 0/0/17 |
+| `211-regress-urgency-assign.t` | 3/0/0 | 2/0/1 | 0/0/3 |
+| `212-assign-urgency.t` | 3/0/0 | 2/0/1 | 0/0/3 |
+| `213-layout-restore-simple.t` | 18/0/0 | 8/0/10 | 0/0/18 |
+| `218-regress-floating-split.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `219-ipc-window-focus.t` | 10/0/0 | 0/0/0 | 0/0/10 |
+| `220-ipc-window-title.t` | 4/0/0 | 4/0/0 | 0/0/4 |
+| `221-floating-type-hints.t` | 8/0/0 | 0/0/8 | 0/0/8 |
+| `222-regress-dock-resize.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `224-regress-resize-branch.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `225-ipc-window-fullscreen.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `226-internal-workspaces.t` | 5/0/0 | 1/0/4 | 0/0/5 |
+| `227-ipc-workspace-empty.t` | 3/0/0 | 0/0/1 | 0/0/3 |
+| `228-border-widths.t` | 21/0/0 | 18/0/3 | 0/0/21 |
+| `231-ipc-floating-event.t` | 2/0/0 | 1/0/1 | 0/0/2 |
+| `232-cmd-move-criteria.t` | 22/0/0 | 22/0/0 | 0/0/22 |
+| `233-regress-manage-focus-unmapped.t` | 2/0/0 | 1/0/0 | 0/0/2 |
+| `235-check-config-no-x.t` | 8/0/0 | 0/0/8 | 0/0/8 |
+| `236-floating-focus-raise.t` | 6/0/0 | 0/0/6 | 0/0/6 |
+| `237-regress-assign-focus.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `238-ipc-binding-event.t` | 15/0/0 | 2/0/13 | 0/0/15 |
+| `240-focus-on-window-activation.t` | 15/0/0 | 15/0/0 | 0/0/15 |
+| `241-consistent-center.t` | 12/0/0 | 5/0/7 | 0/0/12 |
+| `242-no-focus.t` | 6/0/0 | 6/0/0 | 0/0/6 |
+| `243-move-to-mark.t` | 50/0/0 | 41/0/9 | 0/0/50 |
+| `244-new-workspace-floating-enable-center.t` | 2/0/0 | 0/0/2 | 0/0/2 |
+| `245-move-position-mouse.t` | 8/0/0 | 0/0/8 | 0/0/8 |
+| `246-window-decoration-focus.t` | 3/0/0 | 2/0/1 | 0/0/3 |
+| `247-config-line-continuation.t` | 8/0/0 | 4/0/4 | 0/0/8 |
+| `248-regress-urgency-clear.t` | 4/0/0 | 4/0/0 | 0/0/4 |
+| `251-command-criteria-focused.t` | 11/0/0 | 11/0/0 | 0/0/11 |
+| `252-floating-size.t` | 49/0/0 | 36/0/13 | 0/0/49 |
+| `254-move-to-output-with-criteria.t` | 16/0/0 | 0/0/0 | 0/0/16 |
+| `255-multiple-marks.t` | 9/0/0 | 9/0/0 | 0/0/9 |
+| `256-no-auto-back-and-forth.t` | 10/0/0 | 8/0/0 | 0/0/10 |
+| `257-keypress-group1-fallback.t` | 17/0/0 | 1/0/0 | 0/0/17 |
+| `258-keypress-release.t` | 49/0/0 | 1/0/0 | 0/0/49 |
+| `260-invalid-criteria.t` | 2/0/0 | 1/0/1 | 0/0/2 |
+| `261-match-con_id-con_mark-combinations.t` | 4/0/0 | 1/0/0 | 0/0/4 |
+| `262-config-validation.t` | 2/0/0 | 1/0/0 | 1/0/0 |
+| `263-config-reload-reverts-bind-mode.t` | 3/0/0 | 1/0/2 | 0/0/3 |
+| `264-dock-criteria.t` | 19/0/0 | 0/0/0 | 0/0/19 |
+| `265-ipc-mark.t` | 2/0/0 | 1/0/1 | 0/0/2 |
+| `266-net-moveresize-window.t` | 12/0/0 | 0/0/0 | 0/0/12 |
+| `267-regress-mark-restart.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `268-ipc-config.t` | 2/0/0 | 1/0/1 | 1/0/1 |
+| `269-focus-stack-above.t` | 5/0/0 | 3/0/2 | 3/0/2 |
+| `270-config-no-newline-end.t` | 2/0/0 | 2/0/0 | 1/0/1 |
+| `271-for_window_tilingfloating.t` | 20/0/0 | 11/0/9 | 0/0/20 |
+| `272-regress-focus-assign.t` | 8/0/0 | 8/0/0 | 0/0/8 |
+| `273-regress-focus-toggle.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `274-move-branch-position.t` | 16/0/0 | 12/0/4 | 0/0/16 |
+| `275-ipc-window-close.t` | 3/0/0 | 3/0/0 | 0/0/3 |
+| `276-ipc-window-move.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `277-ipc-window-urgent.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `279-regress-default-floating-border.t` | 1/0/0 | 0/0/1 | 0/0/1 |
+| `280-wm-class-change-handler.t` | 4/0/0 | 3/0/0 | 0/0/4 |
+| `281-regress-reload-bindsym.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `282-tabbed-floating-disable-crash.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `284-ewmh-visible-name.t` | 5/0/0 | 0/0/0 | 0/0/5 |
+| `285-sticky.t` | 11/0/0 | 2/0/0 | 0/0/11 |
+| `286-root-window-mouse-binding.t` | 2/0/0 | 1/0/0 | 0/0/2 |
+| `287-edge-borders.t` | 31/0/0 | 29/0/2 | 0/0/31 |
+| `289-ipc-shutdown-event.t` | 4/0/0 | 0/0/0 | 0/0/4 |
+| `290-keypress-numlock.t` | 85/0/0 | 25/0/60 | 1/0/0 |
+| `291-swap.t` | 148/0/0 | 1/0/0 | 0/0/148 |
+| `292-regress-layout-toggle.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `293-focus-follows-mouse.t` | 10/0/0 | 4/0/6 | 0/0/10 |
+| `293-sticky-output-crash.t` | 3/0/0 | 0/0/0 | 0/0/3 |
+| `294-focus-order.t` | 61/0/0 | 1/0/0 | 0/0/61 |
+| `295-net-wm-state-focused.t` | 5/0/0 | 3/0/0 | 0/0/5 |
+| `296-regress-focus-behind-fullscreen-floating.t` | 1/0/0 | 0/0/0 | 0/0/1 |
+| `297-assign-workspace-to-output.t` | 25/0/0 | 5/0/20 | 0/0/25 |
+| `297-scroll-tabbed.t` | 16/0/0 | 1/0/0 | 1/0/0 |
+| `298-ipc-misbehaving-connection.t` | 2/0/0 | 1/0/1 | 0/0/2 |
+| `299-regress-scratchpad-focus.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `301-shape.t` | 4/0/0 | 1/0/1 | 0/0/4 |
+| `302-tree.t` | 15/0/0 | 0/0/0 | 0/0/15 |
+| `303-regress-move-floating.t` | 3/0/0 | 1/0/2 | 0/0/3 |
+| `304-ipc-workspace-init.t` | 9/0/0 | 1/0/8 | 0/0/9 |
+| `306-move-to-parent.t` | 2/0/0 | 0/0/0 | 0/0/2 |
+| `307-focus-next-prev.t` | 9/0/0 | 0/0/0 | 0/0/9 |
+| `308-focus_wrapping.t` | 32/0/0 | 0/0/0 | 0/0/32 |
+| `309-crash-move-parent.t` | 2/0/0 | 0/0/0 | 0/0/2 |
+| `310-client-message-sticky.t` | 6/0/0 | 1/0/0 | 0/0/6 |
+| `311-get-binding-modes.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `312-regress-layout-default.t` | 0/0/0 | 0/0/0 | 0/0/0 |
+| `313-include.t` | 29/1/0 | 22/1/7 | 0/0/30 |
+| `315-all-criterion.t` | 18/0/0 | 2/0/0 | 0/0/18 |
+| `315-long-commands.t` | 4/0/0 | 3/0/1 | 0/0/4 |
+| `316-drag-container.t` | 18/0/0 | 1/0/0 | 1/0/0 |
+| `316-transient-for-loop.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `317-bar-config-font-fallback.t` | 1/0/0 | 0/0/0 | 0/0/1 |
+| `317-bar-config-font-order.t` | 1/0/0 | 0/0/0 | 0/0/1 |
+| `317-bar-output-trailing-space.t` | 4/0/0 | 4/0/0 | 0/0/4 |
+| `319-gaps.t` | 28/0/0 | 2/0/16 | 0/0/28 |
+| `320-mouse-bindings.t` | 14/0/0 | 3/0/0 | 0/0/14 |
+| `321-crash-criteria-scratchpad.t` | 6/0/0 | 4/0/2 | 0/0/6 |
+| `322-match-error-crash.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `324-for-window-reload-crash.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `325-layout-percent-and-marks.t` | 8/0/0 | 2/0/1 | 0/0/8 |
+| `500-multi-monitor.t` | 1/0/0 | 0/0/1 | 0/0/1 |
+| `501-scratchpad.t` | 44/0/0 | 0/0/0 | 0/0/44 |
+| `502-focus-output.t` | 19/0/0 | 1/0/18 | 0/0/19 |
+| `503-workspace.t` | 18/0/0 | 5/0/13 | 0/0/18 |
+| `504-move-workspace-to-output.t` | 31/0/0 | 6/0/10 | 0/0/31 |
+| `505-scratchpad-resolution.t` | 90/0/0 | 0/0/0 | 0/0/90 |
+| `506-focus-right.t` | 31/0/0 | 3/0/2 | 0/0/31 |
+| `507-workspace-move-crash.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `509-workspace_layout.t` | 2/0/0 | 1/0/1 | 0/0/2 |
+| `510-focus-across-outputs.t` | 19/0/0 | 2/0/8 | 0/0/19 |
+| `511-scratchpad-configure-request.t` | 2/0/0 | 0/0/0 | 0/0/2 |
+| `512-move-wraps.t` | 10/0/0 | 0/0/0 | 0/0/10 |
+| `513-move-workspace.t` | 6/0/0 | 0/0/0 | 0/0/6 |
+| `514-ipc-workspace-multi-monitor.t` | 4/0/0 | 1/0/3 | 0/0/4 |
+| `515-create-workspace.t` | 2/0/0 | 1/0/1 | 0/0/2 |
+| `516-move.t` | 14/0/0 | 0/0/0 | 0/0/14 |
+| `517-regress-move-direction-ipc.t` | 2/0/0 | 0/0/2 | 0/0/2 |
+| `518-interpret-workspace-numbers.t` | 4/0/0 | 0/0/4 | 0/0/4 |
+| `519-mouse-warping.t` | 3/0/0 | 1/0/2 | 0/0/3 |
+| `520-regress-focus-direction-floating.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `522-rename-assigned-workspace.t` | 9/0/0 | 1/0/6 | 0/0/9 |
+| `523-move-position-center.t` | 4/0/0 | 1/0/0 | 0/0/4 |
+| `524-move.t` | 38/0/0 | 8/13/17 | 0/0/38 |
+| `526-reconfigure-dock.t` | 3/0/0 | 0/0/3 | 0/0/3 |
+| `527-focus-fallback.t` | 2/0/0 | 1/0/0 | 0/0/2 |
+| `528-workspace-next-prev-reversed.t` | 38/0/0 | 0/0/0 | 0/0/38 |
+| `530-bug-2229.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `531-fullscreen-on-given-output.t` | 4/0/0 | 1/0/3 | 0/0/4 |
+| `534-dont-warp.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `535-workspace-next-prev.t` | 38/0/0 | 8/0/30 | 0/0/38 |
+| `537-move-single-to-output.t` | 8/0/0 | 4/2/2 | 0/0/8 |
+| `538-i3bar-primary-output.t` | 4/0/0 | 0/0/0 | 0/0/4 |
+| `539-disable_focus_wrapping.t` | 10/0/0 | 10/0/0 | 0/0/10 |
+| `540-sigterm-cleanup.t` | 2/0/0 | 2/0/0 | 0/0/2 |
+| `541-resize-set-tiling.t` | 32/0/0 | 20/0/12 | 0/0/32 |
+| `543-move-workspace-to-multiple-outputs.t` | 63/0/0 | 0/0/63 | 0/0/63 |
+| `544-focus-multiple-outputs.t` | 41/0/0 | 0/0/41 | 0/0/41 |
+| `545-i3-registration.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `546-empty-bindcommand.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `547-explicit-mode-default.t` | 1/0/0 | 1/0/0 | 0/0/1 |
+| `547-nested-variables.t` | 2/0/0 | 2/0/0 | 2/0/0 |
+| `549-focus-wrapping-gaps.t` | 2/0/0 | 2/0/0 | 1/0/1 |
+| `550-focus-workspace.t` | 17/0/0 | 5/0/3 | 5/0/3 |
+| `550-split-redundant-containers.t` | 8/0/0 | 0/0/0 | 0/0/8 |
+| `551-net-wm-state-maximized.t` | 12/0/0 | 1/0/1 | 0/0/12 |
+| `553-popup_during_fullscreen.t` | 20/0/0 | 16/0/4 | 1/0/0 |
+| `554-commands-crash-for-window.t` | 101/0/0 | 67/0/34 | 0/0/101 |
+| `556-workspace-keeps-focus-after-move.t` | 5/0/0 | 3/0/0 | 0/0/5 |
 
 ## Why this does not run against hy3
 
