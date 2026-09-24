@@ -2,6 +2,35 @@
 set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")/.."
 
+if [[ ${1:-} == --help ]]; then
+    echo 'usage: validate'
+    echo 'Run the repository checks, tool self-tests, inventory check, and pinned sway schema comparison.'
+    exit 0
+fi
+(($# == 0)) || { echo 'usage: validate' >&2; exit 2; }
+
+python3 - <<'PY'
+import re
+from pathlib import Path
+
+root = Path("contrib")
+readme = (root / "README.md").read_text()
+listed = set(re.findall(r"^\| `([^`/]+)` \|", readme, re.M))
+actual = {
+    path.name
+    for path in root.iterdir()
+    if path.is_file() and path.name != "README.md"
+}
+missing = sorted(listed - actual)
+unlisted = sorted(actual - listed)
+if missing or unlisted:
+    for name in missing:
+        print(f"contrib inventory lists missing file: {name}")
+    for name in unlisted:
+        print(f"contrib file is not inventoried: {name}")
+    raise SystemExit(1)
+PY
+
 shopt -s nullglob
 i3_results=(i3/results/*.toml)
 sway_ipc_results=(sway-ipc/results/*.toml)
@@ -79,12 +108,8 @@ for row in manifest["scenarios"]:
     capture = json.loads((root / f"{row['name']}.json").read_text())
     assert set(capture) == {"tree", "workspaces", "outputs"}
 PY
-./contrib/test-sway-ipc-applicability
-
-tap_report=$(printf '%s\n' 'ok 1 - pass' 'ok 2 # SKIP premise' 'not ok 3 - fail' '1..3' | ./contrib/tap-count)
-grep -Fq 'stream 1: 3 checks, 1 ok, 1 skip, 1 not ok  (authoritative)' <<<"$tap_report"
-grep -Fq 'report: 1 pass; 1 skip; 1 fail' <<<"$tap_report"
-echo 'tap-count sanity check passed'
+PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" ./contrib/tests/sway-ipc-applicability
+./contrib/i3-suite-run --self-test
 
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT

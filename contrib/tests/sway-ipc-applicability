@@ -4,7 +4,7 @@
 import importlib.machinery
 from pathlib import Path
 
-root = Path(__file__).resolve().parents[1]
+root = Path(__file__).resolve().parents[2]
 runner = importlib.machinery.SourceFileLoader(
     "sway_ipc_run", str(root / "contrib/sway-ipc-run")
 ).load_module()

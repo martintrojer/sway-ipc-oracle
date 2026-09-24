@@ -2,12 +2,11 @@
 """Validate a compositor result and generate a human-readable summary.
 
 Usage:
-    contrib/coverage-report [RESULT]              summary to stdout
-    contrib/coverage-report [RESULT] --check      validate only
-    contrib/coverage-report [RESULT] --json       machine-readable
-    contrib/coverage-report [RESULT] --gaps       unfinished assertions
-
-RESULT defaults to i3/results/swayward.toml.
+    contrib/coverage-report RESULT              summary to stdout
+    contrib/coverage-report RESULT --check      validate only
+    contrib/coverage-report RESULT --json       machine-readable
+    contrib/coverage-report RESULT --gaps       unfinished assertions
+    contrib/coverage-report --unvendored        check the vendored-file inventory
 
 Why the data moved out of prose. The classification used to live only in the
 Markdown table, and counting it required reverse-engineering English: literal
@@ -28,10 +27,10 @@ import re
 import sys
 import tomllib
 
-from i3_result_reasons import PLACEHOLDER_REASONS
-
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-DEFAULT_DATA = ROOT / "i3" / "results" / "swayward.toml"
+NO_TAP_PLAN = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+INCOMPLETE_RUN = "The pinned run reported environment skips, failures, or assertions it did not reach."
+PLACEHOLDER_REASONS = frozenset({NO_TAP_PLAN, INCOMPLETE_RUN})
 UNVENDORED = ROOT / "i3" / "unvendored.toml"
 VENDOR = ROOT / "i3" / "t"
 
@@ -61,7 +60,7 @@ def result_path() -> pathlib.Path:
     for argument in sys.argv[1:]:
         if not argument.startswith("-"):
             return pathlib.Path(argument)
-    return DEFAULT_DATA
+    raise SystemExit("coverage-report: RESULT is required (see --help)")
 
 
 def load(path: pathlib.Path):
@@ -281,9 +280,9 @@ def check_unvendored(vendored_names):
 
 
 def main():
-    data_path = result_path()
-    doc = load(data_path)
-    violations = validate(doc)
+    if "--help" in sys.argv:
+        print(__doc__)
+        return
 
     vendored = {path.name for path in VENDOR.glob("*.t")}
     if "--unvendored" in sys.argv:
@@ -298,6 +297,9 @@ def main():
         print(f"{len(problems)} violation(s)")
         sys.exit(1 if problems else 0)
 
+    data_path = result_path()
+    doc = load(data_path)
+    violations = validate(doc)
     violations += check_unvendored(vendored)
 
     if "--check" in sys.argv:

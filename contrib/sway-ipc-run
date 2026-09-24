@@ -963,7 +963,9 @@ def differential_main(args):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Run, capture, or compare data-driven sway IPC scenarios."
+    )
     parser.add_argument("mode", nargs="?", choices=("scenarios", "differential", "i3-derived"), default="scenarios")
     parser.add_argument("--compositor", choices=ADAPTERS)
     parser.add_argument("--binary", type=Path)

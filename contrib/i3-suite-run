@@ -20,9 +20,9 @@ import tempfile
 import tomllib
 import shlex
 
-from i3_result_reasons import INCOMPLETE_RUN, NO_TAP_PLAN
-
 ROOT = Path(__file__).resolve().parent.parent
+NO_TAP_PLAN = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+INCOMPLETE_RUN = "The pinned run reported environment skips, failures, or assertions it did not reach."
 I3_PIN = "9be3249ac5b377ed3270e36bca83df53d8023337"
 SWAY_PIN = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 PLAN = re.compile(r"^1\.\.(\d+)(?:\s+#\s*SKIP\b.*)?$", re.I)
@@ -125,8 +125,8 @@ def emit(path: Path, compositor: str, version: str, commit: str,
 
 
 def static_plan(path: Path) -> int:
-    # Same source of truth used by contrib/tap-count: the first unindented plan,
-    # or the checked-in swayward census where done_testing makes it dynamic.
+    # Use the first unindented plan, or the checked-in census where
+    # done_testing makes the plan dynamic.
     for line in path.read_text(errors="replace").splitlines():
         if m := re.match(r"^plan tests => (\d+);", line):
             return int(m.group(1))
@@ -225,9 +225,21 @@ perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
          "headless compositor with private IPC/X11 sockets and real X11 clients")
 
 
+def self_test() -> None:
+    text = "ok 1 - pass\nok 2 # SKIP premise\nnot ok 3 - fail\n1..3\n"
+    assert parse_tap(text) == ({1: "pass", 2: "skip", 3: "fail"}, 3)
+    echoed = text + text
+    assert parse_tap(echoed) == ({1: "pass", 2: "skip", 3: "fail"}, 3)
+    assert parse_tap("1..0 # SKIP unavailable\n") == ({}, 0)
+    print("i3-suite TAP parser self-test passed")
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--compositor", required=True, choices=("i3", "sway", "swayward"))
+    ap = argparse.ArgumentParser(
+        description="Run the unchanged vendored i3 suite against a pinned compositor."
+    )
+    ap.add_argument("--compositor", choices=("i3", "sway", "swayward"))
+    ap.add_argument("--self-test", action="store_true", help="test the embedded TAP parser and exit")
     ap.add_argument("--i3src", default="/var/home/martintrojer/hacking/i3")
     ap.add_argument("--i3build", default="/var/home/martintrojer/hacking/i3/build")
     ap.add_argument("--container", default="swayward-dev")
@@ -239,6 +251,11 @@ def main() -> int:
                     help="record replayable sway commands with test provenance")
     ap.add_argument("tests", nargs="*")
     args = ap.parse_args()
+    if args.self_test:
+        self_test()
+        return 0
+    if args.compositor is None:
+        ap.error("--compositor is required unless --self-test is used")
     if args.compositor == "i3":
         i3_adapter(args)
     else:

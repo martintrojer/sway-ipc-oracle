@@ -53,7 +53,9 @@ def compare(label: str, expected: set[str], actual: set[str], errors: list[str])
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Compare sway IPC fixture fields with a pinned sway source checkout."
+    )
     parser.add_argument("sway", type=Path, help="path to the pinned sway Git checkout")
     args = parser.parse_args()
     policy = json.loads(POLICY.read_text())
