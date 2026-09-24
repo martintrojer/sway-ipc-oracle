@@ -13,9 +13,8 @@ sway 1.11 captures as noted below.
 - output: `WL-1`, 1270x1408, scale 1, normal transform
 - config: solid-color output background, 2 px normal borders, monospace 10
 - client: standalone foot terminals with unique `fixture-*` app IDs
-- capture command: `contrib/capture-sway-fixtures.sh <nested-SWAYSOCK>`
-- multi-floating capture: set `WAYLAND_DISPLAY` to the nested display, then run
-  `contrib/capture-sway-fixtures.sh <nested-SWAYSOCK> multi-floating`
+- capture command: `contrib/sway-ipc-run --compositor sway --binary /path/to/sway --capture`
+- scenario source: `sway-ipc/scenarios.toml`
 
 Each captured scenario has the raw replies to `get_tree`, `get_workspaces`, and
 `get_outputs`, formatted only with `jq -S .` for stable key order. The
@@ -40,10 +39,9 @@ Both files are raw `GET_INPUTS` replies formatted only with `jq`.
 Never edit these fixtures by hand to make a compositor test pass. If a
 compositor intentionally differs, record the difference outside the fixture.
 
-Only replace fixtures by running the capture script against a separate nested
-sway instance. The script rejects a target socket equal to its ambient
-`SWAYSOCK`, protecting the operator's live session from its state-changing
-scenario setup.
+Only replace fixtures with `contrib/sway-ipc-run --capture` against the pinned
+sway binary. The runner starts a capped headless compositor with private IPC and
+Wayland sockets; it never targets the ambient session.
 
 Run `contrib/check-sway-fixture-schema /path/to/sway` with the sway checkout at
 tag `1.12`. It reads the target from `schema-version.json`, extracts the output
@@ -65,26 +63,22 @@ sequences exercise that schema. `binding.run.json` used
 virtual-keyboard protocol.
 
 The `*.sequence.json` files preserve complete ordered event lists from the sway
-1.12 installation. `workspace-switch-empty` captures a switch to
+1.12 installation. Event-sequence capture has not yet moved into the Python
+runner, so capture mode leaves these files unchanged. `workspace-switch-empty` captures a switch to
 an empty workspace and back. `workspace-close-last` captures closing the final
 window on an inactive workspace. `workspace-rename` captures a rename. The
 `workspace-move-right-*` files capture a focused window moving across two
 headless outputs into an empty workspace, into an occupied workspace, and away
 from its source workspace's last window. Sway 1.12 emits one `window::move`
-event and no workspace event in all three cases. Run
-`contrib/capture-sway-fixtures.sh <nested-SWAYSOCK> event-sequences`,
-`contrib/capture-sway-fixtures.sh <nested-SWAYSOCK> cross-output-events`, or
-`contrib/capture-sway-fixtures.sh <nested-SWAYSOCK> window-map-events` to
-replace the corresponding set. The script uses a sway `SEND_TICK` request as
+event and no workspace event in all three cases. A future scenario extension
+must capture subscriptions through the same runner and use sway `SEND_TICK` as
 the end-of-stream barrier.
 
 `window-map-focused.sequence.json` and `window-map-unfocused.sequence.json`
 were recaptured from the capped sway 1.12 Wayland-backend session. Mapping a
 focused window emitted `new`, `title`, then `focus`. A window matched by
 `no_focus` emitted only `new` and `title`. The `title` event comes from foot
-setting its title after map; the focus distinction is independent of it. Run
-`contrib/capture-sway-fixtures.sh <nested-SWAYSOCK> window-map-events` to replace
-these captures.
+setting its title after map; the focus distinction is independent of it.
 
 The original capture produced all requested workspace changes: `init`, `empty`,
 `focus`, `move`, `rename`, `urgent`, and `reload`. It also produced all requested

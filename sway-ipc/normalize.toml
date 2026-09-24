@@ -1,0 +1,47 @@
+# Comparison rules ported from swayward src/tests/ipc/fixtures.rs.
+# Every ignored field has a reason; all other JSON values and array lengths are
+# compared exactly. Tree-specific checks retain layout information hidden here.
+
+[[ignore_key]]
+keys = ["id", "pid", "foreign_toplevel_identifier"]
+reason = "IDs and process metadata are allocated independently by each run."
+
+[[ignore_key]]
+keys = ["focus"]
+reason = "Focus arrays contain dynamic node IDs; compare them by child position."
+
+[[ignore_key]]
+keys = ["rect", "deco_rect", "window_rect", "geometry"]
+reason = "Rectangles vary with font metrics; compare outer tree rectangles with 10 px tolerance and preserve rectangle-role relationships."
+
+[[ignore_key]]
+keys = ["output"]
+reason = "Output names depend on the nested Wayland, headless, or X11 backend."
+
+[[ignore_key]]
+keys = ["make", "model", "serial", "adaptive_sync_status", "modes"]
+reason = "Output identity, modes, and adaptive-sync support depend on the backend."
+
+[[ignore_path]]
+suffixes = [".current_mode.refresh", ".features.adaptive_sync"]
+reason = "Refresh and adaptive-sync support depend on the backend."
+
+[[ignore_output_key]]
+keys = ["name"]
+reason = "Output names depend on the backend."
+
+[tree]
+rect_tolerance = 10
+reason = "The sway capture used host font metrics; 10 px admits titlebar differences but rejects a wrong layout or unit placeholder."
+
+[focus]
+mode = "child_position"
+reason = "Child position maps independently allocated IDs while preserving focus membership and order."
+
+[percent]
+tolerance = 1e-9
+reason = "Container percentages and complete child sums are semantic layout values."
+
+[arrays]
+ignore_length_suffixes = [".modes"]
+reason = "Sway's nested output advertised no modes while headless backends advertise synthetic modes."

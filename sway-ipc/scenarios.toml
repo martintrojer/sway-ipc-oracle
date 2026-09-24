@@ -1,0 +1,67 @@
+# Scenario recipes are compositor-neutral sway/i3 commands. `window:ID` opens a
+# standalone client; `capture:NAME` records tree, workspaces, and outputs.
+# Add scenarios by appending a table. The runner resets state before each table.
+
+[[scenario]]
+name = "empty"
+actions = ["capture:empty"]
+
+[[scenario]]
+name = "one_window"
+actions = ["window:fixture-1", "capture:one_window"]
+
+[[scenario]]
+name = "two_split_h"
+actions = ["command:splith", "window:fixture-1", "window:fixture-2", "capture:two_split_h"]
+
+[[scenario]]
+name = "two_split_v"
+actions = ["command:splitv", "window:fixture-1", "window:fixture-2", "capture:two_split_v"]
+
+[[scenario]]
+name = "nested_h_in_v"
+actions = ["window:fixture-1", "command:splitv", "window:fixture-2", "command:splith", "window:fixture-3", "capture:nested_h_in_v"]
+
+[[scenario]]
+name = "tabbed"
+actions = ["command:layout tabbed", "window:fixture-1", "window:fixture-2", "capture:tabbed"]
+
+[[scenario]]
+name = "stacked"
+actions = ["command:layout stacking", "window:fixture-1", "window:fixture-2", "capture:stacked"]
+
+[[scenario]]
+name = "one_floating"
+actions = ["window:fixture-1", "window:fixture-2", "command:floating enable", "capture:one_floating"]
+
+[[scenario]]
+name = "two_floating"
+actions = ["window:fixture-1", "command:floating enable", "window:fixture-2", "command:floating enable", "capture:two_floating"]
+
+[[scenario]]
+name = "three_floating_raise"
+actions = ["window:fixture-tiled", "window:fixture-1", "command:floating enable", "window:fixture-2", "command:floating enable", "window:fixture-3", "command:floating enable", "capture:three_floating_before_raise", "command:[app_id=\"^fixture-1$\"] focus", "capture:three_floating_after_raise"]
+
+[[scenario]]
+name = "fullscreen"
+actions = ["window:fixture-1", "command:fullscreen enable", "capture:fullscreen"]
+
+[[scenario]]
+name = "marked"
+actions = ["window:fixture-1", "command:mark testmark", "capture:marked"]
+
+[[scenario]]
+name = "two_workspaces"
+actions = ["window:fixture-1", "command:workspace 2", "window:fixture-2", "capture:two_workspaces"]
+
+[[scenario]]
+name = "numbered_sparse"
+actions = ["window:fixture-1", "command:workspace 3", "window:fixture-3", "command:workspace 7", "window:fixture-7", "capture:numbered_sparse"]
+
+[[scenario]]
+name = "named_workspace"
+actions = ["command:workspace mail", "window:fixture-mail", "capture:named_workspace"]
+
+[[scenario]]
+name = "empty_named"
+actions = ["command:workspace mail", "capture:empty_named"]

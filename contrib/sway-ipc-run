@@ -1,0 +1,374 @@
+#!/usr/bin/env python3
+"""Run data-driven sway IPC scenarios against an isolated compositor."""
+
+import argparse
+import copy
+import datetime
+import json
+import os
+from pathlib import Path
+import shutil
+import signal
+import socket
+import struct
+import subprocess
+import sys
+import tempfile
+import time
+import tomllib
+
+ROOT = Path(__file__).resolve().parents[1]
+FIXTURES = ROOT / "sway-ipc/fixtures"
+MAGIC = b"i3-ipc"
+TYPES = {"command": 0, "workspaces": 1, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
+NORMAL = "__oracle_normalized__"
+
+
+def ipc(sock_path, kind, payload=""):
+    body = payload.encode()
+    with socket.socket(socket.AF_UNIX) as stream:
+        stream.settimeout(5)
+        stream.connect(os.fspath(sock_path))
+        stream.sendall(MAGIC + struct.pack("=II", len(body), TYPES[kind]) + body)
+        header = recv_exact(stream, 14)
+        if header[:6] != MAGIC:
+            raise RuntimeError("invalid IPC magic")
+        length, reply_type = struct.unpack("=II", header[6:])
+        if reply_type != TYPES[kind]:
+            raise RuntimeError(f"IPC type {reply_type}, expected {TYPES[kind]}")
+        return json.loads(recv_exact(stream, length))
+
+
+def recv_exact(stream, length):
+    chunks = []
+    while length:
+        chunk = stream.recv(length)
+        if not chunk:
+            raise RuntimeError("IPC connection closed before reply")
+        chunks.append(chunk)
+        length -= len(chunk)
+    return b"".join(chunks)
+
+
+def command(sock_path, text):
+    reply = ipc(sock_path, "command", text)
+    if not isinstance(reply, list) or not all(item.get("success") for item in reply):
+        raise RuntimeError(f"command failed: {text}: {reply}")
+
+
+def fixture_window_count(value):
+    if not isinstance(value, dict):
+        return 0
+    return int(str(value.get("app_id", "")).startswith("fixture-")) + sum(
+        fixture_window_count(child)
+        for key in ("nodes", "floating_nodes")
+        for child in value.get(key, [])
+    )
+
+
+def wait_for(predicate, message, seconds=8):
+    deadline = time.monotonic() + seconds
+    while time.monotonic() < deadline:
+        value = predicate()
+        if value:
+            return value
+        time.sleep(0.05)
+    raise RuntimeError(f"timed out waiting for {message}")
+
+
+def load_rules():
+    with open(ROOT / "sway-ipc/normalize.toml", "rb") as file:
+        return tomllib.load(file)
+
+
+def normalize(value, rules, path="$", is_output=False):
+    if isinstance(value, dict):
+        output = value.get("type") == "output"
+        ignored = {key for rule in rules["ignore_key"] for key in rule["keys"]}
+        output_ignored = {key for rule in rules["ignore_output_key"] for key in rule["keys"]}
+        suffixes = tuple(suffix for rule in rules["ignore_path"] for suffix in rule["suffixes"])
+        for key, child in value.items():
+            child_path = f"{path}.{key}"
+            if key in ignored or (output and key in output_ignored) or child_path.endswith(suffixes):
+                value[key] = NORMAL
+            else:
+                normalize(child, rules, child_path, output)
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            normalize(child, rules, f"{path}[{index}]", is_output)
+
+
+def diff_values(expected, actual, path, differences, ignored_array_suffixes):
+    if type(expected) is not type(actual):
+        differences.append(f"{path}: type {type(expected).__name__} != {type(actual).__name__}")
+    elif isinstance(expected, dict):
+        if expected.keys() != actual.keys():
+            differences.append(f"{path}: keys differ")
+        for key in expected.keys() & actual.keys():
+            diff_values(expected[key], actual[key], f"{path}.{key}", differences, ignored_array_suffixes)
+    elif isinstance(expected, list):
+        if not path.endswith(ignored_array_suffixes) and len(expected) != len(actual):
+            differences.append(f"{path}: length {len(expected)} != {len(actual)}")
+        for index, (left, right) in enumerate(zip(expected, actual)):
+            diff_values(left, right, f"{path}[{index}]", differences, ignored_array_suffixes)
+    elif expected != actual:
+        differences.append(f"{path}: {expected!r} != {actual!r}")
+
+
+def tree_pairs(expected, actual, path="$tree"):
+    yield expected, actual, path
+    for key in ("nodes", "floating_nodes"):
+        for index, pair in enumerate(zip(expected.get(key, []), actual.get(key, []))):
+            yield from tree_pairs(*pair, f"{path}.{key}[{index}]")
+
+
+def semantic_tree_diffs(expected, actual, rules):
+    differences = []
+    tolerance = rules["tree"]["rect_tolerance"]
+    epsilon = rules["percent"]["tolerance"]
+    for left, right, path in tree_pairs(expected, actual):
+        for key in ("x", "y", "width", "height"):
+            if abs(left["rect"][key] - right["rect"][key]) > tolerance:
+                differences.append(f"{path}.rect.{key}: outside {tolerance}px tolerance")
+        expected_children = left.get("nodes", []) + left.get("floating_nodes", [])
+        actual_children = right.get("nodes", []) + right.get("floating_nodes", [])
+        mapping = {a.get("id"): b.get("id") for a, b in zip(expected_children, actual_children)}
+        mapped_focus = [mapping.get(item) for item in left.get("focus", [])]
+        if mapped_focus != right.get("focus", []):
+            differences.append(f"{path}.focus: child-position order differs")
+        if left.get("type") == "con" and left.get("nodes"):
+            lp, rp = left.get("percent"), right.get("percent")
+            if not isinstance(lp, (int, float)) or not isinstance(rp, (int, float)) or abs(lp - rp) >= epsilon:
+                differences.append(f"{path}.percent: differs")
+        if left.get("type") == "con" and not left.get("nodes"):
+            for role in ("window_rect", "deco_rect", "geometry"):
+                if (left.get(role) == left.get("rect")) != (right.get(role) == right.get("rect")):
+                    differences.append(f"{path}.{role}: outer-rect relationship differs")
+            if (left["deco_rect"]["height"] > 0) != (right["deco_rect"]["height"] > 0):
+                differences.append(f"{path}.deco_rect: titlebar presence differs")
+    return differences
+
+
+def compare(expected, actual, request, rules):
+    differences = []
+    ignored = tuple(rules["arrays"]["ignore_length_suffixes"])
+    left, right = copy.deepcopy(expected), copy.deepcopy(actual)
+    normalize(left, rules, f"${request}")
+    normalize(right, rules, f"${request}")
+    diff_values(left, right, f"${request}", differences, ignored)
+    if request == "tree" and not differences:
+        differences.extend(semantic_tree_diffs(expected, actual, rules))
+    return list(dict.fromkeys(differences))
+
+
+class Adapter:
+    def __init__(self, args, run_dir):
+        self.args, self.run_dir = args, run_dir
+        self.socket = run_dir / "ipc.sock"
+        self.process = None
+        self.env = os.environ.copy()
+        for name in ("SWAYSOCK", "I3SOCK", "WAYLAND_DISPLAY", "DISPLAY"):
+            self.env.pop(name, None)
+
+    def wrapped(self, command):
+        return ["systemd-run", "--user", "--scope", "--quiet", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", str(self.args.timeout), *command]
+
+    def start_process(self, command, log):
+        runtime = self.env.pop("XDG_RUNTIME_DIR", None)
+        if runtime:
+            command = ["env", f"XDG_RUNTIME_DIR={runtime}", *command]
+        self.process = subprocess.Popen(self.wrapped(command), env=self.env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+        wait_for(lambda: self.socket.exists() or self.process.poll() is not None, "private IPC socket")
+        if self.process.poll() is not None:
+            raise RuntimeError(f"compositor exited with {self.process.returncode}")
+
+    def stop(self):
+        if self.process and self.process.poll() is None:
+            os.killpg(self.process.pid, signal.SIGTERM)
+            try:
+                self.process.wait(3)
+            except subprocess.TimeoutExpired:
+                os.killpg(self.process.pid, signal.SIGKILL)
+                self.process.wait()
+
+    def reset(self):
+        reply = ipc(self.socket, "command", '[app_id="^fixture-"] kill')
+        if not isinstance(reply, list) or not all(item.get("success") or item.get("error") == "No matching node." for item in reply):
+            raise RuntimeError(f"fixture cleanup failed: {reply}")
+        wait_for(lambda: fixture_window_count(ipc(self.socket, "tree")) == 0, "fixture windows to close")
+        command(self.socket, "workspace __fixture_reset")
+        command(self.socket, "workspace 1")
+
+    def open_window(self, ident):
+        raise NotImplementedError
+
+
+class WaylandAdapter(Adapter):
+    config_text = ""
+
+    def start(self, log):
+        config = self.run_dir / self.config_name
+        config.write_text(self.config_text)
+        self.env.update({"WLR_BACKENDS": "headless", "WLR_HEADLESS_OUTPUTS": "1", "SWAYSOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
+        self.start_process([str(self.args.binary), "-c", str(config)], log)
+        version = ipc(self.socket, "version")
+        self.display = wait_for(self.find_display, "private Wayland socket")
+        return version
+
+    def find_display(self):
+        sockets = [path for path in self.run_dir.glob("wayland-*") if not path.name.endswith(".lock")]
+        return sockets[0].name if sockets else None
+
+    def open_window(self, ident):
+        before = fixture_window_count(ipc(self.socket, "tree"))
+        command(self.socket, f"exec foot --app-id={ident} --title={ident} sh -c 'sleep 300'")
+        wait_for(lambda: fixture_window_count(ipc(self.socket, "tree")) == before + 1, ident)
+
+
+class SwayAdapter(WaylandAdapter):
+    config_name = "config"
+    config_text = "font monospace 10\ndefault_border normal 2\noutput * mode 1270x1408\noutput * bg #000000 solid_color\n"
+
+    @staticmethod
+    def version_details(reply):
+        version = reply.get("human_readable", "unknown")
+        target = json.loads((FIXTURES / "schema-version.json").read_text())
+        commit = target["commit"] if target["version"] in version else "unknown"
+        return version, commit
+
+
+class SwaywardAdapter(WaylandAdapter):
+    config_name = "config.kdl"
+    config_text = "layout { default-orientation \"vertical\"; default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\n"
+
+    @staticmethod
+    def version_details(reply):
+        version = reply.get("human_readable", "unknown")
+        commit = next((part.rsplit("g", 1)[-1].rstrip(")") for part in version.split() if "-g" in part), "unknown")
+        return version, commit
+
+    def start(self, log):
+        config = self.run_dir / self.config_name
+        config.write_text(self.config_text)
+        self.env.update({"WLR_HEADLESS_OUTPUTS": "1", "SWAYSOCK": str(self.socket), "I3SOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
+        self.start_process([str(self.args.binary), "-c", str(config)], log)
+        version = ipc(self.socket, "version")
+        self.display = wait_for(self.find_display, "private Wayland socket")
+        return version
+
+
+class I3Adapter(Adapter):
+    def start(self, log):
+        if not shutil.which("Xvfb") or not shutil.which("xterm"):
+            raise RuntimeError("i3 adapter requires Xvfb and xterm")
+        raise RuntimeError("i3 adapter is unavailable: isolated Xvfb startup is not installed")
+
+
+ADAPTERS = {"sway": SwayAdapter, "swayward": SwaywardAdapter, "i3": I3Adapter}
+
+
+def selected_scenarios(names):
+    with open(ROOT / "sway-ipc/scenarios.toml", "rb") as file:
+        scenarios = tomllib.load(file)["scenario"]
+    if names:
+        unknown = set(names) - {item["name"] for item in scenarios}
+        if unknown:
+            raise RuntimeError("unknown scenarios: " + ", ".join(sorted(unknown)))
+        scenarios = [item for item in scenarios if item["name"] in names]
+    return scenarios
+
+
+def toml_string(value):
+    return json.dumps(str(value), ensure_ascii=False)
+
+
+def write_results(path, compositor, version, commit, rows, rules):
+    counts = {key: sum(row["verdict"] == key for row in rows) for key in ("match", "mismatch", "not applicable")}
+    lines = [
+        "# Generated by contrib/sway-ipc-run. One row is one IPC request at a",
+        "# captured scenario. mismatch paths are JSON paths after documented normalization.",
+        "# Always report match, mismatch, and not applicable together.",
+        "",
+        "[run]",
+        f"compositor = {toml_string(compositor)}",
+        f"version = {toml_string(version)}",
+        f"commit = {toml_string(commit)}",
+        f"oracle_commit = {toml_string(subprocess.check_output(['git', '-C', ROOT, 'rev-parse', 'HEAD'], text=True).strip())}",
+        f"date = {toml_string(datetime.date.today().isoformat())}",
+        'normalization = "sway-ipc/normalize.toml"',
+        f"match = {counts['match']}",
+        f"mismatch = {counts['mismatch']}",
+        f"not_applicable = {counts['not applicable']}",
+        "",
+    ]
+    for row in rows:
+        lines += ["[[result]]", f"scenario = {toml_string(row['scenario'])}", f"request = {toml_string(row['request'])}", f"verdict = {toml_string(row['verdict'])}"]
+        if row.get("differences"):
+            lines.append("differences = [" + ", ".join(toml_string(item) for item in row["differences"]) + "]")
+        if row.get("reason"):
+            lines.append(f"reason = {toml_string(row['reason'])}")
+        lines.append("")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines))
+    return counts
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--compositor", required=True, choices=ADAPTERS)
+    parser.add_argument("--binary", required=True, type=Path)
+    parser.add_argument("--scenario", action="append")
+    parser.add_argument("--out", type=Path)
+    parser.add_argument("--capture", action="store_true", help="replace selected sway fixtures")
+    parser.add_argument("--timeout", type=int, default=60)
+    args = parser.parse_args()
+    if args.capture and args.compositor != "sway":
+        parser.error("--capture is restricted to sway")
+    if args.binary.resolve() == Path(sys.executable).resolve() or not args.binary.exists():
+        parser.error("--binary must name an existing compositor")
+    scenarios, rules, rows = selected_scenarios(args.scenario), load_rules(), []
+    with tempfile.TemporaryDirectory(prefix="sway-ipc-oracle-") as directory:
+        run_dir = Path(directory)
+        adapter = ADAPTERS[args.compositor](args, run_dir)
+        with open(run_dir / "compositor.log", "w") as log:
+            try:
+                version_reply = adapter.start(log)
+                for scenario in scenarios:
+                    adapter.reset()
+                    for action in scenario["actions"]:
+                        kind, value = action.split(":", 1)
+                        if kind == "command":
+                            command(adapter.socket, value)
+                        elif kind == "window":
+                            adapter.open_window(value)
+                        elif kind == "capture":
+                            time.sleep(0.15)
+                            for request in ("tree", "workspaces", "outputs"):
+                                actual = ipc(adapter.socket, request)
+                                fixture = FIXTURES / f"{value}.{request}.json"
+                                if args.capture:
+                                    fixture.write_text(json.dumps(actual, indent=2, sort_keys=True) + "\n")
+                                expected = json.loads(fixture.read_text())
+                                differences = compare(expected, actual, request, rules)
+                                rows.append({"scenario": value, "request": request, "verdict": "mismatch" if differences else "match", "differences": differences})
+                        else:
+                            raise RuntimeError(f"unknown action {kind}")
+            finally:
+                adapter.stop()
+    if hasattr(adapter, "version_details"):
+        version, commit = adapter.version_details(version_reply)
+    else:
+        version = version_reply.get("human_readable", version_reply.get("loaded_config_file_name", "unknown"))
+        commit = version_reply.get("commit", "unknown")
+    out = args.out or ROOT / f"sway-ipc/results/{args.compositor}.toml"
+    counts = write_results(out, args.compositor, version, commit, rows, rules)
+    print(f"match: {counts['match']}; mismatch: {counts['mismatch']}; not applicable: {counts['not applicable']}")
+    return bool(counts["mismatch"])
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except (OSError, RuntimeError, ValueError) as error:
+        print(f"sway-ipc-run: {error}", file=sys.stderr)
+        raise SystemExit(2)

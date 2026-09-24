@@ -42,6 +42,27 @@ TIMEOUT=60 \
 
 The same runner command will produce the pinned i3 and sway measurements after the dedicated i3 baseline mode lands. Version 0.2.0 does not claim that mode exists.
 
+## Run the sway IPC scenarios
+
+`contrib/sway-ipc-run` uses only Python's standard library. It starts sway or
+swayward under a 2 GiB, zero-swap systemd scope with a wall-time limit and
+private IPC and Wayland sockets. It opens standalone `foot` clients and never
+uses the ambient `SWAYSOCK`, `I3SOCK`, `WAYLAND_DISPLAY`, or `DISPLAY`.
+
+```sh
+./contrib/sway-ipc-run --compositor sway --binary /path/to/sway \
+  --out sway-ipc/results/sway.toml
+./contrib/sway-ipc-run --compositor swayward --binary /path/to/swayward \
+  --out sway-ipc/results/swayward.toml
+```
+
+Recipes live in `sway-ipc/scenarios.toml`; comparison rules and their reasons
+live in `sway-ipc/normalize.toml`. Use repeated `--scenario NAME` arguments for
+a subset. `--capture` is restricted to sway and replaces the selected query
+fixtures after running the same comparisons. The i3 adapter requires Xvfb and
+an X11 client, which are not installed in the current development containers;
+it reports that missing premise instead of producing inferred data.
+
 ## Adopt the oracle in another compositor
 
 A compositor supplies an adapter that starts an isolated instance, opens real client windows, and gives the unchanged tests an i3/sway IPC socket. Keep compositor-specific code in the compositor repository. Swayward's [`tests/i3/lib/i3test.pm`](https://github.com/martintrojer/swayward/blob/4faeb28d391c8ede3ead6f9b7cbe4388422d3887/tests/i3/lib/i3test.pm) is the worked example; its in-process Rust runner also stays in swayward.
@@ -60,7 +81,7 @@ Testing either implementation would require a translator from sway commands and 
 ./contrib/validate
 ```
 
-The check validates each result file, exercises the TAP counter, and compares fixture fields with the pinned sway source.
+The check validates each result file, compiles the Python runner, exercises the TAP counter, and compares fixture fields with the pinned sway source.
 
 ## Licence
 
