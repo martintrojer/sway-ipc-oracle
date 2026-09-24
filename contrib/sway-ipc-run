@@ -7,6 +7,7 @@ import datetime
 import json
 import os
 from pathlib import Path
+import random
 import shutil
 import signal
 import shlex
@@ -23,6 +24,55 @@ FIXTURES = ROOT / "sway-ipc/fixtures"
 MAGIC = b"i3-ipc"
 TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
 NORMAL = "__oracle_normalized__"
+
+# Commands are deliberately conservative: every entry is accepted by sway 1.12,
+# and state-dependent failures are useful command-reply observations.
+COMMANDS = (
+    "splith", "splitv", "layout splith", "layout splitv", "layout tabbed",
+    "layout stacking", "focus left", "focus right", "focus up", "focus down",
+    "focus parent", "focus child", "move left", "move right", "move up",
+    "move down", "resize grow width 10 px", "resize shrink height 10 px",
+    "floating toggle", "fullscreen toggle", "mark oracle", "unmark oracle",
+    "workspace 1", "workspace 2", "workspace oracle", "scratchpad show",
+    "move scratchpad", "sticky toggle", "move container to workspace 1",
+    "move container to workspace 2", "kill",
+)
+
+
+def generate_commands(seed, steps):
+    """Return a reproducible sequence of sway command strings."""
+    rng = random.Random(seed)
+    commands, next_window = [
+        "exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'"
+    ], 2
+    for _ in range(max(0, steps - 1)):
+        if rng.random() < 0.22:
+            ident = f"fixture-diff-{next_window}"
+            next_window += 1
+            commands.append(
+                f"exec foot --app-id={ident} --title={ident} sh -c 'sleep 300'"
+            )
+        else:
+            commands.append(rng.choice(COMMANDS))
+    return commands
+
+
+def minimize_commands(commands, reproduces):
+    """Delta-debug COMMANDS to a 1-minimal reproducing subsequence."""
+    current, chunks = list(commands), 2
+    while len(current) >= 2:
+        size = (len(current) + chunks - 1) // chunks
+        reduced = False
+        for start in range(0, len(current), size):
+            candidate = current[:start] + current[start + size:]
+            if candidate and reproduces(candidate):
+                current, chunks, reduced = candidate, max(chunks - 1, 2), True
+                break
+        if not reduced:
+            if chunks >= len(current):
+                break
+            chunks = min(len(current), chunks * 2)
+    return current
 
 
 def ipc(sock_path, kind, payload=""):
@@ -249,8 +299,13 @@ class Adapter:
                 os.killpg(self.process.pid, signal.SIGKILL)
                 self.process.wait()
 
+    def command_reply(self, text):
+        return ipc(self.socket, "command", text)
+
     def run_command(self, text):
-        command(self.socket, text)
+        reply = self.command_reply(text)
+        if not isinstance(reply, list) or not all(item.get("success") for item in reply):
+            raise RuntimeError(f"command failed: {text}: {reply}")
 
     def reset(self):
         reply = ipc(self.socket, "command", '[app_id="^fixture-"] kill')
@@ -359,6 +414,102 @@ class I3Adapter(Adapter):
 
 
 ADAPTERS = {"sway": SwayAdapter, "swayward": SwaywardAdapter, "i3": I3Adapter}
+DIFFERENTIAL_CONFIGS = {
+    "sway": "font monospace 10\ndefault_border normal 2\noutput * mode 1280x720\noutput * bg #000000 solid_color\n",
+    "swayward": "output \"headless-1\" { mode custom=true \"1280x720@60\"; scale 1; }\nlayout { default-orientation \"horizontal\"; default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\n",
+}
+
+
+def differential_action(adapter, text):
+    before = fixture_window_count(ipc(adapter.socket, "tree"))
+    reply = adapter.command_reply(text)
+    if text.startswith("exec foot --app-id=") and reply and reply[0].get("success"):
+        wait_for(lambda: fixture_window_count(ipc(adapter.socket, "tree")) > before,
+                 "generated window")
+    else:
+        time.sleep(0.03)
+    return reply
+
+
+def differential_once(args, commands, keep_state=False):
+    """Run one sequence on fresh compositors and return its first divergence."""
+    with tempfile.TemporaryDirectory(prefix="sway-ipc-differential-") as directory:
+        base = Path(directory)
+        adapters = []
+        versions = []
+        logs = []
+        try:
+            for label, compositor, binary in (
+                ("a", args.a, args.a_binary), ("b", args.b, args.b_binary)
+            ):
+                run_dir = base / label
+                run_dir.mkdir()
+                adapter_args = argparse.Namespace(binary=binary, timeout=args.timeout)
+                adapter = ADAPTERS[compositor](adapter_args, run_dir)
+                if compositor in DIFFERENTIAL_CONFIGS:
+                    adapter.config_text = DIFFERENTIAL_CONFIGS[compositor]
+                log = open(run_dir / "compositor.log", "w")
+                logs.append(log)
+                versions.append(adapter.start(log))
+                adapters.append(adapter)
+                reply = adapter.command_reply("output * mode --custom 1280x720@60Hz")
+                if not reply or not reply[0].get("success"):
+                    raise RuntimeError(f"could not set differential output mode: {reply}")
+            rules = load_rules()
+            for step, text in enumerate(commands, 1):
+                replies = [differential_action(adapter, text) for adapter in adapters]
+                observations = {"command": replies}
+                for request in ("tree", "workspaces"):
+                    observations[request] = [ipc(adapter.socket, request) for adapter in adapters]
+                for request, pair in observations.items():
+                    differences = compare(pair[0], pair[1], request, rules)
+                    if differences:
+                        result = {
+                            "step": step, "command": text, "request": request,
+                            "differences": differences,
+                        }
+                        if keep_state:
+                            result["sway_state"] = {
+                                "command": observations["command"][0],
+                                "tree": observations["tree"][0],
+                                "workspaces": observations["workspaces"][0],
+                                "outputs": ipc(adapters[0].socket, "outputs"),
+                            }
+                        return result, versions
+            return None, versions
+        finally:
+            for adapter in reversed(adapters):
+                adapter.stop()
+            for log in logs:
+                log.close()
+
+
+def append_regression_scenario(seed, commands, state):
+    name = f"differential_seed_{seed}"
+    scenario_path = ROOT / "sway-ipc/scenarios.toml"
+    existing = tomllib.loads(scenario_path.read_text())["scenario"]
+    if name not in {item["name"] for item in existing}:
+        actions = []
+        for index, text in enumerate(commands):
+            if text.startswith("exec foot --app-id=fixture-diff-"):
+                ident = text.split("--app-id=", 1)[1].split(" ", 1)[0]
+                actions.append(f"window:{ident}")
+            elif index == len(commands) - 1:
+                actions.append(f"probe:{name}:{text}")
+            else:
+                actions.append(f"step:{text}")
+        actions.append(f"capture:{name}")
+        with open(scenario_path, "a") as file:
+            file.write(f"\n[[scenario]]\nname = {toml_string(name)}\n")
+            file.write("actions = [" + ", ".join(toml_string(item) for item in actions) + "]\n")
+    has_probe = any(action.startswith(f"probe:{name}:") for action in actions)
+    for request, value in state.items():
+        if request == "command" and not has_probe:
+            continue
+        (FIXTURES / f"{name}.{request}.json").write_text(
+            json.dumps(value, indent=2, sort_keys=True) + "\n"
+        )
+    return name
 
 
 def capture_individual_events(adapter):
@@ -436,17 +587,7 @@ def write_results(path, compositor, version, commit, rows, rules, run_mode):
     return counts
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--compositor", required=True, choices=ADAPTERS)
-    parser.add_argument("--binary", required=True, type=Path)
-    parser.add_argument("--scenario", action="append")
-    parser.add_argument("--out", type=Path)
-    parser.add_argument("--capture", action="store_true", help="replace selected sway fixtures")
-    parser.add_argument("--capture-events", action="store_true", help="replace individual sway event fixtures")
-    parser.add_argument("--fresh-per-scenario", action="store_true", help="restart the compositor before each scenario")
-    parser.add_argument("--timeout", type=int, default=60)
-    args = parser.parse_args()
+def scenario_main(args, parser):
     if (args.capture or args.capture_events) and args.compositor != "sway":
         parser.error("capture is restricted to sway")
     if args.binary.resolve() == Path(sys.executable).resolve() or not args.binary.exists():
@@ -485,6 +626,18 @@ def main():
                             kind, value = action.split(":", 1)
                             if kind == "command":
                                 adapter.run_command(value)
+                            elif kind == "step":
+                                adapter.command_reply(value)
+                            elif kind == "probe":
+                                fixture_name, text = value.split(":", 1)
+                                actual = adapter.command_reply(text)
+                                fixture = FIXTURES / f"{fixture_name}.command.json"
+                                if args.capture:
+                                    fixture.write_text(json.dumps(actual, indent=2, sort_keys=True) + "\n")
+                                expected = json.loads(fixture.read_text())
+                                differences = compare(expected, actual, "command", rules)
+                                verdict = "differs" if args.compositor == "i3" and differences else "mismatch" if differences else "match"
+                                rows.append({"scenario": fixture_name, "request": "command", "verdict": verdict, "differences": differences})
                             elif kind == "window":
                                 adapter.open_window(value)
                             elif kind == "window_title":
@@ -521,6 +674,110 @@ def main():
     counts = write_results(out, args.compositor, version, commit, rows, rules, run_mode)
     print("; ".join(f"{key}: {counts[key]}" for key in counts))
     return bool(counts.get("mismatch", 0))
+
+
+def write_differential_results(path, args, rows):
+    counts = {"match": sum(row["verdict"] == "match" for row in rows),
+              "mismatch": sum(row["verdict"] == "mismatch" for row in rows)}
+    grouped = []
+    for row in rows:
+        if row["verdict"] == "match":
+            grouped.append(row)
+            continue
+        key = (tuple(row["commands"]), row["request"], tuple(row["differences"]))
+        existing = next((item for item in grouped if item.get("key") == key), None)
+        if existing:
+            existing["seeds"].append(row["seed"])
+        else:
+            grouped.append({**row, "key": key, "seeds": [row["seed"]]})
+    lines = [
+        "# Generated by contrib/sway-ipc-run differential.",
+        "# One row is one seed; match and mismatch counts are always shown together.",
+        "# Mismatches contain delta-debugged reproducers and require triage.", "",
+        "[run]", f"a = {toml_string(args.a)}", f"b = {toml_string(args.b)}",
+        f"steps = {args.steps}", f"seeds = {len(rows)}",
+        f"date = {toml_string(datetime.date.today().isoformat())}",
+        'normalization = "sway-ipc/normalize.toml"',
+        f"match = {counts['match']}", f"mismatch = {counts['mismatch']}", "",
+    ]
+    for row in grouped:
+        lines += ["[[result]]", f"seed = {row['seed']}",
+                  f"verdict = {toml_string(row['verdict'])}"]
+        if row["verdict"] == "mismatch":
+            lines += ["seeds = [" + ", ".join(str(seed) for seed in row["seeds"]) + "]",
+                      f"step = {row['step']}", f"request = {toml_string(row['request'])}",
+                      "commands = [" + ", ".join(toml_string(x) for x in row["commands"]) + "]",
+                      "differences = [" + ", ".join(toml_string(x) for x in row["differences"]) + "]",
+                      f"scenario = {toml_string(row['scenario'])}",
+                      f"triage = {toml_string(args.triage)}"]
+            if args.finding:
+                lines.append(f"finding = {toml_string(args.finding)}")
+            if args.source:
+                lines.append(f"source = {toml_string(args.source)}")
+        lines.append("")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines))
+    print(f"match: {counts['match']}; mismatch: {counts['mismatch']}")
+    return bool(counts["mismatch"])
+
+
+def differential_main(args):
+    if args.a_binary is None or args.b_binary is None:
+        raise RuntimeError("differential requires --a-binary and --b-binary")
+    rows = []
+    for seed in range(args.seed, args.seed + args.seeds):
+        commands = generate_commands(seed, args.steps)
+        divergence, _ = differential_once(args, commands)
+        if divergence is None:
+            rows.append({"seed": seed, "verdict": "match"})
+            continue
+        def reproduces(candidate):
+            found, _ = differential_once(args, candidate)
+            return found is not None
+        minimal = minimize_commands(commands[:divergence["step"]], reproduces)
+        final, _ = differential_once(args, minimal, keep_state=True)
+        if final is None:
+            raise RuntimeError(f"seed {seed} stopped reproducing during shrink")
+        scenario = f"differential_seed_{seed}"
+        if args.save_scenarios:
+            scenario = append_regression_scenario(seed, minimal, final["sway_state"])
+        rows.append({"seed": seed, "verdict": "mismatch", "commands": minimal,
+                     "scenario": scenario, **{k: final[k] for k in
+                     ("step", "request", "differences")}})
+    out = args.out or ROOT / "sway-ipc/results/differential-swayward.toml"
+    return write_differential_results(out, args, rows)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("mode", nargs="?", choices=("scenarios", "differential"), default="scenarios")
+    parser.add_argument("--compositor", choices=ADAPTERS)
+    parser.add_argument("--binary", type=Path)
+    parser.add_argument("--scenario", action="append")
+    parser.add_argument("--out", type=Path)
+    parser.add_argument("--capture", action="store_true", help="replace selected sway fixtures")
+    parser.add_argument("--capture-events", action="store_true", help="replace individual sway event fixtures")
+    parser.add_argument("--fresh-per-scenario", action="store_true", help="restart the compositor before each scenario")
+    parser.add_argument("--timeout", type=int, default=60)
+    parser.add_argument("--a", choices=ADAPTERS, default="sway")
+    parser.add_argument("--b", choices=ADAPTERS, default="swayward")
+    parser.add_argument("--a-binary", type=Path)
+    parser.add_argument("--b-binary", type=Path)
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--seeds", type=int, default=5, help="fixed-seed CI budget")
+    parser.add_argument("--steps", type=int, default=10)
+    parser.add_argument("--save-scenarios", action="store_true",
+                        help="save minimized mismatches as sway-captured scenarios")
+    parser.add_argument("--triage", default="untriaged",
+                        choices=("untriaged", "swayward bug", "documented deviation", "harness issue"))
+    parser.add_argument("--finding", help="task ID or documented deviation name")
+    parser.add_argument("--source", help="source citation supporting the triage")
+    args = parser.parse_args()
+    if args.mode == "differential":
+        return differential_main(args)
+    if args.compositor is None or args.binary is None:
+        parser.error("scenarios requires --compositor and --binary")
+    return scenario_main(args, parser)
 
 
 if __name__ == "__main__":

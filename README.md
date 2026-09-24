@@ -67,6 +67,30 @@ restricted to sway and replaces the selected query fixtures after running the
 same comparisons. The i3 adapter runs i3 under private Xvfb and opens xterm
 clients; both programs must be installed beside the runner.
 
+### Differential mode
+
+Differential mode generates seeded sway command strings, runs each command on
+fresh sway and target compositor instances, then compares the command reply,
+`GET_TREE`, and `GET_WORKSPACES` after every step through `normalize.toml`.
+It delta-debugs the first mismatch to a minimal reproducer and groups identical
+reproducers in `sway-ipc/results/differential-swayward.toml`.
+
+```sh
+./contrib/sway-ipc-run differential \
+  --a sway --a-binary /path/to/sway \
+  --b swayward --b-binary /path/to/swayward \
+  --seed 0 --seeds 5 --steps 10
+```
+
+The defaults (`--seed 0 --seeds 5 --steps 10`) are the fixed-seed CI budget;
+a local campaign can use, for example, `--seeds 200 --steps 30`. Add
+`--save-scenarios` only after triage: it appends each minimized reproducer to
+`scenarios.toml` and writes live sway snapshots from that differential run.
+Then recapture the saved scenario with the ordinary `--capture` mode so its
+permanent fixtures use the pinned fixture geometry. Never hand-edit those
+fixtures. Every mismatch remains `untriaged` until classified as a compositor bug, a
+source-cited documented deviation, or a harness issue.
+
 ## Adopt the oracle in another compositor
 
 The oracle's runners contain adapters that start isolated i3, sway, and swayward instances, open real client windows, and connect through private IPC sockets. A compositor can also keep an in-process harness in its own repository. Swayward's [`tests/i3/lib/i3test.pm`](https://github.com/martintrojer/swayward/blob/4faeb28d391c8ede3ead6f9b7cbe4388422d3887/tests/i3/lib/i3test.pm) is one such harness, but this repository does not publish its numbers as black-box oracle measurements.

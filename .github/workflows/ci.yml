@@ -14,3 +14,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate oracle results, TAP plans, and sway fixtures
         run: ./contrib/validate
+      - name: Check fixed differential generator budget
+        run: |
+          python3 - <<'PY'
+          import importlib.machinery
+          runner = importlib.machinery.SourceFileLoader("runner", "contrib/sway-ipc-run").load_module()
+          commands = [runner.generate_commands(seed, 10) for seed in range(5)]
+          assert [len(sequence) for sequence in commands] == [10] * 5
+          assert commands == [runner.generate_commands(seed, 10) for seed in range(5)]
+          PY

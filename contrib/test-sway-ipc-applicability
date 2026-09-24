@@ -61,4 +61,14 @@ assert set(runner.compare(left, right, "tree", runner.load_rules())) == {
     "$tree.nodes: length 1 != 0",
 }
 
-print("i3 applicability checks passed")
+sequence = runner.generate_commands(17, 20)
+assert sequence == runner.generate_commands(17, 20)
+assert sequence != runner.generate_commands(18, 20)
+assert len(sequence) == 20
+assert all(isinstance(item, str) and item for item in sequence)
+
+original = ["a", "noise-1", "b", "noise-2", "c"]
+minimal = runner.minimize_commands(original, lambda items: "a" in items and "c" in items)
+assert minimal == ["a", "c"]
+
+print("i3 applicability and differential checks passed")
