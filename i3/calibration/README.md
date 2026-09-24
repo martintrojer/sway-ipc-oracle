@@ -305,6 +305,46 @@ The observed cluster therefore supports the raw-tree wiring but does not prove
 all 35 assertions independently. The exceptions match the limits documented
 before this run.
 
+## Unreached triage
+
+The recorded optional run has 1,155 unreached assertions in 65 files. Grouping
+each file by its first terminal error gives these causes:
+
+| Unreached | Files | First terminal error |
+| ---: | ---: | --- |
+| 484 | 27 | Sway handles `kill` by asking an X11 client to close. The test client does not handle `WM_DELETE_WINDOW`, so sway's Xwayland side closes the shared X connection. The next XCB request fails. |
+| 259 | 12 | Sway rejects i3's `fake-outputs` config directive. The test then aborts because `fake-0` or `fake-1` does not exist. |
+| 242 | 9 | A prior sway command or query does not create the i3 object that the test dereferences. |
+| 68 | 6 | Sway rejects i3's `append_layout` command. The expected restored tree does not exist. |
+| 38 | 2 | Xwayland input tests hang after `setxkbmap` or synthetic key input. |
+| 23 | 2 | The test aborts after a reached sway behavior difference. |
+| 22 | 3 | The test requests an EWMH atom that sway has not created on Xwayland. |
+| 14 | 2 | The test bypasses `i3test::get_socket_path` and tries i3-specific socket discovery. |
+| 4 | 1 | `289-ipc-shutdown-event.t` times out without a diagnostic after requesting compositor shutdown. |
+| 1 | 1 | `280-wm-class-change-handler.t` receives tree JSON that the pinned `AnyEvent::I3` decoder rejects as malformed UTF-8. |
+
+The first group is a harness mismatch, not a sway crash. Sway's `cmd_kill`
+calls `view_close` (`sway/sway/commands/kill.c:8-12`), and the Xwayland view
+sends the close request (`sway/sway/desktop/xwayland.c:367-372`). i3's test
+window has no event loop that handles that request. The other groups either
+start from a documented i3 command or topology that sway does not implement,
+or abort only after sway has already returned a different object or result.
+They need per-assertion classification, but they are not unexplained adapter
+startup failures.
+
+The runner now preserves each selected run's generated config and compositor
+log under `target/i3-suite/<compositor>/<test>/`. A selected-file rerun also
+keeps TAP from other files. This command reproduces the XCB group without
+losing its sway log:
+
+```sh
+./contrib/i3-suite-run --compositor sway --file-timeout 60 294-focus-order.t
+tail target/i3-suite/sway/294-focus-order.t/sway-log-0
+```
+
+The log shows sway handling `kill` immediately before the next
+`xcb_intern_atom_reply` fails.
+
 ## Limits
 
 This measurement does not establish full sway compatibility for the vendored
