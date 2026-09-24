@@ -173,6 +173,14 @@ sub activate_i3 {
     }
 
     $ENV{SWAYSOCK} = $sock;
+    if ($ready && $ENV{SWAY_CAL_RECORD}) {
+        require JSON::PP;
+        open(my $record, '>>', $ENV{SWAY_CAL_RECORD}) or die "record: $!";
+        say $record JSON::PP::encode_json({
+            test => $ENV{TESTNAME}, line => 0, kind => 'reset', value => $n,
+        });
+        close($record);
+    }
     $args{cv}->send($ready);
     return $pid;
 }

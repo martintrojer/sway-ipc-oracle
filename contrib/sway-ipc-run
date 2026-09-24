@@ -4,6 +4,7 @@
 import argparse
 import copy
 import datetime
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -24,6 +25,7 @@ FIXTURES = ROOT / "sway-ipc/fixtures"
 MAGIC = b"i3-ipc"
 TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
 NORMAL = "__oracle_normalized__"
+I3_DERIVED = ROOT / "sway-ipc/i3-derived"
 
 # Commands are deliberately conservative: every entry is accepted by sway 1.12,
 # and state-dependent failures are useful command-reply observations.
@@ -588,6 +590,159 @@ def capture_individual_events(adapter):
     save("window", "close", lambda: adapter.run_command('[app_id="^fixture-event-one$"] kill'))
 
 
+def shape_of(tree):
+    """Keep layout semantics while dropping runtime identity and geometry."""
+    def node(value):
+        result = {
+            key: value.get(key) for key in
+            ("type", "layout", "orientation", "floating", "fullscreen_mode", "sticky")
+            if key in value
+        }
+        result["nodes"] = [node(child) for child in value.get("nodes", [])]
+        result["floating_nodes"] = [node(child) for child in value.get("floating_nodes", [])]
+        return result
+    return node(tree)
+
+
+def load_i3_logs(directory):
+    records = []
+    for path in sorted(directory.glob("*.commands.jsonl")):
+        for line in path.read_text().splitlines():
+            if line.strip():
+                records.append(json.loads(line))
+    return records
+
+
+def settled_state(adapter):
+    previous = None
+    for _ in range(40):
+        state = {request: ipc(adapter.socket, request)
+                 for request in ("tree", "workspaces", "outputs")}
+        encoded = json.dumps(state, sort_keys=True)
+        if encoded == previous:
+            return state
+        previous = encoded
+        time.sleep(0.05)
+    raise RuntimeError("i3-derived state did not settle")
+
+
+def replay_i3_segment(adapter, records, capture, seen, scenarios, skips):
+    actions = []
+    for index, record in enumerate(records, 1):
+        kind, value = record["kind"], record["value"]
+        if kind == "command":
+            session_bound = ("[id=", "[con_id=", "[class=", "[instance=",
+                             "[title=", "[window_role=", "[window_type=")
+            if (any(token in value for token in session_bound)
+                    or value.strip() in ("restart", "exit")
+                    or "exec " in value or "bar " in value):
+                skips.append({"test": record["test"], "line": record["line"],
+                              "reason": f"not replayable outside the originating X11 session: {value}"})
+                break
+        if kind == "window":
+            ident = f"fixture-i3-{len(actions) + 1}"
+            adapter.open_window(ident)
+            time.sleep(0.15)
+            actions.append({"kind": "window", "value": ident})
+        elif kind == "command":
+            adapter.command_reply(value)
+            actions.append({"kind": "command", "value": value})
+        else:
+            continue
+        try:
+            state = settled_state(adapter)
+        except OSError as error:
+            skips.append({"test": record["test"], "line": record["line"],
+                          "reason": f"replay terminated the compositor: {error}"})
+            break
+        shape = json.dumps(shape_of(state["tree"]), sort_keys=True, separators=(",", ":"))
+        digest = hashlib.sha256(shape.encode()).hexdigest()[:16]
+        if digest in seen:
+            continue
+        seen.add(digest)
+        scenario = {
+            "name": digest,
+            "provenance": {"test": record["test"], "line": record["line"]},
+            "actions": copy.deepcopy(actions),
+        }
+        scenarios.append(scenario)
+        if capture:
+            (I3_DERIVED / f"{digest}.json").write_text(
+                json.dumps(state, sort_keys=True, separators=(",", ":")) + "\n"
+            )
+
+
+def i3_derived_main(args, parser):
+    if args.binary is None or args.compositor is None:
+        parser.error("i3-derived requires --compositor and --binary")
+    if args.capture and args.compositor != "sway":
+        parser.error("i3-derived capture is restricted to sway")
+    manifest_path = I3_DERIVED / "scenarios.json"
+    if args.capture:
+        if args.command_logs is None:
+            parser.error("i3-derived --capture requires --command-logs")
+        I3_DERIVED.mkdir(parents=True, exist_ok=True)
+        for path in I3_DERIVED.glob("*.json"):
+            path.unlink()
+        records = load_i3_logs(args.command_logs)
+        scenarios, skips, seen, segment, segments = [], [], set(), [], []
+        for record in records:
+            if record["kind"] == "reset":
+                if segment:
+                    segments.append(segment)
+                    segment = []
+            else:
+                segment.append(record)
+        if segment:
+            segments.append(segment)
+        for segment in segments:
+            with tempfile.TemporaryDirectory(prefix="sway-ipc-i3-derived-") as directory:
+                adapter = ADAPTERS["sway"](args, Path(directory))
+                with open(Path(directory) / "compositor.log", "w") as log:
+                    try:
+                        adapter.start(log)
+                        replay_i3_segment(adapter, segment, True, seen, scenarios, skips)
+                    finally:
+                        adapter.stop()
+        manifest = {
+            "description": "States reached by i3's unchanged tests, captured from sway 1.12",
+            "scenarios": scenarios, "skips": skips,
+        }
+        manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+        print(f"captured {len(scenarios)} distinct shapes; skipped {len(skips)} sequences")
+        return 0
+
+    manifest = json.loads(manifest_path.read_text())
+    rules, rows = load_rules(), []
+    for scenario in manifest["scenarios"]:
+        with tempfile.TemporaryDirectory(prefix="sway-ipc-i3-derived-") as directory:
+            adapter = ADAPTERS[args.compositor](args, Path(directory))
+            with open(Path(directory) / "compositor.log", "w") as log:
+                try:
+                    version_reply = adapter.start(log)
+                    for action in scenario["actions"]:
+                        if action["kind"] == "window":
+                            adapter.open_window(action["value"])
+                            time.sleep(0.15)
+                        else:
+                            adapter.command_reply(action["value"])
+                    actual = settled_state(adapter)
+                finally:
+                    adapter.stop()
+        expected = json.loads((I3_DERIVED / f"{scenario['name']}.json").read_text())
+        for request in ("tree", "workspaces", "outputs"):
+            differences = compare(expected[request], actual[request], request, rules)
+            rows.append({"scenario": f"i3-derived/{scenario['name']}", "request": request,
+                         "verdict": "mismatch" if differences else "match",
+                         "differences": differences})
+    version, commit = adapter.version_details(version_reply)
+    out = args.out or ROOT / f"sway-ipc/results/{args.compositor}-i3-derived.toml"
+    counts, _ = write_results(out, args.compositor, version, commit, rows, rules,
+                              "fresh compositor per derived i3 state")
+    print("; ".join(f"{key}: {counts[key]}" for key in counts))
+    return bool(counts.get("mismatch", 0))
+
+
 def selected_scenarios(names):
     with open(ROOT / "sway-ipc/scenarios.toml", "rb") as file:
         scenarios = tomllib.load(file)["scenario"]
@@ -809,13 +964,14 @@ def differential_main(args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("mode", nargs="?", choices=("scenarios", "differential"), default="scenarios")
+    parser.add_argument("mode", nargs="?", choices=("scenarios", "differential", "i3-derived"), default="scenarios")
     parser.add_argument("--compositor", choices=ADAPTERS)
     parser.add_argument("--binary", type=Path)
     parser.add_argument("--scenario", action="append")
     parser.add_argument("--out", type=Path)
     parser.add_argument("--capture", action="store_true", help="replace selected sway fixtures")
     parser.add_argument("--capture-events", action="store_true", help="replace individual sway event fixtures")
+    parser.add_argument("--command-logs", type=Path, help="directory of i3-suite *.commands.jsonl files")
     parser.add_argument("--fresh-per-scenario", action=argparse.BooleanOptionalAction,
                         default=True, help="restart the compositor before each scenario (default: enabled)")
     parser.add_argument("--timeout", type=int, default=60)
@@ -835,6 +991,8 @@ def main():
     args = parser.parse_args()
     if args.mode == "differential":
         return differential_main(args)
+    if args.mode == "i3-derived":
+        return i3_derived_main(args, parser)
     if args.compositor is None or args.binary is None:
         parser.error("scenarios requires --compositor and --binary")
     return scenario_main(args, parser)

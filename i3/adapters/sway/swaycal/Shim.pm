@@ -108,6 +108,49 @@ sub sway_sync {
     *i3test::sync_with_i3 = \&sway_sync;
 }
 
+# Optional recorder for deriving sway IPC fixtures. It records only operations
+# that the black-box sway-ipc runner can replay: IPC commands and ordinary
+# mapped windows. The upstream test and its assertions remain untouched.
+if (my $path = $ENV{SWAY_CAL_RECORD}) {
+    require JSON::PP;
+    open(my $record, '>>', $path) or die "record $path: $!";
+    $record->autoflush(1);
+
+    my $source = sub {
+        for my $depth (1 .. 20) {
+            my (undef, $file, $line) = caller($depth);
+            next unless defined $file;
+            return ($file, $line) if $file =~ m{(?:^|/)t/[^/]+[.]t$};
+        }
+        return ('unknown', 0);
+    };
+    my $write = sub {
+        my ($kind, $value) = @_;
+        my ($file, $line) = $source->();
+        print $record JSON::PP::encode_json({
+            test => $file =~ s{.*/}{}r,
+            line => $line,
+            kind => $kind,
+            value => $value,
+        }), "\n";
+    };
+
+    my $original_cmd = \&i3test::cmd;
+    my $original_cmd_nosync = \&i3test::cmd_nosync;
+    my $original_open_window = \&i3test::open_window;
+    {
+        no warnings 'redefine';
+        *i3test::cmd = sub { $write->('command', $_[0]); goto &$original_cmd };
+        *i3test::cmd_nosync = sub { $write->('command', $_[0]); goto &$original_cmd_nosync };
+        *i3test::open_window = sub {
+            my %args = @_;
+            my $window = $original_open_window->(@_);
+            $write->('window', 'x11') unless $args{override_redirect} || $args{dont_map};
+            return $window;
+        };
+    }
+}
+
 # ---------------------------------------------------------------------------
 # OPTIONAL second pass: the output "content" node.
 #

@@ -35,6 +35,16 @@ values. `inputs-libinput.json` was captured on 2026-09-20 from a capped sway
 It records the real USB IDs and every libinput property that device exposes.
 Both files are raw `GET_INPUTS` replies formatted only with `jq`.
 
+## i3-suite-derived fixtures
+
+`sway-ipc/i3-derived/` contains states reached by i3's own unchanged tests and
+captured from sway 1.12. The calibration recorder preserves each command's
+`.t` file and line. `contrib/sway-ipc-run i3-derived --capture` replays those
+logs against pinned sway, reduces every reply to a layout-shape hash for
+deduplication, and stores one raw sway capture per distinct shape. The manifest
+records X11-identity and process-lifecycle sequences that could not be replayed;
+the runner does not invent Wayland substitutes for them.
+
 ## Oracle policy
 
 Never edit these fixtures by hand to make a compositor test pass. If a

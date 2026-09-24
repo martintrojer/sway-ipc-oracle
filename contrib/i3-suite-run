@@ -176,6 +176,9 @@ def wayland_adapter(args) -> None:
             env = os.environ | {"I3SRC": str(src), "STAGE": str(stage), "TESTNAME": test.name,
                   "OUTDIR": str(rundir), "I3_SUITE_RUNDIR": str(rundir), "I3_SUITE_BINARY": str(binary),
                   "I3_SUITE_COMPOSITOR": args.compositor, "SWAY_CAL_CONTENT_SHIM": "1"}
+            if args.record_commands:
+                env["SWAY_CAL_RECORD"] = str(out / f"{test.name}.commands.jsonl")
+                Path(env["SWAY_CAL_RECORD"]).write_text("")
             if args.compositor == "swayward":
                 env["I3_SUITE_TRANSLATOR"] = str(binary.parents[2] / "contrib/sway-to-kdl")
             inner = f'''set -uo pipefail
@@ -219,6 +222,8 @@ def main() -> int:
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--file-timeout", type=int, default=60)
     ap.add_argument("--binary")
+    ap.add_argument("--record-commands", action="store_true",
+                    help="record replayable sway commands with test provenance")
     ap.add_argument("tests", nargs="*")
     args = ap.parse_args()
     if args.compositor == "i3":

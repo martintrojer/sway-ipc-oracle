@@ -71,6 +71,32 @@ restricted to sway and replaces the selected query fixtures after running the
 same comparisons. The i3 adapter runs i3 under private Xvfb and opens xterm
 clients; both programs must be installed beside the runner.
 
+### States derived from i3's test suite
+
+The optional calibration recorder logs replayable IPC commands and ordinary
+mapped windows while i3's unchanged `.t` files run against sway. It records the
+source file and line for each operation. Capture mode replays those logs through
+the same isolated sway adapter, hashes a normalized tree shape after every
+operation, and keeps one scenario per distinct shape. The committed fixtures
+are therefore states reached by i3's own tests, captured from sway 1.12; they
+are not hand-authored approximations.
+
+```sh
+./contrib/i3-suite-run --compositor sway --record-commands \
+  --binary /path/to/pinned/sway
+./contrib/sway-ipc-run i3-derived --compositor sway \
+  --binary /path/to/pinned/sway --command-logs target/i3-suite/sway --capture
+./contrib/sway-ipc-run i3-derived --compositor swayward \
+  --binary /path/to/swayward
+```
+
+`sway-ipc/i3-derived/scenarios.json` is the compact replay and provenance
+manifest. Each hash-named JSON file contains sway's raw tree, workspace, and
+output replies for one distinct normalized shape. Commands tied to X11 window
+IDs, compositor process lifecycle, or spawned programs are stopped and listed
+with a reason rather than translated silently. Capture remains restricted to
+real sway.
+
 ### Differential mode
 
 Differential mode generates seeded sway command strings, runs each command on

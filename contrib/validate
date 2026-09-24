@@ -66,6 +66,19 @@ if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-
     exit 1
 fi
 python3 -c 'import tomllib; tomllib.load(open("sway-ipc/scenarios.toml", "rb")); tomllib.load(open("sway-ipc/normalize.toml", "rb")); tomllib.load(open("sway-ipc/applicability.toml", "rb"))'
+python3 - <<'PY'
+import json
+from pathlib import Path
+root = Path("sway-ipc/i3-derived")
+manifest = json.loads((root / "scenarios.json").read_text())
+names = [row["name"] for row in manifest["scenarios"]]
+assert len(names) == len(set(names))
+assert set(names) == {path.stem for path in root.glob("*.json") if path.name != "scenarios.json"}
+for row in manifest["scenarios"]:
+    assert row["provenance"]["test"].endswith(".t") and row["provenance"]["line"] > 0
+    capture = json.loads((root / f"{row['name']}.json").read_text())
+    assert set(capture) == {"tree", "workspaces", "outputs"}
+PY
 ./contrib/test-sway-ipc-applicability
 
 tap_report=$(printf '%s\n' 'ok 1 - pass' 'ok 2 # SKIP premise' 'not ok 3 - fail' '1..3' | ./contrib/tap-count)
