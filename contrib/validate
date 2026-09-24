@@ -32,6 +32,33 @@ for name in docs["i3"]["files"]:
     expected = " | ".join("/".join(map(str, counts(docs[c]["files"][name]))) for c in ("i3", "sway", "swayward"))
     if f"| `{name}` | {expected} |" not in readme:
         raise SystemExit(f"README i3-suite row is stale: {name}")
+
+wayland_docs = {name: docs[name] for name in ("sway", "swayward")}
+boundary_families = {
+    family
+    for doc in wayland_docs.values()
+    for family in doc.get("families", {})
+    if family.endswith("_boundary")
+}
+for family in sorted(boundary_families):
+    verdicts = {}
+    for compositor, doc in wayland_docs.items():
+        if family not in doc.get("families", {}):
+            verdicts[compositor] = "missing"
+            continue
+        entries = [entry for entry in doc["files"].values() if entry.get("reason") == family]
+        kinds = {
+            "fail"
+            if entry.get("fail", 0) or entry.get("unreached", 0)
+            else "skip"
+            if entry.get("skip")
+            else "empty"
+            for entry in entries
+        }
+        verdicts[compositor] = ",".join(sorted(kinds)) if kinds else "unused"
+    if len(set(verdicts.values())) != 1 or next(iter(verdicts.values())) not in {"fail", "skip"}:
+        detail = ", ".join(f"{name}={verdict}" for name, verdict in verdicts.items())
+        raise SystemExit(f"boundary family {family} has inconsistent verdicts: {detail}")
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
 if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then

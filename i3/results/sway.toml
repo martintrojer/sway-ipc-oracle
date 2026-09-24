@@ -22,7 +22,7 @@ workspace_layout_stacked_keyword = "i3 accepts workspace_layout stacked. Sway ac
 xwayland_client_geometry = "The i3 gaps test compares X11 client geometry with exact screen coordinates. Sway configures Xwayland surfaces from compositor content geometry, and the pinned run consistently includes a 35-pixel vertical offset; retain these as adapter findings rather than skips."
 sway_xwayland_geometry_finding = "Focused pinned sway reruns disagree with i3 assertions about X11 window, dock, fullscreen, border, hint, and centering geometry. These remain failures because the run proves the mismatch but does not establish a source-level design exception."
 sway_xwayland_mapping_finding = "Focused pinned sway reruns disagree with i3 assertions about which X11 windows are mapped, managed, floating, or represented in the IPC tree. These remain adapter findings rather than unsupported design skips."
-sway_headless_input_finding = "The focused pinned sway run cannot inject the i3 suite's XTest key events through the headless Xwayland environment; binding events are absent and the NumLock matrix times out, so these remain environment failures."
+headless_xtest_boundary = "The headless harness cannot deliver XTEST events from Xwayland to a Wayland compositor, so assertions that depend on those events are not measured."
 sway_tree_semantics_finding = "Focused pinned sway reruns produce different workspace, focus, layout, resize, urgency, and move tree states from i3. These remain evidenced compatibility failures unless a source-level design exception is established."
 sway_ipc_semantics_finding = "Focused pinned sway reruns produce different IPC fields, events, command errors, or disconnect behavior from i3. These remain evidenced compatibility failures rather than unsupported skips."
 sway_validate_adapter_finding = "The unchanged i3 validation test invokes the i3 binary path directly, which is absent in the sway adapter environment and returns 127. This is an adapter failure, not a sway protocol result."
@@ -1560,7 +1560,7 @@ assertions = 15
 tap_plan = 15
 pass = 2
 fail = 13
-reason = "sway_headless_input_finding"
+reason = "headless_xtest_boundary"
 reason_verified = true
 
 [files."240-focus-on-window-activation.t"]
@@ -1822,7 +1822,7 @@ assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "sway_headless_input_finding"
+reason = "headless_xtest_boundary"
 reason_verified = true
 
 [files."264-dock-criteria.t"]
@@ -2006,7 +2006,7 @@ assertions = 85
 tap_plan = 85
 pass = 25
 fail = 60
-reason = "sway_headless_input_finding"
+reason = "headless_xtest_boundary"
 reason_verified = true
 
 [files."291-swap.t"]
