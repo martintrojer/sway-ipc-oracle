@@ -117,7 +117,7 @@ actions = ["window:fixture-1", "command:splitv", "window:fixture-2", "command:sp
 name = "disabled_output_evacuation"
 outputs = 2
 compositors = ["sway"]
-reason = "Sway-only output command syntax; source: sway/commands/output/disable.c"
+reason = "The swayward oracle adapter uses its synthetic headless backend, whose output-config hook changes modes but cannot disconnect an output; the production DRM backend implements disable. Source: swayward src/backend/headless.rs Headless::on_output_config_changed and src/backend/tty.rs Tty::on_output_config_changed."
 actions = ["window:fixture-1", "command:move workspace to output right", "command:output HEADLESS-2 disable", "capture:disabled_output_evacuation"]
 
 [[scenario]]
