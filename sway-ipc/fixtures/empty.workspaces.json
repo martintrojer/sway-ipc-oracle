@@ -26,7 +26,7 @@
     "nodes": [],
     "num": 1,
     "orientation": "vertical",
-    "output": "WL-1",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
       "height": 1408,

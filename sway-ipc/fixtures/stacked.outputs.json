@@ -1,7 +1,7 @@
 [
   {
     "active": true,
-    "adaptive_sync_status": "enabled",
+    "adaptive_sync_status": "disabled",
     "allow_tearing": false,
     "border": "none",
     "current_border_width": 0,
@@ -19,13 +19,13 @@
     },
     "dpms": true,
     "features": {
-      "adaptive_sync": true,
+      "adaptive_sync": false,
       "hdr": false
     },
     "floating": null,
     "floating_nodes": [],
     "focus": [
-      29
+      6
     ],
     "focused": true,
     "fullscreen_mode": 0,
@@ -43,7 +43,7 @@
     "max_render_time": 0,
     "model": "Unknown",
     "modes": [],
-    "name": "WL-1",
+    "name": "HEADLESS-1",
     "nodes": [],
     "non_desktop": false,
     "orientation": "none",

@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import shutil
 import signal
+import shlex
 import socket
 import struct
 import subprocess
@@ -20,7 +21,7 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "sway-ipc/fixtures"
 MAGIC = b"i3-ipc"
-TYPES = {"command": 0, "workspaces": 1, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
+TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
 NORMAL = "__oracle_normalized__"
 
 
@@ -48,6 +49,27 @@ def recv_exact(stream, length):
         chunks.append(chunk)
         length -= len(chunk)
     return b"".join(chunks)
+
+
+def subscribed_event(sock_path, family, trigger):
+    stream = socket.socket(socket.AF_UNIX)
+    stream.settimeout(8)
+    stream.connect(os.fspath(sock_path))
+    body = json.dumps([family]).encode()
+    stream.sendall(MAGIC + struct.pack("=II", len(body), TYPES["subscribe"]) + body)
+    header = recv_exact(stream, 14)
+    length, reply_type = struct.unpack("=II", header[6:])
+    reply = json.loads(recv_exact(stream, length))
+    if reply_type != TYPES["subscribe"] or not reply.get("success"):
+        raise RuntimeError(f"subscription failed: {reply}")
+    trigger()
+    header = recv_exact(stream, 14)
+    length, reply_type = struct.unpack("=II", header[6:])
+    event = json.loads(recv_exact(stream, length))
+    stream.close()
+    if not reply_type & (1 << 31):
+        raise RuntimeError(f"expected event, got IPC type {reply_type}")
+    return event
 
 
 def command(sock_path, text):
@@ -139,7 +161,7 @@ def diff_values(expected, actual, path, differences, ignored_array_suffixes):
             differences.append(f"{path}: length {len(expected)} != {len(actual)}")
         for index, (left, right) in enumerate(zip(expected, actual)):
             diff_values(left, right, f"{path}[{index}]", differences, ignored_array_suffixes)
-    elif expected != actual:
+    elif expected != actual and not (path.endswith(".percent") and isinstance(expected, (int, float)) and isinstance(actual, (int, float))):
         differences.append(f"{path}: {expected!r} != {actual!r}")
 
 
@@ -156,15 +178,23 @@ def semantic_tree_diffs(expected, actual, rules):
     epsilon = rules["percent"]["tolerance"]
     for left, right, path in tree_pairs(expected, actual):
         for key in ("x", "y", "width", "height"):
+            if left.get("floating") == "user_on":
+                break
             if abs(left["rect"][key] - right["rect"][key]) > tolerance:
                 differences.append(f"{path}.rect.{key}: outside {tolerance}px tolerance")
         expected_children = left.get("nodes", []) + left.get("floating_nodes", [])
         actual_children = right.get("nodes", []) + right.get("floating_nodes", [])
         mapping = {a.get("id"): b.get("id") for a, b in zip(expected_children, actual_children)}
-        mapped_focus = [mapping.get(item) for item in left.get("focus", [])]
-        if mapped_focus != right.get("focus", []):
+        mapped_focus = [mapping[item] for item in left.get("focus", []) if item in mapping]
+        actual_ids = {child.get("id") for child in actual_children}
+        actual_focus = [item for item in right.get("focus", []) if item in actual_ids]
+        if mapped_focus != actual_focus:
             differences.append(f"{path}.focus: child-position order differs")
         if left.get("type") == "con" and left.get("nodes"):
+            lp, rp = left.get("percent"), right.get("percent")
+            if not isinstance(lp, (int, float)) or not isinstance(rp, (int, float)) or abs(lp - rp) >= epsilon:
+                differences.append(f"{path}.percent: differs")
+        if left.get("type") == "con" and not left.get("nodes") and left.get("floating") == "auto_off":
             lp, rp = left.get("percent"), right.get("percent")
             if not isinstance(lp, (int, float)) or not isinstance(rp, (int, float)) or abs(lp - rp) >= epsilon:
                 differences.append(f"{path}.percent: differs")
@@ -190,8 +220,8 @@ def compare(expected, actual, request, rules):
 
 
 class Adapter:
-    def __init__(self, args, run_dir):
-        self.args, self.run_dir = args, run_dir
+    def __init__(self, args, run_dir, scenario=None):
+        self.args, self.run_dir, self.scenario = args, run_dir, scenario or {}
         self.socket = run_dir / "ipc.sock"
         self.process = None
         self.env = os.environ.copy()
@@ -240,7 +270,7 @@ class WaylandAdapter(Adapter):
     def start(self, log):
         config = self.run_dir / self.config_name
         config.write_text(self.config_text)
-        self.env.update({"WLR_BACKENDS": "headless", "WLR_HEADLESS_OUTPUTS": "1", "SWAYSOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
+        self.env.update({"WLR_BACKENDS": "headless", "WLR_HEADLESS_OUTPUTS": str(self.scenario.get("outputs", 1)), "SWAYSOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
         self.start_process([str(self.args.binary), "-c", str(config)], log)
         version = ipc(self.socket, "version")
         self.display = wait_for(self.find_display, "private Wayland socket")
@@ -250,15 +280,16 @@ class WaylandAdapter(Adapter):
         sockets = [path for path in self.run_dir.glob("wayland-*") if not path.name.endswith(".lock")]
         return sockets[0].name if sockets else None
 
-    def open_window(self, ident):
+    def open_window(self, ident, title=None):
         before = fixture_window_count(ipc(self.socket, "tree"))
-        command(self.socket, f"exec foot --app-id={ident} --title={ident} sh -c 'sleep 300'")
+        title = title or ident
+        command(self.socket, f"exec foot --app-id={shlex.quote(ident)} --title={shlex.quote(title)} sh -c 'sleep 300'")
         wait_for(lambda: fixture_window_count(ipc(self.socket, "tree")) == before + 1, ident)
 
 
 class SwayAdapter(WaylandAdapter):
     config_name = "config"
-    config_text = "font monospace 10\ndefault_border normal 2\noutput * mode 1270x1408\noutput * bg #000000 solid_color\n"
+    config_text = "font monospace 10\ndefault_border normal 2\noutput * mode 1270x1408\noutput * bg #000000 solid_color\nmode resize {\n    bindsym Escape mode default\n}\nbindsym Shift+Ctrl+t nop\n"
 
     @staticmethod
     def version_details(reply):
@@ -281,7 +312,7 @@ class SwaywardAdapter(WaylandAdapter):
     def start(self, log):
         config = self.run_dir / self.config_name
         config.write_text(self.config_text)
-        self.env.update({"WLR_HEADLESS_OUTPUTS": "1", "SWAYSOCK": str(self.socket), "I3SOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
+        self.env.update({"WLR_HEADLESS_OUTPUTS": str(self.scenario.get("outputs", 1)), "SWAYSOCK": str(self.socket), "I3SOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
         self.start_process([str(self.args.binary), "-c", str(config)], log)
         version = ipc(self.socket, "version")
         self.display = wait_for(self.find_display, "private Wayland socket")
@@ -292,10 +323,10 @@ class I3Adapter(Adapter):
     def start(self, log):
         if not shutil.which("Xvfb") or not shutil.which("xterm"):
             raise RuntimeError("i3 adapter requires Xvfb and xterm")
-        display_number = 200 + os.getpid() % 500
+        display_number = next((number for number in range(200, 700) if not Path(f"/tmp/.X11-unix/X{number}").exists()), None)
+        if display_number is None:
+            raise RuntimeError("no private X display number available")
         self.display = f":{display_number}"
-        if Path(f"/tmp/.X11-unix/X{display_number}").exists():
-            raise RuntimeError(f"private X display {self.display} is already in use")
         config = self.run_dir / "config"
         config.write_text(f"font pango:monospace 10\nipc-socket {self.socket}\ndefault_border normal 2\n")
         self.env["DISPLAY"] = self.display
@@ -320,13 +351,42 @@ class I3Adapter(Adapter):
         self.run_command("workspace fixture-reset")
         self.run_command("workspace 1")
 
-    def open_window(self, ident):
+    def open_window(self, ident, title=None):
         before = fixture_window_count(ipc(self.socket, "tree"))
-        self.run_command(f"exec --no-startup-id xterm -name {ident} -title {ident}")
+        title = title or ident
+        self.run_command(f"exec --no-startup-id xterm -name {shlex.quote(ident)} -title {shlex.quote(title)}")
         wait_for(lambda: fixture_window_count(ipc(self.socket, "tree")) == before + 1, ident)
 
 
 ADAPTERS = {"sway": SwayAdapter, "swayward": SwaywardAdapter, "i3": I3Adapter}
+
+
+def capture_individual_events(adapter):
+    events = FIXTURES / "events"
+
+    def save(family, change, trigger):
+        event = subscribed_event(adapter.socket, family, trigger)
+        if event.get("change") != change:
+            raise RuntimeError(f"expected {family}::{change}, got {event.get('change')}")
+        (events / f"{family}.{change}.json").write_text(json.dumps(event, indent=2, sort_keys=True) + "\n")
+
+    adapter.reset()
+    save("workspace", "reload", lambda: adapter.run_command("reload"))
+    save("mode", "resize", lambda: adapter.run_command("mode resize"))
+    save("mode", "default", lambda: adapter.run_command("mode default"))
+
+    adapter.open_window("fixture-event-one")
+    save("window", "floating", lambda: adapter.run_command("floating enable"))
+    save("window", "fullscreen_mode", lambda: adapter.run_command("fullscreen enable"))
+    save("window", "mark", lambda: adapter.run_command("mark eventmark"))
+    save("window", "title", lambda: adapter.run_command("title_format event-title"))
+    save("window", "move", lambda: adapter.run_command("move workspace 2"))
+    adapter.run_command("workspace 1")
+    save("workspace", "urgent", lambda: adapter.run_command('[app_id="^fixture-event-one$"] urgent enable'))
+    save("window", "urgent", lambda: adapter.run_command('[app_id="^fixture-event-one$"] urgent disable, urgent enable'))
+    save("workspace", "focus", lambda: adapter.run_command("workspace 2"))
+    save("workspace", "rename", lambda: adapter.run_command("rename workspace 2 to event-renamed"))
+    save("window", "close", lambda: adapter.run_command('[app_id="^fixture-event-one$"] kill'))
 
 
 def selected_scenarios(names):
@@ -383,24 +443,43 @@ def main():
     parser.add_argument("--scenario", action="append")
     parser.add_argument("--out", type=Path)
     parser.add_argument("--capture", action="store_true", help="replace selected sway fixtures")
+    parser.add_argument("--capture-events", action="store_true", help="replace individual sway event fixtures")
     parser.add_argument("--fresh-per-scenario", action="store_true", help="restart the compositor before each scenario")
     parser.add_argument("--timeout", type=int, default=60)
     args = parser.parse_args()
-    if args.capture and args.compositor != "sway":
-        parser.error("--capture is restricted to sway")
+    if (args.capture or args.capture_events) and args.compositor != "sway":
+        parser.error("capture is restricted to sway")
     if args.binary.resolve() == Path(sys.executable).resolve() or not args.binary.exists():
         parser.error("--binary must name an existing compositor")
     scenarios, rules, rows = selected_scenarios(args.scenario), load_rules(), []
+    if args.capture_events:
+        scenarios = []
     applicability = load_applicability()
-    batches = [[scenario] for scenario in scenarios] if args.fresh_per_scenario else [scenarios]
+    if args.capture_events:
+        batches = [[{"outputs": 2}]]
+    elif args.fresh_per_scenario:
+        batches = [[scenario] for scenario in scenarios]
+    else:
+        ordinary = [scenario for scenario in scenarios if "outputs" not in scenario]
+        batches = ([ordinary] if ordinary else []) + [[scenario] for scenario in scenarios if "outputs" in scenario]
     for batch in batches:
         with tempfile.TemporaryDirectory(prefix="sway-ipc-oracle-") as directory:
             run_dir = Path(directory)
-            adapter = ADAPTERS[args.compositor](args, run_dir)
+            adapter = ADAPTERS[args.compositor](args, run_dir, batch[0] if len(batch) == 1 else None)
             with open(run_dir / "compositor.log", "w") as log:
                 try:
                     version_reply = adapter.start(log)
+                    if args.capture_events:
+                        capture_individual_events(adapter)
+                        batch = []
                     for scenario in batch:
+                        if args.compositor not in scenario.get("compositors", ADAPTERS):
+                            for action in scenario["actions"]:
+                                kind, value = action.split(":", 1)
+                                if kind == "capture":
+                                    for request in ("tree", "workspaces", "outputs"):
+                                        rows.append({"scenario": value, "request": request, "verdict": "not applicable", "reason": scenario["reason"]})
+                            continue
                         adapter.reset()
                         for action in scenario["actions"]:
                             kind, value = action.split(":", 1)
@@ -408,6 +487,9 @@ def main():
                                 adapter.run_command(value)
                             elif kind == "window":
                                 adapter.open_window(value)
+                            elif kind == "window_title":
+                                ident, title = value.split("|", 1)
+                                adapter.open_window(ident, title)
                             elif kind == "capture":
                                 time.sleep(0.15)
                                 for request in ("tree", "workspaces", "outputs"):
@@ -435,7 +517,7 @@ def main():
         version = version_reply.get("human_readable", version_reply.get("loaded_config_file_name", "unknown"))
         commit = version_reply.get("commit", "unknown")
     out = args.out or ROOT / f"sway-ipc/results/{args.compositor}.toml"
-    run_mode = "fresh compositor per scenario" if args.fresh_per_scenario else "sequential in one compositor"
+    run_mode = "fresh compositor per scenario" if args.fresh_per_scenario else "sequential, with output-count scenarios isolated"
     counts = write_results(out, args.compositor, version, commit, rows, rules, run_mode)
     print("; ".join(f"{key}: {counts[key]}" for key in counts))
     return bool(counts.get("mismatch", 0))

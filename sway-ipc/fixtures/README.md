@@ -53,12 +53,11 @@ sway release.
 ## Event fixtures
 
 The `*.sequence.json` files in `events/` were recaptured from sway 1.12 on
-2026-09-22. The individual event fixtures were captured from separate headless
-sway 1.11 sessions on 2026-09-13 and 2026-09-14 because the current capture
-script does not regenerate them. Those older fixtures remain valid for event
-families whose key sets did not change. Window events containing a native view
-must also include sway 1.12's unconditional `tag` field; the 1.12 window-map
-sequences exercise that schema. `binding.run.json` used
+2026-09-22. The individual mode, window-mutation, and workspace-mutation event
+fixtures were recaptured from sway 1.12 with `contrib/sway-ipc-run
+--capture-events`; event types that require input injection or exact map-time
+subscription remain the original captures. Window events containing a native
+view include sway 1.12's unconditional `tag` field. `binding.run.json` used
 `bindsym Shift+Ctrl+t nop` and injected the chord through sway's
 virtual-keyboard protocol.
 

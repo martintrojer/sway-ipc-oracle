@@ -2,7 +2,7 @@
   "change": "close",
   "container": {
     "allow_tearing": false,
-    "app_id": "event-one",
+    "app_id": "fixture-event-one",
     "border": "normal",
     "current_border_width": 2,
     "deco_rect": {
@@ -23,7 +23,7 @@
       "x": 0,
       "y": 0
     },
-    "id": 10,
+    "id": 9,
     "idle_inhibitors": {
       "application": "none",
       "user": "none"
@@ -31,18 +31,18 @@
     "inhibit_idle": false,
     "layout": "none",
     "marks": [
-      "event-mark"
+      "eventmark"
     ],
     "max_render_time": 0,
-    "name": "event-one",
+    "name": "fixture-event-one",
     "nodes": [],
     "orientation": "none",
     "percent": 1.0,
-    "pid": 904827,
+    "pid": 4125551,
     "rect": {
-      "height": 600,
-      "width": 800,
-      "x": 0,
+      "height": 1408,
+      "width": 1270,
+      "x": 1270,
       "y": 0
     },
     "sandbox_app_id": null,
@@ -51,13 +51,14 @@
     "scratchpad_state": "none",
     "shell": "xdg_shell",
     "sticky": false,
+    "tag": null,
     "type": "floating_con",
-    "urgent": true,
+    "urgent": false,
     "visible": true,
     "window": null,
     "window_rect": {
-      "height": 600,
-      "width": 800,
+      "height": 1408,
+      "width": 1270,
       "x": 0,
       "y": 0
     }

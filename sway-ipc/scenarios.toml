@@ -65,3 +65,57 @@ actions = ["command:workspace mail", "window:fixture-mail", "capture:named_works
 [[scenario]]
 name = "empty_named"
 actions = ["command:workspace mail", "capture:empty_named"]
+
+[[scenario]]
+name = "two_outputs"
+outputs = 2
+actions = ["window:fixture-1", "command:move workspace to output right", "command:workspace 2", "window:fixture-2", "command:focus output left", "capture:two_outputs"]
+
+[[scenario]]
+name = "scratchpad"
+actions = ["window:fixture-1", "command:move scratchpad", "capture:scratchpad_hidden", "command:scratchpad show", "capture:scratchpad_shown"]
+
+[[scenario]]
+name = "sticky"
+actions = ["window:fixture-1", "command:floating enable", "command:sticky enable", "command:workspace 2", "capture:sticky_workspace_switch"]
+
+[[scenario]]
+name = "nested_tabbed_in_stacked"
+actions = ["command:splith", "window:fixture-1", "window:fixture-2", "command:focus parent", "command:layout stacking", "command:[app_id=\"^fixture-1$\"] focus", "command:splith", "window:fixture-3", "command:focus parent", "command:layout tabbed", "command:[app_id=\"^fixture-1$\"] focus", "capture:nested_tabbed_in_stacked"]
+
+[[scenario]]
+name = "nested_stacked_in_tabbed"
+actions = ["command:splith", "window:fixture-1", "window:fixture-2", "command:focus parent", "command:layout tabbed", "command:[app_id=\"^fixture-1$\"] focus", "command:splith", "window:fixture-3", "command:focus parent", "command:layout stacking", "command:[app_id=\"^fixture-1$\"] focus", "capture:nested_stacked_in_tabbed"]
+
+[[scenario]]
+name = "borders_and_gaps"
+actions = ["command:gaps inner all set 17", "command:gaps outer all set 23", "window:fixture-normal", "command:border normal 4", "window:fixture-pixel", "command:border pixel 6", "window:fixture-none", "command:border none", "capture:borders_and_gaps"]
+
+[[scenario]]
+name = "urgent"
+compositors = ["sway", "swayward"]
+reason = "i3 has no urgent command; source: i3/src/commands.c command table"
+actions = ["window:fixture-1", "command:workspace 2", "command:[app_id=\"^fixture-1$\"] urgent enable", "capture:urgent"]
+
+[[scenario]]
+name = "markup_title"
+actions = ["window_title:fixture-markup|<b>bold literal</b>", "capture:markup_title"]
+
+[[scenario]]
+name = "fullscreen_workspace"
+actions = ["window:fixture-1", "command:fullscreen enable", "capture:fullscreen_workspace"]
+
+[[scenario]]
+name = "fullscreen_global"
+actions = ["window:fixture-1", "command:fullscreen enable global", "capture:fullscreen_global"]
+
+[[scenario]]
+name = "container_mark"
+actions = ["window:fixture-1", "command:splitv", "window:fixture-2", "command:splith", "window:fixture-3", "command:focus parent", "command:mark containermark", "capture:container_mark"]
+
+[[scenario]]
+name = "disabled_output_evacuation"
+outputs = 2
+compositors = ["sway"]
+reason = "Sway-only output command syntax; source: sway/commands/output/disable.c"
+actions = ["window:fixture-1", "command:move workspace to output right", "command:output HEADLESS-2 disable", "capture:disabled_output_evacuation"]

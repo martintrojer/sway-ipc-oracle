@@ -120,7 +120,7 @@
     },
     {
       "active": true,
-      "adaptive_sync_status": "enabled",
+      "adaptive_sync_status": "disabled",
       "allow_tearing": false,
       "border": "none",
       "current_border_width": 0,
@@ -138,13 +138,13 @@
       },
       "dpms": true,
       "features": {
-        "adaptive_sync": true,
+        "adaptive_sync": false,
         "hdr": false
       },
       "floating": null,
       "floating_nodes": [],
       "focus": [
-        50
+        6
       ],
       "focused": false,
       "fullscreen_mode": 0,
@@ -162,7 +162,7 @@
       "max_render_time": 0,
       "model": "Unknown",
       "modes": [],
-      "name": "WL-1",
+      "name": "HEADLESS-1",
       "nodes": [
         {
           "border": "none",
@@ -176,7 +176,7 @@
           "floating": null,
           "floating_nodes": [],
           "focus": [
-            51
+            7
           ],
           "focused": false,
           "fullscreen_mode": 1,
@@ -186,7 +186,7 @@
             "x": 0,
             "y": 0
           },
-          "id": 50,
+          "id": 6,
           "layout": "splitv",
           "marks": [],
           "name": "1",
@@ -206,7 +206,7 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "7648a75841f3897ae88f7a08a94f001a",
+              "foreign_toplevel_identifier": "b9d37fe20933bb9163f2456deca91a29",
               "fullscreen_mode": 0,
               "geometry": {
                 "height": 491,
@@ -214,7 +214,7 @@
                 "x": 0,
                 "y": 0
               },
-              "id": 51,
+              "id": 7,
               "idle_inhibitors": {
                 "application": "none",
                 "user": "none"
@@ -229,7 +229,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 441893,
+              "pid": 4149248,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -257,7 +257,7 @@
           ],
           "num": 1,
           "orientation": "vertical",
-          "output": "WL-1",
+          "output": "HEADLESS-1",
           "percent": null,
           "rect": {
             "height": 1408,

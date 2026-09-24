@@ -11,8 +11,8 @@
     "floating": null,
     "floating_nodes": [],
     "focus": [
-      13,
-      12
+      8,
+      7
     ],
     "focused": true,
     "fullscreen_mode": 1,
@@ -22,14 +22,14 @@
       "x": 0,
       "y": 0
     },
-    "id": 11,
+    "id": 6,
     "layout": "splith",
     "marks": [],
     "name": "1",
     "nodes": [],
     "num": 1,
     "orientation": "horizontal",
-    "output": "WL-1",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
       "height": 1408,

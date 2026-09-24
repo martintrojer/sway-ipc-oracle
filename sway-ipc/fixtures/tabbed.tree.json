@@ -120,7 +120,7 @@
     },
     {
       "active": true,
-      "adaptive_sync_status": "enabled",
+      "adaptive_sync_status": "disabled",
       "allow_tearing": false,
       "border": "none",
       "current_border_width": 0,
@@ -138,13 +138,13 @@
       },
       "dpms": true,
       "features": {
-        "adaptive_sync": true,
+        "adaptive_sync": false,
         "hdr": false
       },
       "floating": null,
       "floating_nodes": [],
       "focus": [
-        25
+        6
       ],
       "focused": false,
       "fullscreen_mode": 0,
@@ -162,7 +162,7 @@
       "max_render_time": 0,
       "model": "Unknown",
       "modes": [],
-      "name": "WL-1",
+      "name": "HEADLESS-1",
       "nodes": [
         {
           "border": "none",
@@ -176,8 +176,8 @@
           "floating": null,
           "floating_nodes": [],
           "focus": [
-            27,
-            26
+            8,
+            7
           ],
           "focused": false,
           "fullscreen_mode": 1,
@@ -187,7 +187,7 @@
             "x": 0,
             "y": 0
           },
-          "id": 25,
+          "id": 6,
           "layout": "tabbed",
           "marks": [],
           "name": "1",
@@ -207,7 +207,7 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "83501886c696420aa958ee6b24d4e325",
+              "foreign_toplevel_identifier": "f678ad4d9155144f0de1c8f181729165",
               "fullscreen_mode": 0,
               "geometry": {
                 "height": 491,
@@ -215,7 +215,7 @@
                 "x": 0,
                 "y": 0
               },
-              "id": 26,
+              "id": 7,
               "idle_inhibitors": {
                 "application": "none",
                 "user": "none"
@@ -228,7 +228,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 440854,
+              "pid": 4147824,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -268,7 +268,7 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "8cb6a69e23b22fbeed100ac5ef25edaa",
+              "foreign_toplevel_identifier": "6089dae283a57053d11802117eb01e8d",
               "fullscreen_mode": 0,
               "geometry": {
                 "height": 491,
@@ -276,7 +276,7 @@
                 "x": 0,
                 "y": 0
               },
-              "id": 27,
+              "id": 8,
               "idle_inhibitors": {
                 "application": "none",
                 "user": "none"
@@ -289,7 +289,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 440857,
+              "pid": 4147850,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -317,7 +317,7 @@
           ],
           "num": 1,
           "orientation": "none",
-          "output": "WL-1",
+          "output": "HEADLESS-1",
           "percent": null,
           "rect": {
             "height": 1408,

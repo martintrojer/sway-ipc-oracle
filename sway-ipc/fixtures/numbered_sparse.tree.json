@@ -120,7 +120,7 @@
     },
     {
       "active": true,
-      "adaptive_sync_status": "enabled",
+      "adaptive_sync_status": "disabled",
       "allow_tearing": false,
       "border": "none",
       "current_border_width": 0,
@@ -138,15 +138,15 @@
       },
       "dpms": true,
       "features": {
-        "adaptive_sync": true,
+        "adaptive_sync": false,
         "hdr": false
       },
       "floating": null,
       "floating_nodes": [],
       "focus": [
-        62,
-        60,
-        58
+        10,
+        8,
+        6
       ],
       "focused": false,
       "fullscreen_mode": 0,
@@ -164,7 +164,7 @@
       "max_render_time": 0,
       "model": "Unknown",
       "modes": [],
-      "name": "WL-1",
+      "name": "HEADLESS-1",
       "nodes": [
         {
           "border": "none",
@@ -178,7 +178,7 @@
           "floating": null,
           "floating_nodes": [],
           "focus": [
-            59
+            7
           ],
           "focused": false,
           "fullscreen_mode": 1,
@@ -188,7 +188,7 @@
             "x": 0,
             "y": 0
           },
-          "id": 58,
+          "id": 6,
           "layout": "splitv",
           "marks": [],
           "name": "1",
@@ -208,7 +208,7 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "f982d7f2244b5029a5f8aa0d9dc8e566",
+              "foreign_toplevel_identifier": "a01036c8dcd52231d3977dcf9b25ab9a",
               "fullscreen_mode": 0,
               "geometry": {
                 "height": 491,
@@ -216,7 +216,7 @@
                 "x": 0,
                 "y": 0
               },
-              "id": 59,
+              "id": 7,
               "idle_inhibitors": {
                 "application": "none",
                 "user": "none"
@@ -229,7 +229,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 442039,
+              "pid": 4149518,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -257,7 +257,7 @@
           ],
           "num": 1,
           "orientation": "vertical",
-          "output": "WL-1",
+          "output": "HEADLESS-1",
           "percent": null,
           "rect": {
             "height": 1408,
@@ -290,7 +290,7 @@
           "floating": null,
           "floating_nodes": [],
           "focus": [
-            61
+            9
           ],
           "focused": false,
           "fullscreen_mode": 1,
@@ -300,7 +300,7 @@
             "x": 0,
             "y": 0
           },
-          "id": 60,
+          "id": 8,
           "layout": "splitv",
           "marks": [],
           "name": "3",
@@ -320,7 +320,7 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "63f4a5f352e1cc33421c7f9ce1b6b64d",
+              "foreign_toplevel_identifier": "a7bae02e390dcd5ae2fc96d819caaaad",
               "fullscreen_mode": 0,
               "geometry": {
                 "height": 491,
@@ -328,7 +328,7 @@
                 "x": 0,
                 "y": 0
               },
-              "id": 61,
+              "id": 9,
               "idle_inhibitors": {
                 "application": "none",
                 "user": "none"
@@ -341,7 +341,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 442074,
+              "pid": 4149548,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -369,7 +369,7 @@
           ],
           "num": 3,
           "orientation": "vertical",
-          "output": "WL-1",
+          "output": "HEADLESS-1",
           "percent": null,
           "rect": {
             "height": 1408,
@@ -402,7 +402,7 @@
           "floating": null,
           "floating_nodes": [],
           "focus": [
-            63
+            11
           ],
           "focused": false,
           "fullscreen_mode": 1,
@@ -412,7 +412,7 @@
             "x": 0,
             "y": 0
           },
-          "id": 62,
+          "id": 10,
           "layout": "splitv",
           "marks": [],
           "name": "7",
@@ -432,7 +432,7 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "ccdd563a332e3a5292582b920a57c1be",
+              "foreign_toplevel_identifier": "6e6a4814419eeb98ee1b0bf7b7be68f6",
               "fullscreen_mode": 0,
               "geometry": {
                 "height": 491,
@@ -440,7 +440,7 @@
                 "x": 0,
                 "y": 0
               },
-              "id": 63,
+              "id": 11,
               "idle_inhibitors": {
                 "application": "none",
                 "user": "none"
@@ -453,7 +453,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 442109,
+              "pid": 4149576,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -481,7 +481,7 @@
           ],
           "num": 7,
           "orientation": "vertical",
-          "output": "WL-1",
+          "output": "HEADLESS-1",
           "percent": null,
           "rect": {
             "height": 1408,

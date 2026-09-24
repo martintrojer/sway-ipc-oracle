@@ -11,7 +11,7 @@
     "floating": null,
     "floating_nodes": [],
     "focus": [
-      54
+      7
     ],
     "focused": false,
     "fullscreen_mode": 1,
@@ -21,14 +21,14 @@
       "x": 0,
       "y": 0
     },
-    "id": 53,
+    "id": 6,
     "layout": "splitv",
     "marks": [],
     "name": "1",
     "nodes": [],
     "num": 1,
     "orientation": "vertical",
-    "output": "WL-1",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
       "height": 1408,
@@ -62,7 +62,7 @@
     "floating": null,
     "floating_nodes": [],
     "focus": [
-      56
+      9
     ],
     "focused": true,
     "fullscreen_mode": 1,
@@ -72,14 +72,14 @@
       "x": 0,
       "y": 0
     },
-    "id": 55,
+    "id": 8,
     "layout": "splitv",
     "marks": [],
     "name": "2",
     "nodes": [],
     "num": 2,
     "orientation": "vertical",
-    "output": "WL-1",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
       "height": 1408,

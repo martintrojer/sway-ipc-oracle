@@ -19,14 +19,14 @@
       "x": 0,
       "y": 0
     },
-    "id": 74,
+    "id": 7,
     "layout": "splitv",
     "marks": [],
     "name": "mail",
     "nodes": [],
     "num": -1,
     "orientation": "vertical",
-    "output": "WL-1",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
       "height": 1408,

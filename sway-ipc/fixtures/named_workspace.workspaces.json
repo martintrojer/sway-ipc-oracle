@@ -11,7 +11,7 @@
     "floating": null,
     "floating_nodes": [],
     "focus": [
-      67
+      8
     ],
     "focused": true,
     "fullscreen_mode": 1,
@@ -21,14 +21,14 @@
       "x": 0,
       "y": 0
     },
-    "id": 66,
+    "id": 7,
     "layout": "splitv",
     "marks": [],
     "name": "mail",
     "nodes": [],
     "num": -1,
     "orientation": "vertical",
-    "output": "WL-1",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
       "height": 1408,

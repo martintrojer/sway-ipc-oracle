@@ -25,7 +25,7 @@
         "floating_nodes": [],
         "focus": [],
         "focused": false,
-        "foreign_toplevel_identifier": "8b802e04c1da28797526724bece87815",
+        "foreign_toplevel_identifier": "0b29509a2164dca5d86fc86a96ca7d4c",
         "fullscreen_mode": 0,
         "geometry": {
           "height": 491,
@@ -33,7 +33,7 @@
           "x": 0,
           "y": 0
         },
-        "id": 44,
+        "id": 9,
         "idle_inhibitors": {
           "application": "none",
           "user": "none"
@@ -46,7 +46,7 @@
         "nodes": [],
         "orientation": "none",
         "percent": 0.20356120257695062,
-        "pid": 441254,
+        "pid": 4148912,
         "rect": {
           "height": 493,
           "width": 700,
@@ -86,7 +86,7 @@
         "floating_nodes": [],
         "focus": [],
         "focused": false,
-        "foreign_toplevel_identifier": "30d6845148fd0f40c92835d2156ae0f9",
+        "foreign_toplevel_identifier": "2a0c3a4a86ba71ac12ef77a3c0a5bf05",
         "fullscreen_mode": 0,
         "geometry": {
           "height": 491,
@@ -94,7 +94,7 @@
           "x": 0,
           "y": 0
         },
-        "id": 45,
+        "id": 10,
         "idle_inhibitors": {
           "application": "none",
           "user": "none"
@@ -107,7 +107,7 @@
         "nodes": [],
         "orientation": "none",
         "percent": 0.20356120257695062,
-        "pid": 441289,
+        "pid": 4148936,
         "rect": {
           "height": 493,
           "width": 700,
@@ -147,7 +147,7 @@
         "floating_nodes": [],
         "focus": [],
         "focused": true,
-        "foreign_toplevel_identifier": "1c02414be7df2b57106db53d55ae71fd",
+        "foreign_toplevel_identifier": "cef8494bcf2fa15674d0392e9cfd3001",
         "fullscreen_mode": 0,
         "geometry": {
           "height": 491,
@@ -155,7 +155,7 @@
           "x": 0,
           "y": 0
         },
-        "id": 43,
+        "id": 8,
         "idle_inhibitors": {
           "application": "none",
           "user": "none"
@@ -168,7 +168,7 @@
         "nodes": [],
         "orientation": "none",
         "percent": 0.20356120257695062,
-        "pid": 441219,
+        "pid": 4148868,
         "rect": {
           "height": 493,
           "width": 700,
@@ -195,10 +195,10 @@
       }
     ],
     "focus": [
-      43,
-      45,
-      44,
-      42
+      8,
+      10,
+      9,
+      7
     ],
     "focused": true,
     "fullscreen_mode": 1,
@@ -208,14 +208,14 @@
       "x": 0,
       "y": 0
     },
-    "id": 41,
+    "id": 6,
     "layout": "splitv",
     "marks": [],
     "name": "1",
     "nodes": [],
     "num": 1,
     "orientation": "vertical",
-    "output": "WL-1",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
       "height": 1408,

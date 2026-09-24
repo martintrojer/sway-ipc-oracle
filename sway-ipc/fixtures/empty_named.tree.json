@@ -120,7 +120,7 @@
     },
     {
       "active": true,
-      "adaptive_sync_status": "enabled",
+      "adaptive_sync_status": "disabled",
       "allow_tearing": false,
       "border": "none",
       "current_border_width": 0,
@@ -138,13 +138,13 @@
       },
       "dpms": true,
       "features": {
-        "adaptive_sync": true,
+        "adaptive_sync": false,
         "hdr": false
       },
       "floating": null,
       "floating_nodes": [],
       "focus": [
-        74
+        7
       ],
       "focused": false,
       "fullscreen_mode": 0,
@@ -162,7 +162,7 @@
       "max_render_time": 0,
       "model": "Unknown",
       "modes": [],
-      "name": "WL-1",
+      "name": "HEADLESS-1",
       "nodes": [
         {
           "border": "none",
@@ -184,14 +184,14 @@
             "x": 0,
             "y": 0
           },
-          "id": 74,
+          "id": 7,
           "layout": "splitv",
           "marks": [],
           "name": "mail",
           "nodes": [],
           "num": -1,
           "orientation": "vertical",
-          "output": "WL-1",
+          "output": "HEADLESS-1",
           "percent": null,
           "rect": {
             "height": 1408,

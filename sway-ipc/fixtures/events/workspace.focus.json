@@ -13,7 +13,7 @@
     "floating_nodes": [
       {
         "allow_tearing": false,
-        "app_id": "event-one",
+        "app_id": "fixture-event-one",
         "border": "normal",
         "current_border_width": 2,
         "deco_rect": {
@@ -26,7 +26,7 @@
         "floating_nodes": [],
         "focus": [],
         "focused": true,
-        "foreign_toplevel_identifier": "2bf0cbd2632d5245aea77524f4e59b8e",
+        "foreign_toplevel_identifier": "b0970033691d6f8b88c73e6fde08fc58",
         "fullscreen_mode": 1,
         "geometry": {
           "height": 491,
@@ -34,7 +34,7 @@
           "x": 0,
           "y": 0
         },
-        "id": 10,
+        "id": 9,
         "idle_inhibitors": {
           "application": "none",
           "user": "none"
@@ -42,18 +42,18 @@
         "inhibit_idle": false,
         "layout": "none",
         "marks": [
-          "event-mark"
+          "eventmark"
         ],
         "max_render_time": 0,
-        "name": "event-one",
+        "name": "fixture-event-one",
         "nodes": [],
         "orientation": "none",
-        "percent": 1.0,
-        "pid": 904827,
+        "percent": 0.1911104151753758,
+        "pid": 4125551,
         "rect": {
-          "height": 600,
-          "width": 800,
-          "x": 0,
+          "height": 491,
+          "width": 696,
+          "x": 1270,
           "y": 0
         },
         "sandbox_app_id": null,
@@ -62,20 +62,21 @@
         "scratchpad_state": "none",
         "shell": "xdg_shell",
         "sticky": false,
+        "tag": null,
         "type": "floating_con",
         "urgent": true,
         "visible": true,
         "window": null,
         "window_rect": {
-          "height": 600,
-          "width": 800,
+          "height": 491,
+          "width": 696,
           "x": 0,
           "y": 0
         }
       }
     ],
     "focus": [
-      10
+      9
     ],
     "focused": false,
     "fullscreen_mode": 1,
@@ -85,22 +86,22 @@
       "x": 0,
       "y": 0
     },
-    "id": 11,
+    "id": 6,
     "layout": "splith",
     "marks": [],
-    "name": "1",
+    "name": "2",
     "nodes": [],
-    "num": 1,
+    "num": 2,
     "orientation": "horizontal",
-    "output": "HEADLESS-2",
+    "output": "HEADLESS-1",
     "percent": null,
     "rect": {
-      "height": 600,
-      "width": 800,
-      "x": 0,
+      "height": 1408,
+      "width": 1270,
+      "x": 1270,
       "y": 0
     },
-    "representation": "H[]",
+    "representation": null,
     "scratchpad_state": null,
     "sticky": false,
     "type": "workspace",
@@ -124,9 +125,7 @@
     },
     "floating": null,
     "floating_nodes": [],
-    "focus": [
-      12
-    ],
+    "focus": [],
     "focused": false,
     "fullscreen_mode": 1,
     "geometry": {
@@ -135,83 +134,22 @@
       "x": 0,
       "y": 0
     },
-    "id": 9,
-    "layout": "splith",
+    "id": 8,
+    "layout": "splitv",
     "marks": [],
-    "name": "event-renamed",
-    "nodes": [
-      {
-        "allow_tearing": false,
-        "app_id": "event-two",
-        "border": "normal",
-        "current_border_width": 2,
-        "deco_rect": {
-          "height": 27,
-          "width": 800,
-          "x": 0,
-          "y": 0
-        },
-        "floating": "auto_off",
-        "floating_nodes": [],
-        "focus": [],
-        "focused": false,
-        "foreign_toplevel_identifier": "94dbbf91d998018a11f6fd48a6e5bcc5",
-        "fullscreen_mode": 0,
-        "geometry": {
-          "height": 491,
-          "width": 696,
-          "x": 0,
-          "y": 0
-        },
-        "id": 12,
-        "idle_inhibitors": {
-          "application": "none",
-          "user": "none"
-        },
-        "inhibit_idle": false,
-        "layout": "none",
-        "marks": [],
-        "max_render_time": 0,
-        "name": "event-two",
-        "nodes": [],
-        "orientation": "none",
-        "percent": 1.0,
-        "pid": 905035,
-        "rect": {
-          "height": 573,
-          "width": 800,
-          "x": 0,
-          "y": 27
-        },
-        "sandbox_app_id": null,
-        "sandbox_engine": null,
-        "sandbox_instance_id": null,
-        "scratchpad_state": "none",
-        "shell": "xdg_shell",
-        "sticky": false,
-        "type": "con",
-        "urgent": false,
-        "visible": false,
-        "window": null,
-        "window_rect": {
-          "height": 571,
-          "width": 796,
-          "x": 2,
-          "y": 0
-        }
-      }
-    ],
-    "num": -1,
-    "orientation": "horizontal",
+    "name": "1",
+    "nodes": [],
+    "num": 1,
+    "orientation": "vertical",
     "output": "HEADLESS-2",
     "percent": null,
     "rect": {
-      "height": 600,
-      "width": 800,
+      "height": 1408,
+      "width": 1270,
       "x": 0,
       "y": 0
     },
-    "representation": "H[event-two]",
+    "representation": "V[]",
     "scratchpad_state": null,
     "sticky": false,
     "type": "workspace",
