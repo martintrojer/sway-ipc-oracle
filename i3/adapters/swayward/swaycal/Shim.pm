@@ -21,14 +21,14 @@ package swaycal::Shim;
 #
 #   1. An X11 round trip (GetInputFocus reply). Our own X requests have
 #      reached the X server, so Xwayland has them.
-#   2. An IPC round trip (SEND_TICK, sway/ipc-server.c:671-673,741-781).
-#      Sway has drained its IPC socket up to this point, so every earlier
-#      `cmd` has been executed.
+#   2. An IPC round trip (GET_TREE). Command replies already prove that every
+#      earlier `cmd` has been executed. Using SEND_TICK here would broadcast a
+#      test-internal nonce into an upstream events_for tick subscription.
 #
 # It does NOT guarantee that events already queued on sway's XWM fd have been
 # processed, because wl_event_loop does not order work across file
-# descriptors. Step 3 is therefore a bounded settle poll: repeat the tick
-# round trip until GET_TREE is byte-identical twice in a row, up to a cap.
+# descriptors. Step 3 is therefore a bounded settle poll: repeat GET_TREE
+# until its reply is byte-identical twice in a row, up to a cap.
 # That is weaker than i3's barrier and it is the main measurement limit of
 # this runner. A sway-side failure in a window-lifecycle test should be
 # re-run before it is believed.
@@ -70,12 +70,6 @@ sub _ipc {
     return $body;
 }
 
-my $nonce = 0;
-
-sub _tick {
-    return defined _ipc(10, 'swaycal-' . $nonce++);   # IPC_SEND_TICK
-}
-
 sub _tree {
     return _ipc(4, '');                                # IPC_GET_TREE
 }
@@ -96,10 +90,9 @@ sub sway_sync {
         1;
     };
 
-    # 2 + 3. Tick round trip, then settle until the tree stops changing.
+    # 2 + 3. IPC round trip, then settle until the tree stops changing.
     my $prev;
     for my $i (1 .. 20) {
-        _tick();
         my $now = _tree();
         return 1 if defined($prev) && defined($now) && $prev eq $now;
         $prev = $now;
