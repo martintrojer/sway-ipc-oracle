@@ -9,6 +9,9 @@ commit = "b420c1a4316af8ed55c83d73fbad93d66f4d8530"
 i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
 
+[families]
+xwayland_satellite_kill_disconnects_client = "Swayward sends xdg_toplevel.close when its kill command closes an Xwayland surface. xwayland-satellite handles that event by sending X KillClient when WM_DELETE_WINDOW is absent; i3 instead destroys only the selected window for its default kill mode. i3test creates every test window on one connection without WM_PROTOCOLS, so later assertions cannot run after the first kill."
+
 [files."001-tile.t"]
 assertions = 3
 tap_plan = 3
@@ -29,13 +32,14 @@ reason_verified = false
 
 [files."100-fullscreen.t"]
 plan_unknown = true
-assertions = 23
+assertions = 79
 tap_plan = "none"
-source_assertions = 79
 pass = 21
 fail = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."101-focus.t"]
 assertions = 8
@@ -113,33 +117,36 @@ reason_verified = false
 
 [files."118-openkill.t"]
 plan_unknown = true
-assertions = 2
+assertions = 6
 tap_plan = "none"
-source_assertions = 6
 pass = 2
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."119-match.t"]
 plan_unknown = true
-assertions = 4
+assertions = 27
 tap_plan = "none"
-source_assertions = 27
 pass = 4
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."120-multiple-cmds.t"]
 plan_unknown = true
-assertions = 1
+assertions = 31
 tap_plan = "none"
-source_assertions = 31
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."121-next-prev.t"]
 assertions = 12
@@ -163,22 +170,23 @@ reason_verified = false
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
-source_assertions = 1
 pass = 0
 fail = 0
-unreached = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 1, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."127-regress-floating-parent.t"]
 plan_unknown = true
-assertions = 1
+assertions = 4
 tap_plan = "none"
-source_assertions = 4
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."128-open-order.t"]
 assertions = 7
@@ -190,13 +198,14 @@ reason_verified = false
 
 [files."129-focus-after-close.t"]
 plan_unknown = true
-assertions = 12
+assertions = 15
 tap_plan = "none"
-source_assertions = 15
 pass = 8
 fail = 4
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."130-close-empty-split.t"]
 assertions = 8
@@ -322,12 +331,12 @@ pass = 5
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
-source_assertions = 1
 pass = 0
 fail = 0
-unreached = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 1, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."145-flattening.t"]
 assertions = 8
@@ -400,13 +409,14 @@ reason_verified = false
 
 [files."156-fullscreen-focus.t"]
 plan_unknown = true
-assertions = 2
+assertions = 64
 tap_plan = "none"
-source_assertions = 64
 pass = 2
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."159-socketpaths.t"]
 plan_unknown = true
@@ -439,33 +449,36 @@ reason_verified = false
 
 [files."164-kill-win-vs-client.t"]
 plan_unknown = true
-assertions = 3
+assertions = 12
 tap_plan = "none"
-source_assertions = 12
 pass = 3
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."165-for_window.t"]
 plan_unknown = true
-assertions = 19
+assertions = 79
 tap_plan = "none"
-source_assertions = 79
 pass = 17
 fail = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."166-assign.t"]
 plan_unknown = true
-assertions = 35
+assertions = 106
 tap_plan = "none"
-source_assertions = 106
 pass = 23
 fail = 12
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 91, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 92, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 93, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 94, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 95, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 96, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 97, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 98, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 99, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 100, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 101, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 102, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 103, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 104, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 105, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 106, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."167-workspace_layout.t"]
 assertions = 87
@@ -500,13 +513,14 @@ pass = 7
 
 [files."173-get-marks.t"]
 plan_unknown = true
-assertions = 2
+assertions = 3
 tap_plan = "none"
-source_assertions = 3
 pass = 2
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."174-border-config.t"]
 assertions = 13
@@ -518,13 +532,14 @@ reason_verified = false
 
 [files."176-workspace-baf.t"]
 plan_unknown = true
-assertions = 23
+assertions = 26
 tap_plan = "none"
-source_assertions = 26
 pass = 17
 fail = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."177-bar-config.t"]
 plan_unknown = true
@@ -732,13 +747,14 @@ reason_verified = false
 
 [files."206-fullscreen-scratchpad.t"]
 plan_unknown = true
-assertions = 4
+assertions = 8
 tap_plan = "none"
-source_assertions = 8
 pass = 4
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."208-regress-floating-criteria.t"]
 assertions = 1
@@ -1020,13 +1036,14 @@ reason_verified = false
 
 [files."256-no-auto-back-and-forth.t"]
 plan_unknown = true
-assertions = 8
+assertions = 10
 tap_plan = "none"
-source_assertions = 10
 pass = 8
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."257-keypress-group1-fallback.t"]
 plan_unknown = true
@@ -1229,13 +1246,14 @@ reason_verified = false
 
 [files."285-sticky.t"]
 plan_unknown = true
-assertions = 2
+assertions = 11
 tap_plan = "none"
-source_assertions = 11
 pass = 2
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."286-root-window-mouse-binding.t"]
 plan_unknown = true
@@ -1278,13 +1296,14 @@ reason_verified = false
 
 [files."291-swap.t"]
 plan_unknown = true
-assertions = 1
+assertions = 148
 tap_plan = "none"
-source_assertions = 148
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 91, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 92, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 93, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 94, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 95, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 96, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 97, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 98, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 99, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 100, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 101, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 102, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 103, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 104, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 105, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 106, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 107, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 108, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 109, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 110, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 111, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 112, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 113, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 114, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 115, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 116, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 117, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 118, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 119, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 120, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 121, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 122, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 123, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 124, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 125, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 126, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 127, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 128, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 129, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 130, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 131, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 132, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 133, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 134, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 135, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 136, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 137, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 138, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 139, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 140, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 141, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 142, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 143, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 144, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 145, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 146, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 147, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 148, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."292-regress-layout-toggle.t"]
 assertions = 1
@@ -1306,23 +1325,25 @@ pass = 3
 
 [files."294-focus-order.t"]
 plan_unknown = true
-assertions = 1
+assertions = 61
 tap_plan = "none"
-source_assertions = 61
 pass = 0
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."295-net-wm-state-focused.t"]
 plan_unknown = true
-assertions = 3
+assertions = 5
 tap_plan = "none"
-source_assertions = 5
 pass = 1
 fail = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."296-regress-focus-behind-fullscreen-floating.t"]
 assertions = 1
@@ -1362,13 +1383,14 @@ pass = 1
 
 [files."301-shape.t"]
 plan_unknown = true
-assertions = 2
+assertions = 4
 tap_plan = "none"
-source_assertions = 4
 pass = 1
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."302-tree.t"]
 plan_unknown = true
@@ -1473,13 +1495,14 @@ citation = "i3/t/313-include.t:1"
 
 [files."315-all-criterion.t"]
 plan_unknown = true
-assertions = 2
+assertions = 18
 tap_plan = "none"
-source_assertions = 18
 pass = 2
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."315-long-commands.t"]
 assertions = 4
@@ -1617,13 +1640,14 @@ reason_verified = false
 
 [files."505-scratchpad-resolution.t"]
 plan_unknown = true
-assertions = 45
+assertions = 90
 tap_plan = "none"
-source_assertions = 90
 pass = 45
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."506-focus-right.t"]
 assertions = 31
@@ -1651,13 +1675,14 @@ reason_verified = false
 
 [files."510-focus-across-outputs.t"]
 plan_unknown = true
-assertions = 10
+assertions = 19
 tap_plan = "none"
-source_assertions = 19
 pass = 2
 fail = 8
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."511-scratchpad-configure-request.t"]
 assertions = 2
@@ -1692,13 +1717,14 @@ pass = 2
 
 [files."516-move.t"]
 plan_unknown = true
-assertions = 12
+assertions = 14
 tap_plan = "none"
-source_assertions = 14
 pass = 6
 fail = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."517-regress-move-direction-ipc.t"]
 assertions = 2
@@ -1731,13 +1757,14 @@ pass = 1
 
 [files."522-rename-assigned-workspace.t"]
 plan_unknown = true
-assertions = 7
+assertions = 9
 tap_plan = "none"
-source_assertions = 9
 pass = 1
 fail = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."523-move-position-center.t"]
 assertions = 4
@@ -1768,13 +1795,14 @@ reason_verified = false
 
 [files."527-focus-fallback.t"]
 plan_unknown = true
-assertions = 1
+assertions = 2
 tap_plan = "none"
-source_assertions = 2
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."528-workspace-next-prev-reversed.t"]
 assertions = 38
@@ -1887,13 +1915,14 @@ pass = 2
 
 [files."550-focus-workspace.t"]
 plan_unknown = true
-assertions = 8
+assertions = 17
 tap_plan = "none"
-source_assertions = 17
 pass = 0
 fail = 8
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."550-split-redundant-containers.t"]
 plan_unknown = true
@@ -1908,13 +1937,14 @@ reason_verified = false
 
 [files."551-net-wm-state-maximized.t"]
 plan_unknown = true
-assertions = 2
+assertions = 12
 tap_plan = "none"
-source_assertions = 12
 pass = 0
 fail = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_kill_disconnects_client"
+reason_verified = true
+citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
+skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }]
 
 [files."553-popup_during_fullscreen.t"]
 assertions = 20
