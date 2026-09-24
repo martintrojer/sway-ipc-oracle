@@ -3,45 +3,76 @@
 # compared exactly. Tree-specific checks retain layout information hidden here.
 
 [[ignore_key]]
+name = "runtime-identifiers"
 keys = ["id", "pid", "foreign_toplevel_identifier"]
 reason = "IDs and process metadata are allocated independently by each run."
 
 [[ignore_key]]
+name = "focus-by-child-position"
 keys = ["focus"]
 reason = "Focus arrays contain dynamic node IDs; compare them by child position."
 
 [[ignore_key]]
+name = "rectangle-semantics"
 keys = ["rect", "deco_rect", "window_rect", "geometry"]
 reason = "Rectangles vary with font metrics; compare outer tree rectangles with 10 px tolerance and preserve rectangle-role relationships."
 
 [[ignore_key]]
+name = "backend-output-reference"
 keys = ["output"]
 reason = "Output names depend on the nested Wayland, headless, or X11 backend."
 
 [[ignore_key]]
+name = "backend-output-properties"
 keys = ["make", "model", "serial", "adaptive_sync_status", "modes"]
 reason = "Output identity, modes, and adaptive-sync support depend on the backend."
 
 [[ignore_path]]
+name = "backend-output-capabilities"
 suffixes = [".current_mode.refresh", ".features.adaptive_sync"]
 reason = "Refresh and adaptive-sync support depend on the backend."
 
 [[ignore_output_key]]
+name = "backend-output-name"
 keys = ["name"]
 reason = "Output names depend on the backend."
 
-[tree]
-rect_tolerance = 10
+[[tree_field_rule]]
+name = "floating-rect-run-variance"
+field = "rect"
+action = "ignore"
+selector = { floating = "user_on" }
+reason = "Sway 1.12 chooses floating defaults from client state that is not stable across fresh runs."
+evidence = "Five fresh runs each of one_floating, two_floating, and three_floating_raise observed x=285,y=458 with either 700x493/percent=0.20356120257695062 or 1270x664/percent=0.49076704545454547; three_floating_raise run 1 contained both defaults while runs 2-5 contained only 700x493."
+
+[[tree_field_rule]]
+name = "tree-rect-tolerance"
+field = "rect"
+action = "rect_tolerance"
+tolerance = 10
 reason = "The sway capture used host font metrics; 10 px admits titlebar differences but rejects a wrong layout or unit placeholder."
 
+[[tree_field_rule]]
+name = "floating-percent-run-variance"
+field = "percent"
+action = "ignore"
+selector = { floating = "user_on" }
+reason = "Floating percent changes with sway's variable default floating rectangle."
+evidence = "The same N=5 fresh-run measurement observed percent=0.20356120257695062 at 700x493 and percent=0.49076704545454547 at 1270x664."
+
+[[tree_field_rule]]
+name = "tree-percent-tolerance"
+field = "percent"
+action = "numeric_tolerance"
+tolerance = 1e-9
+reason = "All non-floating percentages, including workspace percentages, are semantic layout values and are compared within floating-point tolerance."
+
 [focus]
+name = "focus-child-position-comparison"
 mode = "child_position"
 reason = "Child position maps independently allocated IDs while preserving focus membership and order."
 
-[percent]
-tolerance = 1e-9
-reason = "Container percentages and complete child sums are semantic layout values."
-
 [arrays]
+name = "backend-mode-array-length"
 ignore_length_suffixes = [".modes"]
 reason = "Sway's nested output advertised no modes while headless backends advertise synthetic modes."

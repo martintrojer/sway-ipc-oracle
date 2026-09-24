@@ -7,11 +7,13 @@
 compositor = "sway"
 version = "1.12-88869399 (Sep 24 2026, branch 'HEAD')"
 commit = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
-oracle_commit = "37b61190b24f98851e3c4b6ce781573d1ac804e3"
+oracle_commit = "08783f8ae74b59a87d4bbce2cc9134a0ac650c0a"
 date = "2026-09-24"
 normalization = "sway-ipc/normalize.toml"
+normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-match = 90
+difference_fields = 0
+match = 93
 mismatch = 0
 not_applicable = 0
 
@@ -376,17 +378,17 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
-scenario = "urgent"
+scenario = "urgent_via_command"
 request = "tree"
 verdict = "match"
 
 [[result]]
-scenario = "urgent"
+scenario = "urgent_via_command"
 request = "workspaces"
 verdict = "match"
 
 [[result]]
-scenario = "urgent"
+scenario = "urgent_via_command"
 request = "outputs"
 verdict = "match"
 
@@ -462,5 +464,20 @@ verdict = "match"
 
 [[result]]
 scenario = "disabled_output_evacuation"
+request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "tree"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "workspaces"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
 request = "outputs"
 verdict = "match"

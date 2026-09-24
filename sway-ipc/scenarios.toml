@@ -92,10 +92,10 @@ name = "borders_and_gaps"
 actions = ["command:gaps inner all set 17", "command:gaps outer all set 23", "window:fixture-normal", "command:border normal 4", "window:fixture-pixel", "command:border pixel 6", "window:fixture-none", "command:border none", "capture:borders_and_gaps"]
 
 [[scenario]]
-name = "urgent"
+name = "urgent_via_command"
 compositors = ["sway", "swayward"]
-reason = "i3 has no urgent command; source: i3/src/commands.c command table"
-actions = ["window:fixture-1", "command:workspace 2", "command:[app_id=\"^fixture-1$\"] urgent enable", "capture:urgent"]
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+actions = ["window:fixture-1", "command:workspace 2", "command:[app_id=\"^fixture-1$\"] urgent enable", "capture:urgent_via_command"]
 
 [[scenario]]
 name = "markup_title"

@@ -154,6 +154,29 @@ def load_rules():
         return tomllib.load(file)
 
 
+def rule_names(rules):
+    names = []
+    for value in rules.values():
+        entries = value if isinstance(value, list) else [value]
+        names.extend(entry["name"] for entry in entries
+                     if isinstance(entry, dict) and "name" in entry)
+    return names
+
+
+def tree_field_rules(rules, field, action=None):
+    return [rule for rule in rules["tree_field_rule"]
+            if rule["field"] == field and (action is None or rule["action"] == action)]
+
+
+def rule_matches(rule, value):
+    return all(value.get(key) == expected
+               for key, expected in rule.get("selector", {}).items())
+
+
+def difference_path(difference):
+    return difference.split(":", 1)[0]
+
+
 def load_applicability():
     with open(ROOT / "sway-ipc/applicability.toml", "rb") as file:
         return tomllib.load(file)
@@ -187,9 +210,13 @@ def normalize(value, rules, path="$", is_output=False):
         ignored = {key for rule in rules["ignore_key"] for key in rule["keys"]}
         output_ignored = {key for rule in rules["ignore_output_key"] for key in rule["keys"]}
         suffixes = tuple(suffix for rule in rules["ignore_path"] for suffix in rule["suffixes"])
+        conditional_ignores = [rule for rule in rules["tree_field_rule"]
+                               if rule["action"] == "ignore" and rule_matches(rule, value)]
         for key, child in value.items():
             child_path = f"{path}.{key}"
-            if key in ignored or (output and key in output_ignored) or child_path.endswith(suffixes):
+            if (key in ignored or (output and key in output_ignored)
+                    or child_path.endswith(suffixes)
+                    or any(rule["field"] == key for rule in conditional_ignores)):
                 value[key] = NORMAL
             else:
                 normalize(child, rules, child_path, output)
@@ -198,21 +225,28 @@ def normalize(value, rules, path="$", is_output=False):
             normalize(child, rules, f"{path}[{index}]", is_output)
 
 
-def diff_values(expected, actual, path, differences, ignored_array_suffixes):
+def diff_values(expected, actual, path, differences, ignored_array_suffixes, numeric_tolerances):
     if type(expected) is not type(actual):
         differences.append(f"{path}: type {type(expected).__name__} != {type(actual).__name__}")
     elif isinstance(expected, dict):
         if expected.keys() != actual.keys():
             differences.append(f"{path}: keys differ")
         for key in expected.keys() & actual.keys():
-            diff_values(expected[key], actual[key], f"{path}.{key}", differences, ignored_array_suffixes)
+            diff_values(expected[key], actual[key], f"{path}.{key}", differences,
+                        ignored_array_suffixes, numeric_tolerances)
     elif isinstance(expected, list):
         if not path.endswith(ignored_array_suffixes) and len(expected) != len(actual):
             differences.append(f"{path}: length {len(expected)} != {len(actual)}")
         for index, (left, right) in enumerate(zip(expected, actual)):
-            diff_values(left, right, f"{path}[{index}]", differences, ignored_array_suffixes)
-    elif expected != actual and not (path.endswith(".percent") and isinstance(expected, (int, float)) and isinstance(actual, (int, float))):
-        differences.append(f"{path}: {expected!r} != {actual!r}")
+            diff_values(left, right, f"{path}[{index}]", differences,
+                        ignored_array_suffixes, numeric_tolerances)
+    elif expected != actual:
+        tolerance = next((value for suffix, value in numeric_tolerances
+                          if path.endswith(suffix)), None)
+        if (tolerance is None or not isinstance(expected, (int, float))
+                or not isinstance(actual, (int, float))
+                or abs(expected - actual) >= tolerance):
+            differences.append(f"{path}: {expected!r} != {actual!r}")
 
 
 def tree_pairs(expected, actual, path="$tree"):
@@ -224,14 +258,17 @@ def tree_pairs(expected, actual, path="$tree"):
 
 def semantic_tree_diffs(expected, actual, rules):
     differences = []
-    tolerance = rules["tree"]["rect_tolerance"]
-    epsilon = rules["percent"]["tolerance"]
+    rect_rule = tree_field_rules(rules, "rect", "rect_tolerance")[0]
+    percent_rule = tree_field_rules(rules, "percent", "numeric_tolerance")[0]
+    rect_ignores = tree_field_rules(rules, "rect", "ignore")
+    percent_ignores = tree_field_rules(rules, "percent", "ignore")
+    tolerance = rect_rule["tolerance"]
+    epsilon = percent_rule["tolerance"]
     for left, right, path in tree_pairs(expected, actual):
-        for key in ("x", "y", "width", "height"):
-            if left.get("floating") == "user_on":
-                break
-            if abs(left["rect"][key] - right["rect"][key]) > tolerance:
-                differences.append(f"{path}.rect.{key}: outside {tolerance}px tolerance")
+        if not any(rule_matches(rule, left) for rule in rect_ignores):
+            for key in ("x", "y", "width", "height"):
+                if abs(left["rect"][key] - right["rect"][key]) > tolerance:
+                    differences.append(f"{path}.rect.{key}: outside {tolerance}px tolerance")
         expected_children = left.get("nodes", []) + left.get("floating_nodes", [])
         actual_children = right.get("nodes", []) + right.get("floating_nodes", [])
         mapping = {a.get("id"): b.get("id") for a, b in zip(expected_children, actual_children)}
@@ -240,13 +277,11 @@ def semantic_tree_diffs(expected, actual, rules):
         actual_focus = [item for item in right.get("focus", []) if item in actual_ids]
         if mapped_focus != actual_focus:
             differences.append(f"{path}.focus: child-position order differs")
-        if left.get("type") == "con" and left.get("nodes"):
+        if not any(rule_matches(rule, left) for rule in percent_ignores):
             lp, rp = left.get("percent"), right.get("percent")
-            if not isinstance(lp, (int, float)) or not isinstance(rp, (int, float)) or abs(lp - rp) >= epsilon:
-                differences.append(f"{path}.percent: differs")
-        if left.get("type") == "con" and not left.get("nodes") and left.get("floating") == "auto_off":
-            lp, rp = left.get("percent"), right.get("percent")
-            if not isinstance(lp, (int, float)) or not isinstance(rp, (int, float)) or abs(lp - rp) >= epsilon:
+            if ((lp is None) != (rp is None)
+                    or (lp is not None and (not isinstance(lp, (int, float))
+                        or not isinstance(rp, (int, float)) or abs(lp - rp) >= epsilon))):
                 differences.append(f"{path}.percent: differs")
         if left.get("type") == "con" and not left.get("nodes"):
             for role in ("window_rect", "deco_rect", "geometry"):
@@ -263,7 +298,10 @@ def compare(expected, actual, request, rules):
     left, right = copy.deepcopy(expected), copy.deepcopy(actual)
     normalize(left, rules, f"${request}")
     normalize(right, rules, f"${request}")
-    diff_values(left, right, f"${request}", differences, ignored)
+    numeric_tolerances = [(f".{rule['field']}", rule["tolerance"])
+                          for rule in rules["tree_field_rule"]
+                          if rule["action"] == "numeric_tolerance"]
+    diff_values(left, right, f"${request}", differences, ignored, numeric_tolerances)
     if request == "tree" and not differences:
         differences.extend(semantic_tree_diffs(expected, actual, rules))
     return list(dict.fromkeys(differences))
@@ -558,6 +596,8 @@ def toml_string(value):
 def write_results(path, compositor, version, commit, rows, rules, run_mode):
     verdicts = ("match", "differs", "not applicable") if compositor == "i3" else ("match", "mismatch", "not applicable")
     counts = {key: sum(row["verdict"] == key for row in rows) for key in verdicts}
+    difference_fields = len({difference_path(item) for row in rows
+                             for item in row.get("differences", [])})
     lines = [
         "# Generated by contrib/sway-ipc-run. One row is one IPC request at a",
         "# captured scenario. Difference paths are JSON paths after documented normalization.",
@@ -571,7 +611,9 @@ def write_results(path, compositor, version, commit, rows, rules, run_mode):
         f"oracle_commit = {toml_string(subprocess.check_output(['git', '-C', ROOT, 'rev-parse', 'HEAD'], text=True).strip())}",
         f"date = {toml_string(datetime.date.today().isoformat())}",
         'normalization = "sway-ipc/normalize.toml"',
+        "normalization_rules = [" + ", ".join(toml_string(name) for name in rule_names(rules)) + "]",
         f"scenario_isolation = {toml_string(run_mode)}",
+        f"difference_fields = {difference_fields}",
         *[f"{key.replace(' ', '_')} = {counts[key]}" for key in verdicts],
         "",
     ]
@@ -584,7 +626,7 @@ def write_results(path, compositor, version, commit, rows, rules, run_mode):
         lines.append("")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines))
-    return counts
+    return counts, difference_fields
 
 
 def scenario_main(args, parser):
@@ -671,14 +713,18 @@ def scenario_main(args, parser):
         commit = version_reply.get("commit", "unknown")
     out = args.out or ROOT / f"sway-ipc/results/{args.compositor}.toml"
     run_mode = "fresh compositor per scenario" if args.fresh_per_scenario else "sequential, with output-count scenarios isolated"
-    counts = write_results(out, args.compositor, version, commit, rows, rules, run_mode)
-    print("; ".join(f"{key}: {counts[key]}" for key in counts))
+    counts, difference_fields = write_results(out, args.compositor, version, commit, rows, rules, run_mode)
+    print("; ".join([*(f"{key}: {counts[key]}" for key in counts),
+                     f"difference fields: {difference_fields}"]))
     return bool(counts.get("mismatch", 0))
 
 
 def write_differential_results(path, args, rows):
     counts = {"match": sum(row["verdict"] == "match" for row in rows),
               "mismatch": sum(row["verdict"] == "mismatch" for row in rows)}
+    rules = load_rules()
+    difference_fields = len({difference_path(item) for row in rows
+                             for item in row.get("differences", [])})
     grouped = []
     for row in rows:
         if row["verdict"] == "match":
@@ -698,6 +744,8 @@ def write_differential_results(path, args, rows):
         f"steps = {args.steps}", f"seeds = {len(rows)}",
         f"date = {toml_string(datetime.date.today().isoformat())}",
         'normalization = "sway-ipc/normalize.toml"',
+        "normalization_rules = [" + ", ".join(toml_string(name) for name in rule_names(rules)) + "]",
+        f"difference_fields = {difference_fields}",
         f"match = {counts['match']}", f"mismatch = {counts['mismatch']}", "",
     ]
     for row in grouped:
@@ -717,7 +765,8 @@ def write_differential_results(path, args, rows):
         lines.append("")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines))
-    print(f"match: {counts['match']}; mismatch: {counts['mismatch']}")
+    print(f"match: {counts['match']}; mismatch: {counts['mismatch']}; "
+          f"difference fields: {difference_fields}")
     return bool(counts["mismatch"])
 
 

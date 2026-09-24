@@ -13,6 +13,10 @@ for result in "${sway_ipc_results[@]}"; do
     python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$result"
 done
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
+if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then
+    echo "comparator field exemptions must be declared in sway-ipc/normalize.toml" >&2
+    exit 1
+fi
 python3 -c 'import tomllib; tomllib.load(open("sway-ipc/scenarios.toml", "rb")); tomllib.load(open("sway-ipc/normalize.toml", "rb")); tomllib.load(open("sway-ipc/applicability.toml", "rb"))'
 ./contrib/test-sway-ipc-applicability
 

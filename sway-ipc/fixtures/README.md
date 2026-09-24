@@ -23,9 +23,10 @@ back-to-front stacking order, while the workspace `focus` array lists the
 focused floating window first. `three_floating_after_raise` focuses
 `fixture-1`, making the order change observable.
 
-Fourteen of the original fifteen requested scenarios were captured. `urgent`
-is absent because foot did not expose an urgency hint after an unfocused
-terminal emitted BEL; no substitute fixture was invented.
+The `urgent_via_command` scenario records compositor-originated urgency set by
+sway's `urgent enable` IPC command. It does not cover client-originated urgency:
+foot emitting BEL and an xterm bell did not raise urgency in the nested sway
+capture environment.
 
 `inputs.json` was recaptured with the query fixtures from the sway 1.12
 Wayland-backend session. It records the backend-neutral pointer and keyboard
