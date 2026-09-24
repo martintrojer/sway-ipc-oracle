@@ -113,7 +113,6 @@ sub sway_sync {
             if $ENV{I3_SUITE_FAKE_OUTPUTS};
         return $command;
     };
-    my @open_windows;
     my $toggle_split = sub {
         my $tree = _tree_object();
         my ($node, $parent) = ($tree, undef);
@@ -135,16 +134,11 @@ sub sway_sync {
         return $result;
     };
     *i3test::cmd_nosync = sub {
-        if (@_ == 1 && $_[0] eq 'open') {
-            push @open_windows, i3test::open_window();
-            return [{ success => 1 }];
-        }
         return $cmd_nosync->($toggle_split->()) if @_ == 1 && $_[0] eq 'split toggle';
         return $cmd_nosync->($map_fake_outputs->($_[0])) if @_ == 1;
         return $cmd_nosync->(@_);
     };
     *i3test::cmd = sub {
-        return i3test::cmd_nosync(@_) if @_ == 1 && $_[0] eq 'open';
         if (@_ == 1 && $_[0] eq 'split toggle') {
             my $result = $cmd_nosync->($toggle_split->());
             sway_sync();
