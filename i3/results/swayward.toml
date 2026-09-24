@@ -13,6 +13,7 @@ environment = "headless compositor with private IPC/X11 sockets and real X11 cli
 sway_config_include_ipc = "Sway's GET_VERSION reports only the top-level loaded config path, and GET_CONFIG returns only the assembled current config string. It does not expose i3's included_config_file_names or included_configs metadata."
 sway_hidden_scratchpad_floating = "Sway deliberately rejects floating changes on a hidden scratchpad container, while i3 accepts the commands exercised by this regression test."
 xwayland_satellite_no_x11_class = "Swayward receives xwayland-satellite windows as xdg_toplevels whose app_id contains WM_CLASS; it does not receive a separate X11 class field for sway class criteria."
+xwayland_satellite_metadata_limit = "Swayward receives X11 windows from xwayland-satellite as xdg_toplevels. The satellite does not forward X11 window type, XID, requested client geometry, size hints, or WM_HINTS urgency, so assertions whose setup or observation requires those properties cannot measure swayward behavior."
 i3_parser_internals = "These tests execute i3 build-only parser binaries and assert i3 parser callbacks and diagnostics, not compositor IPC behavior. Sway has no corresponding standalone parser executables."
 sway_no_append_layout = "Sway deliberately omits i3 append_layout and its placeholder/swallow layout restoration model; the command is absent from sway runtime handlers."
 sway_command_vocabulary = "These assertions require i3-only command spellings: open creates an empty container and 1pixel aliases border pixel. Sway implements neither spelling."
@@ -21,6 +22,7 @@ i3_fake_outputs = "These tests require i3's test-only fake-outputs option to cre
 i3_append_layout = "i3 exposes append_layout as a runtime command. Sway's runtime command table has no append_layout handler, so i3 layout-restore assertions do not apply."
 i3_open_command = "i3 exposes a test-oriented open runtime command that creates an empty container. Sway's runtime command table has no open handler, so assertions about empty containers created this way do not apply."
 sway_ipc_root_border_width = "i3 reports -1 as the root node's unset current_border_width. Sway deliberately initializes synthetic IPC nodes, including the root, with current_border_width 0."
+sway_ipc_internal_border_width = "i3 reports -1 as sentinel border metadata on internal containers. Sway reports current border thickness and initializes non-view containers to 0."
 workspace_layout_stacked_keyword = "i3 accepts workspace_layout stacked. Sway accepts stacking instead and rejects stacked, so assertions made after loading the i3 spelling do not apply."
 headless_xtest_boundary = "The headless harness cannot deliver XTEST events from Xwayland to a Wayland compositor, so assertions that depend on those events are not measured."
 xwayland_satellite_kill_disconnects_client = "Swayward sends xdg_toplevel.close when its kill command closes an Xwayland surface. xwayland-satellite handles that event by sending X KillClient when WM_DELETE_WINDOW is absent; i3 instead destroys only the selected window for its default kill mode. i3test creates every test window on one connection without WM_PROTOCOLS, so later assertions cannot run after the first kill."
@@ -1389,9 +1391,10 @@ adapted = ["remove-adapter-ipc-socket"]
 assertions = 21
 tap_plan = 21
 pass = 6
-fail = 15
-reason = "swayward_geometry_finding"
+reason = "xwayland_satellite_metadata_limit"
 reason_verified = true
+citation = "sway/sway/desktop/xwayland.c:310-339; sway/sway/tree/view.c:433-455; xwayland-satellite/src/server/clientside.rs:294-296"
+skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 4, reason = "xwayland_satellite_metadata_limit" }, { n = 5, reason = "xwayland_satellite_metadata_limit" }, { n = 6, reason = "xwayland_satellite_metadata_limit" }, { n = 7, reason = "xwayland_satellite_metadata_limit" }, { n = 9, reason = "xwayland_satellite_metadata_limit" }, { n = 11, reason = "xwayland_satellite_metadata_limit" }, { n = 12, reason = "xwayland_satellite_metadata_limit" }, { n = 13, reason = "xwayland_satellite_metadata_limit" }, { n = 14, reason = "xwayland_satellite_metadata_limit" }, { n = 16, reason = "xwayland_satellite_metadata_limit" }, { n = 18, reason = "xwayland_satellite_metadata_limit" }, { n = 19, reason = "xwayland_satellite_metadata_limit" }, { n = 20, reason = "xwayland_satellite_metadata_limit" }, { n = 21, reason = "xwayland_satellite_metadata_limit" }]
 
 [files."231-ipc-floating-event.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1918,9 +1921,10 @@ adapted = ["remove-adapter-ipc-socket"]
 assertions = 31
 tap_plan = 31
 pass = 22
-fail = 9
-reason = "swayward_geometry_finding"
+reason = "xwayland_satellite_metadata_limit"
 reason_verified = true
+citation = "sway/sway/desktop/xwayland.c:310-339; sway/sway/tree/view.c:433-455; xwayland-satellite/src/server/clientside.rs:294-296"
+skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 3, reason = "xwayland_satellite_metadata_limit" }, { n = 4, reason = "xwayland_satellite_metadata_limit" }, { n = 8, reason = "xwayland_satellite_metadata_limit" }, { n = 10, reason = "xwayland_satellite_metadata_limit" }, { n = 20, reason = "sway_ipc_internal_border_width", citation = "sway/sway/ipc-json.c:746-751" }, { n = 21, reason = "xwayland_satellite_metadata_limit" }, { n = 23, reason = "xwayland_satellite_metadata_limit" }, { n = 27, reason = "xwayland_satellite_metadata_limit" }]
 
 [files."289-ipc-shutdown-event.t"]
 adapted = ["remove-adapter-ipc-socket"]

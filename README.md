@@ -129,7 +129,7 @@ Publish black-box results from the oracle's runners under the matching oracle's 
 
 ## i3 suite comparison
 
-These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record i3 **3,754/1/0**, sway **1,311/460/445**, and swayward **1,427/946/938**. All sway failures now carry a verified family classification. `contrib/validate` checks these hand-written summary figures, every table row, and matching boundary-family verdicts across the Wayland compositors against the TOML files.
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record i3 **3,754/1/0**, sway **1,311/460/445**, and swayward **1,427/970/914**. All sway failures now carry a verified family classification. `contrib/validate` checks these hand-written summary figures, every table row, and matching boundary-family verdicts across the Wayland compositors against the TOML files.
 
 | File | i3 P/S/F | sway P/S/F | swayward P/S/F |
 | --- | ---: | ---: | ---: |
@@ -239,7 +239,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `225-ipc-window-fullscreen.t` | 2/0/0 | 2/0/0 | 0/0/2 |
 | `226-internal-workspaces.t` | 5/0/0 | 1/0/4 | 1/0/4 |
 | `227-ipc-workspace-empty.t` | 3/0/0 | 0/0/1 | 0/0/3 |
-| `228-border-widths.t` | 21/0/0 | 18/0/3 | 6/0/15 |
+| `228-border-widths.t` | 21/0/0 | 18/0/3 | 6/15/0 |
 | `231-ipc-floating-event.t` | 2/0/0 | 1/0/1 | 0/0/2 |
 | `232-cmd-move-criteria.t` | 22/0/0 | 22/0/0 | 6/0/6 |
 | `233-regress-manage-focus-unmapped.t` | 2/0/0 | 1/0/0 | 0/0/2 |
@@ -288,7 +288,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `284-ewmh-visible-name.t` | 5/0/0 | 0/0/0 | 0/0/5 |
 | `285-sticky.t` | 11/0/0 | 2/0/0 | 2/9/0 |
 | `286-root-window-mouse-binding.t` | 2/0/0 | 1/0/0 | 1/0/0 |
-| `287-edge-borders.t` | 31/0/0 | 29/0/2 | 22/0/9 |
+| `287-edge-borders.t` | 31/0/0 | 29/0/2 | 22/9/0 |
 | `289-ipc-shutdown-event.t` | 4/0/0 | 0/0/0 | 0/0/4 |
 | `290-keypress-numlock.t` | 85/0/0 | 25/0/60 | 1/0/84 |
 | `291-swap.t` | 148/0/0 | 1/0/0 | 1/147/0 |
