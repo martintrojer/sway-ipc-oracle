@@ -49,9 +49,8 @@ evidence = "Five fresh runs each of one_floating, two_floating, and three_floati
 name = "tree-rect-tolerance"
 field = "rect"
 action = "rect_tolerance"
-tolerance = 70
-reason = "The sway capture used host font metrics; stacked layouts accumulate one titlebar-height difference per child at each nested level. The measured maximum is 69 px, while a wrong layout or unit placeholder differs by hundreds of pixels."
-evidence = "Fresh 1270x1408 runs measured sway/swayward coordinate deltas of 32 and 37 px in nested_tabbed_in_stacked, and 20, 32, and 69 px in nested_stacked_in_tabbed. Sway's titlebar is 27 px and swayward's is 22 px."
+tolerance = 10
+reason = "The sway capture used host font metrics; 10 px admits titlebar differences but rejects a wrong layout or unit placeholder."
 
 [[tree_field_rule]]
 name = "floating-percent-run-variance"
@@ -65,9 +64,8 @@ evidence = "The same N=5 fresh-run measurement observed percent=0.20356120257695
 name = "tree-percent-tolerance"
 field = "percent"
 action = "numeric_tolerance"
-tolerance = 0.008
-reason = "Nested tabbed and stacked percentages include compositor-measured titlebar heights. The 1270x1408 fixtures use sway's 27 px titlebar while swayward measures 22 px from its installed monospace font; their largest observed percentage delta is 0.007356067896749, while a one-pixel split error at this size is about 0.00071."
-evidence = "Fresh runs of nested_tabbed_in_stacked and nested_stacked_in_tabbed measured sway/swayward pairs 0.9808238636363636/0.984375, 0.9804489500362057/0.9841269841269841, and 0.9608979000724113/0.9682539682539683."
+tolerance = 1e-9
+reason = "All non-floating percentages, including workspace percentages, are semantic layout values and are compared within floating-point tolerance."
 
 [focus]
 name = "focus-child-position-comparison"
