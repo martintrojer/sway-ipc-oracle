@@ -1,0 +1,1223 @@
+# Curated result of an unchanged upstream i3 test-suite run.
+# Counts use the first unindented TAP plan and first TAP stream.
+# pass, skip, fail, and unreached together cover each emitted plan.
+
+[run]
+compositor = "i3"
+version = "4.25-25-g9be3249a"
+commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
+i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
+environment = "Xvfb with i3's complete-run.pl"
+
+[files."001-tile.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."003-ipc.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."005-floating.t"]
+assertions = 13
+tap_plan = 13
+pass = 13
+
+[files."100-fullscreen.t"]
+assertions = 79
+tap_plan = 79
+pass = 79
+
+[files."101-focus.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."102-dock.t"]
+assertions = 23
+tap_plan = 23
+pass = 23
+
+[files."104-focus-stack.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."111-goto.t"]
+assertions = 13
+tap_plan = 13
+pass = 13
+
+[files."112-floating-resize.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."113-urgent.t"]
+assertions = 64
+tap_plan = 64
+pass = 64
+
+[files."115-ipc-workspaces.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."116-nestedcons.t"]
+assertions = 7
+tap_plan = 7
+pass = 7
+
+[files."117-workspace.t"]
+assertions = 92
+tap_plan = 92
+pass = 92
+
+[files."118-openkill.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."119-match.t"]
+assertions = 27
+tap_plan = 27
+pass = 27
+
+[files."120-multiple-cmds.t"]
+assertions = 31
+tap_plan = 31
+pass = 31
+
+[files."121-next-prev.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."122-split.t"]
+assertions = 41
+tap_plan = 41
+pass = 41
+
+[files."124-move.t"]
+assertions = 54
+tap_plan = 54
+pass = 54
+
+[files."126-regress-close.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."127-regress-floating-parent.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."128-open-order.t"]
+assertions = 7
+tap_plan = 7
+pass = 7
+
+[files."129-focus-after-close.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."130-close-empty-split.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."131-stacking-order.t"]
+assertions = 7
+tap_plan = 7
+pass = 7
+
+[files."132-move-workspace.t"]
+assertions = 160
+tap_plan = 160
+pass = 160
+
+[files."133-size-hints.t"]
+assertions = 16
+tap_plan = 16
+pass = 16
+
+[files."134-invalid-command.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."135-floating-focus.t"]
+assertions = 82
+tap_plan = 82
+pass = 82
+
+[files."136-floating-ws-empty.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."137-floating-unmap.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."138-floating-attach.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."139-ws-numbers.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."140-focus-lost.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."141-resize.t"]
+assertions = 84
+tap_plan = 84
+pass = 84
+
+[files."142-regress-move-floating.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."143-regress-floating-restart.t"]
+assertions = 5
+tap_plan = 5
+pass = 5
+
+[files."144-regress-floating-resize.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."145-flattening.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."146-floating-reinsert.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."147-regress-floatingmove.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."148-regress-floatingmovews.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."150-regress-dock-restart.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."151-regress-float-size.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."152-regress-level-up.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."153-floating-originalsize.t"]
+assertions = 7
+tap_plan = 7
+pass = 7
+
+[files."154-regress-multiple-dock.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."155-floating-split-size.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."156-fullscreen-focus.t"]
+assertions = 64
+tap_plan = 64
+pass = 64
+
+[files."159-socketpaths.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."161-regress-borders-restart.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."162-regress-dock-urgent.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."164-kill-win-vs-client.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."165-for_window.t"]
+assertions = 79
+tap_plan = 79
+pass = 79
+
+[files."166-assign.t"]
+assertions = 106
+tap_plan = 106
+pass = 106
+
+[files."167-workspace_layout.t"]
+assertions = 87
+tap_plan = 87
+pass = 87
+
+[files."168-regress-fullscreen-restart.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."169-border-toggle.t"]
+assertions = 20
+tap_plan = 20
+pass = 20
+
+[files."170-force_focus_wrapping.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."172-start-on-named-ws.t"]
+assertions = 7
+tap_plan = 7
+pass = 7
+
+[files."173-get-marks.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."174-border-config.t"]
+assertions = 13
+tap_plan = 13
+pass = 13
+
+[files."176-workspace-baf.t"]
+assertions = 26
+tap_plan = 26
+pass = 26
+
+[files."177-bar-config.t"]
+assertions = 50
+tap_plan = 50
+pass = 50
+
+[files."178-regress-workspace-open.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."179-regress-multiple-ws.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."180-fd-leaks.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."181-regress-float-border.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."182-regress-focus-dock.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."183-config-variables.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."184-regress-float-split-resize.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."185-scratchpad.t"]
+assertions = 100
+tap_plan = 100
+pass = 100
+
+[files."186-regress-assign-focus-parent.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."187-commands-parser.t"]
+assertions = 25
+tap_plan = 25
+pass = 25
+
+[files."188-regress-focus-restart.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."189-floating-constraints.t"]
+assertions = 28
+tap_plan = 28
+pass = 28
+
+[files."190-scratchpad-diff-ws.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."191-resize-levels.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."192-layout.t"]
+assertions = 34
+tap_plan = 34
+pass = 34
+
+[files."193-ipc-version.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."194-regress-floating-size.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."196-randr-output-names.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."197-regression-move-vanish.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."198-regression-scratchpad-crash.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."199-ipc-mode-event.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."200-urgency-timer.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."201-config-parser.t"]
+assertions = 32
+tap_plan = 32
+pass = 32
+
+[files."202-scratchpad-criteria.t"]
+assertions = 27
+tap_plan = 27
+pass = 27
+
+[files."203-regress-assign-and-move.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."204-regress-scratchpad-move.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."205-ipc-windows.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."206-fullscreen-scratchpad.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."208-regress-floating-criteria.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."210-mark-unmark.t"]
+assertions = 17
+tap_plan = 17
+pass = 17
+
+[files."211-regress-urgency-assign.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."212-assign-urgency.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."213-layout-restore-simple.t"]
+assertions = 18
+tap_plan = 18
+pass = 18
+
+[files."218-regress-floating-split.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."219-ipc-window-focus.t"]
+assertions = 10
+tap_plan = 10
+pass = 10
+
+[files."220-ipc-window-title.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."221-floating-type-hints.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."222-regress-dock-resize.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."224-regress-resize-branch.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."225-ipc-window-fullscreen.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."226-internal-workspaces.t"]
+assertions = 5
+tap_plan = 5
+pass = 5
+
+[files."227-ipc-workspace-empty.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."228-border-widths.t"]
+assertions = 21
+tap_plan = 21
+pass = 21
+
+[files."231-ipc-floating-event.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."232-cmd-move-criteria.t"]
+assertions = 22
+tap_plan = 22
+pass = 22
+
+[files."233-regress-manage-focus-unmapped.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."235-check-config-no-x.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."236-floating-focus-raise.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."237-regress-assign-focus.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."238-ipc-binding-event.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."240-focus-on-window-activation.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."241-consistent-center.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."242-no-focus.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."243-move-to-mark.t"]
+assertions = 50
+tap_plan = 50
+pass = 50
+
+[files."244-new-workspace-floating-enable-center.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."245-move-position-mouse.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."246-window-decoration-focus.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."247-config-line-continuation.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."248-regress-urgency-clear.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."251-command-criteria-focused.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."252-floating-size.t"]
+assertions = 49
+tap_plan = 49
+pass = 49
+
+[files."254-move-to-output-with-criteria.t"]
+assertions = 16
+tap_plan = 16
+pass = 16
+
+[files."255-multiple-marks.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."256-no-auto-back-and-forth.t"]
+assertions = 10
+tap_plan = 10
+pass = 10
+
+[files."257-keypress-group1-fallback.t"]
+assertions = 17
+tap_plan = 17
+pass = 17
+
+[files."258-keypress-release.t"]
+assertions = 49
+tap_plan = 49
+pass = 49
+
+[files."260-invalid-criteria.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."261-match-con_id-con_mark-combinations.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."262-config-validation.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."263-config-reload-reverts-bind-mode.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."264-dock-criteria.t"]
+assertions = 19
+tap_plan = 19
+pass = 19
+
+[files."265-ipc-mark.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."266-net-moveresize-window.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."267-regress-mark-restart.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."268-ipc-config.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."269-focus-stack-above.t"]
+assertions = 5
+tap_plan = 5
+pass = 5
+
+[files."270-config-no-newline-end.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."271-for_window_tilingfloating.t"]
+assertions = 20
+tap_plan = 20
+pass = 20
+
+[files."272-regress-focus-assign.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."273-regress-focus-toggle.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."274-move-branch-position.t"]
+assertions = 16
+tap_plan = 16
+pass = 16
+
+[files."275-ipc-window-close.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."276-ipc-window-move.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."277-ipc-window-urgent.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."279-regress-default-floating-border.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."280-wm-class-change-handler.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."281-regress-reload-bindsym.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."282-tabbed-floating-disable-crash.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."284-ewmh-visible-name.t"]
+assertions = 5
+tap_plan = 5
+pass = 5
+
+[files."285-sticky.t"]
+assertions = 11
+tap_plan = 11
+pass = 11
+
+[files."286-root-window-mouse-binding.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."287-edge-borders.t"]
+assertions = 31
+tap_plan = 31
+pass = 31
+
+[files."289-ipc-shutdown-event.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."290-keypress-numlock.t"]
+assertions = 85
+tap_plan = 85
+pass = 85
+
+[files."291-swap.t"]
+assertions = 148
+tap_plan = 148
+pass = 148
+
+[files."292-regress-layout-toggle.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."293-focus-follows-mouse.t"]
+assertions = 10
+tap_plan = 10
+pass = 10
+
+[files."293-sticky-output-crash.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."294-focus-order.t"]
+assertions = 61
+tap_plan = 61
+pass = 61
+
+[files."295-net-wm-state-focused.t"]
+assertions = 5
+tap_plan = 5
+pass = 5
+
+[files."296-regress-focus-behind-fullscreen-floating.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."297-assign-workspace-to-output.t"]
+assertions = 25
+tap_plan = 25
+pass = 25
+
+[files."297-scroll-tabbed.t"]
+assertions = 16
+tap_plan = 16
+pass = 16
+
+[files."298-ipc-misbehaving-connection.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."299-regress-scratchpad-focus.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."301-shape.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."302-tree.t"]
+assertions = 15
+tap_plan = 15
+pass = 15
+
+[files."303-regress-move-floating.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."304-ipc-workspace-init.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."306-move-to-parent.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."307-focus-next-prev.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."308-focus_wrapping.t"]
+assertions = 32
+tap_plan = 32
+pass = 32
+
+[files."309-crash-move-parent.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."310-client-message-sticky.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."311-get-binding-modes.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."312-regress-layout-default.t"]
+assertions = 0
+tap_plan = 0
+pass = 0
+
+[files."313-include.t"]
+assertions = 30
+tap_plan = 30
+pass = 29
+fail = 1
+reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."
+reason_verified = true
+
+[files."315-all-criterion.t"]
+assertions = 18
+tap_plan = 18
+pass = 18
+
+[files."315-long-commands.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."316-drag-container.t"]
+assertions = 18
+tap_plan = 18
+pass = 18
+
+[files."316-transient-for-loop.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."317-bar-config-font-fallback.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."317-bar-config-font-order.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."317-bar-output-trailing-space.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."319-gaps.t"]
+assertions = 28
+tap_plan = 28
+pass = 28
+
+[files."320-mouse-bindings.t"]
+assertions = 14
+tap_plan = 14
+pass = 14
+
+[files."321-crash-criteria-scratchpad.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."322-match-error-crash.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."324-for-window-reload-crash.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."325-layout-percent-and-marks.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."500-multi-monitor.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."501-scratchpad.t"]
+assertions = 44
+tap_plan = 44
+pass = 44
+
+[files."502-focus-output.t"]
+assertions = 19
+tap_plan = 19
+pass = 19
+
+[files."503-workspace.t"]
+assertions = 18
+tap_plan = 18
+pass = 18
+
+[files."504-move-workspace-to-output.t"]
+assertions = 31
+tap_plan = 31
+pass = 31
+
+[files."505-scratchpad-resolution.t"]
+assertions = 90
+tap_plan = 90
+pass = 90
+
+[files."506-focus-right.t"]
+assertions = 31
+tap_plan = 31
+pass = 31
+
+[files."507-workspace-move-crash.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."509-workspace_layout.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."510-focus-across-outputs.t"]
+assertions = 19
+tap_plan = 19
+pass = 19
+
+[files."511-scratchpad-configure-request.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."512-move-wraps.t"]
+assertions = 10
+tap_plan = 10
+pass = 10
+
+[files."513-move-workspace.t"]
+assertions = 6
+tap_plan = 6
+pass = 6
+
+[files."514-ipc-workspace-multi-monitor.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."515-create-workspace.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."516-move.t"]
+assertions = 14
+tap_plan = 14
+pass = 14
+
+[files."517-regress-move-direction-ipc.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."518-interpret-workspace-numbers.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."519-mouse-warping.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."520-regress-focus-direction-floating.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."522-rename-assigned-workspace.t"]
+assertions = 9
+tap_plan = 9
+pass = 9
+
+[files."523-move-position-center.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."524-move.t"]
+assertions = 38
+tap_plan = 38
+pass = 38
+
+[files."526-reconfigure-dock.t"]
+assertions = 3
+tap_plan = 3
+pass = 3
+
+[files."527-focus-fallback.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."528-workspace-next-prev-reversed.t"]
+assertions = 38
+tap_plan = 38
+pass = 38
+
+[files."530-bug-2229.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."531-fullscreen-on-given-output.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."534-dont-warp.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."535-workspace-next-prev.t"]
+assertions = 38
+tap_plan = 38
+pass = 38
+
+[files."537-move-single-to-output.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."538-i3bar-primary-output.t"]
+assertions = 4
+tap_plan = 4
+pass = 4
+
+[files."539-disable_focus_wrapping.t"]
+assertions = 10
+tap_plan = 10
+pass = 10
+
+[files."540-sigterm-cleanup.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."541-resize-set-tiling.t"]
+assertions = 32
+tap_plan = 32
+pass = 32
+
+[files."543-move-workspace-to-multiple-outputs.t"]
+assertions = 63
+tap_plan = 63
+pass = 63
+
+[files."544-focus-multiple-outputs.t"]
+assertions = 41
+tap_plan = 41
+pass = 41
+
+[files."545-i3-registration.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."546-empty-bindcommand.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."547-explicit-mode-default.t"]
+assertions = 1
+tap_plan = 1
+pass = 1
+
+[files."547-nested-variables.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."549-focus-wrapping-gaps.t"]
+assertions = 2
+tap_plan = 2
+pass = 2
+
+[files."550-focus-workspace.t"]
+assertions = 17
+tap_plan = 17
+pass = 17
+
+[files."550-split-redundant-containers.t"]
+assertions = 8
+tap_plan = 8
+pass = 8
+
+[files."551-net-wm-state-maximized.t"]
+assertions = 12
+tap_plan = 12
+pass = 12
+
+[files."553-popup_during_fullscreen.t"]
+assertions = 20
+tap_plan = 20
+pass = 20
+
+[files."554-commands-crash-for-window.t"]
+assertions = 101
+tap_plan = 101
+pass = 101
+
+[files."556-workspace-keeps-focus-after-move.t"]
+assertions = 5
+tap_plan = 5
+pass = 5
