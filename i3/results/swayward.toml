@@ -10,6 +10,7 @@ i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
 
 [families]
+xwayland_satellite_xtest_boundary = "The tests inject XTEST events into Xwayland, but xwayland-satellite only relays parent-compositor wl_pointer and wl_keyboard events toward Xwayland. It exposes no reverse input-injection path to swayward, so compositor bindings and decoration actions cannot observe those synthetic X events."
 xwayland_satellite_kill_disconnects_client = "Swayward sends xdg_toplevel.close when its kill command closes an Xwayland surface. xwayland-satellite handles that event by sending X KillClient when WM_DELETE_WINDOW is absent; i3 instead destroys only the selected window for its default kill mode. i3test creates every test window on one connection without WM_PROTOCOLS, so later assertions cannot run after the first kill."
 
 [files."001-tile.t"]
@@ -1047,23 +1048,25 @@ skip = [{ n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 
 
 [files."257-keypress-group1-fallback.t"]
 plan_unknown = true
-assertions = 1
+assertions = 17
 tap_plan = "none"
-source_assertions = 17
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_xtest_boundary"
+reason_verified = true
+citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+skip = [{ n = 2, reason = "xwayland_satellite_xtest_boundary" }, { n = 3, reason = "xwayland_satellite_xtest_boundary" }, { n = 4, reason = "xwayland_satellite_xtest_boundary" }, { n = 5, reason = "xwayland_satellite_xtest_boundary" }, { n = 6, reason = "xwayland_satellite_xtest_boundary" }, { n = 7, reason = "xwayland_satellite_xtest_boundary" }, { n = 8, reason = "xwayland_satellite_xtest_boundary" }, { n = 9, reason = "xwayland_satellite_xtest_boundary" }, { n = 10, reason = "xwayland_satellite_xtest_boundary" }, { n = 11, reason = "xwayland_satellite_xtest_boundary" }, { n = 12, reason = "xwayland_satellite_xtest_boundary" }, { n = 13, reason = "xwayland_satellite_xtest_boundary" }, { n = 14, reason = "xwayland_satellite_xtest_boundary" }, { n = 15, reason = "xwayland_satellite_xtest_boundary" }, { n = 16, reason = "xwayland_satellite_xtest_boundary" }, { n = 17, reason = "xwayland_satellite_xtest_boundary" }]
 
 [files."258-keypress-release.t"]
 plan_unknown = true
-assertions = 1
+assertions = 49
 tap_plan = "none"
-source_assertions = 49
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_xtest_boundary"
+reason_verified = true
+citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+skip = [{ n = 2, reason = "xwayland_satellite_xtest_boundary" }, { n = 3, reason = "xwayland_satellite_xtest_boundary" }, { n = 4, reason = "xwayland_satellite_xtest_boundary" }, { n = 5, reason = "xwayland_satellite_xtest_boundary" }, { n = 6, reason = "xwayland_satellite_xtest_boundary" }, { n = 7, reason = "xwayland_satellite_xtest_boundary" }, { n = 8, reason = "xwayland_satellite_xtest_boundary" }, { n = 9, reason = "xwayland_satellite_xtest_boundary" }, { n = 10, reason = "xwayland_satellite_xtest_boundary" }, { n = 11, reason = "xwayland_satellite_xtest_boundary" }, { n = 12, reason = "xwayland_satellite_xtest_boundary" }, { n = 13, reason = "xwayland_satellite_xtest_boundary" }, { n = 14, reason = "xwayland_satellite_xtest_boundary" }, { n = 15, reason = "xwayland_satellite_xtest_boundary" }, { n = 16, reason = "xwayland_satellite_xtest_boundary" }, { n = 17, reason = "xwayland_satellite_xtest_boundary" }, { n = 18, reason = "xwayland_satellite_xtest_boundary" }, { n = 19, reason = "xwayland_satellite_xtest_boundary" }, { n = 20, reason = "xwayland_satellite_xtest_boundary" }, { n = 21, reason = "xwayland_satellite_xtest_boundary" }, { n = 22, reason = "xwayland_satellite_xtest_boundary" }, { n = 23, reason = "xwayland_satellite_xtest_boundary" }, { n = 24, reason = "xwayland_satellite_xtest_boundary" }, { n = 25, reason = "xwayland_satellite_xtest_boundary" }, { n = 26, reason = "xwayland_satellite_xtest_boundary" }, { n = 27, reason = "xwayland_satellite_xtest_boundary" }, { n = 28, reason = "xwayland_satellite_xtest_boundary" }, { n = 29, reason = "xwayland_satellite_xtest_boundary" }, { n = 30, reason = "xwayland_satellite_xtest_boundary" }, { n = 31, reason = "xwayland_satellite_xtest_boundary" }, { n = 32, reason = "xwayland_satellite_xtest_boundary" }, { n = 33, reason = "xwayland_satellite_xtest_boundary" }, { n = 34, reason = "xwayland_satellite_xtest_boundary" }, { n = 35, reason = "xwayland_satellite_xtest_boundary" }, { n = 36, reason = "xwayland_satellite_xtest_boundary" }, { n = 37, reason = "xwayland_satellite_xtest_boundary" }, { n = 38, reason = "xwayland_satellite_xtest_boundary" }, { n = 39, reason = "xwayland_satellite_xtest_boundary" }, { n = 40, reason = "xwayland_satellite_xtest_boundary" }, { n = 41, reason = "xwayland_satellite_xtest_boundary" }, { n = 42, reason = "xwayland_satellite_xtest_boundary" }, { n = 43, reason = "xwayland_satellite_xtest_boundary" }, { n = 44, reason = "xwayland_satellite_xtest_boundary" }, { n = 45, reason = "xwayland_satellite_xtest_boundary" }, { n = 46, reason = "xwayland_satellite_xtest_boundary" }, { n = 47, reason = "xwayland_satellite_xtest_boundary" }, { n = 48, reason = "xwayland_satellite_xtest_boundary" }, { n = 49, reason = "xwayland_satellite_xtest_boundary" }]
 
 [files."260-invalid-criteria.t"]
 assertions = 2
@@ -1286,13 +1289,14 @@ reason_verified = false
 
 [files."290-keypress-numlock.t"]
 plan_unknown = true
-assertions = 1
+assertions = 85
 tap_plan = "none"
-source_assertions = 85
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_xtest_boundary"
+reason_verified = true
+citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+skip = [{ n = 2, reason = "xwayland_satellite_xtest_boundary" }, { n = 3, reason = "xwayland_satellite_xtest_boundary" }, { n = 4, reason = "xwayland_satellite_xtest_boundary" }, { n = 5, reason = "xwayland_satellite_xtest_boundary" }, { n = 6, reason = "xwayland_satellite_xtest_boundary" }, { n = 7, reason = "xwayland_satellite_xtest_boundary" }, { n = 8, reason = "xwayland_satellite_xtest_boundary" }, { n = 9, reason = "xwayland_satellite_xtest_boundary" }, { n = 10, reason = "xwayland_satellite_xtest_boundary" }, { n = 11, reason = "xwayland_satellite_xtest_boundary" }, { n = 12, reason = "xwayland_satellite_xtest_boundary" }, { n = 13, reason = "xwayland_satellite_xtest_boundary" }, { n = 14, reason = "xwayland_satellite_xtest_boundary" }, { n = 15, reason = "xwayland_satellite_xtest_boundary" }, { n = 16, reason = "xwayland_satellite_xtest_boundary" }, { n = 17, reason = "xwayland_satellite_xtest_boundary" }, { n = 18, reason = "xwayland_satellite_xtest_boundary" }, { n = 19, reason = "xwayland_satellite_xtest_boundary" }, { n = 20, reason = "xwayland_satellite_xtest_boundary" }, { n = 21, reason = "xwayland_satellite_xtest_boundary" }, { n = 22, reason = "xwayland_satellite_xtest_boundary" }, { n = 23, reason = "xwayland_satellite_xtest_boundary" }, { n = 24, reason = "xwayland_satellite_xtest_boundary" }, { n = 25, reason = "xwayland_satellite_xtest_boundary" }, { n = 26, reason = "xwayland_satellite_xtest_boundary" }, { n = 27, reason = "xwayland_satellite_xtest_boundary" }, { n = 28, reason = "xwayland_satellite_xtest_boundary" }, { n = 29, reason = "xwayland_satellite_xtest_boundary" }, { n = 30, reason = "xwayland_satellite_xtest_boundary" }, { n = 31, reason = "xwayland_satellite_xtest_boundary" }, { n = 32, reason = "xwayland_satellite_xtest_boundary" }, { n = 33, reason = "xwayland_satellite_xtest_boundary" }, { n = 34, reason = "xwayland_satellite_xtest_boundary" }, { n = 35, reason = "xwayland_satellite_xtest_boundary" }, { n = 36, reason = "xwayland_satellite_xtest_boundary" }, { n = 37, reason = "xwayland_satellite_xtest_boundary" }, { n = 38, reason = "xwayland_satellite_xtest_boundary" }, { n = 39, reason = "xwayland_satellite_xtest_boundary" }, { n = 40, reason = "xwayland_satellite_xtest_boundary" }, { n = 41, reason = "xwayland_satellite_xtest_boundary" }, { n = 42, reason = "xwayland_satellite_xtest_boundary" }, { n = 43, reason = "xwayland_satellite_xtest_boundary" }, { n = 44, reason = "xwayland_satellite_xtest_boundary" }, { n = 45, reason = "xwayland_satellite_xtest_boundary" }, { n = 46, reason = "xwayland_satellite_xtest_boundary" }, { n = 47, reason = "xwayland_satellite_xtest_boundary" }, { n = 48, reason = "xwayland_satellite_xtest_boundary" }, { n = 49, reason = "xwayland_satellite_xtest_boundary" }, { n = 50, reason = "xwayland_satellite_xtest_boundary" }, { n = 51, reason = "xwayland_satellite_xtest_boundary" }, { n = 52, reason = "xwayland_satellite_xtest_boundary" }, { n = 53, reason = "xwayland_satellite_xtest_boundary" }, { n = 54, reason = "xwayland_satellite_xtest_boundary" }, { n = 55, reason = "xwayland_satellite_xtest_boundary" }, { n = 56, reason = "xwayland_satellite_xtest_boundary" }, { n = 57, reason = "xwayland_satellite_xtest_boundary" }, { n = 58, reason = "xwayland_satellite_xtest_boundary" }, { n = 59, reason = "xwayland_satellite_xtest_boundary" }, { n = 60, reason = "xwayland_satellite_xtest_boundary" }, { n = 61, reason = "xwayland_satellite_xtest_boundary" }, { n = 62, reason = "xwayland_satellite_xtest_boundary" }, { n = 63, reason = "xwayland_satellite_xtest_boundary" }, { n = 64, reason = "xwayland_satellite_xtest_boundary" }, { n = 65, reason = "xwayland_satellite_xtest_boundary" }, { n = 66, reason = "xwayland_satellite_xtest_boundary" }, { n = 67, reason = "xwayland_satellite_xtest_boundary" }, { n = 68, reason = "xwayland_satellite_xtest_boundary" }, { n = 69, reason = "xwayland_satellite_xtest_boundary" }, { n = 70, reason = "xwayland_satellite_xtest_boundary" }, { n = 71, reason = "xwayland_satellite_xtest_boundary" }, { n = 72, reason = "xwayland_satellite_xtest_boundary" }, { n = 73, reason = "xwayland_satellite_xtest_boundary" }, { n = 74, reason = "xwayland_satellite_xtest_boundary" }, { n = 75, reason = "xwayland_satellite_xtest_boundary" }, { n = 76, reason = "xwayland_satellite_xtest_boundary" }, { n = 77, reason = "xwayland_satellite_xtest_boundary" }, { n = 78, reason = "xwayland_satellite_xtest_boundary" }, { n = 79, reason = "xwayland_satellite_xtest_boundary" }, { n = 80, reason = "xwayland_satellite_xtest_boundary" }, { n = 81, reason = "xwayland_satellite_xtest_boundary" }, { n = 82, reason = "xwayland_satellite_xtest_boundary" }, { n = 83, reason = "xwayland_satellite_xtest_boundary" }, { n = 84, reason = "xwayland_satellite_xtest_boundary" }, { n = 85, reason = "xwayland_satellite_xtest_boundary" }]
 
 [files."291-swap.t"]
 plan_unknown = true
@@ -1360,13 +1364,14 @@ reason_verified = false
 
 [files."297-scroll-tabbed.t"]
 plan_unknown = true
-assertions = 1
+assertions = 16
 tap_plan = "none"
-source_assertions = 16
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_xtest_boundary"
+reason_verified = true
+citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+skip = [{ n = 2, reason = "xwayland_satellite_xtest_boundary" }, { n = 3, reason = "xwayland_satellite_xtest_boundary" }, { n = 4, reason = "xwayland_satellite_xtest_boundary" }, { n = 5, reason = "xwayland_satellite_xtest_boundary" }, { n = 6, reason = "xwayland_satellite_xtest_boundary" }, { n = 7, reason = "xwayland_satellite_xtest_boundary" }, { n = 8, reason = "xwayland_satellite_xtest_boundary" }, { n = 9, reason = "xwayland_satellite_xtest_boundary" }, { n = 10, reason = "xwayland_satellite_xtest_boundary" }, { n = 11, reason = "xwayland_satellite_xtest_boundary" }, { n = 12, reason = "xwayland_satellite_xtest_boundary" }, { n = 13, reason = "xwayland_satellite_xtest_boundary" }, { n = 14, reason = "xwayland_satellite_xtest_boundary" }, { n = 15, reason = "xwayland_satellite_xtest_boundary" }, { n = 16, reason = "xwayland_satellite_xtest_boundary" }]
 
 [files."298-ipc-misbehaving-connection.t"]
 assertions = 2
@@ -1514,13 +1519,14 @@ reason_verified = false
 
 [files."316-drag-container.t"]
 plan_unknown = true
-assertions = 1
+assertions = 18
 tap_plan = "none"
-source_assertions = 18
 pass = 1
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_xtest_boundary"
+reason_verified = true
+citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+skip = [{ n = 2, reason = "xwayland_satellite_xtest_boundary" }, { n = 3, reason = "xwayland_satellite_xtest_boundary" }, { n = 4, reason = "xwayland_satellite_xtest_boundary" }, { n = 5, reason = "xwayland_satellite_xtest_boundary" }, { n = 6, reason = "xwayland_satellite_xtest_boundary" }, { n = 7, reason = "xwayland_satellite_xtest_boundary" }, { n = 8, reason = "xwayland_satellite_xtest_boundary" }, { n = 9, reason = "xwayland_satellite_xtest_boundary" }, { n = 10, reason = "xwayland_satellite_xtest_boundary" }, { n = 11, reason = "xwayland_satellite_xtest_boundary" }, { n = 12, reason = "xwayland_satellite_xtest_boundary" }, { n = 13, reason = "xwayland_satellite_xtest_boundary" }, { n = 14, reason = "xwayland_satellite_xtest_boundary" }, { n = 15, reason = "xwayland_satellite_xtest_boundary" }, { n = 16, reason = "xwayland_satellite_xtest_boundary" }, { n = 17, reason = "xwayland_satellite_xtest_boundary" }, { n = 18, reason = "xwayland_satellite_xtest_boundary" }]
 
 [files."316-transient-for-loop.t"]
 assertions = 1
@@ -1571,13 +1577,14 @@ reason_verified = false
 
 [files."320-mouse-bindings.t"]
 plan_unknown = true
-assertions = 3
+assertions = 14
 tap_plan = "none"
-source_assertions = 14
 pass = 3
 fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_satellite_xtest_boundary"
+reason_verified = true
+citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+skip = [{ n = 4, reason = "xwayland_satellite_xtest_boundary" }, { n = 5, reason = "xwayland_satellite_xtest_boundary" }, { n = 6, reason = "xwayland_satellite_xtest_boundary" }, { n = 7, reason = "xwayland_satellite_xtest_boundary" }, { n = 8, reason = "xwayland_satellite_xtest_boundary" }, { n = 9, reason = "xwayland_satellite_xtest_boundary" }, { n = 10, reason = "xwayland_satellite_xtest_boundary" }, { n = 11, reason = "xwayland_satellite_xtest_boundary" }, { n = 12, reason = "xwayland_satellite_xtest_boundary" }, { n = 13, reason = "xwayland_satellite_xtest_boundary" }, { n = 14, reason = "xwayland_satellite_xtest_boundary" }]
 
 [files."321-crash-criteria-scratchpad.t"]
 assertions = 6
