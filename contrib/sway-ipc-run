@@ -399,7 +399,7 @@ class SwayAdapter(WaylandAdapter):
 
 class SwaywardAdapter(WaylandAdapter):
     config_name = "config.kdl"
-    config_text = "layout { default-orientation \"vertical\"; default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\n"
+    config_text = "layout { default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\n"
 
     def rendered_config(self):
         outputs = (
@@ -713,8 +713,14 @@ def i3_derived_main(args, parser):
         return 0
 
     manifest = json.loads(manifest_path.read_text())
+    scenarios = manifest["scenarios"]
+    if args.scenario:
+        unknown = set(args.scenario) - {item["name"] for item in scenarios}
+        if unknown:
+            raise RuntimeError("unknown i3-derived scenarios: " + ", ".join(sorted(unknown)))
+        scenarios = [item for item in scenarios if item["name"] in args.scenario]
     rules, rows = load_rules(), []
-    for scenario in manifest["scenarios"]:
+    for scenario in scenarios:
         with tempfile.TemporaryDirectory(prefix="sway-ipc-i3-derived-") as directory:
             adapter = ADAPTERS[args.compositor](args, Path(directory))
             with open(Path(directory) / "compositor.log", "w") as log:
