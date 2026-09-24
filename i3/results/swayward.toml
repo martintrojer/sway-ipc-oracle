@@ -11,8 +11,23 @@ environment = "headless compositor with private IPC/X11 sockets and real X11 cli
 
 [families]
 xwayland_satellite_no_x11_class = "Swayward receives xwayland-satellite windows as xdg_toplevels whose app_id contains WM_CLASS; it does not receive a separate X11 class field for sway class criteria."
+i3_parser_internals = "These tests execute i3 build-only parser binaries and assert i3 parser callbacks and diagnostics, not compositor IPC behavior. Sway has no corresponding standalone parser executables."
+sway_no_append_layout = "Sway deliberately omits i3 append_layout and its placeholder/swallow layout restoration model; the command is absent from sway runtime handlers."
+sway_command_vocabulary = "These assertions require i3-only command spellings: open creates an empty container and 1pixel aliases border pixel. Sway implements neither spelling."
+sway_config_text = "Sway parses its own extended config and GET_CONFIG returns the text sway actually read, including joined continuation lines; an i3 config transformed by the adapter cannot equal the original bytes."
+i3_fake_outputs = "These tests require i3's test-only fake-outputs option to create named virtual outputs. Sway has no fake-outputs config command and retains its single HEADLESS-1 output, so assertions about the missing fake-* topology do not apply."
+i3_append_layout = "i3 exposes append_layout as a runtime command. Sway's runtime command table has no append_layout handler, so i3 layout-restore assertions do not apply."
+i3_open_command = "i3 exposes a test-oriented open runtime command that creates an empty container. Sway's runtime command table has no open handler, so assertions about empty containers created this way do not apply."
+sway_ipc_root_border_width = "i3 reports -1 as the root node's unset current_border_width. Sway deliberately initializes synthetic IPC nodes, including the root, with current_border_width 0."
+workspace_layout_stacked_keyword = "i3 accepts workspace_layout stacked. Sway accepts stacking instead and rejects stacked, so assertions made after loading the i3 spelling do not apply."
 headless_xtest_boundary = "The headless harness cannot deliver XTEST events from Xwayland to a Wayland compositor, so assertions that depend on those events are not measured."
 xwayland_satellite_kill_disconnects_client = "Swayward sends xdg_toplevel.close when its kill command closes an Xwayland surface. xwayland-satellite handles that event by sending X KillClient when WM_DELETE_WINDOW is absent; i3 instead destroys only the selected window for its default kill mode. i3test creates every test window on one connection without WM_PROTOCOLS, so later assertions cannot run after the first kill."
+swayward_geometry_finding = "Focused black-box reruns disagree with the pinned sway run on X11 window geometry, border, size-hint, floating-size, or centering assertions. These are swayward compatibility failures."
+swayward_mapping_finding = "Focused black-box reruns disagree with the pinned sway run on which X11 windows are mapped, managed, floating, or represented in the IPC tree. These are swayward compatibility failures."
+swayward_tree_finding = "Focused black-box reruns disagree with the pinned sway run on workspace, focus, layout, resize, urgency, mark, or move tree state. These are swayward compatibility failures."
+swayward_ipc_finding = "Focused black-box reruns disagree with the pinned sway run on IPC fields, events, command errors, or connection behavior. These are swayward compatibility failures."
+swayward_command_finding = "Focused black-box reruns disagree with the pinned sway run on command success or effects. These are swayward compatibility failures."
+swayward_adapter_finding = "Focused black-box reruns expose a swayward adapter or process-lifecycle mismatch not present in the pinned sway run. These remain explicit failures."
 
 [files."001-tile.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -32,8 +47,8 @@ assertions = 13
 tap_plan = 13
 pass = 6
 fail = 7
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."100-fullscreen.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -53,8 +68,8 @@ assertions = 8
 tap_plan = 8
 pass = 4
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."102-dock.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -79,8 +94,8 @@ assertions = 13
 tap_plan = 13
 pass = 11
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."112-floating-resize.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -96,8 +111,8 @@ tap_plan = "none"
 source_assertions = 64
 pass = 18
 fail = 15
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."115-ipc-workspaces.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -105,8 +120,8 @@ assertions = 9
 tap_plan = 9
 pass = 4
 fail = 5
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."116-nestedcons.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -115,9 +130,13 @@ assertions = 5
 tap_plan = "none"
 source_assertions = 7
 pass = 4
-fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_ipc_root_border_width"
+reason_verified = true
+citation = "sway/sway/ipc-json.c:275-280"
+[[files."116-nestedcons.t".skip]]
+n = 1
+reason = "sway_ipc_root_border_width"
+citation = "sway/sway/ipc-json.c:275-280"
 
 [files."117-workspace.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -127,8 +146,8 @@ tap_plan = "none"
 source_assertions = 92
 pass = 37
 fail = 13
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."118-openkill.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -184,8 +203,8 @@ assertions = 54
 tap_plan = 54
 pass = 38
 fail = 16
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."126-regress-close.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -217,8 +236,8 @@ assertions = 7
 tap_plan = 7
 pass = 2
 fail = 5
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 
 [files."129-focus-after-close.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -238,8 +257,8 @@ assertions = 8
 tap_plan = 8
 pass = 2
 fail = 6
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 
 [files."131-stacking-order.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -247,8 +266,8 @@ assertions = 7
 tap_plan = 7
 pass = 6
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 
 [files."132-move-workspace.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -256,8 +275,8 @@ assertions = 160
 tap_plan = 160
 pass = 131
 fail = 23
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 [[files."132-move-workspace.t".skip]]
 n = 10
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -289,8 +308,8 @@ assertions = 16
 tap_plan = 16
 pass = 0
 fail = 16
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."134-invalid-command.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -306,8 +325,8 @@ tap_plan = "none"
 source_assertions = 82
 pass = 3
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."136-floating-ws-empty.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -321,8 +340,8 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 
 [files."138-floating-attach.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -330,8 +349,8 @@ assertions = 11
 tap_plan = 11
 pass = 6
 fail = 5
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."139-ws-numbers.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -351,8 +370,8 @@ assertions = 84
 tap_plan = 84
 pass = 61
 fail = 23
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."142-regress-move-floating.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -390,8 +409,8 @@ assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."147-regress-floatingmove.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -434,8 +453,8 @@ assertions = 7
 tap_plan = 7
 pass = 5
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."154-regress-multiple-dock.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -454,8 +473,8 @@ assertions = 4
 tap_plan = 4
 pass = 2
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."156-fullscreen-focus.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -478,17 +497,25 @@ source_assertions = 8
 pass = 0
 fail = 0
 unreached = 8
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_adapter_finding"
+reason_verified = true
 
 [files."161-regress-borders-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 1
-fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+fail = 1
+reason = "swayward_geometry_finding"
+reason_verified = true
+[[files."161-regress-borders-restart.t".skip]]
+n = 2
+reason = "sway_command_vocabulary"
+citation = "i3/t/161-regress-borders-restart.t:37-46; sway/sway/commands/border.c:71-88"
+[[files."161-regress-borders-restart.t".skip]]
+n = 4
+reason = "sway_command_vocabulary"
+citation = "i3/t/161-regress-borders-restart.t:37-46; sway/sway/commands/border.c:71-88"
 
 [files."162-regress-dock-urgent.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -542,9 +569,85 @@ adapted = ["remove-adapter-ipc-socket"]
 assertions = 87
 tap_plan = 87
 pass = 45
-fail = 42
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+fail = 23
+reason = "swayward_tree_finding"
+reason_verified = true
+[[files."167-workspace_layout.t".skip]]
+n = 8
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 9
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 10
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 11
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 12
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 13
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 14
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 15
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 16
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 17
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 18
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 19
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 20
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 21
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 22
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 24
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 26
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 27
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+[[files."167-workspace_layout.t".skip]]
+n = 28
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
 
 [files."168-regress-fullscreen-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -557,9 +660,29 @@ adapted = ["remove-adapter-ipc-socket"]
 assertions = 20
 tap_plan = 20
 pass = 15
-fail = 5
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_command_vocabulary"
+reason_verified = true
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+[[files."169-border-toggle.t".skip]]
+n = 3
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+[[files."169-border-toggle.t".skip]]
+n = 4
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+[[files."169-border-toggle.t".skip]]
+n = 6
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+[[files."169-border-toggle.t".skip]]
+n = 10
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+[[files."169-border-toggle.t".skip]]
+n = 16
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
 
 [files."170-force_focus_wrapping.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -590,9 +713,13 @@ adapted = ["remove-adapter-ipc-socket"]
 assertions = 13
 tap_plan = 13
 pass = 9
-fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+fail = 3
+reason = "swayward_geometry_finding"
+reason_verified = true
+[[files."174-border-config.t".skip]]
+n = 13
+reason = "sway_command_vocabulary"
+citation = "i3/t/174-border-config.t:46-67; i3/t/174-border-config.t:97-119; sway/sway/commands/default_border.c:12-20; sway/sway/commands/default_floating_border.c:13-22"
 
 [files."176-workspace-baf.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -614,8 +741,8 @@ tap_plan = "none"
 source_assertions = 50
 pass = 1
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."178-regress-workspace-open.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -629,8 +756,8 @@ assertions = 6
 tap_plan = 6
 pass = 2
 fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 [[files."179-regress-multiple-ws.t".skip]]
 n = 4
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -648,8 +775,8 @@ assertions = 6
 tap_plan = 6
 pass = 2
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."182-regress-focus-dock.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -660,8 +787,8 @@ source_assertions = 1
 pass = 0
 fail = 0
 unreached = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."183-config-variables.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -697,9 +824,109 @@ adapted = ["remove-adapter-ipc-socket"]
 assertions = 25
 tap_plan = 25
 pass = 0
-fail = 25
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "i3_parser_internals"
+reason_verified = true
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 1
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 2
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 3
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 4
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 5
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 6
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 7
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 8
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 9
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 10
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 11
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 12
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 13
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 14
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 15
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 16
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 17
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 18
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 19
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 20
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 21
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 22
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 23
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 24
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+[[files."187-commands-parser.t".skip]]
+n = 25
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
 
 [files."188-regress-focus-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -713,8 +940,8 @@ assertions = 28
 tap_plan = 28
 pass = 12
 fail = 16
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."190-scratchpad-diff-ws.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -722,8 +949,8 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_adapter_finding"
+reason_verified = true
 
 [files."191-resize-levels.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -731,8 +958,8 @@ assertions = 3
 tap_plan = 3
 pass = 0
 fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."192-layout.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -746,8 +973,8 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."194-regress-floating-size.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -755,8 +982,8 @@ assertions = 15
 tap_plan = 15
 pass = 5
 fail = 10
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."196-randr-output-names.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -782,8 +1009,8 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."200-urgency-timer.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -791,8 +1018,8 @@ assertions = 12
 tap_plan = 12
 pass = 8
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_adapter_finding"
+reason_verified = true
 
 [files."201-config-parser.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -801,10 +1028,137 @@ assertions = 32
 tap_plan = "none"
 source_assertions = 32
 pass = 0
-fail = 0
-unreached = 32
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "i3_parser_internals"
+reason_verified = true
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 1
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 2
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 3
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 4
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 5
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 6
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 7
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 8
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 9
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 10
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 11
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 12
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 13
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 14
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 15
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 16
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 17
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 18
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 19
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 20
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 21
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 22
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 23
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 24
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 25
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 26
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 27
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 28
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 29
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 30
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 31
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+[[files."201-config-parser.t".skip]]
+n = 32
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
 
 [files."202-scratchpad-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -835,8 +1189,8 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."206-fullscreen-scratchpad.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -862,8 +1216,8 @@ assertions = 17
 tap_plan = 17
 pass = 7
 fail = 10
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."211-regress-urgency-assign.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -873,8 +1227,8 @@ tap_plan = "none"
 source_assertions = 3
 pass = 1
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."212-assign-urgency.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -883,19 +1237,70 @@ assertions = 3
 tap_plan = "none"
 source_assertions = 3
 pass = 0
-fail = 0
-unreached = 3
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "i3_fake_outputs"
+reason_verified = true
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."212-assign-urgency.t".skip]]
+n = 1
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."212-assign-urgency.t".skip]]
+n = 2
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."212-assign-urgency.t".skip]]
+n = 3
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
 
 [files."213-layout-restore-simple.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 18
 tap_plan = 18
 pass = 8
-fail = 10
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_no_append_layout"
+reason_verified = true
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 4
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 5
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 6
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 9
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 10
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 11
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 12
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 16
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 17
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+[[files."213-layout-restore-simple.t".skip]]
+n = 18
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
 
 [files."218-regress-floating-split.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -909,8 +1314,8 @@ assertions = 10
 tap_plan = 10
 pass = 1
 fail = 9
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."220-ipc-window-title.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -918,8 +1323,8 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."221-floating-type-hints.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -929,8 +1334,8 @@ tap_plan = "none"
 source_assertions = 8
 pass = 0
 fail = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 
 [files."222-regress-dock-resize.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -941,8 +1346,8 @@ source_assertions = 1
 pass = 0
 fail = 0
 unreached = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."224-regress-resize-branch.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -956,8 +1361,8 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."226-internal-workspaces.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -965,8 +1370,8 @@ assertions = 5
 tap_plan = 5
 pass = 1
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."227-ipc-workspace-empty.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -974,8 +1379,8 @@ assertions = 3
 tap_plan = 3
 pass = 0
 fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 
 [files."228-border-widths.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -983,8 +1388,8 @@ assertions = 21
 tap_plan = 21
 pass = 6
 fail = 15
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."231-ipc-floating-event.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -992,8 +1397,8 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."232-cmd-move-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1003,8 +1408,8 @@ tap_plan = "none"
 source_assertions = 22
 pass = 6
 fail = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."233-regress-manage-focus-unmapped.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1012,8 +1417,8 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."235-check-config-no-x.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1021,8 +1426,8 @@ assertions = 8
 tap_plan = 8
 pass = 0
 fail = 8
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_command_finding"
+reason_verified = true
 
 [files."236-floating-focus-raise.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1033,8 +1438,8 @@ source_assertions = 6
 pass = 0
 fail = 0
 unreached = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_mapping_finding"
+reason_verified = true
 
 [files."237-regress-assign-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1048,8 +1453,8 @@ assertions = 15
 tap_plan = 15
 pass = 2
 fail = 13
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."240-focus-on-window-activation.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1057,8 +1462,8 @@ assertions = 15
 tap_plan = 15
 pass = 10
 fail = 5
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."241-consistent-center.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1066,8 +1471,8 @@ assertions = 12
 tap_plan = 12
 pass = 10
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."242-no-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1075,8 +1480,8 @@ assertions = 6
 tap_plan = 6
 pass = 3
 fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."243-move-to-mark.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1086,8 +1491,8 @@ tap_plan = "none"
 source_assertions = 50
 pass = 3
 fail = 8
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."244-new-workspace-floating-enable-center.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1100,9 +1505,41 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 8
 tap_plan = 8
 pass = 0
-fail = 8
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "i3_fake_outputs"
+reason_verified = true
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 1
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 2
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 3
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 4
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 5
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 6
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 7
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."245-move-position-mouse.t".skip]]
+n = 8
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
 
 [files."246-window-decoration-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1116,8 +1553,8 @@ assertions = 8
 tap_plan = 8
 pass = 7
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."248-regress-urgency-clear.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1133,17 +1570,65 @@ tap_plan = "none"
 source_assertions = 11
 pass = 4
 fail = 2
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."252-floating-size.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 49
 tap_plan = 49
 pass = 31
-fail = 18
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+fail = 6
+reason = "swayward_geometry_finding"
+reason_verified = true
+[[files."252-floating-size.t".skip]]
+n = 5
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 8
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 9
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 12
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 13
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 17
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 21
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 32
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 41
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 45
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 48
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."252-floating-size.t".skip]]
+n = 49
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
 
 [files."254-move-to-output-with-criteria.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -1151,8 +1636,8 @@ assertions = 16
 tap_plan = 16
 pass = 10
 fail = 6
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."255-multiple-marks.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1160,8 +1645,8 @@ assertions = 9
 tap_plan = 9
 pass = 3
 fail = 6
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."256-no-auto-back-and-forth.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1203,8 +1688,8 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."261-match-con_id-con_mark-combinations.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1212,8 +1697,8 @@ assertions = 4
 tap_plan = 4
 pass = 2
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."262-config-validation.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1232,8 +1717,8 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_command_finding"
+reason_verified = true
 
 [files."264-dock-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1244,8 +1729,8 @@ source_assertions = 19
 pass = 0
 fail = 0
 unreached = 19
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_command_finding"
+reason_verified = true
 
 [files."265-ipc-mark.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1253,8 +1738,8 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."266-net-moveresize-window.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1265,8 +1750,8 @@ source_assertions = 12
 pass = 0
 fail = 0
 unreached = 12
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."267-regress-mark-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1279,9 +1764,13 @@ adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 1
-fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_config_text"
+reason_verified = true
+citation = "i3/t/268-ipc-config.t:27-50; sway/sway/config.c:732-773; sway/sway/ipc-server.c:907-915"
+[[files."268-ipc-config.t".skip]]
+n = 2
+reason = "sway_config_text"
+citation = "i3/t/268-ipc-config.t:27-50; sway/sway/config.c:732-773; sway/sway/ipc-server.c:907-915"
 
 [files."269-focus-stack-above.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1289,8 +1778,8 @@ assertions = 5
 tap_plan = 5
 pass = 3
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."270-config-no-newline-end.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1304,8 +1793,8 @@ assertions = 20
 tap_plan = 20
 pass = 0
 fail = 20
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."272-regress-focus-assign.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1315,8 +1804,8 @@ tap_plan = "none"
 source_assertions = 8
 pass = 2
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 
 [files."273-regress-focus-toggle.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1336,8 +1825,8 @@ assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."276-ipc-window-move.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1345,8 +1834,8 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."277-ipc-window-urgent.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1354,8 +1843,8 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."279-regress-default-floating-border.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1363,8 +1852,8 @@ assertions = 1
 tap_plan = 1
 pass = 0
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."280-wm-class-change-handler.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1372,8 +1861,8 @@ assertions = 4
 tap_plan = 4
 pass = 0
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_adapter_finding"
+reason_verified = true
 
 [files."281-regress-reload-bindsym.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1396,8 +1885,8 @@ source_assertions = 5
 pass = 0
 fail = 0
 unreached = 5
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_adapter_finding"
+reason_verified = true
 
 [files."285-sticky.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -1428,8 +1917,8 @@ assertions = 31
 tap_plan = 31
 pass = 22
 fail = 9
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_geometry_finding"
+reason_verified = true
 
 [files."289-ipc-shutdown-event.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1440,8 +1929,8 @@ source_assertions = 4
 pass = 0
 fail = 0
 unreached = 4
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."290-keypress-numlock.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1477,9 +1966,33 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 10
 tap_plan = 10
 pass = 4
-fail = 6
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "i3_fake_outputs"
+reason_verified = true
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."293-focus-follows-mouse.t".skip]]
+n = 2
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."293-focus-follows-mouse.t".skip]]
+n = 6
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."293-focus-follows-mouse.t".skip]]
+n = 7
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."293-focus-follows-mouse.t".skip]]
+n = 8
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."293-focus-follows-mouse.t".skip]]
+n = 9
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."293-focus-follows-mouse.t".skip]]
+n = 10
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
 
 [files."293-sticky-output-crash.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -1522,9 +2035,89 @@ adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 25
 tap_plan = 25
 pass = 5
-fail = 20
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "i3_fake_outputs"
+reason_verified = true
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 2
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 3
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 4
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 7
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 10
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 11
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 12
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 13
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 14
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 15
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 16
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 17
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 18
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 19
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 20
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 21
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 22
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 23
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 24
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."297-assign-workspace-to-output.t".skip]]
+n = 25
+reason = "i3_fake_outputs"
+citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
 
 [files."297-scroll-tabbed.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -1543,8 +2136,8 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_ipc_finding"
+reason_verified = true
 
 [files."299-regress-scratchpad-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
