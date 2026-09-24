@@ -26,6 +26,11 @@ sway_headless_input_finding = "The focused pinned sway run cannot inject the i3 
 sway_tree_semantics_finding = "Focused pinned sway reruns produce different workspace, focus, layout, resize, urgency, and move tree states from i3. These remain evidenced compatibility failures unless a source-level design exception is established."
 sway_ipc_semantics_finding = "Focused pinned sway reruns produce different IPC fields, events, command errors, or disconnect behavior from i3. These remain evidenced compatibility failures rather than unsupported skips."
 sway_validate_adapter_finding = "The unchanged i3 validation test invokes the i3 binary path directly, which is absent in the sway adapter environment and returns 127. This is an adapter failure, not a sway protocol result."
+sway_command_semantics_finding = "Focused pinned sway reruns return different success states or effects for i3 commands on empty, floating, scratchpad, or criteria-selected containers. These remain evidenced compatibility failures except where sway source establishes a deliberate unsupported command."
+sway_config_include_ipc = "Sway's GET_VERSION reports only the top-level loaded config path, and GET_CONFIG returns only the assembled current config string. It does not expose i3's included_config_file_names or included_configs metadata."
+sway_hidden_scratchpad_floating = "Sway deliberately rejects floating changes on a hidden scratchpad container, while i3 accepts the commands exercised by this regression test."
+sway_focus_workspace_command = "Sway's focus command implements containers, modes, directions, and outputs but not i3's focus workspace form."
+sway_xwayland_maximized_state = "Sway reports every tiled Xwayland view maximized in both dimensions, while i3 varies the EWMH maximized axes with the split layout."
 
 [files."001-tile.t"]
 assertions = 3
@@ -2235,8 +2240,8 @@ tap_plan = "none"
 source_assertions = 4
 pass = 1
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
 
 [files."302-tree.t"]
 plan_unknown = true
@@ -2253,8 +2258,8 @@ assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."304-ipc-workspace-init.t"]
 assertions = 9
@@ -2369,13 +2374,41 @@ survived = true
 assertions = 30
 tap_plan = 30
 pass = 22
-fail = 7
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_config_include_ipc"
+reason_verified = true
+citation = "i3/t/313-include.t:304-365; sway/sway/ipc-json.c:223-240; sway/sway/ipc-server.c:835-844; sway/sway/ipc-server.c:907-916"
 [[files."313-include.t".skip]]
 n = 19
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
 citation = "i3/t/313-include.t:1"
+[[files."313-include.t".skip]]
+n = 23
+reason = "sway_config_include_ipc"
+citation = "i3/t/313-include.t:304-319; sway/sway/ipc-json.c:223-240; sway/sway/ipc-server.c:835-844"
+[[files."313-include.t".skip]]
+n = 25
+reason = "sway_config_include_ipc"
+citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
+[[files."313-include.t".skip]]
+n = 26
+reason = "sway_config_include_ipc"
+citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
+[[files."313-include.t".skip]]
+n = 27
+reason = "sway_config_include_ipc"
+citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
+[[files."313-include.t".skip]]
+n = 28
+reason = "sway_config_include_ipc"
+citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
+[[files."313-include.t".skip]]
+n = 29
+reason = "sway_config_include_ipc"
+citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
+[[files."313-include.t".skip]]
+n = 30
+reason = "sway_config_include_ipc"
+citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
 
 [files."315-all-criterion.t"]
 plan_unknown = true
@@ -2392,8 +2425,8 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_command_semantics_finding"
+reason_verified = true
 
 [files."316-drag-container.t"]
 plan_unknown = true
@@ -2460,9 +2493,17 @@ reason_verified = false
 assertions = 6
 tap_plan = 6
 pass = 4
-fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_hidden_scratchpad_floating"
+reason_verified = true
+citation = "i3/t/321-crash-criteria-scratchpad.t:21-45; sway/sway/commands/floating.c:31-35"
+[[files."321-crash-criteria-scratchpad.t".skip]]
+n = 4
+reason = "sway_hidden_scratchpad_floating"
+citation = "i3/t/321-crash-criteria-scratchpad.t:21-45; sway/sway/commands/floating.c:31-35"
+[[files."321-crash-criteria-scratchpad.t".skip]]
+n = 5
+reason = "sway_hidden_scratchpad_floating"
+citation = "i3/t/321-crash-criteria-scratchpad.t:21-45; sway/sway/commands/floating.c:31-35"
 
 [files."322-match-error-crash.t"]
 assertions = 2
@@ -2875,9 +2916,21 @@ reason_verified = false
 assertions = 4
 tap_plan = 4
 pass = 1
-fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "i3_fake_outputs"
+reason_verified = true
+citation = "i3/t/514-ipc-workspace-multi-monitor.t:20-36; i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."514-ipc-workspace-multi-monitor.t".skip]]
+n = 2
+reason = "i3_fake_outputs"
+citation = "i3/t/514-ipc-workspace-multi-monitor.t:20-36; i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."514-ipc-workspace-multi-monitor.t".skip]]
+n = 3
+reason = "i3_fake_outputs"
+citation = "i3/t/514-ipc-workspace-multi-monitor.t:20-36; i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."514-ipc-workspace-multi-monitor.t".skip]]
+n = 4
+reason = "i3_fake_outputs"
+citation = "i3/t/514-ipc-workspace-multi-monitor.t:20-36; i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
 
 [files."515-create-workspace.t"]
 assertions = 2
@@ -3246,17 +3299,145 @@ pass = 2
 assertions = 38
 tap_plan = 38
 pass = 8
-fail = 30
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "i3_fake_outputs"
+reason_verified = true
+citation = "i3/t/535-workspace-next-prev.t:19-124; i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 8
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 9
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 10
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 11
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 12
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 13
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 14
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 15
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 16
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 17
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 18
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 19
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 21
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 22
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 23
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 24
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 25
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 26
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 27
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 28
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 29
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 30
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 31
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 32
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 33
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 34
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 35
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 36
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 37
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
+[[files."535-workspace-next-prev.t".skip]]
+n = 38
+reason = "i3_fake_outputs"
+citation = "i3/t/535-workspace-next-prev.t:19-124; sway/sway/commands.c:105-113"
 
 [files."537-move-single-to-output.t"]
 assertions = 8
 tap_plan = 8
 pass = 4
-fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "i3_fake_outputs"
+reason_verified = true
+citation = "i3/t/537-move-single-to-output.t:22-61; i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+[[files."537-move-single-to-output.t".skip]]
+n = 1
+reason = "i3_fake_outputs"
+citation = "i3/t/537-move-single-to-output.t:22-61; sway/sway/commands.c:105-113"
+[[files."537-move-single-to-output.t".skip]]
+n = 5
+reason = "i3_fake_outputs"
+citation = "i3/t/537-move-single-to-output.t:22-61; sway/sway/commands.c:105-113"
 [[files."537-move-single-to-output.t".skip]]
 n = 2
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -3291,8 +3472,8 @@ assertions = 32
 tap_plan = 32
 pass = 20
 fail = 12
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."543-move-workspace-to-multiple-outputs.t"]
 assertions = 63
@@ -3861,9 +4042,21 @@ assertions = 8
 tap_plan = "none"
 source_assertions = 17
 pass = 5
-fail = 3
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_focus_workspace_command"
+reason_verified = true
+citation = "i3/t/550-focus-workspace.t:17-48; sway/sway/commands/focus.c:397-457"
+[[files."550-focus-workspace.t".skip]]
+n = 3
+reason = "sway_focus_workspace_command"
+citation = "i3/t/550-focus-workspace.t:17-48; sway/sway/commands/focus.c:397-457"
+[[files."550-focus-workspace.t".skip]]
+n = 6
+reason = "sway_focus_workspace_command"
+citation = "i3/t/550-focus-workspace.t:17-48; sway/sway/commands/focus.c:397-457"
+[[files."550-focus-workspace.t".skip]]
+n = 7
+reason = "sway_focus_workspace_command"
+citation = "i3/t/550-focus-workspace.t:17-48; sway/sway/commands/focus.c:397-457"
 
 [files."550-split-redundant-containers.t"]
 plan_unknown = true
@@ -3881,25 +4074,29 @@ assertions = 2
 tap_plan = "none"
 source_assertions = 35
 pass = 1
-fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+[[files."551-net-wm-state-maximized.t".skip]]
+n = 2
+reason = "sway_xwayland_maximized_state"
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
 
 [files."553-popup_during_fullscreen.t"]
 assertions = 20
 tap_plan = 20
 pass = 16
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
 
 [files."554-commands-crash-for-window.t"]
 assertions = 101
 tap_plan = 101
 pass = 67
 fail = 34
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_command_semantics_finding"
+reason_verified = true
 
 [files."556-workspace-keeps-focus-after-move.t"]
 plan_unknown = true

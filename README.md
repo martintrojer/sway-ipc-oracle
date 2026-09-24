@@ -103,7 +103,7 @@ Publish black-box results from the oracle's runners under the matching oracle's 
 
 ## i3 suite comparison
 
-These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The pinned runs record i3 **3,754/1/0**, sway **1,311/412/493**, and swayward **1,427/846/1,038**. Of sway's 493 fails, 102 assertions are unclassified and pending classification. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The pinned runs record i3 **3,754/1/0**, sway **1,311/460/445**, and swayward **1,427/846/1,038**. All sway failures now carry a verified family classification. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
 
 | File | i3 P/S/F | sway P/S/F | swayward P/S/F |
 | --- | ---: | ---: | ---: |
@@ -287,7 +287,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `310-client-message-sticky.t` | 6/0/0 | 1/0/0 | 1/0/0 |
 | `311-get-binding-modes.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `312-regress-layout-default.t` | 0/0/0 | 0/0/0 | 0/0/0 |
-| `313-include.t` | 29/1/0 | 22/1/7 | 21/1/8 |
+| `313-include.t` | 29/1/0 | 22/8/0 | 21/1/8 |
 | `315-all-criterion.t` | 18/0/0 | 2/0/0 | 2/16/0 |
 | `315-long-commands.t` | 4/0/0 | 3/0/1 | 3/0/1 |
 | `316-drag-container.t` | 18/0/0 | 1/0/0 | 1/17/0 |
@@ -297,7 +297,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `317-bar-output-trailing-space.t` | 4/0/0 | 4/0/0 | 0/0/1 |
 | `319-gaps.t` | 28/0/0 | 2/0/16 | 1/0/17 |
 | `320-mouse-bindings.t` | 14/0/0 | 3/0/0 | 3/11/0 |
-| `321-crash-criteria-scratchpad.t` | 6/0/0 | 4/0/2 | 1/0/5 |
+| `321-crash-criteria-scratchpad.t` | 6/0/0 | 4/2/0 | 1/0/5 |
 | `322-match-error-crash.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `324-for-window-reload-crash.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `325-layout-percent-and-marks.t` | 8/0/0 | 2/1/0 | 2/0/1 |
@@ -314,7 +314,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `511-scratchpad-configure-request.t` | 2/0/0 | 0/0/0 | 2/0/0 |
 | `512-move-wraps.t` | 10/0/0 | 0/0/0 | 10/0/0 |
 | `513-move-workspace.t` | 6/0/0 | 0/0/0 | 2/0/4 |
-| `514-ipc-workspace-multi-monitor.t` | 4/0/0 | 1/0/3 | 1/0/3 |
+| `514-ipc-workspace-multi-monitor.t` | 4/0/0 | 1/3/0 | 1/0/3 |
 | `515-create-workspace.t` | 2/0/0 | 1/1/0 | 2/0/0 |
 | `516-move.t` | 14/0/0 | 0/0/0 | 6/2/6 |
 | `517-regress-move-direction-ipc.t` | 2/0/0 | 0/2/0 | 0/0/2 |
@@ -330,8 +330,8 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `530-bug-2229.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `531-fullscreen-on-given-output.t` | 4/0/0 | 1/3/0 | 0/0/4 |
 | `534-dont-warp.t` | 2/0/0 | 2/0/0 | 2/0/0 |
-| `535-workspace-next-prev.t` | 38/0/0 | 8/0/30 | 0/0/38 |
-| `537-move-single-to-output.t` | 8/0/0 | 4/2/2 | 8/0/0 |
+| `535-workspace-next-prev.t` | 38/0/0 | 8/30/0 | 0/0/38 |
+| `537-move-single-to-output.t` | 8/0/0 | 4/4/0 | 8/0/0 |
 | `538-i3bar-primary-output.t` | 4/0/0 | 0/0/0 | 0/0/4 |
 | `539-disable_focus_wrapping.t` | 10/0/0 | 10/0/0 | 10/0/0 |
 | `540-sigterm-cleanup.t` | 2/0/0 | 2/0/0 | 2/0/0 |
@@ -343,9 +343,9 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `547-explicit-mode-default.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `547-nested-variables.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `549-focus-wrapping-gaps.t` | 2/0/0 | 2/0/0 | 2/0/0 |
-| `550-focus-workspace.t` | 17/0/0 | 5/0/3 | 0/9/8 |
+| `550-focus-workspace.t` | 17/0/0 | 5/3/0 | 0/9/8 |
 | `550-split-redundant-containers.t` | 8/0/0 | 0/0/0 | 0/0/8 |
-| `551-net-wm-state-maximized.t` | 12/0/0 | 1/0/1 | 0/10/2 |
+| `551-net-wm-state-maximized.t` | 12/0/0 | 1/1/0 | 0/10/2 |
 | `553-popup_during_fullscreen.t` | 20/0/0 | 16/0/4 | 20/0/0 |
 | `554-commands-crash-for-window.t` | 101/0/0 | 67/0/34 | 69/0/32 |
 | `556-workspace-keeps-focus-after-move.t` | 5/0/0 | 3/0/0 | 3/0/0 |
