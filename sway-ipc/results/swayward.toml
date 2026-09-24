@@ -5,16 +5,16 @@
 
 [run]
 compositor = "swayward"
-version = "26.04 (v26.04-116-gc7a5a32e-modified)"
-commit = "c7a5a32e-modified"
-oracle_commit = "f3845a521e9877cca34c74306ad5eadd7336df02"
+version = "26.04 (v26.04-123-gb420c1a4-modified)"
+commit = "b420c1a4-modified"
+oracle_commit = "52c5ce955eafc8313b6f298738ffff5422933ce1"
 date = "2026-09-24"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 11
-match = 84
-mismatch = 6
+difference_fields = 0
+match = 90
+mismatch = 0
 not_applicable = 3
 
 [[result]]
@@ -285,8 +285,7 @@ verdict = "match"
 [[result]]
 scenario = "two_outputs"
 request = "outputs"
-verdict = "mismatch"
-differences = ["$outputs[0].percent: 0.5 != 1.0", "$outputs[1].percent: 0.5 != 1.0"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_hidden"
@@ -321,14 +320,12 @@ verdict = "match"
 [[result]]
 scenario = "sticky_workspace_switch"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].floating_nodes[0].focused: False != True"]
+verdict = "match"
 
 [[result]]
 scenario = "sticky_workspace_switch"
 request = "workspaces"
-verdict = "mismatch"
-differences = ["$workspaces[0].floating_nodes[0].focused: False != True"]
+verdict = "match"
 
 [[result]]
 scenario = "sticky_workspace_switch"
@@ -338,8 +335,7 @@ verdict = "match"
 [[result]]
 scenario = "nested_tabbed_in_stacked"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.9804489500362057 != 1.0", "$tree.nodes[1].nodes[0].nodes[0].percent: 0.9808238636363636 != 1.0"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
@@ -354,8 +350,7 @@ verdict = "match"
 [[result]]
 scenario = "nested_stacked_in_tabbed"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.9608979000724113 != 1.0", "$tree.nodes[1].nodes[0].nodes[0].percent: 0.9808238636363636 != 1.0"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_stacked_in_tabbed"
@@ -370,8 +365,7 @@ verdict = "match"
 [[result]]
 scenario = "borders_and_gaps"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "borders_and_gaps"
@@ -462,19 +456,19 @@ verdict = "match"
 scenario = "disabled_output_evacuation"
 request = "tree"
 verdict = "not applicable"
-reason = "Sway-only output command syntax; source: sway/commands/output/disable.c"
+reason = "The swayward oracle adapter uses its synthetic headless backend, whose output-config hook changes modes but cannot disconnect an output; the production DRM backend implements disable. Source: swayward src/backend/headless.rs Headless::on_output_config_changed and src/backend/tty.rs Tty::on_output_config_changed."
 
 [[result]]
 scenario = "disabled_output_evacuation"
 request = "workspaces"
 verdict = "not applicable"
-reason = "Sway-only output command syntax; source: sway/commands/output/disable.c"
+reason = "The swayward oracle adapter uses its synthetic headless backend, whose output-config hook changes modes but cannot disconnect an output; the production DRM backend implements disable. Source: swayward src/backend/headless.rs Headless::on_output_config_changed and src/backend/tty.rs Tty::on_output_config_changed."
 
 [[result]]
 scenario = "disabled_output_evacuation"
 request = "outputs"
 verdict = "not applicable"
-reason = "Sway-only output command syntax; source: sway/commands/output/disable.c"
+reason = "The swayward oracle adapter uses its synthetic headless backend, whose output-config hook changes modes but cannot disconnect an output; the production DRM backend implements disable. Source: swayward src/backend/headless.rs Headless::on_output_config_changed and src/backend/tty.rs Tty::on_output_config_changed."
 
 [[result]]
 scenario = "differential_seed_0"

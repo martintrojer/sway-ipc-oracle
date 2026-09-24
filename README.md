@@ -64,7 +64,8 @@ comparisons to the fields in i3's pinned IPC protocol and cites sway's source
 for excluded sway extensions. Every sway field remains applicable to swayward.
 Use repeated `--scenario NAME` arguments for a subset. The runner starts a
 fresh compositor for each recipe so runtime commands cannot leak into later
-measurements. Use `--no-fresh-per-scenario` only when investigating sequential
+measurements. The pinned swayward run records **90 match / 0 mismatch / 3 not
+applicable**. Use `--no-fresh-per-scenario` only when investigating sequential
 state. `--capture` is
 restricted to sway and replaces the selected query fixtures after running the
 same comparisons. The i3 adapter runs i3 under private Xvfb and opens xterm
