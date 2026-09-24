@@ -57,7 +57,7 @@ SWAY_CAL_CONTENT_SHIM=1 TIMEOUT=60 \
 ```
 
 The report joins results only by the unchanged TAP assertion number. It does
-not edit `results/swayward.toml`. `differential.tsv` contains the 901
+not edit `i3/results/swayward.toml`. `differential.tsv` contains the 901
 attributable per-assertion rows from the optional pass.
 
 ## Strict result

@@ -7,7 +7,7 @@ Usage:
     contrib/coverage-report [RESULT] --json       machine-readable
     contrib/coverage-report [RESULT] --gaps       unfinished assertions
 
-RESULT defaults to results/swayward.toml.
+RESULT defaults to i3/results/swayward.toml.
 
 Why the data moved out of prose. The classification used to live only in the
 Markdown table, and counting it required reverse-engineering English: literal
@@ -29,7 +29,7 @@ import sys
 import tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-DEFAULT_DATA = ROOT / "results" / "swayward.toml"
+DEFAULT_DATA = ROOT / "i3" / "results" / "swayward.toml"
 UNVENDORED = ROOT / "i3" / "unvendored.toml"
 VENDOR = ROOT / "i3" / "t"
 

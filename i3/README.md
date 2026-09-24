@@ -13,7 +13,7 @@ A result file has a `[files]` entry for every vendored `.t` file. Each entry rec
 - `fail`: assertions that ran and did not pass.
 - `unreached`: assertions the run did not reach.
 
-The counts must cover the full plan. Run `contrib/coverage-report results/COMPOSITOR.toml --check` to validate a file.
+Store each result as `i3/results/COMPOSITOR.toml`; for example, `i3/results/sway.toml` means “the i3 suite run on sway.” The counts must cover the full plan. Run `contrib/coverage-report i3/results/COMPOSITOR.toml --check` to validate a file.
 
 ## Skip policy
 

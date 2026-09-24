@@ -3,10 +3,14 @@ set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")/.."
 
 shopt -s nullglob
-results=(results/*.toml)
-((${#results[@]})) || { echo "no result files" >&2; exit 1; }
-for result in "${results[@]}"; do
+i3_results=(i3/results/*.toml)
+sway_ipc_results=(sway-ipc/results/*.toml)
+((${#i3_results[@]} + ${#sway_ipc_results[@]})) || { echo "no result files" >&2; exit 1; }
+for result in "${i3_results[@]}"; do
     ./contrib/coverage-report "$result" --check
+done
+for result in "${sway_ipc_results[@]}"; do
+    python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$result"
 done
 
 tap_report=$(printf '%s\n' 'ok 1 - pass' 'ok 2 # SKIP premise' 'not ok 3 - fail' '1..3' | ./contrib/tap-count)

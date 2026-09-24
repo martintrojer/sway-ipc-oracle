@@ -12,5 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate result data, TAP plans, and sway fixtures
+      - name: Validate oracle results, TAP plans, and sway fixtures
         run: ./contrib/validate

@@ -85,7 +85,7 @@ def swayward_verdicts(entry: dict) -> dict[int, str]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tapdir", default=str(REPO / "target" / "sway-calibration"))
-    ap.add_argument("--results", default=str(REPO / "results" / "swayward.toml"))
+    ap.add_argument("--results", default=str(REPO / "i3" / "results" / "swayward.toml"))
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--tsv", action="store_true",
                     help="print attributable non-compatible assertion rows")

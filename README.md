@@ -15,11 +15,13 @@ Never edit a test or fixture to make a compositor pass. Update an oracle only fr
 
 ## Results are measurements
 
-`results/` records measurements, not rankings. A result must publish pass, skip, and fail counts together for each compositor. Do not quote one count by itself or combine the counts into a score.
+Each oracle records measurements under `<oracle>/results/<compositor>.toml`. The oracle comes first and the compositor under test comes second: for example, `i3/results/sway.toml` means “the i3 suite run on sway.”
+
+A result must publish pass, skip, and fail counts together for each compositor. Do not quote one count by itself or combine the counts into a score.
 
 A skip needs a reason and a source citation. In particular, sway deliberately differs from i3 where the X11 premise or design does not apply. Those rows describe where sway differs from i3. They do not imply a defect or a quality comparison.
 
-Version 0.1.0 includes only [`results/swayward.toml`](results/swayward.toml), imported from swayward. `results/i3.toml` and `results/sway.toml` are omitted until pinned runs produce them. No i3 or sway result is inferred from the existing calibration report.
+Version 0.2.0 includes only [`i3/results/swayward.toml`](i3/results/swayward.toml), imported from swayward. `i3/results/i3.toml` and `i3/results/sway.toml` are omitted until pinned runs produce them. No i3 or sway result is inferred from the existing calibration report.
 
 ## Run the suite against sway
 
@@ -33,18 +35,18 @@ SWAYBUILD=/path/to/sway-build/build \
 CONTAINER=swayward-dev \
 TIMEOUT=60 \
 ./contrib/sway-calibration-run --all
-./contrib/sway-calibration-report --results results/swayward.toml
+./contrib/sway-calibration-report --results i3/results/swayward.toml
 ```
 
 `I3SRC` must be at `9be3249ac5b377ed3270e36bca83df53d8023337`. The sway binary must identify commit `88869399`. The default container name reflects the development environment where the runner began; set `CONTAINER` to any distrobox with the dependencies listed in the calibration guide.
 
-The same runner command will produce the pinned i3 and sway measurements after the dedicated i3 baseline mode lands. Version 0.1.0 does not claim that mode exists.
+The same runner command will produce the pinned i3 and sway measurements after the dedicated i3 baseline mode lands. Version 0.2.0 does not claim that mode exists.
 
 ## Adopt the oracle in another compositor
 
 A compositor supplies an adapter that starts an isolated instance, opens real client windows, and gives the unchanged tests an i3/sway IPC socket. Keep compositor-specific code in the compositor repository. Swayward's [`tests/i3/lib/i3test.pm`](https://github.com/martintrojer/swayward/blob/4faeb28d391c8ede3ead6f9b7cbe4388422d3887/tests/i3/lib/i3test.pm) is the worked example; its in-process Rust runner also stays in swayward.
 
-Publish the resulting TOML under `results/`. Publish pass, skip, and fail together, pin the compositor and oracle versions, and cite every deliberate difference.
+Publish the resulting TOML under the matching oracle's `results/` directory. Publish pass, skip, and fail together, pin the compositor and oracle versions, and cite every deliberate difference.
 
 ## Why this does not run against hy3
 
