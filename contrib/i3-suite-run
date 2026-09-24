@@ -1,0 +1,214 @@
+#!/usr/bin/env python3
+"""Run the unchanged vendored i3 suite against a pinned compositor.
+
+The i3 adapter delegates to i3's own complete-run.pl on Xvfb.  The sway and
+swayward adapters use the Perl launch and synchronization modules under
+``i3/adapters``.  Every compositor process runs in a systemd user scope with a
+2 GiB memory limit, no swap, a timeout, and private IPC and display sockets.
+"""
+from __future__ import annotations
+
+import argparse
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import tomllib
+import shlex
+
+ROOT = Path(__file__).resolve().parent.parent
+I3_PIN = "9be3249ac5b377ed3270e36bca83df53d8023337"
+SWAY_PIN = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+PLAN = re.compile(r"^1\.\.(\d+)(?:\s+#\s*SKIP\b.*)?$", re.I)
+RESULT = re.compile(r"^(not ok|ok) (\d+)(.*)$")
+
+
+def run(cmd: list[str], **kw) -> subprocess.CompletedProcess:
+    print("+", " ".join(cmd), flush=True)
+    return subprocess.run(cmd, text=True, **kw)
+
+
+def parse_tap(text: str):
+    verdicts, plan, previous = {}, None, 0
+    for line in text.splitlines():
+        if plan is None and (m := PLAN.match(line)):
+            plan = int(m.group(1))
+        if not (m := RESULT.match(line)):
+            continue
+        n = int(m.group(2))
+        if verdicts and n <= previous:
+            break
+        previous = n
+        verdicts[n] = ("skip" if m.group(1) == "ok" and re.search(r"#\s*skip", m.group(3), re.I)
+                       else "pass" if m.group(1) == "ok" else "fail")
+    return verdicts, plan
+
+
+def extract_complete_log(text: str) -> dict[str, str]:
+    found = {}
+    matches = list(re.finditer(r"^output for .*/([^/]+\.t):\n", text, re.M))
+    for i, match in enumerate(matches):
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        found[match.group(1)] = text[match.end():end]
+    return found
+
+
+def emit(path: Path, compositor: str, version: str, commit: str,
+         taps: dict[str, str], environment: str = "") -> None:
+    lines = [
+        "# Curated result of an unchanged upstream i3 test-suite run.",
+        "# Counts use the first unindented TAP plan and first TAP stream.",
+        "# pass, skip, fail, and unreached together cover each emitted plan.",
+        "", "[run]", f'compositor = "{compositor}"', f'version = "{version}"',
+        f'commit = "{commit}"', f'i3_suite_commit = "{I3_PIN}"',
+    ]
+    if environment:
+        lines.append(f'environment = "{environment}"')
+    for test in sorted((ROOT / "i3/t").glob("*.t")):
+        verdicts, plan = parse_tap(taps.get(test.name, ""))
+        static = static_plan(test)
+        lines += ["", f'[files."{test.name}"]']
+        if plan is None:
+            lines += ["plan_unknown = true", f"assertions = {static}", 'tap_plan = "none"',
+                      f"pass = {sum(v == 'pass' for v in verdicts.values())}",
+                      f"fail = {sum(v == 'fail' for v in verdicts.values())}",
+                      f"unreached = {max(0, static-len(verdicts))}",
+                      'reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."',
+                      "reason_verified = true"]
+        elif plan == 0:
+            lines += ["assertions = 0", "tap_plan = 0", "pass = 0",
+                      'reason = "Upstream declares this test not applicable on this build."',
+                      f'file_skip = {{ reason = "Upstream TAP plan is 1..0", citation = "i3/t/{test.name}:1" }}']
+        else:
+            skip_numbers = [n for n, v in verdicts.items() if v == "skip"]
+            fail = sum(v == "fail" for v in verdicts.values())
+            reached = len(verdicts)
+            lines += [f"assertions = {plan}", f"tap_plan = {plan}",
+                      f"pass = {sum(v == 'pass' for v in verdicts.values())}"]
+            if skip_numbers:
+                lines += ['reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."',
+                          "reason_verified = true"]
+                for n in skip_numbers:
+                    lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
+                              'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
+                              f'citation = "i3/t/{test.name}:1"']
+            if fail:
+                lines += [f"fail = {fail}"]
+                if not skip_numbers:
+                    lines += ['reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."',
+                              "reason_verified = true"]
+            if reached < plan:
+                lines += [f"unreached = {plan-reached}"]
+                if not skip_numbers and not fail:
+                    lines += ['reason = "The pinned run stopped before its TAP plan completed."',
+                              "reason_verified = true"]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines) + "\n")
+
+
+def static_plan(path: Path) -> int:
+    # Same source of truth used by contrib/tap-count: the first unindented plan,
+    # or the checked-in swayward census where done_testing makes it dynamic.
+    for line in path.read_text(errors="replace").splitlines():
+        if m := re.match(r"^plan tests => (\d+);", line):
+            return int(m.group(1))
+    with (ROOT / "i3/results/swayward.toml").open("rb") as fh:
+        return tomllib.load(fh)["files"][path.name].get("assertions", 0)
+
+
+def i3_adapter(args) -> None:
+    src, build = Path(args.i3src), Path(args.i3build)
+    if run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, check=True).stdout.strip() != I3_PIN:
+        raise SystemExit(f"i3 source is not pinned to {I3_PIN}")
+    tests = [str(src / "testcases/t" / p.name) for p in sorted((ROOT / "i3/t").glob("*.t"))]
+    before = {p.name for p in build.glob("testsuite-*")}
+    inner = ["bash", "-lc", "unset SWAYSOCK I3SOCK DISPLAY WAYLAND_DISPLAY; "
+             "export PERL5LIB=$HOME/perl5/lib/perl5${PERL5LIB:+:$PERL5LIB}; "
+             f"cd {build} && perl complete-run.pl --parallel={args.parallel} " + " ".join(tests)]
+    cp = run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q",
+              "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", str(args.timeout), *inner],
+             capture_output=True)
+    after = [p for p in build.glob("testsuite-*") if p.name not in before]
+    if not after:
+        print(cp.stdout, cp.stderr, file=sys.stderr); raise SystemExit("i3 runner produced no log")
+    log = max(after, key=lambda p: p.stat().st_mtime) / "complete-run.log"
+    (ROOT / "target/i3-suite/i3").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(log, ROOT / "target/i3-suite/i3/complete-run.log")
+    emit(ROOT / "i3/results/i3.toml", "i3", "4.25-25-g9be3249a", I3_PIN,
+         extract_complete_log(log.read_text(errors="replace")), "Xvfb with i3's complete-run.pl")
+    if cp.returncode:
+        print(cp.stdout, cp.stderr, file=sys.stderr)
+
+
+def selected_tests(args):
+    tests = sorted((ROOT / "i3/t").glob("*.t"))
+    return [p for p in tests if not args.tests or p.name in args.tests]
+
+
+def wayland_adapter(args) -> None:
+    src = Path(args.i3src)
+    if run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, check=True).stdout.strip() != I3_PIN:
+        raise SystemExit(f"i3 source is not pinned to {I3_PIN}")
+    binary = Path(args.binary or ("/var/home/martintrojer/hacking/sway-1.12-build/build/sway/sway" if args.compositor == "sway" else "/var/home/martintrojer/hacking/swayward/target/debug/swayward"))
+    adapter = ROOT / "i3/adapters" / args.compositor
+    if not adapter.is_dir():
+        raise SystemExit(f"missing adapter: {adapter}")
+    out = ROOT / "target/i3-suite" / args.compositor
+    shutil.rmtree(out, ignore_errors=True); out.mkdir(parents=True)
+    with tempfile.TemporaryDirectory(prefix="i3-suite-") as td:
+        stage = Path(td) / "lib"; shutil.copytree(src / "testcases/lib", stage)
+        text = (src / "testcases/lib/i3test.pm.in").read_text().replace("@abs_top_builddir@", str(src)).replace("@abs_top_srcdir@", str(src))
+        (stage / "i3test.pm").write_text(text)
+        (stage / "i3test.pm.in").unlink(missing_ok=True)
+        shutil.copy2(adapter / "SocketActivation.pm", stage)
+        shutil.copytree(adapter / "swaycal", stage / "swaycal")
+        for test in selected_tests(args):
+            rundir = Path(td) / test.name; rundir.mkdir(); (rundir / "x11u").mkdir()
+            os.chmod(rundir, 0o700); os.chmod(rundir / "x11u", 0o1777)
+            env = os.environ | {"I3SRC": str(src), "STAGE": str(stage), "TESTNAME": test.name,
+                  "OUTDIR": str(rundir), "I3_SUITE_RUNDIR": str(rundir), "I3_SUITE_BINARY": str(binary),
+                  "I3_SUITE_COMPOSITOR": args.compositor, "SWAY_CAL_CONTENT_SHIM": "1"}
+            inner = f'''set -uo pipefail
+trap 'test -f "$I3_SUITE_RUNDIR/pids" && while read -r p; do kill -9 -- -"$p" 2>/dev/null || true; done < "$I3_SUITE_RUNDIR/pids"; test -n "${{xp:-}}" && kill -9 "$xp" 2>/dev/null || true' EXIT
+mkdir -p /tmp/.X11-unix; mount --bind "$I3_SUITE_RUNDIR/x11u" /tmp/.X11-unix
+export XDG_RUNTIME_DIR="$I3_SUITE_RUNDIR"; unset SWAYSOCK I3SOCK WAYLAND_DISPLAY
+Xvfb :99 -screen 0 1280x800x24 >/dev/null 2>&1 & xp=$!; export DISPLAY=:99
+for i in $(seq 1 100); do test -S /tmp/.X11-unix/X99 && break; sleep .05; done
+cd {shlex.quote(str(src / 'testcases'))}
+export PERL5LIB="$STAGE:$HOME/perl5/lib/perl5${{PERL5LIB:+:$PERL5LIB}}"
+perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
+'''
+            cp = run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", "--kill-after=5", str(args.file_timeout), "unshare", "-rm", "bash", "-lc", inner], env=env, capture_output=True)
+            (out / f"{test.name}.tap").write_text(cp.stdout + cp.stderr)
+            print(f"EXIT={cp.returncode} {test.name}")
+    taps = {p.name.removesuffix('.tap'): p.read_text(errors='replace') for p in out.glob('*.tap')}
+    version = run([str(binary), "--version"], capture_output=True).stdout.strip()
+    commit = SWAY_PIN if args.compositor == "sway" else run(["git", "-C", str(binary.parents[2]), "rev-parse", "HEAD"], capture_output=True).stdout.strip()
+    emit(ROOT / f"i3/results/{args.compositor}.toml", args.compositor, version, commit, taps,
+         "headless compositor with private IPC/X11 sockets and real X11 clients")
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--compositor", required=True, choices=("i3", "sway", "swayward"))
+    ap.add_argument("--i3src", default="/var/home/martintrojer/hacking/i3")
+    ap.add_argument("--i3build", default="/var/home/martintrojer/hacking/i3/build")
+    ap.add_argument("--container", default="swayward-dev")
+    ap.add_argument("--parallel", type=int, default=4)
+    ap.add_argument("--timeout", type=int, default=900)
+    ap.add_argument("--file-timeout", type=int, default=60)
+    ap.add_argument("--binary")
+    ap.add_argument("tests", nargs="*")
+    args = ap.parse_args()
+    if args.compositor == "i3":
+        i3_adapter(args)
+    else:
+        wayland_adapter(args)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

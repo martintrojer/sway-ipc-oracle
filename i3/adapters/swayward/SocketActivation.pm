@@ -51,8 +51,8 @@ use Exporter 'import';
 
 our @EXPORT = qw(activate_i3);
 
-my $sway_bin = $ENV{SWAY_CAL_SWAY}   or die 'SWAY_CAL_SWAY is unset';
-my $rundir   = $ENV{SWAY_CAL_RUNDIR} or die 'SWAY_CAL_RUNDIR is unset';
+my $sway_bin = $ENV{I3_SUITE_BINARY} or die 'I3_SUITE_BINARY is unset';
+my $rundir   = $ENV{I3_SUITE_RUNDIR} or die 'I3_SUITE_RUNDIR is unset';
 
 my $instance = 0;
 
@@ -60,10 +60,8 @@ sub _read_display {
     my ($log) = @_;
     for (1 .. 300) {
         if (open(my $fh, '<', $log)) {
-            local $/;
-            my $text = <$fh>;
-            close($fh);
-            return ":$1" if $text =~ /Starting Xwayland on :(\d+)/;
+            local $/; my $text = <$fh>; close($fh);
+            return $1 if $text =~ /listening on X11 socket: (:\d+)/;
         }
         select(undef, undef, undef, 0.05);
     }
@@ -97,7 +95,7 @@ sub activate_i3 {
         if ($pid == 0) {
             open(STDOUT, '>>', "$rundir/sway-validate.log");
             open(STDERR, '>&', \*STDOUT);
-            { no warnings 'exec'; exec($sway_bin, '-C', '-c', $args{configfile}); }
+            { no warnings 'exec'; exec($sway_bin, 'validate', '-c', $args{configfile}); }
             POSIX::_exit(1);
         }
         $args{cv}->send(1);
@@ -113,7 +111,7 @@ sub activate_i3 {
     {
         open(my $in,  '<', $args{configfile}) or die "config: $!";
         open(my $out, '>', $cfg) or die "config copy: $!";
-        print $out "xwayland force\noutput * mode 1280x800\n";
+        print $out "";
         local $/;
         print $out scalar <$in>;
         close($in);
@@ -128,11 +126,11 @@ sub activate_i3 {
         delete $ENV{DESKTOP_STARTUP_ID};
         delete $ENV{SHELL};
         delete $ENV{DISPLAY};     # sway must create its own, not join ours
-        $ENV{WLR_BACKENDS} = 'headless';
-        $ENV{WLR_LIBINPUT_NO_DEVICES} = '1';
+        $ENV{WLR_HEADLESS_OUTPUTS} = '1';
+        $ENV{RUST_LOG} = 'swayward=info';
         open(STDOUT, '>>', $log);
         open(STDERR, '>&', \*STDOUT);
-        { no warnings 'exec'; exec($sway_bin, '-d', '-c', $cfg); }
+        { no warnings 'exec'; exec($sway_bin, '-c', $cfg); }
         POSIX::_exit(1);
     }
 
