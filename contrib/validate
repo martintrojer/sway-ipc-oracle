@@ -18,7 +18,7 @@ python3 - <<'PY'
 import re, tomllib
 from pathlib import Path
 readme = Path("README.md").read_text()
-docs = {name: tomllib.load(open(f"i3/results/{name}.toml", "rb")) for name in ("i3", "sway")}
+docs = {name: tomllib.load(open(f"i3/results/{name}.toml", "rb")) for name in ("i3", "sway", "swayward")}
 def counts(entry):
     return entry.get("pass", 0), len(entry.get("skip", [])), entry.get("fail", 0) + entry.get("unreached", 0)
 def totals(doc):
@@ -29,7 +29,7 @@ for name, doc in docs.items():
     if f"{name} **{expected}**" not in readme:
         raise SystemExit(f"README i3-suite summary for {name} is not {expected}")
 for name in docs["i3"]["files"]:
-    expected = " | ".join("/".join(map(str, counts(docs[c]["files"][name]))) for c in ("i3", "sway"))
+    expected = " | ".join("/".join(map(str, counts(docs[c]["files"][name]))) for c in ("i3", "sway", "swayward"))
     if f"| `{name}` | {expected} |" not in readme:
         raise SystemExit(f"README i3-suite row is stale: {name}")
 PY
