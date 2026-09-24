@@ -517,8 +517,8 @@ tap_plan = "none"
 source_assertions = 64
 pass = 1
 fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
 
 [files."159-socketpaths.t"]
 plan_unknown = true
@@ -584,8 +584,8 @@ tap_plan = "none"
 source_assertions = 106
 pass = 17
 fail = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
 
 [files."167-workspace_layout.t"]
 plan_unknown = true
@@ -1148,8 +1148,8 @@ source_assertions = 32
 pass = 0
 fail = 0
 unreached = 32
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "i3_parser_internals"
+reason_verified = true
 
 [files."202-scratchpad-criteria.t"]
 plan_unknown = true
@@ -1216,8 +1216,8 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."213-layout-restore-simple.t"]
 assertions = 18
@@ -1290,8 +1290,8 @@ tap_plan = "none"
 source_assertions = 10
 pass = 2
 fail = 6
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_ipc_semantics_finding"
+reason_verified = true
 
 [files."220-ipc-window-title.t"]
 assertions = 4
@@ -1439,8 +1439,8 @@ assertions = 8
 tap_plan = 8
 pass = 0
 fail = 8
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "headless_xtest_boundary"
+reason_verified = true
 
 [files."246-window-decoration-focus.t"]
 assertions = 3
@@ -1474,8 +1474,8 @@ assertions = 49
 tap_plan = 49
 pass = 40
 fail = 9
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
 
 [files."254-move-to-output-with-criteria.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -1483,8 +1483,8 @@ assertions = 16
 tap_plan = 16
 pass = 3
 fail = 7
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 [[files."254-move-to-output-with-criteria.t".skip]]
 n = 2
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -1787,8 +1787,8 @@ assertions = 10
 tap_plan = 10
 pass = 4
 fail = 6
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "headless_xtest_boundary"
+reason_verified = true
 
 [files."293-sticky-output-crash.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -1796,8 +1796,8 @@ assertions = 3
 tap_plan = 3
 pass = 2
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."294-focus-order.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -1832,8 +1832,8 @@ assertions = 25
 tap_plan = 25
 pass = 13
 fail = 12
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."297-scroll-tabbed.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -1893,8 +1893,8 @@ assertions = 9
 tap_plan = 9
 pass = 1
 fail = 8
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."306-move-to-parent.t"]
 plan_unknown = true
@@ -1925,8 +1925,8 @@ source_assertions = 32
 pass = 0
 fail = 0
 unreached = 32
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."309-crash-move-parent.t"]
 plan_unknown = true
@@ -2126,8 +2126,8 @@ assertions = 1
 tap_plan = 1
 pass = 0
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."501-scratchpad.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2147,8 +2147,8 @@ assertions = 18
 tap_plan = 18
 pass = 3
 fail = 15
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."504-move-workspace-to-output.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2156,8 +2156,8 @@ assertions = 31
 tap_plan = 31
 pass = 8
 fail = 23
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."505-scratchpad-resolution.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2176,8 +2176,8 @@ assertions = 31
 tap_plan = 31
 pass = 28
 fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."507-workspace-move-crash.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2191,8 +2191,8 @@ assertions = 2
 tap_plan = 2
 pass = 1
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."510-focus-across-outputs.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2202,8 +2202,8 @@ tap_plan = "none"
 source_assertions = 19
 pass = 2
 fail = 8
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."511-scratchpad-configure-request.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2217,8 +2217,8 @@ assertions = 10
 tap_plan = 10
 pass = 6
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 [[files."512-move-wraps.t".skip]]
 n = 6
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -2234,8 +2234,8 @@ assertions = 6
 tap_plan = 6
 pass = 2
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."514-ipc-workspace-multi-monitor.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2243,8 +2243,8 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_ipc_semantics_finding"
+reason_verified = true
 
 [files."515-create-workspace.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2260,8 +2260,8 @@ tap_plan = "none"
 source_assertions = 14
 pass = 9
 fail = 3
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."517-regress-move-direction-ipc.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2269,8 +2269,8 @@ assertions = 2
 tap_plan = 2
 pass = 0
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."518-interpret-workspace-numbers.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2278,8 +2278,8 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."519-mouse-warping.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2287,8 +2287,8 @@ assertions = 3
 tap_plan = 3
 pass = 1
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "headless_xtest_boundary"
+reason_verified = true
 
 [files."520-regress-focus-direction-floating.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2296,8 +2296,8 @@ assertions = 1
 tap_plan = 1
 pass = 0
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."522-rename-assigned-workspace.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2307,8 +2307,8 @@ tap_plan = "none"
 source_assertions = 9
 pass = 3
 fail = 4
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."523-move-position-center.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2322,8 +2322,8 @@ assertions = 38
 tap_plan = 38
 pass = 36
 fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."526-reconfigure-dock.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2331,8 +2331,8 @@ assertions = 3
 tap_plan = 3
 pass = 0
 fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
 
 [files."527-focus-fallback.t"]
 plan_unknown = true
@@ -2350,8 +2350,8 @@ assertions = 38
 tap_plan = 38
 pass = 3
 fail = 35
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."530-bug-2229.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2365,8 +2365,8 @@ assertions = 4
 tap_plan = 4
 pass = 3
 fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."534-dont-warp.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2380,8 +2380,8 @@ assertions = 38
 tap_plan = 38
 pass = 3
 fail = 35
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."537-move-single-to-output.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2398,8 +2398,8 @@ source_assertions = 4
 pass = 0
 fail = 0
 unreached = 4
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_ipc_semantics_finding"
+reason_verified = true
 
 [files."539-disable_focus_wrapping.t"]
 assertions = 10
@@ -2425,8 +2425,8 @@ assertions = 63
 tap_plan = 63
 pass = 14
 fail = 49
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."544-focus-multiple-outputs.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2434,8 +2434,8 @@ assertions = 41
 tap_plan = 41
 pass = 8
 fail = 33
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [files."545-i3-registration.t"]
 assertions = 1

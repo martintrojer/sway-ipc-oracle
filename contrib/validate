@@ -57,6 +57,17 @@ for name, doc in docs.items():
     expected = "/".join(f"{n:,}" for n in totals(doc))
     if f"{name} **{expected}**" not in readme:
         raise SystemExit(f"README i3-suite summary for {name} is not {expected}")
+    claim = f"All {name} failures now carry a verified family classification."
+    unverified = [
+        filename
+        for filename, entry in doc["files"].items()
+        if (entry.get("fail", 0) or entry.get("unreached", 0))
+        and entry.get("reason_verified") is not True
+    ]
+    if claim in readme and unverified:
+        raise SystemExit(
+            f"README claims all {name} failures are verified, but {len(unverified)} rows are not"
+        )
 for name in docs["i3"]["files"]:
     expected = " | ".join("/".join(map(str, counts(docs[c]["files"][name]))) for c in ("i3", "sway", "swayward"))
     if f"| `{name}` | {expected} |" not in readme:

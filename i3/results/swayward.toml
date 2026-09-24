@@ -1244,9 +1244,10 @@ tap_plan = "none"
 source_assertions = 3
 pass = 0
 fail = 3
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+
 [files."213-layout-restore-simple.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 18
@@ -1502,9 +1503,10 @@ assertions = 8
 tap_plan = 8
 pass = 0
 fail = 8
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "headless_xtest_boundary"
+reason_verified = true
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+
 [files."246-window-decoration-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
@@ -1545,6 +1547,7 @@ pass = 31
 fail = 18
 reason = "swayward_geometry_finding"
 reason_verified = true
+
 [files."254-move-to-output-with-criteria.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 16
@@ -1883,9 +1886,10 @@ assertions = 10
 tap_plan = 10
 pass = 4
 fail = 6
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "headless_xtest_boundary"
+reason_verified = true
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+
 [files."293-sticky-output-crash.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 3
@@ -1928,9 +1932,10 @@ assertions = 25
 tap_plan = 25
 pass = 5
 fail = 20
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
 citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+
 [files."297-scroll-tabbed.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
@@ -1995,6 +2000,7 @@ pass = 0
 fail = 9
 reason = "swayward_tree_finding"
 reason_verified = true
+
 [files."306-move-to-parent.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
@@ -2273,6 +2279,7 @@ pass = 0
 fail = 18
 reason = "swayward_tree_finding"
 reason_verified = true
+
 [files."504-move-workspace-to-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 31
@@ -2320,6 +2327,7 @@ pass = 0
 fail = 2
 reason = "swayward_tree_finding"
 reason_verified = true
+
 [files."510-focus-across-outputs.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
@@ -2395,8 +2403,9 @@ assertions = 4
 tap_plan = 4
 pass = 0
 fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
+
 [files."519-mouse-warping.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 3
@@ -2441,6 +2450,7 @@ pass = 26
 fail = 12
 reason = "swayward_tree_finding"
 reason_verified = true
+
 [files."526-reconfigure-dock.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
@@ -2488,6 +2498,7 @@ pass = 0
 fail = 4
 reason = "swayward_tree_finding"
 reason_verified = true
+
 [files."534-dont-warp.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 2
@@ -2502,6 +2513,7 @@ pass = 0
 fail = 38
 reason = "swayward_tree_finding"
 reason_verified = true
+
 [files."537-move-single-to-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 8
@@ -2547,16 +2559,18 @@ assertions = 63
 tap_plan = 63
 pass = 1
 fail = 62
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
+
 [files."544-focus-multiple-outputs.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 assertions = 41
 tap_plan = 41
 pass = 8
 fail = 33
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = false
+reason = "swayward_tree_finding"
+reason_verified = true
+
 [files."545-i3-registration.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
