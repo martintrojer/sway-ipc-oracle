@@ -5,16 +5,16 @@
 
 [run]
 compositor = "swayward"
-version = "26.04 (v26.04-107-g1493462f)"
-commit = "1493462f"
-oracle_commit = "08783f8ae74b59a87d4bbce2cc9134a0ac650c0a"
+version = "26.04 (v26.04-116-gc7a5a32e-modified)"
+commit = "c7a5a32e-modified"
+oracle_commit = "f3845a521e9877cca34c74306ad5eadd7336df02"
 date = "2026-09-24"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 56
-match = 58
-mismatch = 32
+difference_fields = 11
+match = 84
+mismatch = 6
 not_applicable = 3
 
 [[result]]
@@ -35,24 +35,22 @@ verdict = "match"
 [[result]]
 scenario = "one_window"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
-
-[[result]]
-scenario = "one_window"
-request = "workspaces"
 verdict = "match"
 
 [[result]]
 scenario = "one_window"
+request = "workspaces"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
 request = "outputs"
 verdict = "match"
 
 [[result]]
 scenario = "two_split_h"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "two_split_h"
@@ -67,8 +65,7 @@ verdict = "match"
 [[result]]
 scenario = "two_split_v"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "two_split_v"
@@ -83,8 +80,7 @@ verdict = "match"
 [[result]]
 scenario = "nested_h_in_v"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[1].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_h_in_v"
@@ -99,8 +95,7 @@ verdict = "match"
 [[result]]
 scenario = "tabbed"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "tabbed"
@@ -115,8 +110,7 @@ verdict = "match"
 [[result]]
 scenario = "stacked"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "stacked"
@@ -131,8 +125,7 @@ verdict = "match"
 [[result]]
 scenario = "one_floating"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "one_floating"
@@ -147,14 +140,12 @@ verdict = "match"
 [[result]]
 scenario = "two_floating"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
+verdict = "match"
 
 [[result]]
 scenario = "two_floating"
 request = "workspaces"
-verdict = "mismatch"
-differences = ["$workspaces[0].representation: type str != NoneType"]
+verdict = "match"
 
 [[result]]
 scenario = "two_floating"
@@ -164,8 +155,7 @@ verdict = "match"
 [[result]]
 scenario = "three_floating_before_raise"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "three_floating_before_raise"
@@ -180,8 +170,7 @@ verdict = "match"
 [[result]]
 scenario = "three_floating_after_raise"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "three_floating_after_raise"
@@ -211,24 +200,22 @@ verdict = "match"
 [[result]]
 scenario = "marked"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
-
-[[result]]
-scenario = "marked"
-request = "workspaces"
 verdict = "match"
 
 [[result]]
 scenario = "marked"
+request = "workspaces"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
 request = "outputs"
 verdict = "match"
 
 [[result]]
 scenario = "two_workspaces"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "two_workspaces"
@@ -243,8 +230,7 @@ verdict = "match"
 [[result]]
 scenario = "numbered_sparse"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[1].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[2].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[2].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[2].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[2].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "numbered_sparse"
@@ -259,8 +245,7 @@ verdict = "match"
 [[result]]
 scenario = "named_workspace"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "named_workspace"
@@ -290,8 +275,7 @@ verdict = "match"
 [[result]]
 scenario = "two_outputs"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].percent: 0.5 != 0.4980392156862745", "$tree.nodes[2].percent: 0.5 != 0.25668449197860965", "$tree.nodes[2].current_mode.width: 1270 != 1280", "$tree.nodes[2].current_mode.height: 1408 != 720"]
+verdict = "match"
 
 [[result]]
 scenario = "two_outputs"
@@ -302,19 +286,17 @@ verdict = "match"
 scenario = "two_outputs"
 request = "outputs"
 verdict = "mismatch"
-differences = ["$outputs[0].percent: 0.5 != 1.0", "$outputs[1].percent: 0.5 != 1.0", "$outputs[1].current_mode.width: 1270 != 1280", "$outputs[1].current_mode.height: 1408 != 720"]
+differences = ["$outputs[0].percent: 0.5 != 1.0", "$outputs[1].percent: 0.5 != 1.0"]
 
 [[result]]
 scenario = "scratchpad_hidden"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_hidden"
 request = "workspaces"
-verdict = "mismatch"
-differences = ["$workspaces[0].representation: type str != NoneType"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_hidden"
@@ -324,14 +306,12 @@ verdict = "match"
 [[result]]
 scenario = "scratchpad_shown"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_shown"
 request = "workspaces"
-verdict = "mismatch"
-differences = ["$workspaces[0].representation: type str != NoneType"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_shown"
@@ -342,7 +322,7 @@ verdict = "match"
 scenario = "sticky_workspace_switch"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].floating_nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].focused: True != False"]
+differences = ["$tree.nodes[1].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].floating_nodes[0].focused: False != True"]
 
 [[result]]
 scenario = "sticky_workspace_switch"
@@ -359,13 +339,12 @@ verdict = "match"
 scenario = "nested_tabbed_in_stacked"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'stacked' != 'tabbed'", "$tree.nodes[1].nodes[0].nodes: length 1 != 2", "$tree.nodes[1].nodes[0].nodes[0].layout: 'tabbed' != 'splith'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].nodes: length 2 != 0", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.9804489500362057 != 0.5", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].orientation: 'horizontal' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].visible: False != True", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].app_id: 'fixture-2' != 'fixture-3'", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].percent: 1.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].name: 'fixture-2' != 'fixture-3'", "$tree.nodes[1].nodes[0].nodes[0].percent: 0.9808238636363636 != 1.0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'none' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'S[T[H[fixture-1 fixture-3] fixture-2]]' != 'T[H[fixture-1 fixture-3] fixture-2]'"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.9804489500362057 != 1.0", "$tree.nodes[1].nodes[0].nodes[0].percent: 0.9808238636363636 != 1.0"]
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
 request = "workspaces"
-verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'stacked' != 'tabbed'", "$workspaces[0].representation: 'S[T[H[fixture-1 fixture-3] fixture-2]]' != 'T[H[fixture-1 fixture-3] fixture-2]'"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
@@ -376,13 +355,12 @@ verdict = "match"
 scenario = "nested_stacked_in_tabbed"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].layout: 'tabbed' != 'stacked'", "$tree.nodes[1].nodes[0].nodes: length 1 != 2", "$tree.nodes[1].nodes[0].nodes[0].layout: 'stacked' != 'splith'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].nodes: length 2 != 0", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.9608979000724113 != 0.5", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].orientation: 'horizontal' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].visible: False != True", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].app_id: 'fixture-2' != 'fixture-3'", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].percent: 1.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].name: 'fixture-2' != 'fixture-3'", "$tree.nodes[1].nodes[0].nodes[0].percent: 0.9808238636363636 != 1.0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'none' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'T[S[H[fixture-1 fixture-3] fixture-2]]' != 'S[H[fixture-1 fixture-3] fixture-2]'"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.9608979000724113 != 1.0", "$tree.nodes[1].nodes[0].nodes[0].percent: 0.9808238636363636 != 1.0"]
 
 [[result]]
 scenario = "nested_stacked_in_tabbed"
 request = "workspaces"
-verdict = "mismatch"
-differences = ["$workspaces[0].layout: 'tabbed' != 'stacked'", "$workspaces[0].representation: 'T[S[H[fixture-1 fixture-3] fixture-2]]' != 'S[H[fixture-1 fixture-3] fixture-2]'"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_stacked_in_tabbed"
@@ -393,7 +371,7 @@ verdict = "match"
 scenario = "borders_and_gaps"
 request = "tree"
 verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.3245481927710843 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.3245481927710843 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[2].percent: 0.3253012048192771 != 0.3333333333333333", "$tree.nodes[1].nodes[0].nodes[2].current_border_width: 2 != 0"]
+differences = ["$tree.nodes[1].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].rect.height: outside 10px tolerance"]
 
 [[result]]
 scenario = "borders_and_gaps"
@@ -408,8 +386,7 @@ verdict = "match"
 [[result]]
 scenario = "urgent_via_command"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "urgent_via_command"
@@ -424,8 +401,7 @@ verdict = "match"
 [[result]]
 scenario = "markup_title"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "markup_title"
@@ -470,8 +446,7 @@ verdict = "match"
 [[result]]
 scenario = "container_mark"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[1].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].nodes[1].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "container_mark"
@@ -504,8 +479,7 @@ reason = "Sway-only output command syntax; source: sway/commands/output/disable.
 [[result]]
 scenario = "differential_seed_0"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].nodes[0].nodes[0].rect.x: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.width: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[0].rect.height: outside 10px tolerance"]
+verdict = "match"
 
 [[result]]
 scenario = "differential_seed_0"

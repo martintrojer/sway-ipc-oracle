@@ -360,9 +360,12 @@ class Adapter:
 class WaylandAdapter(Adapter):
     config_text = ""
 
+    def rendered_config(self):
+        return self.config_text
+
     def start(self, log):
         config = self.run_dir / self.config_name
-        config.write_text(self.config_text)
+        config.write_text(self.rendered_config())
         self.env.update({"WLR_BACKENDS": "headless", "WLR_HEADLESS_OUTPUTS": str(self.scenario.get("outputs", 1)), "SWAYSOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
         self.start_process([str(self.args.binary), "-c", str(config)], log)
         version = ipc(self.socket, "version")
@@ -394,7 +397,14 @@ class SwayAdapter(WaylandAdapter):
 
 class SwaywardAdapter(WaylandAdapter):
     config_name = "config.kdl"
-    config_text = "output \"headless-1\" { mode custom=true \"1270x1408@60\"; scale 1; }\nlayout { default-orientation \"vertical\"; default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\n"
+    config_text = "layout { default-orientation \"vertical\"; default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\n"
+
+    def rendered_config(self):
+        outputs = (
+            f'output "headless-{number}" {{ mode custom=true "1270x1408@60"; scale 1; }}\n'
+            for number in range(1, self.scenario.get("outputs", 1) + 1)
+        )
+        return "".join(outputs) + self.config_text
 
     @staticmethod
     def version_details(reply):
@@ -404,7 +414,7 @@ class SwaywardAdapter(WaylandAdapter):
 
     def start(self, log):
         config = self.run_dir / self.config_name
-        config.write_text(self.config_text)
+        config.write_text(self.rendered_config())
         self.env.update({"WLR_HEADLESS_OUTPUTS": str(self.scenario.get("outputs", 1)), "SWAYSOCK": str(self.socket), "I3SOCK": str(self.socket), "XDG_RUNTIME_DIR": str(self.run_dir)})
         self.start_process([str(self.args.binary), "-c", str(config)], log)
         version = ipc(self.socket, "version")
@@ -806,7 +816,8 @@ def main():
     parser.add_argument("--out", type=Path)
     parser.add_argument("--capture", action="store_true", help="replace selected sway fixtures")
     parser.add_argument("--capture-events", action="store_true", help="replace individual sway event fixtures")
-    parser.add_argument("--fresh-per-scenario", action="store_true", help="restart the compositor before each scenario")
+    parser.add_argument("--fresh-per-scenario", action=argparse.BooleanOptionalAction,
+                        default=True, help="restart the compositor before each scenario (default: enabled)")
     parser.add_argument("--timeout", type=int, default=60)
     parser.add_argument("--a", choices=ADAPTERS, default="sway")
     parser.add_argument("--b", choices=ADAPTERS, default="swayward")
