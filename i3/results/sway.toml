@@ -10,6 +10,10 @@ i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
 
 [families]
+i3_parser_internals = "These tests execute i3 build-only parser binaries and assert i3 parser callbacks and diagnostics, not compositor IPC behavior. Sway has no corresponding standalone parser executables."
+sway_no_append_layout = "Sway deliberately omits i3 append_layout and its placeholder/swallow layout restoration model; the command is absent from sway runtime handlers."
+sway_command_vocabulary = "These assertions require i3-only command spellings: open creates an empty container and 1pixel aliases border pixel. Sway implements neither spelling."
+sway_config_text = "Sway parses its own extended config and GET_CONFIG returns the text sway actually read, including joined continuation lines; an i3 config transformed by the adapter cannot equal the original bytes."
 i3_fake_outputs = "These tests require i3's test-only fake-outputs option to create named virtual outputs. Sway has no fake-outputs config command and retains its single HEADLESS-1 output, so assertions about the missing fake-* topology do not apply."
 i3_append_layout = "i3 exposes append_layout as a runtime command. Sway's runtime command table has no append_layout handler, so i3 layout-restore assertions do not apply."
 i3_open_command = "i3 exposes a test-oriented open runtime command that creates an empty container. Sway's runtime command table has no open handler, so assertions about empty containers created this way do not apply."
@@ -523,9 +527,19 @@ reason_verified = false
 assertions = 4
 tap_plan = 4
 pass = 2
-fail = 2
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason = "sway_command_vocabulary"
 reason_verified = true
+citation = "i3/t/161-regress-borders-restart.t:37-46; sway/sway/commands/border.c:71-88"
+
+[[files."161-regress-borders-restart.t".skip]]
+n = 2
+reason = "sway_command_vocabulary"
+citation = "i3/t/161-regress-borders-restart.t:37-46; sway/sway/commands/border.c:71-88"
+
+[[files."161-regress-borders-restart.t".skip]]
+n = 4
+reason = "sway_command_vocabulary"
+citation = "i3/t/161-regress-borders-restart.t:37-46; sway/sway/commands/border.c:71-88"
 
 [files."162-regress-dock-urgent.t"]
 assertions = 4
@@ -679,9 +693,109 @@ pass = 1
 assertions = 20
 tap_plan = 20
 pass = 0
-fail = 20
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason = "sway_command_vocabulary"
 reason_verified = true
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 1
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 2
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 3
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 4
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 5
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 6
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 7
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 8
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 9
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 10
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 11
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 12
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 13
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 14
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 15
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 16
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 17
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 18
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 19
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+
+[[files."169-border-toggle.t".skip]]
+n = 20
+reason = "sway_command_vocabulary"
+citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
 
 [files."170-force_focus_wrapping.t"]
 assertions = 12
@@ -708,9 +822,25 @@ reason_verified = true
 assertions = 13
 tap_plan = 13
 pass = 9
-fail = 4
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+fail = 1
+reason = "sway_command_vocabulary"
 reason_verified = true
+citation = "i3/t/174-border-config.t:46-67; i3/t/174-border-config.t:97-119; sway/sway/commands/default_border.c:12-20; sway/sway/commands/default_floating_border.c:13-22"
+
+[[files."174-border-config.t".skip]]
+n = 6
+reason = "sway_command_vocabulary"
+citation = "i3/t/174-border-config.t:46-67; i3/t/174-border-config.t:97-119; sway/sway/commands/default_border.c:12-20; sway/sway/commands/default_floating_border.c:13-22"
+
+[[files."174-border-config.t".skip]]
+n = 7
+reason = "sway_command_vocabulary"
+citation = "i3/t/174-border-config.t:46-67; i3/t/174-border-config.t:97-119; sway/sway/commands/default_border.c:12-20; sway/sway/commands/default_floating_border.c:13-22"
+
+[[files."174-border-config.t".skip]]
+n = 13
+reason = "sway_command_vocabulary"
+citation = "i3/t/174-border-config.t:46-67; i3/t/174-border-config.t:97-119; sway/sway/commands/default_border.c:12-20; sway/sway/commands/default_floating_border.c:13-22"
 
 [files."176-workspace-baf.t"]
 plan_unknown = true
@@ -800,9 +930,134 @@ pass = 8
 assertions = 25
 tap_plan = 25
 pass = 0
-fail = 25
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason = "i3_parser_internals"
 reason_verified = true
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 1
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 2
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 3
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 4
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 5
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 6
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 7
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 8
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 9
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 10
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 11
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 12
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 13
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 14
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 15
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 16
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 17
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 18
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 19
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 20
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 21
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 22
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 23
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 24
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+
+[[files."187-commands-parser.t".skip]]
+n = 25
+reason = "i3_parser_internals"
+citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
 
 [files."188-regress-focus-restart.t"]
 assertions = 11
@@ -878,13 +1133,173 @@ pass = 12
 
 [files."201-config-parser.t"]
 plan_unknown = true
-assertions = 0
+assertions = 32
 tap_plan = "none"
-source_assertions = 0
+source_assertions = 32
 pass = 0
-fail = 0
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "i3_parser_internals"
+reason_verified = true
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 1
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 2
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 3
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 4
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 5
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 6
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 7
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 8
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 9
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 10
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 11
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 12
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 13
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 14
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 15
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 16
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 17
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 18
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 19
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 20
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 21
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 22
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 23
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 24
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 25
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 26
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 27
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 28
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 29
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 30
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 31
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+
+[[files."201-config-parser.t".skip]]
+n = 32
+reason = "i3_parser_internals"
+citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
 
 [files."202-scratchpad-criteria.t"]
 plan_unknown = true
@@ -962,9 +1377,59 @@ citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:1
 assertions = 18
 tap_plan = 18
 pass = 8
-fail = 10
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason = "sway_no_append_layout"
 reason_verified = true
+citation = "i3/t/213-layout-restore-simple.t:42-62; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 4
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 5
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 6
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 9
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 10
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 11
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 12
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 16
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 17
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+
+[[files."213-layout-restore-simple.t".skip]]
+n = 18
+reason = "sway_no_append_layout"
+citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
 
 [files."218-regress-floating-split.t"]
 assertions = 2
@@ -1386,9 +1851,14 @@ pass = 1
 assertions = 2
 tap_plan = 2
 pass = 1
-fail = 1
-reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
+reason = "sway_config_text"
 reason_verified = true
+citation = "i3/t/268-ipc-config.t:27-50; sway/sway/config.c:732-773; sway/sway/ipc-server.c:907-915"
+
+[[files."268-ipc-config.t".skip]]
+n = 2
+reason = "sway_config_text"
+citation = "i3/t/268-ipc-config.t:27-50; sway/sway/config.c:732-773; sway/sway/ipc-server.c:907-915"
 
 [files."269-focus-stack-above.t"]
 assertions = 5
