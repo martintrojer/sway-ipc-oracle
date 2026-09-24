@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+"""Check that i3 runs compare only the shared i3 IPC schema."""
+
+import importlib.machinery
+from pathlib import Path
+
+root = Path(__file__).resolve().parents[1]
+runner = importlib.machinery.SourceFileLoader(
+    "sway_ipc_run", str(root / "contrib/sway-ipc-run")
+).load_module()
+rules = runner.load_applicability()
+
+expected = [{
+    "name": "WL-1",
+    "active": True,
+    "primary": False,
+    "current_workspace": "1",
+    "rect": {"x": 0, "y": 0, "width": 100, "height": 100},
+    "scale": 1.0,
+}]
+actual = [{
+    "name": "xroot-0",
+    "active": False,
+    "primary": False,
+    "current_workspace": None,
+    "rect": {"x": 0, "y": 0, "width": 100, "height": 100},
+}]
+left, right, excluded = runner.i3_protocol_view(expected, actual, "outputs", rules)
+assert "scale" not in left[0]
+assert left[0]["rect"] == {"x": 0, "y": 0, "width": 100, "height": 100}
+assert excluded == ["scale"]
+assert set(runner.compare(left, right, "outputs", runner.load_rules())) == {
+    "$outputs[0].name: 'WL-1' != 'xroot-0'",
+    "$outputs[0].current_workspace: type str != NoneType",
+    "$outputs[0].active: True != False",
+}
+
+expected_tree = {
+    "id": 1,
+    "type": "con",
+    "name": "fixture",
+    "nodes": [{"id": 3, "nodes": [], "floating_nodes": [], "app_id": "nested"}],
+    "floating_nodes": [],
+    "app_id": "fixture-1",
+    "scratchpad_state": "none",
+}
+actual_tree = {
+    "id": 2,
+    "type": "con",
+    "name": "fixture",
+    "nodes": [],
+    "floating_nodes": [],
+    "scratchpad_state": "fresh",
+}
+left, right, excluded = runner.i3_protocol_view(expected_tree, actual_tree, "tree", rules)
+assert "app_id" not in left
+assert excluded == ["app_id"]
+assert "app_id" not in left["nodes"][0]
+assert set(runner.compare(left, right, "tree", runner.load_rules())) == {
+    "$tree.scratchpad_state: 'none' != 'fresh'",
+    "$tree.nodes: length 1 != 0",
+}
+
+print("i3 applicability checks passed")

@@ -21,7 +21,7 @@ A result must publish pass, skip, and fail counts together for each compositor. 
 
 A skip needs a reason and a source citation. In particular, sway deliberately differs from i3 where the X11 premise or design does not apply. Those rows describe where sway differs from i3. They do not imply a defect or a quality comparison.
 
-Version 0.2.0 includes only [`i3/results/swayward.toml`](i3/results/swayward.toml), imported from swayward. `i3/results/i3.toml` and `i3/results/sway.toml` are omitted until pinned runs produce them. No i3 or sway result is inferred from the existing calibration report.
+The repository currently includes only [`i3/results/swayward.toml`](i3/results/swayward.toml), imported from swayward. `i3/results/i3.toml` and `i3/results/sway.toml` are omitted until pinned runs produce them. No i3 or sway result is inferred from the existing calibration report.
 
 ## Run the suite against sway
 
@@ -40,7 +40,7 @@ TIMEOUT=60 \
 
 `I3SRC` must be at `9be3249ac5b377ed3270e36bca83df53d8023337`. The sway binary must identify commit `88869399`. The default container name reflects the development environment where the runner began; set `CONTAINER` to any distrobox with the dependencies listed in the calibration guide.
 
-The same runner command will produce the pinned i3 and sway measurements after the dedicated i3 baseline mode lands. Version 0.2.0 does not claim that mode exists.
+The same runner command will produce the pinned i3 and sway measurements after the dedicated i3 baseline mode lands. The repository does not currently claim that mode exists.
 
 ## Run the sway IPC scenarios
 
@@ -57,8 +57,11 @@ uses the ambient `SWAYSOCK`, `I3SOCK`, `WAYLAND_DISPLAY`, or `DISPLAY`.
 ```
 
 Recipes live in `sway-ipc/scenarios.toml`; comparison rules and their reasons
-live in `sway-ipc/normalize.toml`. Use repeated `--scenario NAME` arguments for
-a subset. `--fresh-per-scenario` restarts the compositor for each recipe;
+live in `sway-ipc/normalize.toml`. `sway-ipc/applicability.toml` limits i3
+comparisons to the fields in i3's pinned IPC protocol and cites sway's source
+for excluded sway extensions. Every sway field remains applicable to swayward.
+Use repeated `--scenario NAME` arguments for a subset. `--fresh-per-scenario`
+restarts the compositor for each recipe;
 the default sequential mode matches the original capture. `--capture` is
 restricted to sway and replaces the selected query fixtures after running the
 same comparisons. The i3 adapter runs i3 under private Xvfb and opens xterm
@@ -66,9 +69,9 @@ clients; both programs must be installed beside the runner.
 
 ## Adopt the oracle in another compositor
 
-A compositor supplies an adapter that starts an isolated instance, opens real client windows, and gives the unchanged tests an i3/sway IPC socket. Keep compositor-specific code in the compositor repository. Swayward's [`tests/i3/lib/i3test.pm`](https://github.com/martintrojer/swayward/blob/4faeb28d391c8ede3ead6f9b7cbe4388422d3887/tests/i3/lib/i3test.pm) is the worked example; its in-process Rust runner also stays in swayward.
+The oracle's runners contain adapters that start isolated i3, sway, and swayward instances, open real client windows, and connect through private IPC sockets. A compositor can also keep an in-process harness in its own repository. Swayward's [`tests/i3/lib/i3test.pm`](https://github.com/martintrojer/swayward/blob/4faeb28d391c8ede3ead6f9b7cbe4388422d3887/tests/i3/lib/i3test.pm) is one such harness, but this repository does not publish its numbers as black-box oracle measurements.
 
-Publish the resulting TOML under the matching oracle's `results/` directory. Publish pass, skip, and fail together, pin the compositor and oracle versions, and cite every deliberate difference.
+Publish black-box results from the oracle's runners under the matching oracle's `results/` directory. Publish every verdict count together, pin the compositor and oracle versions, and cite every deliberate difference.
 
 ## Why this does not run against hy3
 

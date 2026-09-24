@@ -13,7 +13,8 @@ for result in "${sway_ipc_results[@]}"; do
     python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$result"
 done
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
-python3 -c 'import tomllib; tomllib.load(open("sway-ipc/scenarios.toml", "rb")); tomllib.load(open("sway-ipc/normalize.toml", "rb"))'
+python3 -c 'import tomllib; tomllib.load(open("sway-ipc/scenarios.toml", "rb")); tomllib.load(open("sway-ipc/normalize.toml", "rb")); tomllib.load(open("sway-ipc/applicability.toml", "rb"))'
+./contrib/test-sway-ipc-applicability
 
 tap_report=$(printf '%s\n' 'ok 1 - pass' 'ok 2 # SKIP premise' 'not ok 3 - fail' '1..3' | ./contrib/tap-count)
 grep -Fq 'stream 1: 3 checks, 1 ok, 1 skip, 1 not ok  (authoritative)' <<<"$tap_report"

@@ -1,0 +1,18 @@
+# i3 protocol fields are pinned to i3 9be3249a. Fields emitted by the sway
+# fixture but absent from these lists are sway extensions and do not apply to
+# an i3 run.
+
+[i3.tree]
+fields = ["id", "name", "type", "border", "current_border_width", "layout", "orientation", "percent", "rect", "window_rect", "deco_rect", "actual_deco_rect", "geometry", "window", "window_properties", "window_type", "urgent", "marks", "focused", "focus", "sticky", "fullscreen_mode", "floating", "nodes", "floating_nodes", "scratchpad_state", "num", "output"]
+i3_source = "i3/docs/ipc: GET_TREE, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+sway_extension_source = "sway/sway/ipc-json.c:299-412,502-523,582-667, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[i3.workspaces]
+fields = ["id", "num", "name", "visible", "focused", "urgent", "rect", "output"]
+i3_source = "i3/src/ipc.c:928-994, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+sway_extension_source = "sway/sway/ipc-json.c:502-540,582-667 and sway/sway/ipc-server.c:584-601, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[i3.outputs]
+fields = ["name", "active", "primary", "current_workspace", "rect"]
+i3_source = "i3/src/ipc.c:996-1048, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+sway_extension_source = "sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
