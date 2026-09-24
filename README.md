@@ -100,7 +100,7 @@ Publish black-box results from the oracle's runners under the matching oracle's 
 
 ## i3 suite comparison
 
-These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The pinned runs record i3 **3,754/1/0**, sway **1,311/279/594**, and swayward **1,199/23/1,246**. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The pinned runs record i3 **3,754/1/0**, sway **1,311/319/554**, and swayward **1,199/23/1,246**. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
 
 | File | i3 P/S/F | sway P/S/F | swayward P/S/F |
 | --- | ---: | ---: | ---: |
@@ -115,18 +115,18 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `112-floating-resize.t` | 15/0/0 | 15/0/0 | 15/0/0 |
 | `113-urgent.t` | 64/0/0 | 21/0/2 | 18/0/15 |
 | `115-ipc-workspaces.t` | 9/0/0 | 9/0/0 | 4/0/5 |
-| `116-nestedcons.t` | 7/0/0 | 4/0/1 | 4/0/1 |
+| `116-nestedcons.t` | 7/0/0 | 4/1/0 | 4/0/1 |
 | `117-workspace.t` | 92/0/0 | 34/0/16 | 37/0/13 |
 | `118-openkill.t` | 6/0/0 | 2/0/4 | 2/0/0 |
 | `119-match.t` | 27/0/0 | 4/0/0 | 4/0/0 |
 | `120-multiple-cmds.t` | 31/0/0 | 17/0/14 | 1/0/0 |
 | `121-next-prev.t` | 12/0/0 | 9/0/3 | 12/0/0 |
-| `122-split.t` | 41/0/0 | 16/0/15 | 41/0/0 |
+| `122-split.t` | 41/0/0 | 16/15/0 | 41/0/0 |
 | `124-move.t` | 54/0/0 | 37/0/17 | 38/0/16 |
 | `126-regress-close.t` | 1/0/0 | 1/0/0 | 0/0/1 |
 | `127-regress-floating-parent.t` | 4/0/0 | 4/0/0 | 1/0/0 |
 | `128-open-order.t` | 7/0/0 | 3/0/4 | 2/0/5 |
-| `129-focus-after-close.t` | 15/0/0 | 8/0/4 | 8/0/4 |
+| `129-focus-after-close.t` | 15/0/0 | 8/4/0 | 8/0/4 |
 | `130-close-empty-split.t` | 8/0/0 | 2/0/6 | 2/0/6 |
 | `131-stacking-order.t` | 7/0/0 | 6/0/1 | 6/0/1 |
 | `132-move-workspace.t` | 160/0/0 | 61/9/30 | 131/6/23 |
@@ -159,7 +159,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `164-kill-win-vs-client.t` | 12/0/0 | 3/0/0 | 3/0/0 |
 | `165-for_window.t` | 79/0/0 | 19/0/0 | 17/0/2 |
 | `166-assign.t` | 106/0/0 | 17/0/6 | 23/0/12 |
-| `167-workspace_layout.t` | 87/0/0 | 9/0/19 | 45/0/42 |
+| `167-workspace_layout.t` | 87/0/0 | 9/19/0 | 45/0/42 |
 | `168-regress-fullscreen-restart.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `169-border-toggle.t` | 20/0/0 | 0/0/20 | 15/0/5 |
 | `170-force_focus_wrapping.t` | 12/0/0 | 12/0/0 | 12/0/0 |
@@ -297,7 +297,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `321-crash-criteria-scratchpad.t` | 6/0/0 | 4/0/2 | 1/0/5 |
 | `322-match-error-crash.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `324-for-window-reload-crash.t` | 1/0/0 | 1/0/0 | 1/0/0 |
-| `325-layout-percent-and-marks.t` | 8/0/0 | 2/0/1 | 2/0/1 |
+| `325-layout-percent-and-marks.t` | 8/0/0 | 2/1/0 | 2/0/1 |
 | `500-multi-monitor.t` | 1/0/0 | 0/1/0 | 0/0/1 |
 | `501-scratchpad.t` | 44/0/0 | 0/0/0 | 0/0/44 |
 | `502-focus-output.t` | 19/0/0 | 1/18/0 | 1/0/18 |

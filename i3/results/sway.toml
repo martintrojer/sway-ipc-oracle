@@ -11,6 +11,11 @@ environment = "headless compositor with private IPC/X11 sockets and real X11 cli
 
 [families]
 i3_fake_outputs = "These tests require i3's test-only fake-outputs option to create named virtual outputs. Sway has no fake-outputs config command and retains its single HEADLESS-1 output, so assertions about the missing fake-* topology do not apply."
+i3_append_layout = "i3 exposes append_layout as a runtime command. Sway's runtime command table has no append_layout handler, so i3 layout-restore assertions do not apply."
+i3_open_command = "i3 exposes a test-oriented open runtime command that creates an empty container. Sway's runtime command table has no open handler, so assertions about empty containers created this way do not apply."
+sway_ipc_root_border_width = "i3 reports -1 as the root node's unset current_border_width. Sway deliberately initializes synthetic IPC nodes, including the root, with current_border_width 0."
+workspace_layout_stacked_keyword = "i3 accepts workspace_layout stacked. Sway accepts stacking instead and rejects stacked, so assertions made after loading the i3 spelling do not apply."
+xwayland_client_geometry = "The i3 gaps test compares X11 client geometry with exact screen coordinates. Sway configures Xwayland surfaces from compositor content geometry, and the pinned run consistently includes a 35-pixel vertical offset; retain these as adapter findings rather than skips."
 
 [files."001-tile.t"]
 assertions = 3
@@ -92,9 +97,14 @@ assertions = 5
 tap_plan = "none"
 source_assertions = 5
 pass = 4
-fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "sway_ipc_root_border_width"
+reason_verified = true
+citation = "sway/sway/ipc-json.c:275-280"
+
+[[files."116-nestedcons.t".skip]]
+n = 1
+reason = "sway_ipc_root_border_width"
+citation = "sway/sway/ipc-json.c:275-280"
 
 [files."117-workspace.t"]
 plan_unknown = true
@@ -146,9 +156,84 @@ assertions = 31
 tap_plan = "none"
 source_assertions = 31
 pass = 16
-fail = 15
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "i3_open_command"
+reason_verified = true
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 3
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 6
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 8
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 9
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 10
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 14
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 17
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 19
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 20
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 21
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 26
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 27
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 28
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 29
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."122-split.t".skip]]
+n = 30
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
 
 [files."124-move.t"]
 assertions = 54
@@ -182,9 +267,29 @@ assertions = 12
 tap_plan = "none"
 source_assertions = 15
 pass = 8
-fail = 4
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "i3_open_command"
+reason_verified = true
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."129-focus-after-close.t".skip]]
+n = 3
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."129-focus-after-close.t".skip]]
+n = 4
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."129-focus-after-close.t".skip]]
+n = 6
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
+
+[[files."129-focus-after-close.t".skip]]
+n = 9
+reason = "i3_open_command"
+citation = "i3/src/commands.c:1727-1744; sway/sway/commands.c:113-143"
 
 [files."130-close-empty-split.t"]
 assertions = 8
@@ -466,9 +571,104 @@ assertions = 28
 tap_plan = "none"
 source_assertions = 5
 pass = 9
-fail = 19
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "workspace_layout_stacked_keyword"
+reason_verified = true
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 8
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 9
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 10
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 11
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 12
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 13
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 14
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 15
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 16
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 17
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 18
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 19
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 20
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 21
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 22
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 24
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 26
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 27
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
+
+[[files."167-workspace_layout.t".skip]]
+n = 28
+reason = "workspace_layout_stacked_keyword"
+citation = "sway/sway/commands/workspace_layout.c:5-20"
 
 [files."168-regress-fullscreen-restart.t"]
 assertions = 1
@@ -1766,8 +1966,9 @@ tap_plan = "none"
 source_assertions = 28
 pass = 2
 fail = 16
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "xwayland_client_geometry"
+reason_verified = true
+citation = "i3/t/319-gaps.t:47-76; sway/sway/desktop/xwayland.c:595-604; sway/sway/tree/view.c:423-464"
 
 [files."320-mouse-bindings.t"]
 plan_unknown = true
@@ -1803,9 +2004,14 @@ assertions = 3
 tap_plan = "none"
 source_assertions = 3
 pass = 2
-fail = 1
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
+reason = "i3_append_layout"
+reason_verified = true
+citation = "i3/t/325-layout-percent-and-marks.t:45-49; sway/sway/commands.c:113-143"
+
+[[files."325-layout-percent-and-marks.t".skip]]
+n = 3
+reason = "i3_append_layout"
+citation = "i3/t/325-layout-percent-and-marks.t:45-49; sway/sway/commands.c:113-143"
 
 [files."500-multi-monitor.t"]
 assertions = 1
