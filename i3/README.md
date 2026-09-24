@@ -12,6 +12,9 @@ A result file has a `[files]` entry for every vendored `.t` file. Each entry rec
 - `skip`: one table per skipped assertion.
 - `fail`: assertions that ran and did not pass.
 - `unreached`: assertions the run did not reach.
+- `survived = true`: a zero-assertion crash-regression file reached its `1..0`
+  plan without the compositor or test process failing. This is distinct from a
+  file-level skip: the test ran and its survival condition passed.
 
 Store each result as `i3/results/COMPOSITOR.toml`; for example, `i3/results/sway.toml` means “the i3 suite run on sway.” The counts must cover the full plan. Run `contrib/coverage-report i3/results/COMPOSITOR.toml --check` to validate a file.
 

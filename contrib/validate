@@ -6,12 +6,14 @@ shopt -s nullglob
 i3_results=(i3/results/*.toml)
 sway_ipc_results=(sway-ipc/results/*.toml)
 ((${#i3_results[@]} + ${#sway_ipc_results[@]})) || { echo "no result files" >&2; exit 1; }
+status=0
 for result in "${i3_results[@]}"; do
-    ./contrib/coverage-report "$result" --check
+    ./contrib/coverage-report "$result" --check || status=1
 done
 for result in "${sway_ipc_results[@]}"; do
-    python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$result"
+    python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$result" || status=1
 done
+((status == 0)) || exit "$status"
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
 if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then
     echo "comparator field exemptions must be declared in sway-ipc/normalize.toml" >&2

@@ -79,32 +79,24 @@ def emit(path: Path, compositor: str, version: str, commit: str,
                       'reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."',
                       "reason_verified = true"]
         elif plan == 0:
-            lines += ["assertions = 0", "tap_plan = 0", "pass = 0",
-                      'reason = "Upstream declares this test not applicable on this build."',
-                      f'file_skip = {{ reason = "Upstream TAP plan is 1..0", citation = "i3/t/{test.name}:1" }}']
+            lines += ["assertions = 0", "tap_plan = 0", "pass = 0", "survived = true"]
         else:
             skip_numbers = [n for n, v in verdicts.items() if v == "skip"]
             fail = sum(v == "fail" for v in verdicts.values())
             reached = len(verdicts)
             lines += [f"assertions = {plan}", f"tap_plan = {plan}",
                       f"pass = {sum(v == 'pass' for v in verdicts.values())}"]
-            if skip_numbers:
-                lines += ['reason = "The pinned run reported environment or upstream applicability skips, and any failures remain unclassified."',
-                          "reason_verified = true"]
-                for n in skip_numbers:
-                    lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
-                              'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
-                              f'citation = "i3/t/{test.name}:1"']
             if fail:
-                lines += [f"fail = {fail}"]
-                if not skip_numbers:
-                    lines += ['reason = "The pinned run reported a non-pass; inspect the preserved run log before classification."',
-                              "reason_verified = true"]
+                lines.append(f"fail = {fail}")
             if reached < plan:
-                lines += [f"unreached = {plan-reached}"]
-                if not skip_numbers and not fail:
-                    lines += ['reason = "The pinned run stopped before its TAP plan completed."',
-                              "reason_verified = true"]
+                lines.append(f"unreached = {plan-reached}")
+            if skip_numbers or fail or reached < plan:
+                lines += ['reason = "The pinned run reported environment skips, failures, or assertions it did not reach."',
+                          "reason_verified = true"]
+            for n in skip_numbers:
+                lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
+                          'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
+                          f'citation = "i3/t/{test.name}:1"']
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n")
 

@@ -908,6 +908,7 @@ pass = 2
 assertions = 0
 tap_plan = 0
 pass = 0
+survived = true
 
 [files."313-include.t"]
 assertions = 30
