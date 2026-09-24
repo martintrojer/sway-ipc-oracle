@@ -28,6 +28,8 @@ import re
 import sys
 import tomllib
 
+from i3_result_reasons import PLACEHOLDER_REASONS
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT_DATA = ROOT / "i3" / "results" / "swayward.toml"
 UNVENDORED = ROOT / "i3" / "unvendored.toml"
@@ -188,8 +190,7 @@ def validate(doc):
         # an i3bar block, and 306-move-to-parent.t was tagged compositor_restart
         # for the word "restart" in an unrelated sentence. So a reason is only
         # trustworthy once someone has confirmed it against a real run.
-        placeholder = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-        if reason == placeholder:
+        if reason in PLACEHOLDER_REASONS:
             if entry.get("reason_verified") is not False:
                 bad.append(f"{name}: placeholder reason must set reason_verified = false")
         elif reason and entry.get("reason_verified") is not True:

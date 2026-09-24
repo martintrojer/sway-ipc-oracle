@@ -20,6 +20,8 @@ import tempfile
 import tomllib
 import shlex
 
+from i3_result_reasons import INCOMPLETE_RUN, NO_TAP_PLAN
+
 ROOT = Path(__file__).resolve().parent.parent
 I3_PIN = "9be3249ac5b377ed3270e36bca83df53d8023337"
 SWAY_PIN = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
@@ -82,8 +84,7 @@ def emit(path: Path, compositor: str, version: str, commit: str,
                       f"fail = {sum(v == 'fail' for v in verdicts.values())}"]
             if not observed and static:
                 lines.append(f"unreached = {static}")
-            lines += ['reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."',
-                      "reason_verified = false"]
+            lines += [f'reason = "{NO_TAP_PLAN}"', "reason_verified = false"]
             for n in skip_numbers:
                 lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
                           'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
@@ -101,8 +102,7 @@ def emit(path: Path, compositor: str, version: str, commit: str,
             if reached < plan:
                 lines.append(f"unreached = {plan-reached}")
             if skip_numbers or fail or reached < plan:
-                lines += ['reason = "The pinned run reported environment skips, failures, or assertions it did not reach."',
-                          "reason_verified = true"]
+                lines += [f'reason = "{INCOMPLETE_RUN}"', "reason_verified = false"]
             for n in skip_numbers:
                 lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
                           'reason = "The unchanged upstream test marked this assertion skipped in this environment."',

@@ -27,7 +27,7 @@ tap_plan = 3
 pass = 2
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."003-ipc.t"]
 assertions = 1
@@ -40,7 +40,7 @@ tap_plan = 13
 pass = 11
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."100-fullscreen.t"]
 plan_unknown = true
@@ -63,7 +63,7 @@ tap_plan = 23
 pass = 5
 fail = 18
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."104-focus-stack.t"]
 assertions = 2
@@ -126,7 +126,7 @@ tap_plan = 6
 pass = 2
 fail = 4
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."119-match.t"]
 plan_unknown = true
@@ -144,7 +144,7 @@ tap_plan = 31
 pass = 17
 fail = 14
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."121-next-prev.t"]
 assertions = 12
@@ -152,7 +152,7 @@ tap_plan = 12
 pass = 9
 fail = 3
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."122-split.t"]
 plan_unknown = true
@@ -245,7 +245,7 @@ tap_plan = 54
 pass = 37
 fail = 17
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."126-regress-close.t"]
 assertions = 1
@@ -263,7 +263,7 @@ tap_plan = 7
 pass = 3
 fail = 4
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."129-focus-after-close.t"]
 plan_unknown = true
@@ -301,7 +301,7 @@ tap_plan = 8
 pass = 2
 fail = 6
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."131-stacking-order.t"]
 assertions = 7
@@ -309,7 +309,7 @@ tap_plan = 7
 pass = 6
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."132-move-workspace.t"]
 plan_unknown = true
@@ -363,7 +363,7 @@ tap_plan = 16
 pass = 9
 fail = 7
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."134-invalid-command.t"]
 assertions = 1
@@ -391,7 +391,7 @@ tap_plan = 2
 pass = 1
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."138-floating-attach.t"]
 assertions = 11
@@ -399,7 +399,7 @@ tap_plan = 11
 pass = 8
 fail = 3
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."139-ws-numbers.t"]
 assertions = 8
@@ -417,7 +417,7 @@ tap_plan = 84
 pass = 60
 fail = 24
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."142-regress-move-floating.t"]
 assertions = 1
@@ -430,7 +430,7 @@ tap_plan = 5
 pass = 3
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."144-regress-floating-resize.t"]
 plan_unknown = true
@@ -468,7 +468,7 @@ tap_plan = 11
 pass = 3
 fail = 8
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."151-regress-float-size.t"]
 assertions = 1
@@ -496,7 +496,7 @@ tap_plan = 4
 pass = 2
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."156-fullscreen-focus.t"]
 plan_unknown = true
@@ -547,7 +547,7 @@ tap_plan = 4
 pass = 2
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."164-kill-win-vs-client.t"]
 plan_unknown = true
@@ -808,7 +808,7 @@ tap_plan = 7
 pass = 6
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."173-get-marks.t"]
 assertions = 3
@@ -816,7 +816,7 @@ tap_plan = 3
 pass = 2
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."174-border-config.t"]
 assertions = 13
@@ -873,7 +873,7 @@ tap_plan = 6
 pass = 1
 fail = 3
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 [[files."179-regress-multiple-ws.t".skip]]
 n = 4
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -894,7 +894,7 @@ tap_plan = 6
 pass = 4
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."182-regress-focus-dock.t"]
 assertions = 1
@@ -1070,7 +1070,7 @@ tap_plan = 28
 pass = 22
 fail = 6
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."190-scratchpad-diff-ws.t"]
 assertions = 3
@@ -1083,7 +1083,7 @@ tap_plan = 3
 pass = 1
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."192-layout.t"]
 assertions = 34
@@ -1091,7 +1091,7 @@ tap_plan = 34
 pass = 22
 fail = 12
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."193-ipc-version.t"]
 assertions = 4
@@ -1099,7 +1099,7 @@ tap_plan = 4
 pass = 3
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."194-regress-floating-size.t"]
 assertions = 15
@@ -1327,7 +1327,7 @@ tap_plan = 4
 pass = 2
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."206-fullscreen-scratchpad.t"]
 plan_unknown = true
@@ -1350,7 +1350,7 @@ tap_plan = 17
 pass = 14
 fail = 3
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."211-regress-urgency-assign.t"]
 assertions = 3
@@ -1358,7 +1358,7 @@ tap_plan = 3
 pass = 2
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."212-assign-urgency.t"]
 assertions = 3
@@ -1457,7 +1457,7 @@ tap_plan = 8
 pass = 0
 fail = 8
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."222-regress-dock-resize.t"]
 assertions = 1
@@ -1480,7 +1480,7 @@ tap_plan = 5
 pass = 1
 fail = 4
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."227-ipc-workspace-empty.t"]
 plan_unknown = true
@@ -1498,7 +1498,7 @@ tap_plan = 21
 pass = 18
 fail = 3
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."231-ipc-floating-event.t"]
 assertions = 2
@@ -1506,7 +1506,7 @@ tap_plan = 2
 pass = 1
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."232-cmd-move-criteria.t"]
 assertions = 22
@@ -1529,7 +1529,7 @@ tap_plan = 8
 pass = 0
 fail = 8
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."236-floating-focus-raise.t"]
 assertions = 6
@@ -1537,7 +1537,7 @@ tap_plan = 6
 pass = 0
 fail = 6
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."237-regress-assign-focus.t"]
 assertions = 1
@@ -1550,7 +1550,7 @@ tap_plan = 15
 pass = 2
 fail = 13
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."240-focus-on-window-activation.t"]
 assertions = 15
@@ -1563,7 +1563,7 @@ tap_plan = 12
 pass = 5
 fail = 7
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."242-no-focus.t"]
 assertions = 6
@@ -1576,7 +1576,7 @@ tap_plan = 50
 pass = 41
 fail = 9
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."244-new-workspace-floating-enable-center.t"]
 assertions = 2
@@ -1584,7 +1584,7 @@ tap_plan = 2
 pass = 0
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."245-move-position-mouse.t"]
 assertions = 8
@@ -1640,7 +1640,7 @@ tap_plan = 3
 pass = 2
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."247-config-line-continuation.t"]
 assertions = 8
@@ -1648,7 +1648,7 @@ tap_plan = 8
 pass = 4
 fail = 4
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."248-regress-urgency-clear.t"]
 assertions = 4
@@ -1784,7 +1784,7 @@ tap_plan = 2
 pass = 1
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."261-match-con_id-con_mark-combinations.t"]
 plan_unknown = true
@@ -1812,7 +1812,7 @@ tap_plan = 3
 pass = 1
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."264-dock-criteria.t"]
 plan_unknown = true
@@ -1830,7 +1830,7 @@ tap_plan = 2
 pass = 1
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."266-net-moveresize-window.t"]
 plan_unknown = true
@@ -1866,7 +1866,7 @@ tap_plan = 5
 pass = 3
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."270-config-no-newline-end.t"]
 assertions = 2
@@ -1879,7 +1879,7 @@ tap_plan = 20
 pass = 11
 fail = 9
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."272-regress-focus-assign.t"]
 assertions = 8
@@ -1897,7 +1897,7 @@ tap_plan = 16
 pass = 12
 fail = 4
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."275-ipc-window-close.t"]
 assertions = 3
@@ -1920,7 +1920,7 @@ tap_plan = 1
 pass = 0
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."280-wm-class-change-handler.t"]
 plan_unknown = true
@@ -1978,7 +1978,7 @@ tap_plan = 31
 pass = 29
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."289-ipc-shutdown-event.t"]
 plan_unknown = true
@@ -1996,7 +1996,7 @@ tap_plan = 85
 pass = 25
 fail = 60
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."291-swap.t"]
 plan_unknown = true
@@ -2215,7 +2215,7 @@ tap_plan = 2
 pass = 1
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."299-regress-scratchpad-focus.t"]
 assertions = 1
@@ -2248,7 +2248,7 @@ tap_plan = 3
 pass = 1
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."304-ipc-workspace-init.t"]
 assertions = 9
@@ -2365,7 +2365,7 @@ tap_plan = 30
 pass = 22
 fail = 7
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 [[files."313-include.t".skip]]
 n = 19
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -2387,7 +2387,7 @@ tap_plan = 4
 pass = 3
 fail = 1
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."316-drag-container.t"]
 plan_unknown = true
@@ -2456,7 +2456,7 @@ tap_plan = 6
 pass = 4
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."322-match-error-crash.t"]
 assertions = 2
@@ -2871,7 +2871,7 @@ tap_plan = 4
 pass = 1
 fail = 3
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."515-create-workspace.t"]
 assertions = 2
@@ -3242,7 +3242,7 @@ tap_plan = 38
 pass = 8
 fail = 30
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."537-move-single-to-output.t"]
 assertions = 8
@@ -3250,7 +3250,7 @@ tap_plan = 8
 pass = 4
 fail = 2
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 [[files."537-move-single-to-output.t".skip]]
 n = 2
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
@@ -3286,7 +3286,7 @@ tap_plan = 32
 pass = 20
 fail = 12
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."543-move-workspace-to-multiple-outputs.t"]
 assertions = 63
@@ -3885,7 +3885,7 @@ tap_plan = 20
 pass = 16
 fail = 4
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."554-commands-crash-for-window.t"]
 assertions = 101
@@ -3893,7 +3893,7 @@ tap_plan = 101
 pass = 67
 fail = 34
 reason = "The pinned run reported environment skips, failures, or assertions it did not reach."
-reason_verified = true
+reason_verified = false
 
 [files."556-workspace-keeps-focus-after-move.t"]
 plan_unknown = true
