@@ -80,7 +80,7 @@ seeds = [6, 24, 33, 37, 71, 98, 135, 188]
 step = 1
 request = "command"
 commands = ["move scratchpad"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_6"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -135,7 +135,7 @@ seeds = [16, 45, 50, 93, 113, 133, 141, 150, 164, 177, 187]
 step = 1
 request = "command"
 commands = ["move down"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_16"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -157,7 +157,7 @@ seeds = [22, 102, 132, 154, 162, 166, 194]
 step = 1
 request = "command"
 commands = ["move right"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_22"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -168,7 +168,7 @@ seeds = [25, 36, 59, 67, 75, 84, 96, 119, 122, 170, 172, 184]
 step = 1
 request = "command"
 commands = ["move container to workspace 2"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_25"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -190,7 +190,7 @@ seeds = [34, 41, 47, 60, 92, 97, 107, 120, 126, 127, 189]
 step = 1
 request = "command"
 commands = ["floating toggle"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_34"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -201,7 +201,7 @@ seeds = [40, 190]
 step = 1
 request = "command"
 commands = ["move container to workspace 1"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_40"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -212,7 +212,7 @@ seeds = [70, 81, 103, 109, 112, 144, 147, 163, 174, 182, 197]
 step = 1
 request = "command"
 commands = ["move up"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_70"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -234,7 +234,7 @@ seeds = [111, 131]
 step = 1
 request = "command"
 commands = ["move left"]
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
 scenario = "differential_seed_111"
 triage = "swayward-empty-workspace-command-errors"
 
@@ -245,7 +245,7 @@ seeds = [116, 169]
 step = 3
 request = "tree"
 commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'"]
-differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 1.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[1].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[1].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].focused: False != True", "$tree.nodes[1].nodes[0].nodes[1].visible: False != True"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[0].percent: 1.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[1].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[1].focused: False != True", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].visible: False != True"]
 scenario = "differential_seed_116"
 triage = "swayward-fullscreen-map-tree-state"
 

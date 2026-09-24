@@ -3,11 +3,47 @@ set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")/.."
 
 if [[ ${1:-} == --help ]]; then
-    echo 'usage: validate'
-    echo 'Run the repository checks, tool self-tests, inventory check, and pinned sway schema comparison.'
+    echo 'usage: validate [reproduce {i3|sway|swayward|all}]'
+    echo 'Validate the repository, or reproduce results in the oracle container.'
     exit 0
 fi
-(($# == 0)) || { echo 'usage: validate' >&2; exit 2; }
+
+if [[ ${1:-} == reproduce ]]; then
+    mode=${2:-all}
+    (($# <= 2)) || { echo 'usage: validate reproduce {i3|sway|swayward|all}' >&2; exit 2; }
+    case $mode in
+        i3|sway|swayward|all) ;;
+        *) echo 'usage: validate reproduce {i3|sway|swayward|all}' >&2; exit 2 ;;
+    esac
+    [[ ${ORACLE_CONTAINER:-} == 1 ]] || {
+        echo 'reproduce must run in the oracle container; see README.md' >&2
+        exit 2
+    }
+    run_one() {
+        compositor=$1
+        case $compositor in
+            i3) binary=$I3_BINARY ;;
+            sway) binary=$SWAY_BINARY ;;
+            swayward) binary=$SWAYWARD_BINARY ;;
+        esac
+        ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
+            --i3src "$I3SRC" --i3build "$I3BUILD"
+        ./contrib/sway-ipc-run --compositor "$compositor" --binary "$binary" \
+            --out "sway-ipc/results/$compositor.toml"
+    }
+    if [[ $mode == all ]]; then
+        run_one i3
+        run_one sway
+        run_one swayward
+        ./contrib/sway-ipc-run differential --a-binary "$SWAY_BINARY" \
+            --b-binary "$SWAYWARD_BINARY" --seeds 200 --steps 30 || [[ $? == 1 ]]
+    else
+        run_one "$mode"
+    fi
+    exit
+fi
+
+(($# == 0)) || { echo 'usage: validate [reproduce {i3|sway|swayward|all}]' >&2; exit 2; }
 
 python3 - <<'PY'
 import re

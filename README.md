@@ -382,6 +382,39 @@ The harness requires an i3/sway IPC socket, i3-ipc framing, sway commands, and t
 
 Testing either implementation would require a translator from sway commands and `GET_TREE` to Hyprland's IPC and state model. The tests would then measure that translator as well as the layout, so this repository does not present such a run as an oracle measurement.
 
+## Reproduce the results
+
+Build the pinned toolchain and run every result generator from a clean checkout:
+
+```sh
+git clone https://github.com/martintrojer/sway-ipc-oracle.git
+cd sway-ipc-oracle
+podman build -t sway-ipc-oracle -f Containerfile .
+podman run --rm --memory 4g --memory-swap 4g \
+  --security-opt label=disable -v "$PWD:/oracle" sway-ipc-oracle \
+  ./contrib/validate reproduce all
+```
+
+The image builds the pinned i3, sway, wlroots, and swayward commits and installs
+the Perl, X11, Wayland, and client dependencies. It does not use files from the
+host home directory. `reproduce` accepts `i3`, `sway`, `swayward`, or `all`;
+`all` rewrites the six compositor result files plus the fixed 200-seed
+sway/swayward differential result. Each compositor has private sockets and a
+wall-time limit. The outer Podman command supplies the 4 GiB memory limit and
+disables swap by setting the memory-plus-swap limit to the same value.
+
+A measured Fedora 44 build took 12 minutes, the i3 result pair took 29 seconds,
+and the sway result pair took 4 minutes. Allow 90 minutes for `all`, 20 GiB of
+free disk (the built image is 2.9 GB), and 4 GiB of memory. Result metadata contains the run date and the
+oracle commit; compare content while excluding those two keys:
+
+```sh
+git diff --ignore-matching-lines='^\(date\|oracle_commit\) = ' -- \
+  i3/results sway-ipc/results
+```
+
+An empty diff means the measured content matches the committed results.
+
 ## Validate the repository
 
 ```sh

@@ -233,7 +233,7 @@ def diff_values(expected, actual, path, differences, ignored_array_suffixes, num
     elif isinstance(expected, dict):
         if expected.keys() != actual.keys():
             differences.append(f"{path}: keys differ")
-        for key in expected.keys() & actual.keys():
+        for key in sorted(expected.keys() & actual.keys()):
             diff_values(expected[key], actual[key], f"{path}.{key}", differences,
                         ignored_array_suffixes, numeric_tolerances)
     elif isinstance(expected, list):
@@ -319,7 +319,11 @@ class Adapter:
             self.env.pop(name, None)
 
     def wrapped(self, command):
-        return ["systemd-run", "--user", "--scope", "--quiet", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", str(self.args.timeout), *command]
+        limited = ["timeout", "--kill-after=5", str(self.args.timeout), *command]
+        if os.environ.get("ORACLE_CONTAINER") == "1":
+            return limited
+        return ["systemd-run", "--user", "--scope", "--quiet", "-p", "MemoryMax=2G",
+                "-p", "MemorySwapMax=0", *limited]
 
     def start_process(self, command, log):
         runtime = self.env.pop("XDG_RUNTIME_DIR", None)

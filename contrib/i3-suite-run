@@ -34,6 +34,23 @@ def run(cmd: list[str], **kw) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, text=True, **kw)
 
 
+def isolated(command: list[str], timeout: int, *, kill_after=False) -> list[str]:
+    limit = ["timeout"]
+    if kill_after:
+        limit += ["--kill-after=5"]
+    limit += [str(timeout), *command]
+    if os.environ.get("ORACLE_CONTAINER") == "1":
+        return limit
+    return ["systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G",
+            "-p", "MemorySwapMax=0", *limit]
+
+
+def execution(command: list[str]) -> list[str]:
+    if os.environ.get("ORACLE_CONTAINER") == "1":
+        return command
+    return ["distrobox", "enter", ARGS.container, "--", *command]
+
+
 def parse_tap(text: str):
     verdicts, plan, previous = {}, None, 0
     for line in text.splitlines():
@@ -73,6 +90,7 @@ def wayland_adaptations(test: Path, compositor: str) -> list[str]:
 
 def emit(path: Path, compositor: str, version: str, commit: str,
          taps: dict[str, str], environment: str = "") -> None:
+    previous = path.read_text() if path.exists() else ""
     lines = [
         "# Curated result of an unchanged upstream i3 test-suite run.",
         "# Counts use the first unindented TAP plan and first TAP stream.",
@@ -124,8 +142,21 @@ def emit(path: Path, compositor: str, version: str, commit: str,
                 lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
                           'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
                           f'citation = "i3/t/{test.name}:1"']
+    generated = "\n".join(lines) + "\n"
+    if previous:
+        family_start = previous.find("\n[families]")
+        file_start = previous.find("\n[files.")
+        generated_file_start = generated.find("\n[files.")
+        if 0 <= family_start < file_start and generated_file_start >= 0:
+            generated = generated[:generated_file_start] + previous[family_start:file_start] + generated[generated_file_start:]
+        old_blocks = {match.group(1): match.group(0) for match in re.finditer(
+            r'(?ms)^\[files\."([^"]+)"\]\n.*?(?=^\[files\.|\Z)', previous)}
+        def preserve(match):
+            old = old_blocks.get(match.group(1))
+            return old if old and "reason_verified = true" in old else match.group(0)
+        generated = re.sub(r'(?ms)^\[files\."([^"]+)"\]\n.*?(?=^\[files\.|\Z)', preserve, generated)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines) + "\n")
+    path.write_text(generated)
 
 
 def static_plan(path: Path) -> int:
@@ -139,6 +170,8 @@ def static_plan(path: Path) -> int:
 
 
 def i3_adapter(args) -> None:
+    global ARGS
+    ARGS = args
     src, build = Path(args.i3src), Path(args.i3build)
     if run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, check=True).stdout.strip() != I3_PIN:
         raise SystemExit(f"i3 source is not pinned to {I3_PIN}")
@@ -147,9 +180,7 @@ def i3_adapter(args) -> None:
     inner = ["bash", "-lc", "unset SWAYSOCK I3SOCK DISPLAY WAYLAND_DISPLAY; "
              "export PERL5LIB=$HOME/perl5/lib/perl5${PERL5LIB:+:$PERL5LIB}; "
              f"cd {build} && perl complete-run.pl --parallel={args.parallel} " + " ".join(tests)]
-    cp = run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q",
-              "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", str(args.timeout), *inner],
-             capture_output=True)
+    cp = run(execution(isolated(inner, args.timeout)), capture_output=True)
     after = [p for p in build.glob("testsuite-*") if p.name not in before]
     if not after:
         print(cp.stdout, cp.stderr, file=sys.stderr); raise SystemExit("i3 runner produced no log")
@@ -168,6 +199,8 @@ def selected_tests(args):
 
 
 def wayland_adapter(args) -> None:
+    global ARGS
+    ARGS = args
     src = Path(args.i3src)
     if run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, check=True).stdout.strip() != I3_PIN:
         raise SystemExit(f"i3 source is not pinned to {I3_PIN}")
@@ -179,7 +212,8 @@ def wayland_adapter(args) -> None:
     if not args.tests:
         shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True, exist_ok=True)
-    runtime = Path(f"/run/user/{os.getuid()}")
+    runtime = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}"))
+    runtime.mkdir(mode=0o700, parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="i3-suite-", dir=runtime) as td:
         stage = Path(td) / "lib"; shutil.copytree(src / "testcases/lib", stage)
         text = (src / "testcases/lib/i3test.pm.in").read_text().replace("@abs_top_builddir@", str(src)).replace("@abs_top_srcdir@", str(src))
@@ -187,8 +221,10 @@ def wayland_adapter(args) -> None:
         (stage / "i3test.pm.in").unlink(missing_ok=True)
         shutil.copy2(adapter / "SocketActivation.pm", stage)
         shutil.copytree(adapter / "swaycal", stage / "swaycal")
+        test_displays = {test.name: 100 + index for index, test in enumerate(selected_tests(args))}
         def run_one(test: Path):
             rundir = Path(td) / test.name; rundir.mkdir(); (rundir / "x11u").mkdir()
+            display = test_displays[test.name] if os.environ.get("ORACLE_CONTAINER") == "1" else 99
             os.chmod(rundir, 0o700); os.chmod(rundir / "x11u", 0o1777)
             env = os.environ | {"I3SRC": str(src), "STAGE": str(stage), "TESTNAME": test.name,
                   "OUTDIR": str(rundir), "I3_SUITE_RUNDIR": str(rundir), "I3_SUITE_BINARY": str(binary),
@@ -198,18 +234,23 @@ def wayland_adapter(args) -> None:
                 Path(env["SWAY_CAL_RECORD"]).write_text("")
             if args.compositor == "swayward":
                 env["I3_SUITE_TRANSLATOR"] = str(binary.parents[2] / "contrib/sway-to-kdl")
+            private_tmp = "" if os.environ.get("ORACLE_CONTAINER") == "1" else "mount -t tmpfs -o mode=1777,size=16m tmpfs /tmp"
             inner = f'''set -uo pipefail
 trap 'test -f "$I3_SUITE_RUNDIR/pids" && while read -r p; do kill -9 -- -"$p" 2>/dev/null || true; done < "$I3_SUITE_RUNDIR/pids"; test -n "${{xp:-}}" && kill -9 "$xp" 2>/dev/null || true' EXIT
-mount -t tmpfs -o mode=1777,size=16m tmpfs /tmp
-mkdir -m 1777 /tmp/.X11-unix
+{private_tmp}
+mkdir -p -m 1777 /tmp/.X11-unix
 export XDG_RUNTIME_DIR="$I3_SUITE_RUNDIR"; unset SWAYSOCK I3SOCK WAYLAND_DISPLAY
-Xvfb :99 -screen 0 1280x800x24 >/dev/null 2>&1 & xp=$!; export DISPLAY=:99
-for i in $(seq 1 100); do test -S /tmp/.X11-unix/X99 && break; sleep .05; done
+Xvfb :{display} -screen 0 1280x800x24 >/dev/null 2>&1 & xp=$!; export DISPLAY=:{display}
+for i in $(seq 1 100); do test -S /tmp/.X11-unix/X{display} && break; sleep .05; done
 cd {shlex.quote(str(src / 'testcases'))}
 export PERL5LIB="$STAGE:$HOME/perl5/lib/perl5${{PERL5LIB:+:$PERL5LIB}}"
 perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
 '''
-            cp = subprocess.run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", "--kill-after=5", str(args.file_timeout), "unshare", "-rmn", "bash", "-lc", inner], env=env, text=True, capture_output=True)
+            shell = ["bash", "-lc", inner]
+            if os.environ.get("ORACLE_CONTAINER") != "1":
+                shell = ["unshare", "-rmn", *shell]
+            cp = subprocess.run(execution(isolated(shell, args.file_timeout, kill_after=True)),
+                                env=env, text=True, capture_output=True)
             (out / f"{test.name}.tap").write_text(cp.stdout + cp.stderr)
             diagnostics = out / test.name
             shutil.rmtree(diagnostics, ignore_errors=True)
