@@ -157,7 +157,9 @@ def wayland_adapter(args) -> None:
     if not adapter.is_dir():
         raise SystemExit(f"missing adapter: {adapter}")
     out = ROOT / "target/i3-suite" / args.compositor
-    shutil.rmtree(out, ignore_errors=True); out.mkdir(parents=True)
+    if not args.tests:
+        shutil.rmtree(out, ignore_errors=True)
+    out.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="i3-suite-") as td:
         stage = Path(td) / "lib"; shutil.copytree(src / "testcases/lib", stage)
         text = (src / "testcases/lib/i3test.pm.in").read_text().replace("@abs_top_builddir@", str(src)).replace("@abs_top_srcdir@", str(src))
@@ -183,6 +185,12 @@ perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
 '''
             cp = run(["distrobox", "enter", args.container, "--", "systemd-run", "--user", "--scope", "-q", "-p", "MemoryMax=2G", "-p", "MemorySwapMax=0", "timeout", "--kill-after=5", str(args.file_timeout), "unshare", "-rm", "bash", "-lc", inner], env=env, capture_output=True)
             (out / f"{test.name}.tap").write_text(cp.stdout + cp.stderr)
+            diagnostics = out / test.name
+            shutil.rmtree(diagnostics, ignore_errors=True)
+            diagnostics.mkdir()
+            for artifact in rundir.glob("sway-*"):
+                if artifact.is_file():
+                    shutil.copy2(artifact, diagnostics)
             print(f"EXIT={cp.returncode} {test.name}")
     taps = {p.name.removesuffix('.tap'): p.read_text(errors='replace') for p in out.glob('*.tap')}
     version = run([str(binary), "--version"], capture_output=True).stdout.strip()
