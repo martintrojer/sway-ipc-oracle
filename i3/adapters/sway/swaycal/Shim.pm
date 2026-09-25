@@ -96,16 +96,20 @@ sub _wait_for_sway_window {
     return 0;
 }
 
-sub sway_sync {
-    # Accept and ignore i3's no_cache/window_id options. They select details
-    # of I3_SYNC, which sway does not implement.
-
-    # 1. X11 round trip.
+sub _x11_round_trip {
     eval {
         my $x = $i3test::x;
         $x->get_input_focus_reply($x->get_input_focus()->{sequence}) if $x;
         1;
     };
+}
+
+sub sway_sync {
+    # Accept and ignore i3's no_cache/window_id options. They select details
+    # of I3_SYNC, which sway does not implement.
+
+    # 1. Ensure prior test-client requests reached Xwayland.
+    _x11_round_trip();
 
     # 2 + 3. Give Xwayland's wl_event_loop source a quiet period, then require
     # three equal IPC snapshots. Two immediate GET_TREE replies can both win
@@ -115,7 +119,14 @@ sub sway_sync {
     for my $i (1 .. 20) {
         my $now = _tree();
         $stable = defined($prev) && defined($now) && $prev eq $now ? $stable + 1 : 0;
-        return 1 if $stable == 2;
+        if ($stable == 2) {
+            # Sway may issue X focus/configure requests while producing the
+            # settled tree. Give its XWM/Xwayland fd handoff a quiet period,
+            # then wait until Xwayland has applied those requests too.
+            select(undef, undef, undef, 0.20);
+            _x11_round_trip();
+            return 1;
+        }
         $prev = $now;
         select(undef, undef, undef, 0.05);
     }
