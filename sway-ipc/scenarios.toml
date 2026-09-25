@@ -116,6 +116,8 @@ actions = ["window:fixture-1", "command:splitv", "window:fixture-2", "command:sp
 [[scenario]]
 name = "disabled_output_evacuation"
 outputs = 2
+compositors = ["sway", "swayward"]
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
 actions = ["window:fixture-1", "command:move workspace to output right", "command:output HEADLESS-2 disable", "capture:disabled_output_evacuation"]
 
 [[scenario]]

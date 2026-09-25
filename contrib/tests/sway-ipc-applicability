@@ -9,6 +9,9 @@ runner = importlib.machinery.SourceFileLoader(
     "sway_ipc_run", str(root / "contrib/sway-ipc-run")
 ).load_module()
 rules = runner.load_applicability()
+scenarios = {item["name"]: item for item in runner.selected_scenarios(None)}
+assert "i3" not in scenarios["disabled_output_evacuation"]["compositors"]
+assert "sway/sway/commands/output/disable.c" in scenarios["disabled_output_evacuation"]["reason"]
 
 expected = [{
     "name": "WL-1",
