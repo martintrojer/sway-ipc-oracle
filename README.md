@@ -129,7 +129,7 @@ Publish black-box results from the oracle's runners under the matching oracle's 
 
 ## i3 suite comparison
 
-These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record both complete totals and stable-file totals. The stable counts are i3 **3,754/1/0**, sway **1,079/19/1,783**, and swayward **1,443/11/2,279**. Repeated complete fixed-container runs found 41 unstable sway files and one unstable swayward file; i3 had none. The files remain visible as `flaky` rows, and `i3/flaky-runs.toml` records per-assertion evidence. `i3/flaky.toml` names the exclusions. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record both complete totals and stable-file totals. The stable counts are i3 **3,754/1/0**, sway **1,043/19/1,685**, and swayward **1,443/11/2,279**. Repeated complete fixed-container runs found 45 unstable sway files and one unstable swayward file; i3 had none. The files remain visible as `flaky` rows, and `i3/flaky-runs.toml` records per-assertion evidence. `i3/flaky.toml` names the exclusions. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
 
 | File | i3 P/S/F | sway P/S/F | swayward P/S/F |
 | --- | ---: | ---: | ---: |
@@ -174,7 +174,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `145-flattening.t` | 8/0/0 | flaky | 8/0/0 |
 | `146-floating-reinsert.t` | 3/0/0 | flaky | 1/0/2 |
 | `147-regress-floatingmove.t` | 2/0/0 | 2/0/0 | 2/0/0 |
-| `148-regress-floatingmovews.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `148-regress-floatingmovews.t` | 1/0/0 | flaky | 1/0/0 |
 | `150-regress-dock-restart.t` | 11/0/0 | 3/0/8 | 1/0/10 |
 | `151-regress-float-size.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `152-regress-level-up.t` | 1/0/0 | 1/0/0 | 1/0/0 |
@@ -187,7 +187,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `162-regress-dock-urgent.t` | 4/0/0 | 2/0/2 | 1/0/3 |
 | `164-kill-win-vs-client.t` | 12/0/0 | 3/0/9 | 3/0/9 |
 | `165-for_window.t` | 79/0/0 | 19/0/60 | 17/0/62 |
-| `166-assign.t` | 106/0/0 | 18/0/88 | 9/0/97 |
+| `166-assign.t` | 106/0/0 | flaky | 9/0/97 |
 | `167-workspace_layout.t` | 87/0/0 | flaky | 40/0/47 |
 | `168-regress-fullscreen-restart.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `169-border-toggle.t` | 20/0/0 | 0/0/20 | 0/0/20 |
@@ -229,7 +229,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `210-mark-unmark.t` | 17/0/0 | flaky | 7/0/10 |
 | `211-regress-urgency-assign.t` | 3/0/0 | 2/0/1 | 1/0/2 |
 | `212-assign-urgency.t` | 3/0/0 | 2/0/1 | 0/0/3 |
-| `213-layout-restore-simple.t` | 18/0/0 | 8/0/10 | 8/0/10 |
+| `213-layout-restore-simple.t` | 18/0/0 | flaky | 8/0/10 |
 | `218-regress-floating-split.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `219-ipc-window-focus.t` | 10/0/0 | flaky | 8/0/2 |
 | `220-ipc-window-title.t` | 4/0/0 | 4/0/0 | 4/0/0 |
@@ -259,7 +259,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `251-command-criteria-focused.t` | 11/0/0 | flaky | 4/0/7 |
 | `252-floating-size.t` | 49/0/0 | 40/0/9 | 31/0/18 |
 | `254-move-to-output-with-criteria.t` | 16/0/0 | 3/6/7 | 10/0/6 |
-| `255-multiple-marks.t` | 9/0/0 | 9/0/0 | 3/0/6 |
+| `255-multiple-marks.t` | 9/0/0 | flaky | 3/0/6 |
 | `256-no-auto-back-and-forth.t` | 10/0/0 | 8/0/2 | 8/0/2 |
 | `257-keypress-group1-fallback.t` | 17/0/0 | 1/0/16 | 1/0/16 |
 | `258-keypress-release.t` | 49/0/0 | 1/0/48 | 1/0/48 |

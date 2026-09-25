@@ -47,7 +47,10 @@ for name, assertions in canaries.items():
         raise SystemExit(
             f"{compositor} harness sanity failed: {name} is {actual}, expected {expected}"
         )
-zero_pass = sum(entry.get("pass", 0) == 0 for entry in files.values())
+zero_pass = sum(
+    entry.get("pass", 0) == 0 and not entry.get("flaky")
+    for entry in files.values()
+)
 if zero_pass > 60:
     raise SystemExit(
         f"{compositor} harness sanity failed: {zero_pass} files have zero passes (limit 60)"
