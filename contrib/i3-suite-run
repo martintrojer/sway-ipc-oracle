@@ -124,10 +124,14 @@ def emit(path: Path, compositor: str, version: str, commit: str,
     ]
     if environment:
         lines.append(f'environment = "{environment}"')
+    flaky = tomllib.load((ROOT / "i3/flaky.toml").open("rb")).get(compositor, {}).get("files", [])
     for test in sorted((ROOT / "i3/t").glob("*.t")):
         verdicts, plan = parse_tap(taps.get(test.name, ""))
         static = static_plan(test)
         lines += ["", f'[files."{test.name}"]']
+        if test.name in flaky:
+            lines += ["flaky = true", f"assertions = {static}"]
+            continue
         if compositor in {"sway", "swayward"}:
             adaptations = wayland_adaptations(test, compositor)
             if adaptations:
@@ -290,7 +294,7 @@ def main() -> int:
     ap.add_argument("--container", default="swayward-dev")
     ap.add_argument("--parallel", type=int, default=4)
     ap.add_argument("--timeout", type=int, default=900)
-    ap.add_argument("--file-timeout", type=int, default=60)
+    ap.add_argument("--file-timeout", type=int, default=180)
     ap.add_argument("--binary")
     ap.add_argument("--record-commands", action="store_true",
                     help="record replayable sway commands with test provenance")

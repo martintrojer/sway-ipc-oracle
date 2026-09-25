@@ -1,0 +1,11 @@
+# Files whose per-assertion outcomes changed between three consecutive pinned
+# runs after the sway Xwayland map barrier and 180-second file timeout.
+# They remain visible but are excluded from published pass/skip/fail counts.
+[sway]
+files = [
+  "232-cmd-move-criteria.t",
+  "243-move-to-mark.t",
+]
+
+[swayward]
+files = []

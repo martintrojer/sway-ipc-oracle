@@ -40,6 +40,8 @@ use v5.10;
 use IO::Socket::UNIX;
 use List::Util ();
 use AnyEvent::I3 ();
+use JSON::PP ();
+use Scalar::Util qw(blessed);
 
 require i3test;
 
@@ -73,6 +75,27 @@ sub _tree {
     return _ipc(4, '');                                # IPC_GET_TREE
 }
 
+sub _tree_has_window {
+    my ($node, $id) = @_;
+    return 1 if defined($node->{window}) && $node->{window} == $id;
+    for my $child (@{$node->{nodes} // []}, @{$node->{floating_nodes} // []}) {
+        return 1 if _tree_has_window($child, $id);
+    }
+    return 0;
+}
+
+sub _wait_for_sway_window {
+    my ($window) = @_;
+    my $id = blessed($window) && $window->isa('X11::XCB::Window')
+        ? $window->id : $window;
+    for my $i (1 .. 100) {
+        my $body = _tree();
+        return 1 if defined($body) && _tree_has_window(JSON::PP::decode_json($body), $id);
+        select(undef, undef, undef, 0.02);
+    }
+    return 0;
+}
+
 sub sway_sync {
     # Accept and ignore i3's no_cache/window_id options. They select details
     # of I3_SYNC, which sway does not implement.
@@ -84,13 +107,17 @@ sub sway_sync {
         1;
     };
 
-    # 2 + 3. IPC round trip, then settle until the tree stops changing.
-    my $prev;
+    # 2 + 3. Give Xwayland's wl_event_loop source a quiet period, then require
+    # three equal IPC snapshots. Two immediate GET_TREE replies can both win
+    # the race with a pending XWM event and falsely report a settled tree.
+    select(undef, undef, undef, 0.10);
+    my ($prev, $stable) = (undef, 0);
     for my $i (1 .. 20) {
         my $now = _tree();
-        return 1 if defined($prev) && defined($now) && $prev eq $now;
+        $stable = defined($prev) && defined($now) && $prev eq $now ? $stable + 1 : 0;
+        return 1 if $stable == 2;
         $prev = $now;
-        select(undef, undef, undef, 0.02);
+        select(undef, undef, undef, 0.05);
     }
     return 0;
 }
@@ -98,7 +125,14 @@ sub sway_sync {
 {
     no warnings 'redefine';
     no strict 'refs';
+    my $wait_for_map = \&i3test::wait_for_map;
     *i3test::sync_with_i3 = \&sway_sync;
+    *i3test::wait_for_map = sub {
+        my $result = $wait_for_map->(@_);
+        _wait_for_sway_window($_[0]);
+        sway_sync();
+        return $result;
+    };
     my $cmd = \&i3test::cmd;
     my $cmd_nosync = \&i3test::cmd_nosync;
     my $map_fake_outputs = sub {
