@@ -25,27 +25,6 @@ sway_xwayland_maximized_state = "Sway reports every tiled Xwayland view maximize
 
 [[classification]]
 file = "005-floating.t"
-assertion = 3
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "005-floating.t"
-assertion = 4
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "005-floating.t"
-assertion = 5
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "005-floating.t"
 assertion = 9
 outcome = "fail"
 reason = "unclassified"
@@ -617,118 +596,6 @@ assertion = 22
 outcome = "fail"
 reason = "sway_xwayland_geometry_finding"
 reason_verified = true
-
-[[classification]]
-file = "104-focus-stack.t"
-assertion = 1
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 1
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 2
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 3
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 4
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 5
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 6
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 7
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 8
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 9
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 10
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "111-goto.t"
-assertion = 11
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "113-urgent.t"
-assertion = 2
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "113-urgent.t"
-assertion = 4
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "113-urgent.t"
-assertion = 14
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "113-urgent.t"
-assertion = 18
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
 
 [[classification]]
 file = "113-urgent.t"
@@ -2974,6 +2841,20 @@ reason_verified = true
 
 [[classification]]
 file = "135-floating-focus.t"
+assertion = 1
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "135-floating-focus.t"
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "135-floating-focus.t"
 assertion = 5
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
@@ -3526,50 +3407,29 @@ reason = "sway_xwayland_mapping_finding"
 reason_verified = true
 
 [[classification]]
-file = "138-floating-attach.t"
-assertion = 8
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "138-floating-attach.t"
+file = "141-resize.t"
 assertion = 10
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
 
 [[classification]]
-file = "138-floating-attach.t"
+file = "141-resize.t"
 assertion = 11
 outcome = "fail"
-reason = "sway_tree_semantics_finding"
-reason_verified = true
+reason = "unclassified"
+reason_verified = false
 
 [[classification]]
 file = "141-resize.t"
-assertion = 6
+assertion = 12
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
 
 [[classification]]
 file = "141-resize.t"
-assertion = 7
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "141-resize.t"
-assertion = 8
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "141-resize.t"
-assertion = 9
+assertion = 13
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -3716,21 +3576,14 @@ reason_verified = false
 
 [[classification]]
 file = "145-flattening.t"
-assertion = 2
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "146-floating-reinsert.t"
-assertion = 2
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "146-floating-reinsert.t"
 assertion = 3
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "145-flattening.t"
+assertion = 8
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -5468,6 +5321,13 @@ reason_verified = false
 
 [[classification]]
 file = "167-workspace_layout.t"
+assertion = 13
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
 assertion = 14
 outcome = "fail"
 reason = "unclassified"
@@ -5510,6 +5370,13 @@ reason_verified = false
 
 [[classification]]
 file = "167-workspace_layout.t"
+assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
 assertion = 21
 outcome = "fail"
 reason = "unclassified"
@@ -5525,6 +5392,13 @@ reason_verified = false
 [[classification]]
 file = "167-workspace_layout.t"
 assertion = 24
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 25
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -6125,21 +5999,28 @@ citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/s
 
 [[classification]]
 file = "170-force_focus_wrapping.t"
-assertion = 3
+assertion = 9
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
 
 [[classification]]
 file = "170-force_focus_wrapping.t"
-assertion = 4
+assertion = 10
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
 
 [[classification]]
 file = "170-force_focus_wrapping.t"
-assertion = 5
+assertion = 11
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "170-force_focus_wrapping.t"
+assertion = 12
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -7381,7 +7262,14 @@ reason_verified = true
 
 [[classification]]
 file = "191-resize-levels.t"
-assertion = 1
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "191-resize-levels.t"
+assertion = 3
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -7992,6 +7880,48 @@ citation = "i3/t/213-layout-restore-simple.t:42-62; sway/sway/commands.c:113-143
 
 [[classification]]
 file = "219-ipc-window-focus.t"
+assertion = 1
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "219-ipc-window-focus.t"
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "219-ipc-window-focus.t"
+assertion = 3
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "219-ipc-window-focus.t"
+assertion = 4
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "219-ipc-window-focus.t"
+assertion = 5
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "219-ipc-window-focus.t"
+assertion = 7
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "219-ipc-window-focus.t"
 assertion = 8
 outcome = "fail"
 reason = "unclassified"
@@ -8285,20 +8215,6 @@ reason = "headless_xtest_boundary"
 reason_verified = true
 
 [[classification]]
-file = "240-focus-on-window-activation.t"
-assertion = 1
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "240-focus-on-window-activation.t"
-assertion = 2
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
 file = "241-consistent-center.t"
 assertion = 1
 outcome = "fail"
@@ -8308,13 +8224,6 @@ reason_verified = false
 [[classification]]
 file = "241-consistent-center.t"
 assertion = 7
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "241-consistent-center.t"
-assertion = 8
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -8430,6 +8339,34 @@ assertion = 8
 outcome = "fail"
 reason = "sway_ipc_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "251-command-criteria-focused.t"
+assertion = 1
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "251-command-criteria-focused.t"
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "251-command-criteria-focused.t"
+assertion = 3
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "251-command-criteria-focused.t"
+assertion = 7
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
 
 [[classification]]
 file = "252-floating-size.t"
@@ -9322,24 +9259,10 @@ reason_verified = true
 
 [[classification]]
 file = "271-for_window_tilingfloating.t"
-assertion = 3
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "271-for_window_tilingfloating.t"
 assertion = 4
 outcome = "fail"
 reason = "sway_ipc_semantics_finding"
 reason_verified = true
-
-[[classification]]
-file = "271-for_window_tilingfloating.t"
-assertion = 5
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
 
 [[classification]]
 file = "271-for_window_tilingfloating.t"
@@ -9361,13 +9284,6 @@ assertion = 10
 outcome = "fail"
 reason = "sway_ipc_semantics_finding"
 reason_verified = true
-
-[[classification]]
-file = "271-for_window_tilingfloating.t"
-assertion = 11
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
 
 [[classification]]
 file = "271-for_window_tilingfloating.t"
@@ -9396,6 +9312,13 @@ assertion = 20
 outcome = "fail"
 reason = "sway_ipc_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "274-move-branch-position.t"
+assertion = 1
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
 
 [[classification]]
 file = "274-move-branch-position.t"
@@ -9484,20 +9407,6 @@ reason_verified = false
 [[classification]]
 file = "284-ewmh-visible-name.t"
 assertion = 5
-outcome = "unreached"
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
-
-[[classification]]
-file = "285-sticky.t"
-assertion = 3
-outcome = "unreached"
-reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
-reason_verified = false
-
-[[classification]]
-file = "285-sticky.t"
-assertion = 4
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
@@ -12696,6 +12605,20 @@ reason_verified = false
 
 [[classification]]
 file = "319-gaps.t"
+assertion = 17
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "319-gaps.t"
+assertion = 18
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "319-gaps.t"
 assertion = 19
 outcome = "fail"
 reason = "unclassified"
@@ -12704,6 +12627,20 @@ reason_verified = false
 [[classification]]
 file = "319-gaps.t"
 assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "319-gaps.t"
+assertion = 23
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "319-gaps.t"
+assertion = 24
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -13432,6 +13369,20 @@ reason_verified = false
 
 [[classification]]
 file = "506-focus-right.t"
+assertion = 14
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "506-focus-right.t"
+assertion = 15
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "506-focus-right.t"
 assertion = 26
 outcome = "fail"
 reason = "unclassified"
@@ -13644,13 +13595,6 @@ reason_verified = true
 
 [[classification]]
 file = "516-move.t"
-assertion = 1
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "516-move.t"
 assertion = 2
 outcome = "fail"
 reason = "unclassified"
@@ -13770,66 +13714,17 @@ reason_verified = true
 
 [[classification]]
 file = "524-move.t"
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "524-move.t"
 assertion = 6
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
-
-[[classification]]
-file = "524-move.t"
-assertion = 8
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "524-move.t"
-assertion = 14
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "524-move.t"
-assertion = 16
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "524-move.t"
-assertion = 22
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "524-move.t"
-assertion = 24
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "524-move.t"
-assertion = 30
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "524-move.t"
-assertion = 32
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
-
-[[classification]]
-file = "524-move.t"
-assertion = 38
-outcome = "fail"
-reason = "unclassified"
-reason_verified = false
 
 [[classification]]
 file = "526-reconfigure-dock.t"
@@ -14394,6 +14289,13 @@ reason_verified = false
 [[classification]]
 file = "541-resize-set-tiling.t"
 assertion = 24
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 25
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false

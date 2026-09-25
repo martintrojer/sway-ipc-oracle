@@ -5,16 +5,16 @@
 
 [run]
 compositor = "swayward"
-version = "26.04 (3278f9b3)"
-commit = "3278f9b3f5fe84715fd092b533c407ffc12412d1"
-oracle_commit = "b3459d854e42496cea658d529dfa6e4146a2f9de"
+version = "26.04 (0fbb931c)"
+commit = "0fbb931cda0b3225a52f1e14d6da4457f5510f90"
+oracle_commit = "1e3a2714fc20ed64cda40697b3c52b38d931e3d4"
 date = "2026-09-25"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 1
-match = 92
-mismatch = 1
+difference_fields = 0
+match = 93
+mismatch = 0
 not_applicable = 0
 
 [[result]]
@@ -275,8 +275,7 @@ verdict = "match"
 [[result]]
 scenario = "two_outputs"
 request = "tree"
-verdict = "mismatch"
-differences = ["$tree.nodes[1].focus: child-position order differs"]
+verdict = "match"
 
 [[result]]
 scenario = "two_outputs"

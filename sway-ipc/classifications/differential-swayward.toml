@@ -2,19 +2,17 @@
 
 [[classification]]
 seed = 0
-commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "move container to workspace 2"]
+commands = ["exec foot --app-id=fixture-diff-8 --title=fixture-diff-8 sh -c 'sleep 300'", "focus parent", "move container to workspace 2"]
 request = "tree"
-differences = ["$tree.nodes[1].focus: child-position order differs"]
+differences = ["$tree.nodes[1].nodes[1].nodes[0]: keys differ", "$tree.nodes[1].nodes[1].nodes[0].border: 'normal' != 'none'", "$tree.nodes[1].nodes[1].nodes[0].current_border_width: 2 != 0", "$tree.nodes[1].nodes[1].nodes[0].layout: 'none' != 'splith'", "$tree.nodes[1].nodes[1].nodes[0].name: type str != NoneType", "$tree.nodes[1].nodes[1].nodes[0].nodes: length 0 != 1", "$tree.nodes[1].nodes[1].nodes[0].orientation: 'none' != 'horizontal'", "$tree.nodes[1].nodes[1].representation: type str != NoneType"]
 triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 1
-commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "move container to workspace 2"]
+commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "floating toggle", "splith"]
 request = "tree"
-differences = ["$tree.nodes[1].focus: child-position order differs"]
+differences = ["$tree.nodes[1].nodes[0].floating_nodes[0]: keys differ", "$tree.nodes[1].nodes[0].floating_nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].floating_nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].floating_nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].floating_nodes[0].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].floating_nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].floating_nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].floating_nodes[0].orientation: 'horizontal' != 'none'"]
 triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 2
@@ -50,11 +48,10 @@ finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 7
-commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move container to workspace 2"]
+commands = ["splitv", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move container to workspace 2"]
 request = "tree"
-differences = ["$tree.nodes[1].focus: child-position order differs"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
 triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 8
@@ -105,18 +102,10 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
-seed = 15
-commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "move container to workspace 2"]
-request = "tree"
-differences = ["$tree.nodes[1].focus: child-position order differs"]
-triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
-
-[[classification]]
 seed = 16
-commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'"]
-request = "tree"
-differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
+commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "resize grow width 10 px"]
+request = "command"
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
@@ -125,14 +114,6 @@ seed = 17
 commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "resize shrink height 10 px"]
 request = "command"
 differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
-triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
-
-[[classification]]
-seed = 20
-commands = ["exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "move container to workspace 2"]
-request = "tree"
-differences = ["$tree.nodes[1].focus: child-position order differs"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
@@ -149,14 +130,6 @@ seed = 23
 commands = ["exec foot --app-id=fixture-diff-11 --title=fixture-diff-11 sh -c 'sleep 300'", "resize shrink height 10 px"]
 request = "command"
 differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
-triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
-
-[[classification]]
-seed = 25
-commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "move container to workspace 2"]
-request = "tree"
-differences = ["$tree.nodes[1].focus: child-position order differs"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
@@ -178,11 +151,10 @@ finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 28
-commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-7 --title=fixture-diff-7 sh -c 'sleep 300'"]
+commands = ["exec foot --app-id=fixture-diff-8 --title=fixture-diff-8 sh -c 'sleep 300'", "layout splitv"]
 request = "tree"
-differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splitv' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].representation: 'H[V[fixture-diff-8]]' != 'V[fixture-diff-8]'"]
 triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 29
@@ -194,11 +166,10 @@ finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 30
-commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'"]
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "fullscreen toggle", "move container to workspace 2"]
 request = "tree"
-differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
+differences = ["$tree.nodes[1].nodes[1].floating_nodes: length 0 != 1", "$tree.nodes[1].nodes[1].nodes: length 1 != 0", "$tree.nodes[1].nodes[1].representation: 'H[fixture-diff-1]' != 'H[]'"]
 triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 32
@@ -242,11 +213,10 @@ finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 43
-commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'"]
+commands = ["layout tabbed", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'"]
 request = "tree"
-differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].rect.y: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].rect.height: outside 10px tolerance", "$tree.nodes[1].nodes[0].nodes[1].window_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
 triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
 seed = 49
@@ -257,12 +227,26 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
+seed = 50
+commands = ["exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "fullscreen toggle", "move container to workspace 2"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[1].floating_nodes: length 0 != 1", "$tree.nodes[1].nodes[1].nodes: length 1 != 0", "$tree.nodes[1].nodes[1].representation: 'H[fixture-diff-4]' != 'H[]'"]
+triage = "harness issue"
+
+[[classification]]
 seed = 53
 commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "resize grow width 10 px"]
 request = "command"
 differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 54
+commands = ["exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "layout splitv"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splitv' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].representation: 'H[V[fixture-diff-4]]' != 'V[fixture-diff-4]'"]
+triage = "harness issue"
 
 [[classification]]
 seed = 57
@@ -281,20 +265,19 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
-seed = 62
-commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "resize grow width 10 px"]
-request = "command"
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
-triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
-
-[[classification]]
 seed = 63
 commands = ["layout tabbed", "splith"]
 request = "tree"
 differences = ["$tree.nodes[1].nodes[0].representation: 'T[]' != 'H[]'"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 67
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move down", "move container to workspace 2"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
+triage = "harness issue"
 
 [[classification]]
 seed = 68
@@ -313,12 +296,26 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
+seed = 75
+commands = ["exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "floating toggle", "layout tabbed"]
+request = "command"
+differences = ["$command[0]: keys differ"]
+triage = "harness issue"
+
+[[classification]]
 seed = 79
 commands = ["layout stacking", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "move scratchpad"]
 request = "tree"
 differences = ["$tree.nodes[1].nodes[0].layout: 'stacked' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'none' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'S[]' != 'H[]'"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 84
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "focus parent", "move up"]
+request = "command"
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+triage = "harness issue"
 
 [[classification]]
 seed = 89
@@ -369,6 +366,20 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
+seed = 103
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "move up", "move container to workspace 2"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
+triage = "harness issue"
+
+[[classification]]
+seed = 107
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "splitv", "move container to workspace 2"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
+triage = "harness issue"
+
+[[classification]]
 seed = 108
 commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "fullscreen toggle", "splitv"]
 request = "tree"
@@ -393,12 +404,34 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
+seed = 116
+commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "resize grow width 10 px"]
+request = "command"
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+triage = "harness issue"
+finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 119
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "layout stacking", "move down"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'normal' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 2 != 0", "$tree.nodes[1].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[0].layout: 'none' != 'stacked'", "$tree.nodes[1].nodes[0].nodes[0].name: type str != NoneType", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 0 != 1", "$tree.nodes[1].nodes[0].representation: 'V[fixture-diff-2]' != 'V[S[fixture-diff-2]]'"]
+triage = "harness issue"
+
+[[classification]]
 seed = 120
 commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-9 --title=fixture-diff-9 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-10 --title=fixture-diff-10 sh -c 'sleep 300'", "fullscreen toggle"]
 request = "tree"
 differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.33333333333333337"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 125
+commands = ["layout tabbed", "exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "move container to workspace 2"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'tabbed' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'none' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'T[]' != 'H[]'"]
+triage = "harness issue"
 
 [[classification]]
 seed = 127
@@ -409,20 +442,19 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
-seed = 128
-commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "resize grow width 10 px"]
-request = "command"
-differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
-triage = "harness issue"
-finding = "regenerated pinned differential result; requires review"
-
-[[classification]]
 seed = 132
 commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "move up", "move left"]
 request = "tree"
 differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].app_id: 'fixture-diff-4' != 'fixture-diff-3'", "$tree.nodes[1].nodes[0].nodes[1].name: 'fixture-diff-4' != 'fixture-diff-3'", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.25", "$tree.nodes[1].nodes[0].nodes[2].app_id: 'fixture-diff-3' != 'fixture-diff-4'", "$tree.nodes[1].nodes[0].nodes[2].name: 'fixture-diff-3' != 'fixture-diff-4'", "$tree.nodes[1].nodes[0].nodes[2].percent: 0.3328125 != 0.25", "$tree.nodes[1].nodes[0].representation: 'H[fixture-diff-5 fixture-diff-4 fixture-diff-3]' != 'H[fixture-diff-5 fixture-diff-3 fixture-diff-4]'"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 133
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "move down", "move container to workspace 2"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
+triage = "harness issue"
 
 [[classification]]
 seed = 141
@@ -465,6 +497,13 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
+seed = 152
+commands = ["exec foot --app-id=fixture-diff-9 --title=fixture-diff-9 sh -c 'sleep 300'", "layout splitv"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splitv' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].representation: 'H[V[fixture-diff-9]]' != 'V[fixture-diff-9]'"]
+triage = "harness issue"
+
+[[classification]]
 seed = 154
 commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "splith", "move right"]
 request = "tree"
@@ -473,12 +512,33 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
+seed = 163
+commands = ["exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "fullscreen toggle"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.33333333333333337"]
+triage = "harness issue"
+
+[[classification]]
 seed = 165
 commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move down", "layout stacking", "focus parent", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'"]
 request = "tree"
 differences = ["$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.85 != 0.925"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 166
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "move down", "kill"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
+triage = "harness issue"
+
+[[classification]]
+seed = 172
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move scratchpad", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "move scratchpad"]
+request = "tree"
+differences = ["$tree.nodes[0].nodes[0].floating_nodes[0].app_id: 'fixture-diff-2' != 'fixture-diff-3'", "$tree.nodes[0].nodes[0].floating_nodes[0].name: 'fixture-diff-2' != 'fixture-diff-3'", "$tree.nodes[0].nodes[0].floating_nodes[1].app_id: 'fixture-diff-3' != 'fixture-diff-2'", "$tree.nodes[0].nodes[0].floating_nodes[1].name: 'fixture-diff-3' != 'fixture-diff-2'"]
+triage = "harness issue"
 
 [[classification]]
 seed = 177
@@ -505,6 +565,13 @@ triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
 
 [[classification]]
+seed = 184
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "layout tabbed", "move container to workspace 2"]
+request = "tree"
+differences = ["$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'tabbed' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].representation: 'H[T[fixture-diff-2]]' != 'H[fixture-diff-2]'"]
+triage = "harness issue"
+
+[[classification]]
 seed = 185
 commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "move down", "move left"]
 request = "tree"
@@ -519,6 +586,20 @@ request = "command"
 differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
 triage = "harness issue"
 finding = "regenerated pinned differential result; requires review"
+
+[[classification]]
+seed = 191
+commands = ["exec foot --app-id=fixture-diff-8 --title=fixture-diff-8 sh -c 'sleep 300'", "focus parent", "move up"]
+request = "command"
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+triage = "harness issue"
+
+[[classification]]
+seed = 194
+commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "focus parent", "mark oracle"]
+request = "command"
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+triage = "harness issue"
 
 [[classification]]
 seed = 195

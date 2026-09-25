@@ -7,7 +7,7 @@
 compositor = "i3"
 version = "4.25-25-g9be3249a"
 commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
-oracle_commit = "b3459d854e42496cea658d529dfa6e4146a2f9de"
+oracle_commit = "1e3a2714fc20ed64cda40697b3c52b38d931e3d4"
 date = "2026-09-25"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
