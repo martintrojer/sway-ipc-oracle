@@ -1,0 +1,5 @@
+# Source revisions used for every committed oracle measurement.
+i3 = "9be3249ac5b377ed3270e36bca83df53d8023337"
+sway = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+wlroots = "c1d38536c926134698ff2615843e0d4103e84ac4"
+swayward = "3278f9b3f5fe84715fd092b533c407ffc12412d1"

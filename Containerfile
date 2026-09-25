@@ -1,9 +1,6 @@
 FROM registry.fedoraproject.org/fedora:44
 
-ARG I3_COMMIT=9be3249ac5b377ed3270e36bca83df53d8023337
-ARG SWAY_COMMIT=88869399f421d9180dd8b6ed0b5a1f4a3585d252
-ARG WLROOTS_COMMIT=c1d38536c926134698ff2615843e0d4103e84ac4
-ARG SWAYWARD_COMMIT=10db3ba38864bf65ed4da2b473ebbe9dea4ae257
+COPY pins.toml /opt/oracle-pins.toml
 
 RUN dnf install -y \
         bash git gcc gcc-c++ clang cargo meson ninja-build pkgconf-pkg-config \
@@ -23,19 +20,23 @@ RUN dnf install -y \
 
 RUN cpanm --notest X11::XCB@0.25 || { cat /root/.cpanm/work/*/build.log; false; }
 
-RUN git clone https://github.com/i3/i3.git /opt/i3-src \
+RUN I3_COMMIT=$(awk -F '"' '$1 ~ /^i3 = / { print $2 }' /opt/oracle-pins.toml) \
+    && git clone https://github.com/i3/i3.git /opt/i3-src \
     && git -C /opt/i3-src checkout "$I3_COMMIT" \
     && meson setup /opt/i3-src/build /opt/i3-src \
     && meson compile -C /opt/i3-src/build
 
-RUN git clone https://github.com/swaywm/sway.git /opt/sway-src \
+RUN SWAY_COMMIT=$(awk -F '"' '$1 ~ /^sway = / { print $2 }' /opt/oracle-pins.toml) \
+    && WLROOTS_COMMIT=$(awk -F '"' '$1 ~ /^wlroots = / { print $2 }' /opt/oracle-pins.toml) \
+    && git clone https://github.com/swaywm/sway.git /opt/sway-src \
     && git -C /opt/sway-src checkout "$SWAY_COMMIT" \
     && git clone https://gitlab.freedesktop.org/wlroots/wlroots.git /opt/sway-src/subprojects/wlroots \
     && git -C /opt/sway-src/subprojects/wlroots checkout "$WLROOTS_COMMIT" \
     && meson setup /opt/sway-src/build /opt/sway-src -Ddefault-wallpaper=false -Dman-pages=disabled \
     && meson compile -C /opt/sway-src/build
 
-RUN git clone https://github.com/martintrojer/swayward.git /opt/swayward-src \
+RUN SWAYWARD_COMMIT=$(awk -F '"' '$1 ~ /^swayward = / { print $2 }' /opt/oracle-pins.toml) \
+    && git clone https://github.com/martintrojer/swayward.git /opt/swayward-src \
     && git -C /opt/swayward-src checkout "$SWAYWARD_COMMIT" \
     && CARGO_BUILD_JOBS=2 cargo build --manifest-path /opt/swayward-src/Cargo.toml --release \
     && rm -rf /opt/swayward-src/target/release/{build,deps,incremental,.fingerprint}

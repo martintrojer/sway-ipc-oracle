@@ -23,8 +23,10 @@ import shlex
 ROOT = Path(__file__).resolve().parent.parent
 NO_TAP_PLAN = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 INCOMPLETE_RUN = "The pinned run reported environment skips, failures, or assertions it did not reach."
-I3_PIN = "9be3249ac5b377ed3270e36bca83df53d8023337"
-SWAY_PIN = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+with (ROOT / "pins.toml").open("rb") as file:
+    PINS = tomllib.load(file)
+I3_PIN = PINS["i3"]
+SWAY_PIN = PINS["sway"]
 PLAN = re.compile(r"^1\.\.(\d+)(?:\s+#\s*SKIP\b.*)?$", re.I)
 RESULT = re.compile(r"^(not ok|ok) (\d+)(.*)$")
 
@@ -32,6 +34,29 @@ RESULT = re.compile(r"^(not ok|ok) (\d+)(.*)$")
 def run(cmd: list[str], **kw) -> subprocess.CompletedProcess:
     print("+", " ".join(cmd), flush=True)
     return subprocess.run(cmd, text=True, **kw)
+
+
+def require_clean_checkout(path: Path, expected: str, name: str) -> str:
+    actual = run(["git", "-C", str(path), "rev-parse", "HEAD"],
+                 capture_output=True, check=True).stdout.strip()
+    description = run(["git", "-C", str(path), "describe", "--always", "--dirty"],
+                      capture_output=True, check=True).stdout.strip()
+    if actual != expected:
+        raise SystemExit(f"{name} source is {actual}, expected pinned commit {expected}")
+    if description.endswith("-dirty") or run(
+        ["git", "-C", str(path), "status", "--porcelain"], capture_output=True, check=True
+    ).stdout:
+        raise SystemExit(f"refusing to measure dirty {name} build ({description})")
+    return actual
+
+
+def binary_checkout(binary: Path) -> Path:
+    probe = binary.resolve().parent
+    while probe != probe.parent:
+        if (probe / ".git").exists():
+            return probe
+        probe = probe.parent
+    raise SystemExit(f"cannot find source checkout for compositor binary {binary}")
 
 
 def isolated(command: list[str], timeout: int, *, kill_after=False) -> list[str]:
@@ -90,9 +115,8 @@ def wayland_adaptations(test: Path, compositor: str) -> list[str]:
 
 def emit(path: Path, compositor: str, version: str, commit: str,
          taps: dict[str, str], environment: str = "") -> None:
-    previous = path.read_text() if path.exists() else ""
     lines = [
-        "# Curated result of an unchanged upstream i3 test-suite run.",
+        "# Generated raw result of an unchanged upstream i3 test-suite run.",
         "# Counts use the first unindented TAP plan and first TAP stream.",
         "# pass, skip, fail, and unreached together cover each emitted plan.",
         "", "[run]", f'compositor = "{compositor}"', f'version = "{version}"',
@@ -109,54 +133,28 @@ def emit(path: Path, compositor: str, version: str, commit: str,
             if adaptations:
                 adapted = ", ".join(f'"{rule}"' for rule in adaptations)
                 lines.append(f"adapted = [{adapted}]")
+        total = plan if plan is not None else max(static, max(verdicts, default=0))
+        pass_numbers = [n for n, verdict in verdicts.items() if verdict == "pass"]
+        skip_numbers = [n for n, verdict in verdicts.items() if verdict == "skip"]
+        fail_numbers = [n for n, verdict in verdicts.items() if verdict == "fail"]
+        unreached_numbers = [n for n in range(1, total + 1) if n not in verdicts]
         if plan is None:
-            observed = len(verdicts)
-            total = observed or static
-            skip_numbers = [n for n, v in verdicts.items() if v == "skip"]
             lines += ["plan_unknown = true", f"assertions = {total}", 'tap_plan = "none"',
-                      f"source_assertions = {static}",
-                      f"pass = {sum(v == 'pass' for v in verdicts.values())}",
-                      f"fail = {sum(v == 'fail' for v in verdicts.values())}"]
-            if not observed and static:
-                lines.append(f"unreached = {static}")
-            lines += [f'reason = "{NO_TAP_PLAN}"', "reason_verified = false"]
-            for n in skip_numbers:
-                lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
-                          'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
-                          f'citation = "i3/t/{test.name}:1"']
-        elif plan == 0:
-            lines += ["assertions = 0", "tap_plan = 0", "pass = 0", "survived = true"]
+                      f"source_assertions = {static}"]
         else:
-            skip_numbers = [n for n, v in verdicts.items() if v == "skip"]
-            fail = sum(v == "fail" for v in verdicts.values())
-            reached = len(verdicts)
-            lines += [f"assertions = {plan}", f"tap_plan = {plan}",
-                      f"pass = {sum(v == 'pass' for v in verdicts.values())}"]
-            if fail:
-                lines.append(f"fail = {fail}")
-            if reached < plan:
-                lines.append(f"unreached = {plan-reached}")
-            if skip_numbers or fail or reached < plan:
-                lines += [f'reason = "{INCOMPLETE_RUN}"', "reason_verified = false"]
-            for n in skip_numbers:
-                lines += [f'[[files."{test.name}".skip]]', f"n = {n}",
-                          'reason = "The unchanged upstream test marked this assertion skipped in this environment."',
-                          f'citation = "i3/t/{test.name}:1"']
-    generated = "\n".join(lines) + "\n"
-    if previous:
-        family_start = previous.find("\n[families]")
-        file_start = previous.find("\n[files.")
-        generated_file_start = generated.find("\n[files.")
-        if 0 <= family_start < file_start and generated_file_start >= 0:
-            generated = generated[:generated_file_start] + previous[family_start:file_start] + generated[generated_file_start:]
-        old_blocks = {match.group(1): match.group(0) for match in re.finditer(
-            r'(?ms)^\[files\."([^"]+)"\]\n.*?(?=^\[files\.|\Z)', previous)}
-        def preserve(match):
-            old = old_blocks.get(match.group(1))
-            return old if old and "reason_verified = true" in old else match.group(0)
-        generated = re.sub(r'(?ms)^\[files\."([^"]+)"\]\n.*?(?=^\[files\.|\Z)', preserve, generated)
+            lines += [f"assertions = {total}", f"tap_plan = {plan}"]
+        lines += [
+            f"pass = {len(pass_numbers)}",
+            f"skip = {len(skip_numbers)}",
+            f"fail = {len(fail_numbers)}",
+            f"unreached = {len(unreached_numbers)}",
+            "pass_assertions = [" + ", ".join(map(str, pass_numbers)) + "]",
+            "skip_assertions = [" + ", ".join(map(str, skip_numbers)) + "]",
+            "fail_assertions = [" + ", ".join(map(str, fail_numbers)) + "]",
+            "unreached_assertions = [" + ", ".join(map(str, unreached_numbers)) + "]",
+        ]
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(generated)
+    path.write_text("\n".join(lines) + "\n")
 
 
 def static_plan(path: Path) -> int:
@@ -173,8 +171,7 @@ def i3_adapter(args) -> None:
     global ARGS
     ARGS = args
     src, build = Path(args.i3src), Path(args.i3build)
-    if run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, check=True).stdout.strip() != I3_PIN:
-        raise SystemExit(f"i3 source is not pinned to {I3_PIN}")
+    require_clean_checkout(src, I3_PIN, "i3")
     tests = [str(src / "testcases/t" / p.name) for p in sorted((ROOT / "i3/t").glob("*.t"))]
     before = {p.name for p in build.glob("testsuite-*")}
     inner = ["bash", "-lc", "unset SWAYSOCK I3SOCK DISPLAY WAYLAND_DISPLAY; "
@@ -202,9 +199,11 @@ def wayland_adapter(args) -> None:
     global ARGS
     ARGS = args
     src = Path(args.i3src)
-    if run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, check=True).stdout.strip() != I3_PIN:
-        raise SystemExit(f"i3 source is not pinned to {I3_PIN}")
+    require_clean_checkout(src, I3_PIN, "i3")
     binary = Path(args.binary or ("/var/home/martintrojer/hacking/sway-1.12-build/build/sway/sway" if args.compositor == "sway" else "/var/home/martintrojer/hacking/swayward/target/debug/swayward"))
+    compositor_commit = require_clean_checkout(
+        binary_checkout(binary), PINS[args.compositor], args.compositor
+    )
     adapter = ROOT / "i3/adapters" / args.compositor
     if not adapter.is_dir():
         raise SystemExit(f"missing adapter: {adapter}")
@@ -265,8 +264,9 @@ perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
                 print(f"EXIT={code} {name}")
     taps = {p.name.removesuffix('.tap'): p.read_text(errors='replace') for p in out.glob('*.tap')}
     version = run([str(binary), "--version"], capture_output=True).stdout.strip()
-    commit = SWAY_PIN if args.compositor == "sway" else run(["git", "-C", str(binary.parents[2]), "rev-parse", "HEAD"], capture_output=True).stdout.strip()
-    emit(ROOT / f"i3/results/{args.compositor}.toml", args.compositor, version, commit, taps,
+    if re.search(r"(?:-dirty|-modified)\b", version):
+        raise SystemExit(f"refusing to record dirty {args.compositor} version: {version}")
+    emit(ROOT / f"i3/results/{args.compositor}.toml", args.compositor, version, compositor_commit, taps,
          "headless compositor with private IPC/X11 sockets and real X11 clients")
 
 

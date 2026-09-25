@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import random
+import re
 import shutil
 import signal
 import shlex
@@ -26,6 +27,8 @@ MAGIC = b"i3-ipc"
 TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
 NORMAL = "__oracle_normalized__"
 I3_DERIVED = ROOT / "sway-ipc/i3-derived"
+with (ROOT / "pins.toml").open("rb") as file:
+    PINS = tomllib.load(file)
 
 # Commands are deliberately conservative: every entry is accepted by sway 1.12,
 # and state-dependent failures are useful command-reply observations.
@@ -39,6 +42,35 @@ COMMANDS = (
     "move scratchpad", "sticky toggle", "move container to workspace 1",
     "move container to workspace 2", "kill",
 )
+
+
+def require_clean_binary(binary: Path, compositor: str) -> str:
+    probe = binary.resolve().parent
+    while probe != probe.parent and not (probe / ".git").exists():
+        probe = probe.parent
+    if not (probe / ".git").exists():
+        raise RuntimeError(f"cannot find source checkout for {binary}")
+    commit = subprocess.check_output(
+        ["git", "-C", probe, "rev-parse", "HEAD"], text=True
+    ).strip()
+    description = subprocess.check_output(
+        ["git", "-C", probe, "describe", "--always", "--dirty"], text=True
+    ).strip()
+    dirty = subprocess.check_output(
+        ["git", "-C", probe, "status", "--porcelain"], text=True
+    ).strip()
+    if commit != PINS[compositor]:
+        raise RuntimeError(
+            f"{compositor} source is {commit}, expected pinned commit {PINS[compositor]}"
+        )
+    if dirty or description.endswith("-dirty"):
+        raise RuntimeError(f"refusing to measure dirty {compositor} build ({description})")
+    return commit
+
+
+def reject_dirty_version(compositor: str, version: str, commit: str) -> None:
+    if re.search(r"(?:-dirty|-modified)\b", version) or commit.endswith(("-dirty", "-modified")):
+        raise RuntimeError(f"refusing to record dirty {compositor} build: {version}")
 
 
 def generate_commands(seed, steps):
@@ -809,6 +841,7 @@ def scenario_main(args, parser):
         parser.error("capture is restricted to sway")
     if args.binary.resolve() == Path(sys.executable).resolve() or not args.binary.exists():
         parser.error("--binary must name an existing compositor")
+    require_clean_binary(args.binary, args.compositor)
     scenarios, rules, rows = selected_scenarios(args.scenario), load_rules(), []
     if args.capture_events:
         scenarios = []
@@ -886,6 +919,8 @@ def scenario_main(args, parser):
     else:
         version = version_reply.get("human_readable", version_reply.get("loaded_config_file_name", "unknown"))
         commit = version_reply.get("commit", "unknown")
+    reject_dirty_version(args.compositor, version, commit)
+    commit = PINS[args.compositor]
     out = args.out or ROOT / f"sway-ipc/results/{args.compositor}.toml"
     run_mode = "fresh compositor per scenario" if args.fresh_per_scenario else "sequential, with output-count scenarios isolated"
     counts, difference_fields = write_results(out, args.compositor, version, commit, rows, rules, run_mode)
@@ -916,7 +951,10 @@ def write_differential_results(path, args, rows):
         "# One row is one seed; match and mismatch counts are always shown together.",
         "# Mismatches contain delta-debugged reproducers and require triage.", "",
         "[run]", f"a = {toml_string(args.a)}", f"b = {toml_string(args.b)}",
+        f"seed_start = {args.seed}", f"seed_end = {args.seed + len(rows) - 1}",
         f"steps = {args.steps}", f"seeds = {len(rows)}",
+        f"a_commit = {toml_string(PINS[args.a])}",
+        f"b_commit = {toml_string(PINS[args.b])}",
         f"date = {toml_string(datetime.date.today().isoformat())}",
         'normalization = "sway-ipc/normalize.toml"',
         "normalization_rules = [" + ", ".join(toml_string(name) for name in rule_names(rules)) + "]",
@@ -931,12 +969,7 @@ def write_differential_results(path, args, rows):
                       f"step = {row['step']}", f"request = {toml_string(row['request'])}",
                       "commands = [" + ", ".join(toml_string(x) for x in row["commands"]) + "]",
                       "differences = [" + ", ".join(toml_string(x) for x in row["differences"]) + "]",
-                      f"scenario = {toml_string(row['scenario'])}",
-                      f"triage = {toml_string(args.triage)}"]
-            if args.finding:
-                lines.append(f"finding = {toml_string(args.finding)}")
-            if args.source:
-                lines.append(f"source = {toml_string(args.source)}")
+                      f"scenario = {toml_string(row['scenario'])}"]
         lines.append("")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines))
@@ -948,6 +981,8 @@ def write_differential_results(path, args, rows):
 def differential_main(args):
     if args.a_binary is None or args.b_binary is None:
         raise RuntimeError("differential requires --a-binary and --b-binary")
+    require_clean_binary(args.a_binary, args.a)
+    require_clean_binary(args.b_binary, args.b)
     rows = []
     for seed in range(args.seed, args.seed + args.seeds):
         commands = generate_commands(seed, args.steps)
