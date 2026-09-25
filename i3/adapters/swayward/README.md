@@ -15,8 +15,9 @@ The launcher applies these premise-preserving translations before conversion:
   publishes the private `SWAYSOCK` itself.
 - Like the sway adapter, convert i3's `fake-outputs` directive into headless
   output count, mode, and position settings. Map each `fake-N` name to the
-  matching `headless-N+1` name at the config, command, and IPC boundaries;
-  swayward also maps i3's primary-output marker.
+  matching `headless-N+1` name at the config, command, and IPC boundaries,
+  including subscribed event payloads; swayward also maps i3's primary-output
+  marker.
 - Remove the exact `bar { output primary }` block from
   `316-drag-container.t`. The test uses the block only to identify the primary
   fake output, which the translated headless output already identifies.

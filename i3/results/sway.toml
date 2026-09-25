@@ -1891,10 +1891,7 @@ reason_verified = true
 adapted = ["fake-outputs->headless-outputs"]
 assertions = 9
 tap_plan = 9
-pass = 1
-fail = 8
-reason = "sway_tree_semantics_finding"
-reason_verified = true
+pass = 9
 
 [files."306-move-to-parent.t"]
 plan_unknown = true

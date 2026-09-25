@@ -8,6 +8,7 @@ output `content` node (`sway/sway/ipc-json.c:869-874`).
 
 Like the swayward adapter, it converts i3's `fake-outputs` directive into
 headless output count, mode, and position settings, then maps `fake-N` to
-`HEADLESS-(N+1)` at config and command boundaries and back at IPC boundaries.
+`HEADLESS-(N+1)` at config and command boundaries and back in IPC replies and
+subscribed event payloads.
 Rows affected by this translation carry `adapted =
 ["fake-outputs->headless-outputs"]` in `i3/results/sway.toml`.

@@ -129,7 +129,7 @@ Publish black-box results from the oracle's runners under the matching oracle's 
 
 ## i3 suite comparison
 
-These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record i3 **3,754/1/0**, sway **1,546/134/801**, and swayward **1,427/809/1,075**. All sway failures now carry a verified family classification. `contrib/validate` checks these hand-written summary figures, every table row, and matching boundary-family verdicts across the Wayland compositors against the TOML files.
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record i3 **3,754/1/0**, sway **1,554/134/793**, and swayward **1,466/809/1,036**. All sway failures now carry a verified family classification. `contrib/validate` checks these hand-written summary figures, every table row, and matching boundary-family verdicts across the Wayland compositors against the TOML files.
 
 | File | i3 P/S/F | sway P/S/F | swayward P/S/F |
 | --- | ---: | ---: | ---: |
@@ -298,14 +298,14 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `294-focus-order.t` | 61/0/0 | 1/0/0 | 0/60/1 |
 | `295-net-wm-state-focused.t` | 5/0/0 | 3/0/0 | 1/2/2 |
 | `296-regress-focus-behind-fullscreen-floating.t` | 1/0/0 | 1/0/0 | 1/0/0 |
-| `297-assign-workspace-to-output.t` | 25/0/0 | 13/0/12 | 5/0/20 |
+| `297-assign-workspace-to-output.t` | 25/0/0 | 13/0/12 | 13/0/12 |
 | `297-scroll-tabbed.t` | 16/0/0 | 1/0/0 | 1/0/15 |
 | `298-ipc-misbehaving-connection.t` | 2/0/0 | 1/0/1 | 1/0/1 |
 | `299-regress-scratchpad-focus.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `301-shape.t` | 4/0/0 | 1/0/1 | 1/2/1 |
 | `302-tree.t` | 15/0/0 | 0/0/0 | 0/0/15 |
 | `303-regress-move-floating.t` | 3/0/0 | 1/0/2 | 3/0/0 |
-| `304-ipc-workspace-init.t` | 9/0/0 | 1/0/8 | 0/0/9 |
+| `304-ipc-workspace-init.t` | 9/0/0 | 9/0/0 | 9/0/0 |
 | `306-move-to-parent.t` | 2/0/0 | 0/0/0 | 0/0/2 |
 | `307-focus-next-prev.t` | 9/0/0 | 0/0/0 | 0/0/9 |
 | `308-focus_wrapping.t` | 32/0/0 | 0/0/32 | 0/0/32 |
@@ -344,10 +344,10 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `515-create-workspace.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `516-move.t` | 14/0/0 | 9/0/3 | 6/2/6 |
 | `517-regress-move-direction-ipc.t` | 2/0/0 | 0/0/2 | 0/0/2 |
-| `518-interpret-workspace-numbers.t` | 4/0/0 | 3/0/1 | 0/0/4 |
+| `518-interpret-workspace-numbers.t` | 4/0/0 | 3/0/1 | 3/0/1 |
 | `519-mouse-warping.t` | 3/0/0 | 1/0/2 | 0/0/3 |
 | `520-regress-focus-direction-floating.t` | 1/0/0 | 0/0/1 | 1/0/0 |
-| `522-rename-assigned-workspace.t` | 9/0/0 | 3/0/4 | 1/2/6 |
+| `522-rename-assigned-workspace.t` | 9/0/0 | 3/0/4 | 4/2/3 |
 | `523-move-position-center.t` | 4/0/0 | 4/0/0 | 2/0/2 |
 | `524-move.t` | 38/0/0 | 36/0/2 | 26/0/12 |
 | `526-reconfigure-dock.t` | 3/0/0 | 0/0/3 | 0/0/3 |
@@ -362,7 +362,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `539-disable_focus_wrapping.t` | 10/0/0 | 10/0/0 | 10/0/0 |
 | `540-sigterm-cleanup.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `541-resize-set-tiling.t` | 32/0/0 | 20/0/12 | 30/0/2 |
-| `543-move-workspace-to-multiple-outputs.t` | 63/0/0 | 14/0/49 | 1/0/62 |
+| `543-move-workspace-to-multiple-outputs.t` | 63/0/0 | 14/0/49 | 17/0/46 |
 | `544-focus-multiple-outputs.t` | 41/0/0 | 8/0/33 | 8/0/33 |
 | `545-i3-registration.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `546-empty-bindcommand.t` | 1/0/0 | 1/0/0 | 1/0/0 |

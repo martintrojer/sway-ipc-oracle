@@ -177,12 +177,17 @@ if ($ENV{SWAY_CAL_CONTENT_SHIM}) {
     no warnings 'redefine';
     no strict 'refs';
 
+    my $workspace_nodes = sub {
+        my ($output) = @_;
+        my ($content) = grep { ($_->{type} // '') eq 'con' } @{$output->{nodes}};
+        return @{$content ? $content->{nodes} : $output->{nodes}};
+    };
     my $workspaces_of = sub {
         my $tree = _tree_object();
         my @ws;
         for my $output (@{$tree->{nodes}}) {
             next if ($output->{name} // '') eq '__i3';
-            push @ws, grep { ($_->{type} // '') eq 'workspace' } @{$output->{nodes}};
+            push @ws, grep { ($_->{type} // '') eq 'workspace' } $workspace_nodes->($output);
         }
         return @ws;
     };
@@ -200,6 +205,18 @@ if ($ENV{SWAY_CAL_CONTENT_SHIM}) {
         } elsif (ref($value) eq 'ARRAY') {
             $rename_output->($_) for @$value;
         }
+    };
+    my $subscribe = \&AnyEvent::I3::subscribe;
+    *AnyEvent::I3::subscribe = sub {
+        my ($self, $callbacks) = @_;
+        my %translated = map {
+            my ($name, $callback) = ($_, $callbacks->{$_});
+            $name => sub {
+                $rename_output->($_[0]);
+                $callback->(@_);
+            }
+        } keys %$callbacks;
+        return $subscribe->($self, \%translated);
     };
     my $get_outputs = \&AnyEvent::I3::get_outputs;
     *AnyEvent::I3::get_outputs = sub {
@@ -257,7 +274,7 @@ if ($ENV{SWAY_CAL_CONTENT_SHIM}) {
         my $tree = AnyEvent::I3::i3(i3test::get_socket_path())->get_tree->recv;
         for my $output (@{$tree->{nodes}}) {
             next if ($output->{name} // '') eq '__i3';
-            for my $ws (@{$output->{nodes}}) {
+            for my $ws ($workspace_nodes->($output)) {
                 return $output->{name} if ($ws->{name} // '') eq $ws_name;
             }
         }
