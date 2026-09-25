@@ -47,9 +47,9 @@ ENV ORACLE_CONTAINER=1 \
     I3_BINARY=/opt/i3-src/build/i3 \
     SWAY_BINARY=/opt/sway-src/build/sway/sway \
     SWAYWARD_BINARY=/opt/swayward-src/target/release/swayward \
-    XDG_RUNTIME_DIR=/tmp/oracle-runtime
+    XDG_RUNTIME_DIR=/run/oracle-runtime
 
-RUN mkdir -m 700 /tmp/oracle-runtime \
+RUN mkdir -m 700 /run/oracle-runtime \
     && git config --system --add safe.directory /oracle
 
 WORKDIR /oracle

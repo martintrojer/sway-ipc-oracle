@@ -19,6 +19,9 @@ if [[ ${1:-} == reproduce ]]; then
         echo 'reproduce must run in the oracle container; see README.md' >&2
         exit 2
     }
+    # Fast canaries stop a broken harness before it spends an hour producing
+    # measurements. The post-run checks below also protect direct full runs.
+    canaries=(003-ipc.t 104-focus-stack.t 112-floating-resize.t 134-invalid-command.t 136-floating-ws-empty.t)
     sanity_check() {
         compositor=$1
         python3 - "$compositor" <<'PY'
@@ -66,6 +69,9 @@ PY
         esac
         parallel=1
         [[ $compositor == i3 ]] && parallel=4
+        ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
+            --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel" \
+            --require-complete "${canaries[@]}"
         ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
             --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel"
         sanity_check "$compositor"
