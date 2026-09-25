@@ -5,17 +5,17 @@
 
 [run]
 compositor = "swayward"
-version = "26.04 (v26.04-123-gb420c1a4-modified)"
-commit = "b420c1a4-modified"
-oracle_commit = "52c5ce955eafc8313b6f298738ffff5422933ce1"
-date = "2026-09-24"
+version = "26.04 (3278f9b3)"
+commit = "3278f9b3f5fe84715fd092b533c407ffc12412d1"
+oracle_commit = "b3459d854e42496cea658d529dfa6e4146a2f9de"
+date = "2026-09-25"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 0
-match = 90
-mismatch = 0
-not_applicable = 3
+difference_fields = 1
+match = 92
+mismatch = 1
+not_applicable = 0
 
 [[result]]
 scenario = "empty"
@@ -275,7 +275,8 @@ verdict = "match"
 [[result]]
 scenario = "two_outputs"
 request = "tree"
-verdict = "match"
+verdict = "mismatch"
+differences = ["$tree.nodes[1].focus: child-position order differs"]
 
 [[result]]
 scenario = "two_outputs"
@@ -455,20 +456,17 @@ verdict = "match"
 [[result]]
 scenario = "disabled_output_evacuation"
 request = "tree"
-verdict = "not applicable"
-reason = "The swayward oracle adapter uses its synthetic headless backend, whose output-config hook changes modes but cannot disconnect an output; the production DRM backend implements disable. Source: swayward src/backend/headless.rs Headless::on_output_config_changed and src/backend/tty.rs Tty::on_output_config_changed."
+verdict = "match"
 
 [[result]]
 scenario = "disabled_output_evacuation"
 request = "workspaces"
-verdict = "not applicable"
-reason = "The swayward oracle adapter uses its synthetic headless backend, whose output-config hook changes modes but cannot disconnect an output; the production DRM backend implements disable. Source: swayward src/backend/headless.rs Headless::on_output_config_changed and src/backend/tty.rs Tty::on_output_config_changed."
+verdict = "match"
 
 [[result]]
 scenario = "disabled_output_evacuation"
 request = "outputs"
-verdict = "not applicable"
-reason = "The swayward oracle adapter uses its synthetic headless backend, whose output-config hook changes modes but cannot disconnect an output; the production DRM backend implements disable. Source: swayward src/backend/headless.rs Headless::on_output_config_changed and src/backend/tty.rs Tty::on_output_config_changed."
+verdict = "match"
 
 [[result]]
 scenario = "differential_seed_0"

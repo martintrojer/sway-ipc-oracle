@@ -10,244 +10,639 @@ seed_end = 199
 steps = 30
 seeds = 200
 a_commit = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
-b_commit = "850a6eb2"
-date = "2026-09-24"
+b_commit = "3278f9b3f5fe84715fd092b533c407ffc12412d1"
+date = "2026-09-25"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
-difference_fields = 12
-match = 0
-mismatch = 200
+difference_fields = 59
+match = 4
+mismatch = 196
 
 [[result]]
 seed = 0
 verdict = "mismatch"
-seeds = [0, 5, 26, 29, 46, 51, 52, 53, 65, 73, 74, 88, 95, 99, 110, 118, 121, 130, 136, 138, 159, 160, 167, 168, 175, 199]
-step = 1
-request = "command"
-commands = ["resize grow width 10 px"]
-differences = ["$command[0]: keys differ"]
+seeds = [0, 125, 194]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "move container to workspace 2"]
+differences = ["$tree.nodes[1].focus: child-position order differs"]
 scenario = "differential_seed_0"
-triage = "swayward-ipc-command-error-shape"
 
 [[result]]
 seed = 1
 verdict = "mismatch"
-seeds = [1, 10, 13, 17, 19, 43, 82, 100, 129, 142, 145, 152, 153, 173, 183, 185, 191, 192, 196]
-step = 1
-request = "command"
-commands = ["scratchpad show"]
-differences = ["$command[0]: keys differ"]
+seeds = [1]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "move container to workspace 2"]
+differences = ["$tree.nodes[1].focus: child-position order differs"]
 scenario = "differential_seed_1"
-triage = "swayward-ipc-command-error-shape"
 
 [[result]]
 seed = 2
 verdict = "mismatch"
-seeds = [2, 8, 23, 58, 68, 76, 178]
+seeds = [2, 6, 31, 55, 156, 186, 190]
 step = 2
-request = "tree"
-commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "kill"]
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "resize shrink height 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
 scenario = "differential_seed_2"
-triage = "swayward-ipc-empty-workspace-representation"
 
 [[result]]
 seed = 3
 verdict = "mismatch"
-seeds = [3, 11, 42, 44, 48, 55, 56, 61, 64, 72, 80, 101, 106, 115, 117, 124, 134, 139, 155, 161, 171, 193]
-step = 1
+seeds = [3, 11, 44, 48, 56, 61, 64, 80, 81, 101, 106, 115, 124, 134, 155, 161, 171, 193]
+step = 2
 request = "command"
-commands = ["resize shrink height 10 px"]
-differences = ["$command[0]: keys differ"]
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "resize shrink height 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
 scenario = "differential_seed_3"
-triage = "swayward-ipc-command-error-shape"
 
 [[result]]
 seed = 4
 verdict = "mismatch"
-seeds = [4, 38, 49, 69, 78, 85, 86, 94, 105, 114, 140, 148, 149, 158, 176, 181, 186, 198]
-step = 1
+seeds = [4, 19, 38, 69, 78, 94, 105, 114, 140, 158, 181]
+step = 2
 request = "tree"
-commands = ["layout splitv"]
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "layout splitv"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splitv' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].representation: 'H[V[fixture-diff-1]]' != 'V[fixture-diff-1]'"]
 scenario = "differential_seed_4"
-triage = "swayward-ipc-empty-workspace-representation"
 
 [[result]]
-seed = 6
+seed = 5
 verdict = "mismatch"
-seeds = [6, 24, 33, 37, 71, 98, 135, 188]
-step = 1
-request = "command"
-commands = ["move scratchpad"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
-scenario = "differential_seed_6"
-triage = "swayward-empty-workspace-command-errors"
+seeds = [5]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "kill", "splitv"]
+differences = ["$tree.nodes[1].nodes[0].representation: 'H[]' != 'V[]'"]
+scenario = "differential_seed_5"
 
 [[result]]
 seed = 7
 verdict = "mismatch"
-seeds = [7, 35, 54, 79]
+seeds = [7, 50, 67, 109, 196]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move container to workspace 2"]
+differences = ["$tree.nodes[1].focus: child-position order differs"]
+scenario = "differential_seed_7"
+
+[[result]]
+seed = 8
+verdict = "mismatch"
+seeds = [8, 22, 24, 34, 37, 45, 46, 90, 110, 126, 151, 153, 157, 162, 167, 174]
 step = 1
 request = "tree"
-commands = ["layout tabbed"]
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
-scenario = "differential_seed_7"
-triage = "swayward-ipc-empty-workspace-representation"
+commands = ["layout splith"]
+differences = ["$tree.nodes[1].nodes[0].representation: type NoneType != str"]
+scenario = "differential_seed_8"
 
 [[result]]
 seed = 9
 verdict = "mismatch"
-seeds = [9, 21, 62, 146, 165]
-step = 1
+seeds = [9, 39]
+step = 2
 request = "tree"
-commands = ["layout stacking"]
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
+commands = ["layout stacking", "splith"]
+differences = ["$tree.nodes[1].nodes[0].representation: 'S[]' != 'H[]'"]
 scenario = "differential_seed_9"
-triage = "swayward-ipc-empty-workspace-representation"
+
+[[result]]
+seed = 10
+verdict = "mismatch"
+seeds = [10]
+step = 5
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move scratchpad", "scratchpad show", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].focus: child-position order differs"]
+scenario = "differential_seed_10"
 
 [[result]]
 seed = 12
 verdict = "mismatch"
-seeds = [12, 27, 28, 31, 32, 63, 77, 87, 89, 90, 91, 123, 128, 137, 157, 179]
-step = 3
+seeds = [12]
+step = 4
 request = "tree"
-commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'"]
-differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[2].percent: 0.3328125 != 0.3333333333333333"]
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "fullscreen toggle", "splith"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].fullscreen_mode: 1 != 0", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].fullscreen_mode: 0 != 1"]
 scenario = "differential_seed_12"
-triage = "swayward-oracle-tiled-percent-and-urgent-rect"
+
+[[result]]
+seed = 13
+verdict = "mismatch"
+seeds = [13]
+step = 4
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "move scratchpad", "scratchpad show", "layout tabbed"]
+differences = ["$command[0]: keys differ"]
+scenario = "differential_seed_13"
 
 [[result]]
 seed = 14
 verdict = "mismatch"
-seeds = [14, 15, 20, 57, 66, 83, 104, 143, 151, 156, 195]
-step = 1
-request = "command"
-commands = ["sticky toggle"]
-differences = ["$command[0]: keys differ"]
+seeds = [14, 18, 41, 123]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "layout splitv"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splitv' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].representation: 'H[V[fixture-diff-3]]' != 'V[fixture-diff-3]'"]
 scenario = "differential_seed_14"
-triage = "swayward-ipc-command-error-shape"
+
+[[result]]
+seed = 15
+verdict = "mismatch"
+seeds = [15, 104, 107, 166]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "move container to workspace 2"]
+differences = ["$tree.nodes[1].focus: child-position order differs"]
+scenario = "differential_seed_15"
 
 [[result]]
 seed = 16
 verdict = "mismatch"
-seeds = [16, 45, 50, 93, 113, 133, 141, 150, 164, 177, 187]
-step = 1
-request = "command"
-commands = ["move down"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
+seeds = [16]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
 scenario = "differential_seed_16"
-triage = "swayward-empty-workspace-command-errors"
 
 [[result]]
-seed = 18
+seed = 17
 verdict = "mismatch"
-seeds = [18]
+seeds = [17, 77, 87, 138, 146, 179]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "resize shrink height 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_17"
+
+[[result]]
+seed = 20
+verdict = "mismatch"
+seeds = [20, 75]
 step = 2
 request = "tree"
-commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "kill"]
-differences = ["$tree.nodes[1].nodes[0].representation: type str != NoneType"]
-scenario = "differential_seed_18"
-triage = "swayward-ipc-empty-workspace-representation"
+commands = ["exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "move container to workspace 2"]
+differences = ["$tree.nodes[1].focus: child-position order differs"]
+scenario = "differential_seed_20"
 
 [[result]]
-seed = 22
+seed = 21
 verdict = "mismatch"
-seeds = [22, 102, 132, 154, 162, 166, 194]
-step = 1
+seeds = [21]
+step = 4
 request = "command"
-commands = ["move right"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
-scenario = "differential_seed_22"
-triage = "swayward-empty-workspace-command-errors"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move scratchpad", "scratchpad show", "layout stacking"]
+differences = ["$command[0]: keys differ"]
+scenario = "differential_seed_21"
+
+[[result]]
+seed = 23
+verdict = "mismatch"
+seeds = [23]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-11 --title=fixture-diff-11 sh -c 'sleep 300'", "resize shrink height 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_23"
 
 [[result]]
 seed = 25
 verdict = "mismatch"
-seeds = [25, 36, 59, 67, 75, 84, 96, 119, 122, 170, 172, 184]
-step = 1
-request = "command"
-commands = ["move container to workspace 2"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
+seeds = [25, 36, 59, 84, 96, 103, 119, 122, 133, 170, 172, 184, 191]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "move container to workspace 2"]
+differences = ["$tree.nodes[1].focus: child-position order differs"]
 scenario = "differential_seed_25"
-triage = "swayward-empty-workspace-command-errors"
+
+[[result]]
+seed = 26
+verdict = "mismatch"
+seeds = [26, 137, 144, 183, 192]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "resize grow width 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_26"
+
+[[result]]
+seed = 27
+verdict = "mismatch"
+seeds = [27]
+step = 3
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "focus parent", "move scratchpad"]
+differences = ["$command[0]: keys differ", "$command[0].success: True != False"]
+scenario = "differential_seed_27"
+
+[[result]]
+seed = 28
+verdict = "mismatch"
+seeds = [28, 152, 163]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-7 --title=fixture-diff-7 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
+scenario = "differential_seed_28"
+
+[[result]]
+seed = 29
+verdict = "mismatch"
+seeds = [29, 47, 51, 52, 65, 73, 74, 88, 95, 130, 136, 145, 159, 168, 173, 175, 199]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "resize grow width 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_29"
 
 [[result]]
 seed = 30
 verdict = "mismatch"
-seeds = [30, 39, 125]
-step = 1
-request = "command"
-commands = ["mark oracle"]
-differences = ["$command[0]: keys differ"]
+seeds = [30, 116, 169]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
 scenario = "differential_seed_30"
-triage = "swayward-ipc-command-error-shape"
 
 [[result]]
-seed = 34
+seed = 32
 verdict = "mismatch"
-seeds = [34, 41, 47, 60, 92, 97, 107, 120, 126, 127, 189]
-step = 1
-request = "command"
-commands = ["floating toggle"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
-scenario = "differential_seed_34"
-triage = "swayward-empty-workspace-command-errors"
+seeds = [32]
+step = 4
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "fullscreen toggle"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.33333333333333337"]
+scenario = "differential_seed_32"
+
+[[result]]
+seed = 33
+verdict = "mismatch"
+seeds = [33, 129]
+step = 2
+request = "tree"
+commands = ["layout stacking", "splitv"]
+differences = ["$tree.nodes[1].nodes[0].representation: 'S[]' != 'V[]'"]
+scenario = "differential_seed_33"
+
+[[result]]
+seed = 35
+verdict = "mismatch"
+seeds = [35, 83]
+step = 2
+request = "tree"
+commands = ["layout tabbed", "splitv"]
+differences = ["$tree.nodes[1].nodes[0].representation: 'T[]' != 'V[]'"]
+scenario = "differential_seed_35"
 
 [[result]]
 seed = 40
 verdict = "mismatch"
-seeds = [40, 190]
-step = 1
-request = "command"
-commands = ["move container to workspace 1"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
+seeds = [40]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "sticky toggle", "move scratchpad"]
+differences = ["$tree.nodes[0].nodes[0].floating_nodes[0].sticky: True != False"]
 scenario = "differential_seed_40"
-triage = "swayward-empty-workspace-command-errors"
 
 [[result]]
-seed = 70
+seed = 42
 verdict = "mismatch"
-seeds = [70, 81, 103, 109, 112, 144, 147, 163, 174, 182, 197]
-step = 1
+seeds = [42, 72, 76, 117, 131, 139, 178]
+step = 2
 request = "command"
-commands = ["move up"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
-scenario = "differential_seed_70"
-triage = "swayward-empty-workspace-command-errors"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "resize shrink height 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_42"
+
+[[result]]
+seed = 43
+verdict = "mismatch"
+seeds = [43, 54, 112]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].deco_rect: outer-rect relationship differs", "$tree.nodes[1].nodes[0].nodes[1].deco_rect: titlebar presence differs"]
+scenario = "differential_seed_43"
+
+[[result]]
+seed = 49
+verdict = "mismatch"
+seeds = [49, 66, 85, 142, 148, 176, 188, 198]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "layout splitv"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splitv' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].representation: 'H[V[fixture-diff-2]]' != 'V[fixture-diff-2]'"]
+scenario = "differential_seed_49"
+
+[[result]]
+seed = 53
+verdict = "mismatch"
+seeds = [53, 70, 82, 99, 118, 121, 160]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "resize grow width 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_53"
+
+[[result]]
+seed = 57
+verdict = "mismatch"
+seeds = [57, 60]
+step = 3
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "focus parent", "sticky toggle"]
+differences = ["$command[0]: keys differ", "$command[0].error: 'No current container' != 'floating container groups are not supported'"]
+scenario = "differential_seed_57"
+
+[[result]]
+seed = 58
+verdict = "mismatch"
+seeds = [58]
+step = 3
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "floating toggle", "layout tabbed"]
+differences = ["$command[0]: keys differ"]
+scenario = "differential_seed_58"
+
+[[result]]
+seed = 62
+verdict = "mismatch"
+seeds = [62]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "resize grow width 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_62"
+
+[[result]]
+seed = 63
+verdict = "mismatch"
+seeds = [63, 187]
+step = 2
+request = "tree"
+commands = ["layout tabbed", "splith"]
+differences = ["$tree.nodes[1].nodes[0].representation: 'T[]' != 'H[]'"]
+scenario = "differential_seed_63"
+
+[[result]]
+seed = 68
+verdict = "mismatch"
+seeds = [68]
+step = 3
+request = "tree"
+commands = ["splitv", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "layout splith"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'horizontal' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[H[fixture-diff-2]]' != 'H[fixture-diff-2]'"]
+scenario = "differential_seed_68"
+
+[[result]]
+seed = 71
+verdict = "mismatch"
+seeds = [71]
+step = 4
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "floating toggle", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].focus: child-position order differs"]
+scenario = "differential_seed_71"
+
+[[result]]
+seed = 79
+verdict = "mismatch"
+seeds = [79]
+step = 3
+request = "tree"
+commands = ["layout stacking", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "move scratchpad"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'stacked' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'none' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'S[]' != 'H[]'"]
+scenario = "differential_seed_79"
+
+[[result]]
+seed = 86
+verdict = "match"
+
+[[result]]
+seed = 89
+verdict = "mismatch"
+seeds = [89]
+step = 3
+request = "tree"
+commands = ["layout tabbed", "exec foot --app-id=fixture-diff-8 --title=fixture-diff-8 sh -c 'sleep 300'", "layout tabbed"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'normal' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 2 != 0", "$tree.nodes[1].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[0].layout: 'none' != 'tabbed'", "$tree.nodes[1].nodes[0].nodes[0].name: type str != NoneType", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 0 != 1", "$tree.nodes[1].nodes[0].nodes[0].percent: 1.0 != 0.9625", "$tree.nodes[1].nodes[0].representation: 'T[fixture-diff-8]' != 'T[T[fixture-diff-8]]'"]
+scenario = "differential_seed_89"
+
+[[result]]
+seed = 91
+verdict = "match"
+
+[[result]]
+seed = 92
+verdict = "mismatch"
+seeds = [92]
+step = 3
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "floating toggle", "layout stacking"]
+differences = ["$command[0]: keys differ"]
+scenario = "differential_seed_92"
+
+[[result]]
+seed = 93
+verdict = "match"
+
+[[result]]
+seed = 97
+verdict = "mismatch"
+seeds = [97, 197]
+step = 4
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "floating toggle", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].focus: child-position order differs"]
+scenario = "differential_seed_97"
+
+[[result]]
+seed = 98
+verdict = "mismatch"
+seeds = [98]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move down", "move scratchpad"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
+scenario = "differential_seed_98"
+
+[[result]]
+seed = 100
+verdict = "mismatch"
+seeds = [100]
+step = 3
+request = "tree"
+commands = ["layout tabbed", "exec foot --app-id=fixture-diff-8 --title=fixture-diff-8 sh -c 'sleep 300'", "move scratchpad"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'tabbed' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'none' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'T[]' != 'H[]'"]
+scenario = "differential_seed_100"
+
+[[result]]
+seed = 102
+verdict = "mismatch"
+seeds = [102]
+step = 5
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "layout stacking", "move left", "move right"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].nodes[0].app_id: 'fixture-diff-2' != 'fixture-diff-1'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].name: 'fixture-diff-2' != 'fixture-diff-1'", "$tree.nodes[1].nodes[0].nodes[0].nodes[0].visible: True != False", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].app_id: 'fixture-diff-1' != 'fixture-diff-2'", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].name: 'fixture-diff-1' != 'fixture-diff-2'", "$tree.nodes[1].nodes[0].nodes[0].nodes[1].visible: False != True", "$tree.nodes[1].nodes[0].representation: 'H[S[fixture-diff-2 fixture-diff-1]]' != 'H[S[fixture-diff-1 fixture-diff-2]]'"]
+scenario = "differential_seed_102"
 
 [[result]]
 seed = 108
 verdict = "mismatch"
 seeds = [108]
-step = 3
+step = 4
 request = "tree"
-commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'"]
-differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[2].percent: 0.3328125 != 0.3333333333333333"]
+commands = ["exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "fullscreen toggle", "splitv"]
+differences = ["$tree.nodes[1].nodes[0].nodes[1].fullscreen_mode: 1 != 0", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].fullscreen_mode: 0 != 1"]
 scenario = "differential_seed_108"
-triage = "swayward-oracle-tiled-percent-and-urgent-rect"
 
 [[result]]
 seed = 111
 verdict = "mismatch"
-seeds = [111, 131]
-step = 1
+seeds = [111]
+step = 3
 request = "command"
-commands = ["move left"]
-differences = ["$command[0].success: False != True", "$command[0]: keys differ"]
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "focus parent", "move left"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
 scenario = "differential_seed_111"
-triage = "swayward-empty-workspace-command-errors"
 
 [[result]]
-seed = 116
+seed = 113
 verdict = "mismatch"
-seeds = [116, 169]
+seeds = [113]
+step = 4
+request = "tree"
+commands = ["workspace 2", "exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "splitv", "move container to workspace 1"]
+differences = ["$tree.nodes[1].nodes[1].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[1].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[1].representation: 'V[]' != 'H[]'"]
+scenario = "differential_seed_113"
+
+[[result]]
+seed = 120
+verdict = "mismatch"
+seeds = [120]
+step = 4
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-9 --title=fixture-diff-9 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-10 --title=fixture-diff-10 sh -c 'sleep 300'", "fullscreen toggle"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.33333333333333337", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.33333333333333337"]
+scenario = "differential_seed_120"
+
+[[result]]
+seed = 127
+verdict = "mismatch"
+seeds = [127]
 step = 3
 request = "tree"
-commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "fullscreen toggle", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'"]
-differences = ["$tree.nodes[1].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[0].percent: 1.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[1].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[1].focused: False != True", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.0 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].visible: False != True"]
-scenario = "differential_seed_116"
-triage = "swayward-fullscreen-map-tree-state"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "floating toggle", "splith"]
+differences = ["$tree.nodes[1].nodes[0].floating_nodes[0]: keys differ", "$tree.nodes[1].nodes[0].floating_nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].floating_nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].floating_nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].floating_nodes[0].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].floating_nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].floating_nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].floating_nodes[0].orientation: 'horizontal' != 'none'"]
+scenario = "differential_seed_127"
+
+[[result]]
+seed = 128
+verdict = "mismatch"
+seeds = [128]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "resize grow width 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_128"
+
+[[result]]
+seed = 132
+verdict = "mismatch"
+seeds = [132]
+step = 5
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-5 --title=fixture-diff-5 sh -c 'sleep 300'", "move up", "move left"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].app_id: 'fixture-diff-4' != 'fixture-diff-3'", "$tree.nodes[1].nodes[0].nodes[1].name: 'fixture-diff-4' != 'fixture-diff-3'", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.25", "$tree.nodes[1].nodes[0].nodes[2].app_id: 'fixture-diff-3' != 'fixture-diff-4'", "$tree.nodes[1].nodes[0].nodes[2].name: 'fixture-diff-3' != 'fixture-diff-4'", "$tree.nodes[1].nodes[0].nodes[2].percent: 0.3328125 != 0.25", "$tree.nodes[1].nodes[0].representation: 'H[fixture-diff-5 fixture-diff-4 fixture-diff-3]' != 'H[fixture-diff-5 fixture-diff-3 fixture-diff-4]'"]
+scenario = "differential_seed_132"
+
+[[result]]
+seed = 135
+verdict = "match"
+
+[[result]]
+seed = 141
+verdict = "mismatch"
+seeds = [141]
+step = 3
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "focus parent", "move scratchpad"]
+differences = ["$command[0]: keys differ", "$command[0].success: True != False"]
+scenario = "differential_seed_141"
+
+[[result]]
+seed = 143
+verdict = "mismatch"
+seeds = [143, 164]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-6 --title=fixture-diff-6 sh -c 'sleep 300'", "resize shrink height 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_143"
+
+[[result]]
+seed = 147
+verdict = "mismatch"
+seeds = [147]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "layout tabbed", "move up"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'normal' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 2 != 0", "$tree.nodes[1].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[0].layout: 'none' != 'tabbed'", "$tree.nodes[1].nodes[0].nodes[0].name: type str != NoneType", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 0 != 1", "$tree.nodes[1].nodes[0].representation: 'V[fixture-diff-1]' != 'V[T[fixture-diff-1]]'"]
+scenario = "differential_seed_147"
+
+[[result]]
+seed = 149
+verdict = "mismatch"
+seeds = [149]
+step = 2
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-7 --title=fixture-diff-7 sh -c 'sleep 300'", "layout splitv"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splitv' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'vertical' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].representation: 'H[V[fixture-diff-7]]' != 'V[fixture-diff-7]'"]
+scenario = "differential_seed_149"
+
+[[result]]
+seed = 150
+verdict = "mismatch"
+seeds = [150]
+step = 3
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "focus parent", "move container to workspace 1"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'horizontal' != 'none'", "$tree.nodes[1].nodes[0].representation: 'H[H[fixture-diff-1]]' != 'H[fixture-diff-1]'"]
+scenario = "differential_seed_150"
+
+[[result]]
+seed = 154
+verdict = "mismatch"
+seeds = [154]
+step = 4
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "splith", "move right"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.5 != 0.66640625", "$tree.nodes[1].nodes[0].nodes[1]: keys differ", "$tree.nodes[1].nodes[0].nodes[1].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[1].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[1].focused: False != True", "$tree.nodes[1].nodes[0].nodes[1].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].nodes[1].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[1].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[1].orientation: 'horizontal' != 'none'", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.5 != 0.33359375", "$tree.nodes[1].nodes[0].representation: 'H[fixture-diff-1 H[fixture-diff-2]]' != 'H[fixture-diff-1 fixture-diff-2]'"]
+scenario = "differential_seed_154"
+
+[[result]]
+seed = 165
+verdict = "mismatch"
+seeds = [165]
+step = 6
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "move down", "layout stacking", "focus parent", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].nodes[0].percent: 0.85 != 0.925"]
+scenario = "differential_seed_165"
+
+[[result]]
+seed = 177
+verdict = "mismatch"
+seeds = [177]
+step = 3
+request = "tree"
+commands = ["layout splitv", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "layout splith"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].nodes[0]: keys differ", "$tree.nodes[1].nodes[0].nodes[0].border: 'none' != 'normal'", "$tree.nodes[1].nodes[0].nodes[0].current_border_width: 0 != 2", "$tree.nodes[1].nodes[0].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[0].layout: 'splith' != 'none'", "$tree.nodes[1].nodes[0].nodes[0].name: type NoneType != str", "$tree.nodes[1].nodes[0].nodes[0].nodes: length 1 != 0", "$tree.nodes[1].nodes[0].nodes[0].orientation: 'horizontal' != 'none'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[H[fixture-diff-2]]' != 'H[fixture-diff-2]'"]
+scenario = "differential_seed_177"
 
 [[result]]
 seed = 180
@@ -255,7 +650,46 @@ verdict = "mismatch"
 seeds = [180]
 step = 3
 request = "tree"
-commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "fullscreen toggle"]
-differences = ["$tree.nodes[1].nodes[0].nodes[0].visible: False != True", "$tree.nodes[1].nodes[0].nodes[1].percent: 1.0 != 0.5"]
+commands = ["exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "fullscreen toggle", "floating toggle"]
+differences = ["$tree.nodes[1].nodes[0].floating_nodes[0].fullscreen_mode: 1 != 0"]
 scenario = "differential_seed_180"
-triage = "swayward-fullscreen-map-tree-state"
+
+[[result]]
+seed = 182
+verdict = "mismatch"
+seeds = [182]
+step = 4
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "splitv", "move up"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].nodes[0].app_id: 'fixture-diff-2' != 'fixture-diff-1'", "$tree.nodes[1].nodes[0].nodes[0].focused: True != False", "$tree.nodes[1].nodes[0].nodes[0].name: 'fixture-diff-2' != 'fixture-diff-1'", "$tree.nodes[1].nodes[0].nodes[1].layout: 'splith' != 'splitv'", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].app_id: 'fixture-diff-1' != 'fixture-diff-2'", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].focused: False != True", "$tree.nodes[1].nodes[0].nodes[1].nodes[0].name: 'fixture-diff-1' != 'fixture-diff-2'", "$tree.nodes[1].nodes[0].nodes[1].orientation: 'horizontal' != 'vertical'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[fixture-diff-2 H[fixture-diff-1]]' != 'H[fixture-diff-1 V[fixture-diff-2]]'"]
+scenario = "differential_seed_182"
+
+[[result]]
+seed = 185
+verdict = "mismatch"
+seeds = [185]
+step = 5
+request = "tree"
+commands = ["exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-2 --title=fixture-diff-2 sh -c 'sleep 300'", "exec foot --app-id=fixture-diff-3 --title=fixture-diff-3 sh -c 'sleep 300'", "move down", "move left"]
+differences = ["$tree.nodes[1].nodes[0].nodes[0].percent: 0.33359375 != 0.5", "$tree.nodes[1].nodes[0].nodes[1].app_id: 'fixture-diff-2' != 'fixture-diff-1'", "$tree.nodes[1].nodes[0].nodes[1].name: 'fixture-diff-2' != 'fixture-diff-1'", "$tree.nodes[1].nodes[0].nodes[1].percent: 0.33359375 != 0.25", "$tree.nodes[1].nodes[0].nodes[2].app_id: 'fixture-diff-1' != 'fixture-diff-2'", "$tree.nodes[1].nodes[0].nodes[2].name: 'fixture-diff-1' != 'fixture-diff-2'", "$tree.nodes[1].nodes[0].nodes[2].percent: 0.3328125 != 0.25", "$tree.nodes[1].nodes[0].representation: 'H[fixture-diff-3 fixture-diff-2 fixture-diff-1]' != 'H[fixture-diff-3 fixture-diff-1 fixture-diff-2]'"]
+scenario = "differential_seed_185"
+
+[[result]]
+seed = 189
+verdict = "mismatch"
+seeds = [189]
+step = 2
+request = "command"
+commands = ["exec foot --app-id=fixture-diff-8 --title=fixture-diff-8 sh -c 'sleep 300'", "resize grow width 10 px"]
+differences = ["$command[0]: keys differ", "$command[0].success: False != True"]
+scenario = "differential_seed_189"
+
+[[result]]
+seed = 195
+verdict = "mismatch"
+seeds = [195]
+step = 3
+request = "tree"
+commands = ["layout splitv", "exec foot --app-id=fixture-diff-4 --title=fixture-diff-4 sh -c 'sleep 300'", "kill"]
+differences = ["$tree.nodes[1].nodes[0].layout: 'splitv' != 'splith'", "$tree.nodes[1].nodes[0].orientation: 'vertical' != 'horizontal'", "$tree.nodes[1].nodes[0].representation: 'V[]' != 'H[]'"]
+scenario = "differential_seed_195"

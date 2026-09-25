@@ -1,497 +1,676 @@
-# Curated result of an unchanged upstream i3 test-suite run.
+# Generated raw result of an unchanged upstream i3 test-suite run.
 # Counts use the first unindented TAP plan and first TAP stream.
 # pass, skip, fail, and unreached together cover each emitted plan.
 
 [run]
 compositor = "swayward"
-version = "swayward 26.04 (v26.04-123-gb420c1a4)"
-commit = "b420c1a4316af8ed55c83d73fbad93d66f4d8530"
+version = "swayward 26.04 (3278f9b3)"
+commit = "3278f9b3f5fe84715fd092b533c407ffc12412d1"
 i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
-
-[families]
-sway_config_include_ipc = "Sway's GET_VERSION reports only the top-level loaded config path, and GET_CONFIG returns only the assembled current config string. It does not expose i3's included_config_file_names or included_configs metadata."
-sway_hidden_scratchpad_floating = "Sway deliberately rejects floating changes on a hidden scratchpad container, while i3 accepts the commands exercised by this regression test."
-xwayland_satellite_no_x11_class = "Swayward receives xwayland-satellite windows as xdg_toplevels whose app_id contains WM_CLASS; it does not receive a separate X11 class field for sway class criteria."
-xwayland_satellite_metadata_limit = "Swayward receives X11 windows from xwayland-satellite as xdg_toplevels. The satellite does not forward X11 window type, XID, requested client geometry, size hints, or WM_HINTS urgency, so assertions whose setup or observation requires those properties cannot measure swayward behavior."
-i3_parser_internals = "These tests execute i3 build-only parser binaries and assert i3 parser callbacks and diagnostics, not compositor IPC behavior. Sway has no corresponding standalone parser executables."
-sway_no_append_layout = "Sway deliberately omits i3 append_layout and its placeholder/swallow layout restoration model; the command is absent from sway runtime handlers."
-sway_command_vocabulary = "These assertions require i3-only command spellings: open creates an empty container and 1pixel aliases border pixel. Sway implements neither spelling."
-sway_config_text = "Sway parses its own extended config and GET_CONFIG returns the text sway actually read, including joined continuation lines; an i3 config transformed by the adapter cannot equal the original bytes."
-i3_fake_outputs = "These tests require i3's test-only fake-outputs option to create named virtual outputs. Sway has no fake-outputs config command and retains its single HEADLESS-1 output, so assertions about the missing fake-* topology do not apply."
-i3_append_layout = "i3 exposes append_layout as a runtime command. Sway's runtime command table has no append_layout handler, so i3 layout-restore assertions do not apply."
-i3_open_command = "i3 exposes a test-oriented open runtime command that creates an empty container. Sway's runtime command table has no open handler, so assertions about empty containers created this way do not apply."
-sway_ipc_root_border_width = "i3 reports -1 as the root node's unset current_border_width. Sway deliberately initializes synthetic IPC nodes, including the root, with current_border_width 0."
-sway_ipc_internal_border_width = "i3 reports -1 as sentinel border metadata on internal containers. Sway reports current border thickness and initializes non-view containers to 0."
-workspace_layout_stacked_keyword = "i3 accepts workspace_layout stacked. Sway accepts stacking instead and rejects stacked, so assertions made after loading the i3 spelling do not apply."
-headless_xtest_boundary = "The headless harness cannot deliver XTEST events from Xwayland to a Wayland compositor, so assertions that depend on those events are not measured."
-xwayland_satellite_kill_disconnects_client = "Swayward sends xdg_toplevel.close when its kill command closes an Xwayland surface. xwayland-satellite handles that event by sending X KillClient when WM_DELETE_WINDOW is absent; i3 instead destroys only the selected window for its default kill mode. i3test creates every test window on one connection without WM_PROTOCOLS, so later assertions cannot run after the first kill."
-swayward_geometry_finding = "Focused black-box reruns disagree with the pinned sway run on X11 window geometry, border, size-hint, floating-size, or centering assertions. These are swayward compatibility failures."
-swayward_mapping_finding = "Focused black-box reruns disagree with the pinned sway run on which X11 windows are mapped, managed, floating, or represented in the IPC tree. These are swayward compatibility failures."
-swayward_tree_finding = "Focused black-box reruns disagree with the pinned sway run on workspace, focus, layout, resize, urgency, mark, or move tree state. These are swayward compatibility failures."
-swayward_ipc_finding = "Focused black-box reruns disagree with the pinned sway run on IPC fields, events, command errors, or connection behavior. These are swayward compatibility failures."
-swayward_command_finding = "Focused black-box reruns disagree with the pinned sway run on command success or effects. These are swayward compatibility failures."
-swayward_adapter_finding = "Focused black-box reruns expose a swayward adapter or process-lifecycle mismatch not present in the pinned sway run. These remain explicit failures."
 
 [files."001-tile.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 3
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."003-ipc.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."005-floating.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 13
 tap_plan = 13
 pass = 6
+skip = 0
 fail = 7
-reason = "swayward_geometry_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 6, 11]
+skip_assertions = []
+fail_assertions = [5, 7, 8, 9, 10, 12, 13]
+unreached_assertions = []
 
 [files."100-fullscreen.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 79
 tap_plan = "none"
+source_assertions = 79
 pass = 21
+skip = 0
 fail = 2
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 56
+pass_assertions = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23]
+skip_assertions = []
+fail_assertions = [4, 16]
+unreached_assertions = [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
 
 [files."101-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 4
+skip = 0
 fail = 4
-reason = "swayward_tree_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1, 2, 3, 8]
+skip_assertions = []
+fail_assertions = [4, 5, 6, 7]
+unreached_assertions = []
 
 [files."102-dock.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 23
 tap_plan = "none"
 source_assertions = 23
 pass = 1
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 22
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 
 [files."104-focus-stack.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."111-goto.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 13
 tap_plan = 13
-pass = 11
-fail = 2
-reason = "swayward_tree_finding"
-reason_verified = true
+pass = 13
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."112-floating-resize.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 15
 tap_plan = 15
 pass = 15
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."113-urgent.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 33
+assertions = 64
 tap_plan = "none"
 source_assertions = 64
 pass = 18
-reason = "xwayland_satellite_metadata_limit"
-reason_verified = true
-citation = "sway/sway/tree/view.c:488-510,1197-1224; xwayland-satellite/src/server/clientside.rs:294-296"
-skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 4, reason = "xwayland_satellite_metadata_limit" }, { n = 8, reason = "xwayland_satellite_metadata_limit" }, { n = 11, reason = "xwayland_satellite_metadata_limit" }, { n = 12, reason = "xwayland_satellite_metadata_limit" }, { n = 14, reason = "xwayland_satellite_metadata_limit" }, { n = 15, reason = "xwayland_satellite_metadata_limit" }, { n = 17, reason = "xwayland_satellite_metadata_limit" }, { n = 18, reason = "xwayland_satellite_metadata_limit" }, { n = 20, reason = "xwayland_satellite_metadata_limit" }, { n = 21, reason = "xwayland_satellite_metadata_limit" }, { n = 27, reason = "xwayland_satellite_metadata_limit" }, { n = 28, reason = "xwayland_satellite_metadata_limit" }, { n = 29, reason = "xwayland_satellite_metadata_limit" }, { n = 32, reason = "xwayland_satellite_metadata_limit" }]
+skip = 0
+fail = 15
+unreached = 31
+pass_assertions = [1, 3, 5, 6, 7, 9, 10, 13, 16, 19, 22, 23, 24, 25, 26, 30, 31, 33]
+skip_assertions = []
+fail_assertions = [2, 4, 8, 11, 12, 14, 15, 17, 18, 20, 21, 27, 28, 29, 32]
+unreached_assertions = [34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64]
 
 [files."115-ipc-workspaces.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 9
 tap_plan = 9
-pass = 4
-fail = 5
-reason = "swayward_ipc_finding"
-reason_verified = true
+pass = 9
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."116-nestedcons.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 5
+assertions = 7
 tap_plan = "none"
 source_assertions = 7
 pass = 4
-reason = "sway_ipc_root_border_width"
-reason_verified = true
-citation = "sway/sway/ipc-json.c:275-280"
-[[files."116-nestedcons.t".skip]]
-n = 1
-reason = "sway_ipc_root_border_width"
-citation = "sway/sway/ipc-json.c:275-280"
+skip = 0
+fail = 1
+unreached = 2
+pass_assertions = [2, 3, 4, 5]
+skip_assertions = []
+fail_assertions = [1]
+unreached_assertions = [6, 7]
 
 [files."117-workspace.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 50
+assertions = 92
 tap_plan = "none"
 source_assertions = 92
-pass = 37
-fail = 13
-reason = "swayward_tree_finding"
-reason_verified = true
+pass = 47
+skip = 0
+fail = 3
+unreached = 42
+pass_assertions = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50]
+skip_assertions = []
+fail_assertions = [6, 36, 45]
+unreached_assertions = [51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92]
 
 [files."118-openkill.t"]
 adapted = ["remove-adapter-ipc-socket"]
-plan_unknown = true
 assertions = 6
-tap_plan = "none"
+tap_plan = 6
 pass = 2
-fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }]
+skip = 0
+fail = 4
+unreached = 0
+pass_assertions = [1, 3]
+skip_assertions = []
+fail_assertions = [2, 4, 5, 6]
+unreached_assertions = []
 
 [files."119-match.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 27
 tap_plan = "none"
+source_assertions = 27
 pass = 4
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 23
+pass_assertions = [1, 2, 3, 4]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 
 [files."120-multiple-cmds.t"]
 adapted = ["remove-adapter-ipc-socket"]
-plan_unknown = true
 assertions = 31
-tap_plan = "none"
-pass = 1
-fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }]
+tap_plan = 31
+pass = 17
+skip = 0
+fail = 14
+unreached = 0
+pass_assertions = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 25, 27, 29, 30, 31]
+skip_assertions = []
+fail_assertions = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 26, 28]
+unreached_assertions = []
 
 [files."121-next-prev.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 12
 tap_plan = 12
-pass = 12
+pass = 9
+skip = 0
+fail = 3
+unreached = 0
+pass_assertions = [1, 2, 6, 7, 8, 9, 10, 11, 12]
+skip_assertions = []
+fail_assertions = [3, 4, 5]
+unreached_assertions = []
 
 [files."122-split.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 41
 tap_plan = 41
-pass = 41
+pass = 22
+skip = 0
+fail = 19
+unreached = 0
+pass_assertions = [1, 2, 4, 5, 7, 11, 12, 13, 15, 16, 18, 22, 23, 24, 25, 31, 32, 33, 34, 37, 38, 39]
+skip_assertions = []
+fail_assertions = [3, 6, 8, 9, 10, 14, 17, 19, 20, 21, 26, 27, 28, 29, 30, 35, 36, 40, 41]
+unreached_assertions = []
 
 [files."124-move.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 54
 tap_plan = 54
-pass = 38
-fail = 16
-reason = "swayward_tree_finding"
-reason_verified = true
+pass = 30
+skip = 0
+fail = 24
+unreached = 0
+pass_assertions = [4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 17, 19, 22, 23, 24, 26, 27, 28, 29, 31, 32, 33, 35, 36, 38, 39, 40, 42, 43, 44]
+skip_assertions = []
+fail_assertions = [1, 2, 3, 9, 10, 16, 18, 20, 21, 25, 30, 34, 37, 41, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54]
+unreached_assertions = []
 
 [files."126-regress-close.t"]
 adapted = ["remove-adapter-ipc-socket"]
-plan_unknown = true
 assertions = 1
-tap_plan = "none"
-pass = 0
+tap_plan = 1
+pass = 1
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 1, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."127-regress-floating-parent.t"]
 adapted = ["remove-adapter-ipc-socket"]
-plan_unknown = true
 assertions = 4
-tap_plan = "none"
-pass = 1
+tap_plan = 4
+pass = 4
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 0
+pass_assertions = [1, 2, 3, 4]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."128-open-order.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 7
 tap_plan = 7
-pass = 2
-fail = 5
-reason = "swayward_mapping_finding"
-reason_verified = true
+pass = 3
+skip = 0
+fail = 4
+unreached = 0
+pass_assertions = [1, 5, 7]
+skip_assertions = []
+fail_assertions = [2, 3, 4, 6]
+unreached_assertions = []
 
 [files."129-focus-after-close.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 15
 tap_plan = "none"
+source_assertions = 15
 pass = 8
+skip = 0
 fail = 4
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 3
+pass_assertions = [1, 2, 5, 7, 8, 10, 11, 12]
+skip_assertions = []
+fail_assertions = [3, 4, 6, 9]
+unreached_assertions = [13, 14, 15]
 
 [files."130-close-empty-split.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 2
+skip = 0
 fail = 6
-reason = "swayward_mapping_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1, 5]
+skip_assertions = []
+fail_assertions = [2, 3, 4, 6, 7, 8]
+unreached_assertions = []
 
 [files."131-stacking-order.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 7
 tap_plan = 7
 pass = 6
+skip = 0
 fail = 1
-reason = "swayward_mapping_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1, 3, 4, 5, 6, 7]
+skip_assertions = []
+fail_assertions = [2]
+unreached_assertions = []
 
 [files."132-move-workspace.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 160
-tap_plan = 160
-pass = 131
-fail = 23
-reason = "swayward_tree_finding"
-reason_verified = true
-[[files."132-move-workspace.t".skip]]
-n = 10
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/132-move-workspace.t:1"
-[[files."132-move-workspace.t".skip]]
-n = 22
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/132-move-workspace.t:1"
-[[files."132-move-workspace.t".skip]]
-n = 34
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/132-move-workspace.t:1"
-[[files."132-move-workspace.t".skip]]
-n = 46
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/132-move-workspace.t:1"
-[[files."132-move-workspace.t".skip]]
-n = 78
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/132-move-workspace.t:1"
-[[files."132-move-workspace.t".skip]]
-n = 80
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/132-move-workspace.t:1"
+tap_plan = "none"
+source_assertions = 160
+pass = 61
+skip = 9
+fail = 30
+unreached = 60
+pass_assertions = [1, 2, 3, 5, 6, 7, 11, 13, 14, 15, 17, 18, 19, 23, 25, 26, 27, 29, 30, 31, 35, 37, 38, 39, 41, 42, 43, 47, 49, 51, 54, 55, 56, 57, 59, 60, 63, 64, 65, 66, 67, 68, 69, 71, 72, 73, 75, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 93, 95, 99]
+skip_assertions = [10, 22, 34, 46, 53, 62, 78, 80, 98]
+fail_assertions = [4, 8, 9, 12, 16, 20, 21, 24, 28, 32, 33, 36, 40, 44, 45, 48, 50, 52, 58, 61, 70, 74, 76, 77, 79, 92, 94, 96, 97, 100]
+unreached_assertions = [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160]
 
 [files."133-size-hints.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 16
 tap_plan = 16
 pass = 0
+skip = 0
 fail = 16
-reason = "swayward_geometry_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = []
+skip_assertions = []
+fail_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+unreached_assertions = []
 
 [files."134-invalid-command.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."135-floating-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 4
+assertions = 82
 tap_plan = "none"
 source_assertions = 82
 pass = 3
+skip = 0
 fail = 1
-reason = "swayward_geometry_finding"
-reason_verified = true
+unreached = 78
+pass_assertions = [1, 2, 3]
+skip_assertions = []
+fail_assertions = [4]
+unreached_assertions = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82]
 
 [files."136-floating-ws-empty.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 11
 tap_plan = 11
 pass = 11
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."137-floating-unmap.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 1
+skip = 0
 fail = 1
-reason = "swayward_mapping_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = [2]
+unreached_assertions = []
 
 [files."138-floating-attach.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 11
 tap_plan = 11
-pass = 6
-fail = 5
-reason = "swayward_tree_finding"
-reason_verified = true
+pass = 3
+skip = 0
+fail = 8
+unreached = 0
+pass_assertions = [1, 5, 7]
+skip_assertions = []
+fail_assertions = [2, 3, 4, 6, 8, 9, 10, 11]
+unreached_assertions = []
 
 [files."139-ws-numbers.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 8
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."140-focus-lost.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 3
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."141-resize.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 84
 tap_plan = 84
 pass = 61
+skip = 0
 fail = 23
-reason = "swayward_tree_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 47, 50, 53, 56, 59, 60, 62, 63, 64, 66, 67, 68, 69, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 82, 83]
+skip_assertions = []
+fail_assertions = [16, 17, 18, 19, 20, 21, 22, 23, 45, 46, 48, 49, 51, 52, 54, 55, 57, 58, 61, 65, 70, 77, 84]
+unreached_assertions = []
 
 [files."142-regress-move-floating.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."143-regress-floating-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 5
 tap_plan = 5
-pass = 5
+pass = 3
+skip = 0
+fail = 2
+unreached = 0
+pass_assertions = [1, 3, 4]
+skip_assertions = []
+fail_assertions = [2, 5]
+unreached_assertions = []
 
 [files."144-regress-floating-resize.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 1
 tap_plan = "none"
+source_assertions = 1
 pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 1, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."145-flattening.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
 pass = 8
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."146-floating-reinsert.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 3
 tap_plan = 3
 pass = 1
+skip = 0
 fail = 2
-reason = "swayward_geometry_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = [2, 3]
+unreached_assertions = []
 
 [files."147-regress-floatingmove.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 2
 tap_plan = 2
 pass = 2
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."148-regress-floatingmovews.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."150-regress-dock-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 11
 tap_plan = "none"
 source_assertions = 11
 pass = 1
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 10
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 [files."151-regress-float-size.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."152-regress-level-up.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."153-floating-originalsize.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 7
 tap_plan = 7
 pass = 5
+skip = 0
 fail = 2
-reason = "swayward_geometry_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 6]
+skip_assertions = []
+fail_assertions = [5, 7]
+unreached_assertions = []
 
 [files."154-regress-multiple-dock.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 2
 tap_plan = "none"
 source_assertions = 2
 pass = 1
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 1
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2]
 
 [files."155-floating-split-size.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 4
 tap_plan = 4
 pass = 2
+skip = 0
 fail = 2
-reason = "swayward_geometry_finding"
-reason_verified = true
+unreached = 0
+pass_assertions = [2, 4]
+skip_assertions = []
+fail_assertions = [1, 3]
+unreached_assertions = []
 
 [files."156-fullscreen-focus.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 64
 tap_plan = "none"
-pass = 2
+source_assertions = 64
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 64
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64]
 
 [files."159-socketpaths.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -500,288 +679,283 @@ assertions = 8
 tap_plan = "none"
 source_assertions = 8
 pass = 0
+skip = 0
 fail = 0
 unreached = 8
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."161-regress-borders-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 1
-fail = 1
-reason = "swayward_geometry_finding"
-reason_verified = true
-[[files."161-regress-borders-restart.t".skip]]
-n = 2
-reason = "sway_command_vocabulary"
-citation = "i3/t/161-regress-borders-restart.t:37-46; sway/sway/commands/border.c:71-88"
-[[files."161-regress-borders-restart.t".skip]]
-n = 4
-reason = "sway_command_vocabulary"
-citation = "i3/t/161-regress-borders-restart.t:37-46; sway/sway/commands/border.c:71-88"
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."162-regress-dock-urgent.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 4
 tap_plan = "none"
 source_assertions = 4
-pass = 1
+pass = 0
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."164-kill-win-vs-client.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 12
 tap_plan = "none"
-pass = 3
+source_assertions = 12
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 12
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [files."165-for_window.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 79
 tap_plan = "none"
-pass = 17
-fail = 2
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 79
+pass = 0
+skip = 0
+fail = 0
+unreached = 79
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
 
 [files."166-assign.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 106
 tap_plan = "none"
-pass = 23
-fail = 12
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 91, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 92, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 93, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 94, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 95, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 96, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 97, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 98, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 99, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 100, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 101, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 102, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 103, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 104, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 105, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 106, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 106
+pass = 0
+skip = 0
+fail = 0
+unreached = 106
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106]
 
 [files."167-workspace_layout.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 87
-tap_plan = 87
-pass = 45
-fail = 23
-reason = "swayward_tree_finding"
-reason_verified = true
-[[files."167-workspace_layout.t".skip]]
-n = 8
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 9
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 10
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 11
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 12
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 13
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 14
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 15
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 16
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 17
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 18
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 19
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 20
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 21
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 22
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 24
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 26
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 27
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
-[[files."167-workspace_layout.t".skip]]
-n = 28
-reason = "workspace_layout_stacked_keyword"
-citation = "sway/sway/commands/workspace_layout.c:5-20"
+tap_plan = "none"
+source_assertions = 87
+pass = 0
+skip = 0
+fail = 0
+unreached = 87
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87]
 
 [files."168-regress-fullscreen-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."169-border-toggle.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 20
-tap_plan = 20
-pass = 15
-reason = "sway_command_vocabulary"
-reason_verified = true
-citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
-[[files."169-border-toggle.t".skip]]
-n = 3
-reason = "sway_command_vocabulary"
-citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
-[[files."169-border-toggle.t".skip]]
-n = 4
-reason = "sway_command_vocabulary"
-citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
-[[files."169-border-toggle.t".skip]]
-n = 6
-reason = "sway_command_vocabulary"
-citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
-[[files."169-border-toggle.t".skip]]
-n = 10
-reason = "sway_command_vocabulary"
-citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
-[[files."169-border-toggle.t".skip]]
-n = 16
-reason = "sway_command_vocabulary"
-citation = "i3/t/169-border-toggle.t:23-72; sway/sway/commands.c:113-143; sway/sway/commands/border.c:71-88"
+tap_plan = "none"
+source_assertions = 20
+pass = 0
+skip = 0
+fail = 0
+unreached = 20
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 [files."170-force_focus_wrapping.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 12
-tap_plan = 12
-pass = 12
+tap_plan = "none"
+source_assertions = 12
+pass = 0
+skip = 0
+fail = 0
+unreached = 12
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [files."172-start-on-named-ws.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 7
-tap_plan = 7
-pass = 7
+tap_plan = "none"
+source_assertions = 7
+pass = 0
+skip = 0
+fail = 0
+unreached = 7
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7]
 
 [files."173-get-marks.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 3
 tap_plan = "none"
-pass = 2
+source_assertions = 3
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."174-border-config.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 13
-tap_plan = 13
-pass = 9
-fail = 3
-reason = "swayward_geometry_finding"
-reason_verified = true
-[[files."174-border-config.t".skip]]
-n = 13
-reason = "sway_command_vocabulary"
-citation = "i3/t/174-border-config.t:46-67; i3/t/174-border-config.t:97-119; sway/sway/commands/default_border.c:12-20; sway/sway/commands/default_floating_border.c:13-22"
+tap_plan = "none"
+source_assertions = 13
+pass = 0
+skip = 0
+fail = 0
+unreached = 13
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
 [files."176-workspace-baf.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 26
 tap_plan = "none"
-pass = 17
-fail = 6
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 26
+pass = 0
+skip = 0
+fail = 0
+unreached = 26
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
 
 [files."177-bar-config.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 2
+assertions = 50
 tap_plan = "none"
 source_assertions = 50
-pass = 1
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+pass = 0
+skip = 0
+fail = 0
+unreached = 50
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
 
 [files."178-regress-workspace-open.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."179-regress-multiple-ws.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 6
-tap_plan = 6
-pass = 2
-fail = 3
-reason = "swayward_mapping_finding"
-reason_verified = true
-[[files."179-regress-multiple-ws.t".skip]]
-n = 4
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/179-regress-multiple-ws.t:1"
+tap_plan = "none"
+source_assertions = 6
+pass = 0
+skip = 0
+fail = 0
+unreached = 6
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6]
 
 [files."180-fd-leaks.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."181-regress-float-border.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 6
-tap_plan = 6
-pass = 2
-fail = 4
-reason = "swayward_geometry_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 6
+pass = 0
+skip = 0
+fail = 0
+unreached = 6
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6]
 
 [files."182-regress-focus-dock.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -790,241 +964,264 @@ assertions = 1
 tap_plan = "none"
 source_assertions = 1
 pass = 0
+skip = 0
 fail = 0
 unreached = 1
-reason = "swayward_tree_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."183-config-variables.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 9
-tap_plan = 9
-pass = 9
+tap_plan = "none"
+source_assertions = 9
+pass = 0
+skip = 0
+fail = 0
+unreached = 9
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 [files."184-regress-float-split-resize.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."185-scratchpad.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 2
+assertions = 100
 tap_plan = "none"
 source_assertions = 100
-pass = 2
+pass = 0
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 100
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
 
 [files."186-regress-assign-focus-parent.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 8
-tap_plan = 8
-pass = 8
+tap_plan = "none"
+source_assertions = 8
+pass = 0
+skip = 0
+fail = 0
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."187-commands-parser.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 25
 tap_plan = 25
 pass = 0
-reason = "i3_parser_internals"
-reason_verified = true
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 1
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 2
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 3
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 4
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 5
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 6
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 7
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 8
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 9
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 10
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 11
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 12
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 13
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 14
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 15
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 16
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 17
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 18
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 19
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 20
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 21
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 22
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 23
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 24
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
-[[files."187-commands-parser.t".skip]]
-n = 25
-reason = "i3_parser_internals"
-citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
+skip = 0
+fail = 25
+unreached = 0
+pass_assertions = []
+skip_assertions = []
+fail_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+unreached_assertions = []
 
 [files."188-regress-focus-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 11
-tap_plan = 11
-pass = 11
+tap_plan = "none"
+source_assertions = 11
+pass = 0
+skip = 0
+fail = 0
+unreached = 11
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 [files."189-floating-constraints.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 28
-tap_plan = 28
-pass = 12
-fail = 16
-reason = "swayward_geometry_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 28
+pass = 0
+skip = 0
+fail = 0
+unreached = 28
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
 
 [files."190-scratchpad-diff-ws.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
-pass = 2
-fail = 1
-reason = "swayward_adapter_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 3
+pass = 0
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."191-resize-levels.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
+tap_plan = "none"
+source_assertions = 3
 pass = 0
-fail = 3
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."192-layout.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 34
-tap_plan = 34
-pass = 34
+tap_plan = "none"
+source_assertions = 34
+pass = 0
+skip = 0
+fail = 0
+unreached = 34
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34]
 
 [files."193-ipc-version.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 3
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."194-regress-floating-size.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 15
-tap_plan = 15
-pass = 5
-fail = 10
-reason = "swayward_geometry_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 15
+pass = 0
+skip = 0
+fail = 0
+unreached = 15
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
 [files."196-randr-output-names.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 1
 tap_plan = 1
 pass = 1
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."197-regression-move-vanish.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 4
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."198-regression-scratchpad-crash.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."199-ipc-mode-event.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 1
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."200-urgency-timer.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 12
-tap_plan = 12
-pass = 8
-fail = 4
-reason = "swayward_adapter_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 12
+pass = 0
+skip = 0
+fail = 0
+unreached = 12
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [files."201-config-parser.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -1033,208 +1230,133 @@ assertions = 32
 tap_plan = "none"
 source_assertions = 32
 pass = 0
-reason = "i3_parser_internals"
-reason_verified = true
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 1
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 2
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 3
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 4
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 5
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 6
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 7
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 8
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 9
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 10
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 11
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 12
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 13
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 14
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 15
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 16
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 17
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 18
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 19
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 20
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 21
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 22
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 23
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 24
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 25
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 26
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 27
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 28
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 29
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 30
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 31
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
-[[files."201-config-parser.t".skip]]
-n = 32
-reason = "i3_parser_internals"
-citation = "i3/t/201-config-parser.t:17-30; i3/meson.build:698-709"
+skip = 0
+fail = 0
+unreached = 32
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
 
 [files."202-scratchpad-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 11
+assertions = 27
 tap_plan = "none"
 source_assertions = 27
-pass = 11
+pass = 0
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 27
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 
 [files."203-regress-assign-and-move.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."204-regress-scratchpad-move.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."205-ipc-windows.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 3
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."206-fullscreen-scratchpad.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 8
 tap_plan = "none"
-pass = 4
+source_assertions = 8
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."208-regress-floating-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."210-mark-unmark.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 17
-tap_plan = 17
-pass = 7
-fail = 10
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 17
+pass = 0
+skip = 0
+fail = 0
+unreached = 17
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 
 [files."211-regress-urgency-assign.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 2
+assertions = 3
 tap_plan = "none"
 source_assertions = 3
-pass = 1
-reason = "xwayland_satellite_metadata_limit"
-reason_verified = true
-citation = "sway/sway/criteria.c:355-390; sway/sway/tree/view.c:488-510; xwayland-satellite/src/server/clientside.rs:294-296"
-skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }]
+pass = 0
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."212-assign-urgency.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -1243,94 +1365,88 @@ assertions = 3
 tap_plan = "none"
 source_assertions = 3
 pass = 0
-fail = 3
-reason = "swayward_tree_finding"
-reason_verified = true
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."213-layout-restore-simple.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 18
-tap_plan = 18
-pass = 8
-reason = "sway_no_append_layout"
-reason_verified = true
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 4
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 5
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 6
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 9
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 10
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 11
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 12
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 16
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 17
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
-[[files."213-layout-restore-simple.t".skip]]
-n = 18
-reason = "sway_no_append_layout"
-citation = "i3/t/213-layout-restore-simple.t:42-159; sway/sway/commands.c:113-143"
+tap_plan = "none"
+source_assertions = 18
+pass = 0
+skip = 0
+fail = 0
+unreached = 18
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 
 [files."218-regress-floating-split.t"]
-adapted = ["remove-adapter-ipc-socket"]
-assertions = 2
-tap_plan = 2
-pass = 2
-
-[files."219-ipc-window-focus.t"]
-adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
-assertions = 10
-tap_plan = 10
-pass = 1
-fail = 9
-reason = "swayward_ipc_finding"
-reason_verified = true
-
-[files."220-ipc-window-title.t"]
-adapted = ["remove-adapter-ipc-socket"]
-assertions = 4
-tap_plan = 4
-pass = 3
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
-
-[files."221-floating-type-hints.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
+
+[files."219-ipc-window-focus.t"]
+adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
+assertions = 10
+tap_plan = "none"
+source_assertions = 10
+pass = 0
+skip = 0
+fail = 0
+unreached = 10
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+[files."220-ipc-window-title.t"]
+adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
+assertions = 4
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
+
+[files."221-floating-type-hints.t"]
+adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
+assertions = 8
+tap_plan = "none"
 source_assertions = 8
 pass = 0
-fail = 2
-reason = "swayward_mapping_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."222-regress-dock-resize.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1339,91 +1455,146 @@ assertions = 1
 tap_plan = "none"
 source_assertions = 1
 pass = 0
+skip = 0
 fail = 0
 unreached = 1
-reason = "swayward_geometry_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."224-regress-resize-branch.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."225-ipc-window-fullscreen.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_ipc_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."226-internal-workspaces.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 5
-tap_plan = 5
-pass = 1
-fail = 4
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 5
+pass = 0
+skip = 0
+fail = 0
+unreached = 5
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5]
 
 [files."227-ipc-workspace-empty.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
+tap_plan = "none"
+source_assertions = 3
 pass = 0
-fail = 3
-reason = "swayward_mapping_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."228-border-widths.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 21
-tap_plan = 21
-pass = 6
-reason = "xwayland_satellite_metadata_limit"
-reason_verified = true
-citation = "sway/sway/desktop/xwayland.c:310-339; sway/sway/tree/view.c:433-455; xwayland-satellite/src/server/clientside.rs:294-296"
-skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 4, reason = "xwayland_satellite_metadata_limit" }, { n = 5, reason = "xwayland_satellite_metadata_limit" }, { n = 6, reason = "xwayland_satellite_metadata_limit" }, { n = 7, reason = "xwayland_satellite_metadata_limit" }, { n = 9, reason = "xwayland_satellite_metadata_limit" }, { n = 11, reason = "xwayland_satellite_metadata_limit" }, { n = 12, reason = "xwayland_satellite_metadata_limit" }, { n = 13, reason = "xwayland_satellite_metadata_limit" }, { n = 14, reason = "xwayland_satellite_metadata_limit" }, { n = 16, reason = "xwayland_satellite_metadata_limit" }, { n = 18, reason = "xwayland_satellite_metadata_limit" }, { n = 19, reason = "xwayland_satellite_metadata_limit" }, { n = 20, reason = "xwayland_satellite_metadata_limit" }, { n = 21, reason = "xwayland_satellite_metadata_limit" }]
+tap_plan = "none"
+source_assertions = 21
+pass = 0
+skip = 0
+fail = 0
+unreached = 21
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
 
 [files."231-ipc-floating-event.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_ipc_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."232-cmd-move-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 12
+assertions = 22
 tap_plan = "none"
 source_assertions = 22
-pass = 6
-fail = 6
-reason = "swayward_tree_finding"
-reason_verified = true
+pass = 0
+skip = 0
+fail = 0
+unreached = 22
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
 
 [files."233-regress-manage-focus-unmapped.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."235-check-config-no-x.t"]
 adapted = ["remove-adapter-ipc-socket"]
 assertions = 8
 tap_plan = 8
-pass = 0
-fail = 8
-reason = "swayward_command_finding"
-reason_verified = true
+pass = 8
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."236-floating-focus-raise.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1432,211 +1603,343 @@ assertions = 6
 tap_plan = "none"
 source_assertions = 6
 pass = 0
+skip = 0
 fail = 0
 unreached = 6
-reason = "swayward_mapping_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6]
 
 [files."237-regress-assign-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."238-ipc-binding-event.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 15
-tap_plan = 15
-pass = 2
-fail = 13
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 15
+pass = 0
+skip = 0
+fail = 0
+unreached = 15
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
 [files."240-focus-on-window-activation.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 15
-tap_plan = 15
-pass = 10
-fail = 5
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 15
+pass = 0
+skip = 0
+fail = 0
+unreached = 15
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
 [files."241-consistent-center.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 12
-tap_plan = 12
-pass = 10
-fail = 2
-reason = "swayward_geometry_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 12
+pass = 0
+skip = 0
+fail = 0
+unreached = 12
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [files."242-no-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 6
-tap_plan = 6
-pass = 3
-fail = 3
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 6
+pass = 0
+skip = 0
+fail = 0
+unreached = 6
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6]
 
 [files."243-move-to-mark.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 11
+assertions = 50
 tap_plan = "none"
 source_assertions = 50
-pass = 3
-reason = "xwayland_satellite_metadata_limit"
-reason_verified = true
-citation = "sway/sway/criteria.c:184-186; sway/sway/tree/view.c:488-510; xwayland-satellite/src/server/clientside.rs:294-296"
-skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 3, reason = "xwayland_satellite_metadata_limit" }, { n = 5, reason = "xwayland_satellite_metadata_limit" }, { n = 6, reason = "xwayland_satellite_metadata_limit" }, { n = 8, reason = "xwayland_satellite_metadata_limit" }, { n = 9, reason = "xwayland_satellite_metadata_limit" }, { n = 10, reason = "xwayland_satellite_metadata_limit" }, { n = 11, reason = "xwayland_satellite_metadata_limit" }]
+pass = 0
+skip = 0
+fail = 0
+unreached = 50
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
 
 [files."244-new-workspace-floating-enable-center.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."245-move-position-mouse.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 8
-tap_plan = 8
+tap_plan = "none"
+source_assertions = 8
 pass = 0
-fail = 8
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+skip = 0
+fail = 0
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."246-window-decoration-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
-pass = 3
+tap_plan = "none"
+source_assertions = 3
+pass = 0
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."247-config-line-continuation.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 8
-tap_plan = 8
-pass = 7
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 8
+pass = 0
+skip = 0
+fail = 0
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."248-regress-urgency-clear.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 4
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."251-command-criteria-focused.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 6
+assertions = 11
 tap_plan = "none"
 source_assertions = 11
-pass = 4
-fail = 2
-reason = "swayward_tree_finding"
-reason_verified = true
+pass = 0
+skip = 0
+fail = 0
+unreached = 11
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 [files."252-floating-size.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 49
-tap_plan = 49
-pass = 31
-fail = 18
-reason = "swayward_geometry_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 49
+pass = 0
+skip = 0
+fail = 0
+unreached = 49
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
 
 [files."254-move-to-output-with-criteria.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 16
-tap_plan = 16
-pass = 10
-fail = 6
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 16
+pass = 0
+skip = 0
+fail = 0
+unreached = 16
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 [files."255-multiple-marks.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 9
-tap_plan = 9
-pass = 3
-fail = 6
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 9
+pass = 0
+skip = 0
+fail = 0
+unreached = 9
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 [files."256-no-auto-back-and-forth.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 10
 tap_plan = "none"
-pass = 8
+source_assertions = 10
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 10
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 [files."257-keypress-group1-fallback.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 17
 tap_plan = "none"
-pass = 1
-unreached = 16
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+source_assertions = 17
+pass = 0
+skip = 0
+fail = 0
+unreached = 17
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 
 [files."258-keypress-release.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 49
 tap_plan = "none"
-pass = 1
-unreached = 48
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+source_assertions = 49
+pass = 0
+skip = 0
+fail = 0
+unreached = 49
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
 
 [files."260-invalid-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 1
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."261-match-con_id-con_mark-combinations.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 2
-fail = 2
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."262-config-validation.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 2
 tap_plan = "none"
 source_assertions = 2
 pass = 1
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 1
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2]
 
 [files."263-config-reload-reverts-bind-mode.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
-pass = 2
-fail = 1
-reason = "swayward_command_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 3
+pass = 0
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."264-dock-criteria.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1645,19 +1948,28 @@ assertions = 19
 tap_plan = "none"
 source_assertions = 19
 pass = 0
+skip = 0
 fail = 0
 unreached = 19
-reason = "swayward_command_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
 [files."265-ipc-mark.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_ipc_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."266-net-moveresize-window.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1666,133 +1978,238 @@ assertions = 12
 tap_plan = "none"
 source_assertions = 12
 pass = 0
+skip = 0
 fail = 0
 unreached = 12
-reason = "swayward_geometry_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [files."267-regress-mark-restart.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."268-ipc-config.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 1
-reason = "sway_config_text"
-reason_verified = true
-citation = "i3/t/268-ipc-config.t:27-50; sway/sway/config.c:732-773; sway/sway/ipc-server.c:907-915"
-[[files."268-ipc-config.t".skip]]
-n = 2
-reason = "sway_config_text"
-citation = "i3/t/268-ipc-config.t:27-50; sway/sway/config.c:732-773; sway/sway/ipc-server.c:907-915"
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2]
 
 [files."269-focus-stack-above.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 5
-tap_plan = 5
-pass = 3
-fail = 2
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 5
+pass = 0
+skip = 0
+fail = 0
+unreached = 5
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5]
 
 [files."270-config-no-newline-end.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."271-for_window_tilingfloating.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 20
-tap_plan = 20
+tap_plan = "none"
+source_assertions = 20
 pass = 0
-fail = 20
-reason = "swayward_ipc_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 20
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 [files."272-regress-focus-assign.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 3
+assertions = 8
 tap_plan = "none"
 source_assertions = 8
-pass = 2
-fail = 1
-reason = "swayward_tree_finding"
-reason_verified = true
+pass = 0
+skip = 0
+fail = 0
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."273-regress-focus-toggle.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."274-move-branch-position.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 16
-tap_plan = 16
-pass = 16
+tap_plan = "none"
+source_assertions = 16
+pass = 0
+skip = 0
+fail = 0
+unreached = 16
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 [files."275-ipc-window-close.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
-pass = 1
-fail = 2
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 3
+pass = 0
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."276-ipc-window-move.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_ipc_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."277-ipc-window-urgent.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_ipc_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."279-regress-default-floating-border.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
+tap_plan = "none"
+source_assertions = 1
 pass = 0
-fail = 1
-reason = "swayward_geometry_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."280-wm-class-change-handler.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
+tap_plan = "none"
+source_assertions = 4
 pass = 0
-fail = 4
-reason = "swayward_adapter_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."281-regress-reload-bindsym.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."282-tabbed-floating-disable-crash.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."284-ewmh-visible-name.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1801,43 +2218,58 @@ assertions = 5
 tap_plan = "none"
 source_assertions = 5
 pass = 0
+skip = 0
 fail = 0
 unreached = 5
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5]
 
 [files."285-sticky.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 11
 tap_plan = "none"
-pass = 2
+source_assertions = 11
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 11
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 [files."286-root-window-mouse-binding.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 2
 tap_plan = "none"
 source_assertions = 2
-pass = 1
+pass = 0
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."287-edge-borders.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 31
-tap_plan = 31
-pass = 22
-reason = "xwayland_satellite_metadata_limit"
-reason_verified = true
-citation = "sway/sway/desktop/xwayland.c:310-339; sway/sway/tree/view.c:433-455; xwayland-satellite/src/server/clientside.rs:294-296"
-skip = [{ n = 2, reason = "xwayland_satellite_metadata_limit" }, { n = 3, reason = "xwayland_satellite_metadata_limit" }, { n = 4, reason = "xwayland_satellite_metadata_limit" }, { n = 8, reason = "xwayland_satellite_metadata_limit" }, { n = 10, reason = "xwayland_satellite_metadata_limit" }, { n = 20, reason = "sway_ipc_internal_border_width", citation = "sway/sway/ipc-json.c:746-751" }, { n = 21, reason = "xwayland_satellite_metadata_limit" }, { n = 23, reason = "xwayland_satellite_metadata_limit" }, { n = 27, reason = "xwayland_satellite_metadata_limit" }]
+tap_plan = "none"
+source_assertions = 31
+pass = 0
+skip = 0
+fail = 0
+unreached = 31
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 
 [files."289-ipc-shutdown-event.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1846,133 +2278,208 @@ assertions = 4
 tap_plan = "none"
 source_assertions = 4
 pass = 0
+skip = 0
 fail = 0
 unreached = 4
-reason = "swayward_ipc_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."290-keypress-numlock.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 85
 tap_plan = "none"
+source_assertions = 85
 pass = 1
+skip = 0
+fail = 0
 unreached = 84
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85]
 
 [files."291-swap.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 148
 tap_plan = "none"
-pass = 1
+source_assertions = 148
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 91, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 92, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 93, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 94, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 95, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 96, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 97, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 98, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 99, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 100, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 101, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 102, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 103, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 104, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 105, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 106, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 107, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 108, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 109, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 110, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 111, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 112, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 113, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 114, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 115, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 116, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 117, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 118, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 119, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 120, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 121, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 122, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 123, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 124, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 125, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 126, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 127, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 128, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 129, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 130, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 131, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 132, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 133, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 134, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 135, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 136, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 137, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 138, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 139, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 140, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 141, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 142, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 143, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 144, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 145, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 146, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 147, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 148, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 148
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148]
 
 [files."292-regress-layout-toggle.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."293-focus-follows-mouse.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 10
-tap_plan = 10
-pass = 4
-fail = 6
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+tap_plan = "none"
+source_assertions = 10
+pass = 0
+skip = 0
+fail = 0
+unreached = 10
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 [files."293-sticky-output-crash.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
-pass = 3
+tap_plan = "none"
+source_assertions = 3
+pass = 0
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."294-focus-order.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 61
 tap_plan = "none"
+source_assertions = 61
 pass = 0
-fail = 1
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 20, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 21, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 22, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 23, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 24, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 25, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 26, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 27, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 28, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 29, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 30, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 31, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 32, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 33, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 34, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 35, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 36, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 37, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 38, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 39, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 40, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 41, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 42, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 43, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 44, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 45, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }]
+skip = 0
+fail = 0
+unreached = 61
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
 
 [files."295-net-wm-state-focused.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 5
 tap_plan = "none"
-pass = 1
-fail = 2
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 5
+pass = 0
+skip = 0
+fail = 0
+unreached = 5
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5]
 
 [files."296-regress-focus-behind-fullscreen-floating.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."297-assign-workspace-to-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 25
-tap_plan = 25
-pass = 13
-fail = 12
-reason = "swayward_tree_finding"
-reason_verified = true
-citation = "i3/src/main.c:310-310; i3/src/main.c:423-424; sway/sway/commands.c:105-113"
+tap_plan = "none"
+source_assertions = 25
+pass = 0
+skip = 0
+fail = 0
+unreached = 25
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
 
 [files."297-scroll-tabbed.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 16
 tap_plan = "none"
+source_assertions = 16
 pass = 1
+skip = 0
+fail = 0
 unreached = 15
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 [files."298-ipc-misbehaving-connection.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 1
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."299-regress-scratchpad-focus.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."301-shape.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 4
 tap_plan = "none"
-pass = 1
-fail = 1
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."302-tree.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -1981,22 +2488,43 @@ assertions = 15
 tap_plan = "none"
 source_assertions = 15
 pass = 0
+skip = 0
 fail = 0
 unreached = 15
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
 [files."303-regress-move-floating.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
-pass = 3
+tap_plan = "none"
+source_assertions = 3
+pass = 0
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."304-ipc-workspace-init.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 9
-tap_plan = 9
-pass = 9
+tap_plan = "none"
+source_assertions = 9
+pass = 0
+skip = 0
+fail = 0
+unreached = 9
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 [files."306-move-to-parent.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -2005,10 +2533,13 @@ assertions = 2
 tap_plan = "none"
 source_assertions = 2
 pass = 0
+skip = 0
 fail = 0
 unreached = 2
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."307-focus-next-prev.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -2017,10 +2548,13 @@ assertions = 9
 tap_plan = "none"
 source_assertions = 9
 pass = 0
+skip = 0
 fail = 0
 unreached = 9
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 [files."308-focus_wrapping.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -2029,10 +2563,13 @@ assertions = 32
 tap_plan = "none"
 source_assertions = 32
 pass = 0
+skip = 0
 fail = 0
 unreached = 32
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
 
 [files."309-crash-move-parent.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -2041,113 +2578,133 @@ assertions = 2
 tap_plan = "none"
 source_assertions = 2
 pass = 0
+skip = 0
 fail = 0
 unreached = 2
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."310-client-message-sticky.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 6
 tap_plan = "none"
 source_assertions = 6
-pass = 1
+pass = 0
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 6
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6]
 
 [files."311-get-binding-modes.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."312-regress-layout-default.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 0
-tap_plan = 0
+tap_plan = "none"
+source_assertions = 0
 pass = 0
-survived = true
+skip = 0
+fail = 0
+unreached = 0
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = []
 
 [files."313-include.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 30
-tap_plan = 30
-pass = 21
-fail = 1
-reason = "swayward_adapter_finding"
-reason_verified = true
-[[files."313-include.t".skip]]
-n = 19
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-citation = "i3/t/313-include.t:1"
-[[files."313-include.t".skip]]
-n = 23
-reason = "sway_config_include_ipc"
-citation = "i3/t/313-include.t:304-319; sway/sway/ipc-json.c:223-240; sway/sway/ipc-server.c:835-844"
-[[files."313-include.t".skip]]
-n = 25
-reason = "sway_config_include_ipc"
-citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
-[[files."313-include.t".skip]]
-n = 26
-reason = "sway_config_include_ipc"
-citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
-[[files."313-include.t".skip]]
-n = 27
-reason = "sway_config_include_ipc"
-citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
-[[files."313-include.t".skip]]
-n = 28
-reason = "sway_config_include_ipc"
-citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
-[[files."313-include.t".skip]]
-n = 29
-reason = "sway_config_include_ipc"
-citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
-[[files."313-include.t".skip]]
-n = 30
-reason = "sway_config_include_ipc"
-citation = "i3/t/313-include.t:325-365; sway/sway/ipc-server.c:907-916"
+tap_plan = "none"
+source_assertions = 30
+pass = 0
+skip = 0
+fail = 0
+unreached = 30
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
 
 [files."315-all-criterion.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 18
 tap_plan = "none"
-pass = 2
+source_assertions = 18
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 18
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 
 [files."315-long-commands.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 3
-fail = 1
-reason = "swayward_command_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."316-drag-container.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs", "remove-bar-primary-output"]
 plan_unknown = true
 assertions = 18
 tap_plan = "none"
+source_assertions = 18
 pass = 1
+skip = 0
+fail = 0
 unreached = 17
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 
 [files."316-transient-for-loop.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."317-bar-config-font-fallback.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -2156,10 +2713,13 @@ assertions = 1
 tap_plan = "none"
 source_assertions = 1
 pass = 0
+skip = 0
 fail = 0
 unreached = 1
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."317-bar-config-font-order.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -2168,285 +2728,463 @@ assertions = 1
 tap_plan = "none"
 source_assertions = 1
 pass = 0
+skip = 0
 fail = 0
 unreached = 1
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."317-bar-output-trailing-space.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 1
+assertions = 4
 tap_plan = "none"
 source_assertions = 4
 pass = 0
-fail = 1
-reason = "swayward_ipc_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."319-gaps.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 18
+assertions = 28
 tap_plan = "none"
 source_assertions = 28
-pass = 1
-fail = 17
-reason = "swayward_geometry_finding"
-reason_verified = true
+pass = 0
+skip = 0
+fail = 0
+unreached = 28
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
 
 [files."320-mouse-bindings.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 14
 tap_plan = "none"
-pass = 3
-unreached = 11
-reason = "headless_xtest_boundary"
-reason_verified = true
-citation = "i3/testcases/lib/i3test/XTEST.pm:55-67; i3/testcases/lib/i3test/XTEST.pm:185-222; xwayland-satellite/src/server/clientside.rs:294-296; xwayland-satellite/src/server/event.rs:568-923; xwayland-satellite/src/server/dispatch.rs:344-410"
+source_assertions = 14
+pass = 0
+skip = 0
+fail = 0
+unreached = 14
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
 [files."321-crash-criteria-scratchpad.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 6
-tap_plan = 6
-pass = 1
-fail = 3
-reason = "swayward_command_finding"
-reason_verified = true
-[[files."321-crash-criteria-scratchpad.t".skip]]
-n = 4
-reason = "sway_hidden_scratchpad_floating"
-citation = "i3/t/321-crash-criteria-scratchpad.t:21-45; sway/sway/commands/floating.c:31-35"
-[[files."321-crash-criteria-scratchpad.t".skip]]
-n = 5
-reason = "sway_hidden_scratchpad_floating"
-citation = "i3/t/321-crash-criteria-scratchpad.t:21-45; sway/sway/commands/floating.c:31-35"
+tap_plan = "none"
+source_assertions = 6
+pass = 0
+skip = 0
+fail = 0
+unreached = 6
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6]
 
 [files."322-match-error-crash.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."324-for-window-reload-crash.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."325-layout-percent-and-marks.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
-assertions = 3
+assertions = 8
 tap_plan = "none"
 source_assertions = 8
-pass = 2
+pass = 0
+skip = 0
 fail = 0
-reason = "i3_append_layout"
-reason_verified = true
-[[files."325-layout-percent-and-marks.t".skip]]
-n = 3
-reason = "i3_append_layout"
-citation = "i3/t/325-layout-percent-and-marks.t:45-49; sway/sway/commands.c:113-143"
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."500-multi-monitor.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."501-scratchpad.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 44
-tap_plan = 44
-pass = 44
+tap_plan = "none"
+source_assertions = 44
+pass = 0
+skip = 0
+fail = 0
+unreached = 44
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
 
 [files."502-focus-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 19
-tap_plan = 19
-pass = 19
+tap_plan = "none"
+source_assertions = 19
+pass = 0
+skip = 0
+fail = 0
+unreached = 19
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
 [files."503-workspace.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 18
-tap_plan = 18
+tap_plan = "none"
+source_assertions = 18
 pass = 0
-fail = 18
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 18
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 
 [files."504-move-workspace-to-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 31
-tap_plan = 31
-pass = 24
-fail = 7
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 31
+pass = 0
+skip = 0
+fail = 0
+unreached = 31
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 
 [files."505-scratchpad-resolution.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 90
 tap_plan = "none"
-pass = 45
+source_assertions = 90
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 46, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 47, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 48, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 49, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 50, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 51, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 52, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 53, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 54, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 55, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 56, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 57, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 58, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 59, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 60, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 61, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 62, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 63, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 64, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 65, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 66, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 67, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 68, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 69, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 70, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 71, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 72, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 73, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 74, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 75, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 76, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 77, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 78, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 79, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 80, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 81, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 82, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 83, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 84, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 85, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 86, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 87, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 88, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 89, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 90, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 90
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
 
 [files."506-focus-right.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 31
-tap_plan = 31
-pass = 28
-fail = 3
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 31
+pass = 0
+skip = 0
+fail = 0
+unreached = 31
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 
 [files."507-workspace-move-crash.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 1
-fail = 1
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."509-workspace_layout.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."510-focus-across-outputs.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 19
 tap_plan = "none"
-pass = 2
-fail = 8
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 18, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 19, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 19
+pass = 0
+skip = 0
+fail = 0
+unreached = 19
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
 [files."511-scratchpad-configure-request.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."512-move-wraps.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 10
-tap_plan = 10
-pass = 10
+tap_plan = "none"
+source_assertions = 10
+pass = 0
+skip = 0
+fail = 0
+unreached = 10
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 [files."513-move-workspace.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 6
-tap_plan = 6
-pass = 2
-fail = 4
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 6
+pass = 0
+skip = 0
+fail = 0
+unreached = 6
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6]
 
 [files."514-ipc-workspace-multi-monitor.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 1
-fail = 3
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."515-create-workspace.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."516-move.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 14
 tap_plan = "none"
-pass = 6
-fail = 6
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 14
+pass = 0
+skip = 0
+fail = 0
+unreached = 14
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
 [files."517-regress-move-direction-ipc.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
+tap_plan = "none"
+source_assertions = 2
 pass = 0
-fail = 2
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."518-interpret-workspace-numbers.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 3
-fail = 1
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."519-mouse-warping.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 3
-tap_plan = 3
+tap_plan = "none"
+source_assertions = 3
 pass = 0
-fail = 3
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 3
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."520-regress-focus-direction-floating.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."522-rename-assigned-workspace.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
 assertions = 9
 tap_plan = "none"
-pass = 4
-fail = 3
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }]
+source_assertions = 9
+pass = 0
+skip = 0
+fail = 0
+unreached = 9
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 [files."523-move-position-center.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
-pass = 2
-fail = 2
-reason = "swayward_mapping_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 4
+pass = 0
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."524-move.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 38
-tap_plan = 38
-pass = 26
-fail = 12
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 38
+pass = 0
+skip = 0
+fail = 0
+unreached = 38
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
 
 [files."526-reconfigure-dock.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -2455,67 +3193,118 @@ assertions = 3
 tap_plan = "none"
 source_assertions = 3
 pass = 0
+skip = 0
 fail = 0
 unreached = 3
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3]
 
 [files."527-focus-fallback.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 2
 tap_plan = "none"
-pass = 1
+source_assertions = 2
+pass = 0
+skip = 0
 fail = 0
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 2, reason = "xwayland_satellite_kill_disconnects_client" }]
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."528-workspace-next-prev-reversed.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 38
-tap_plan = 38
+tap_plan = "none"
+source_assertions = 38
 pass = 0
-fail = 38
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 38
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
 
 [files."530-bug-2229.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."531-fullscreen-on-given-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 4
-tap_plan = 4
+tap_plan = "none"
+source_assertions = 4
 pass = 0
-fail = 4
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 4
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."534-dont-warp.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."535-workspace-next-prev.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 38
-tap_plan = 38
+tap_plan = "none"
+source_assertions = 38
 pass = 0
-fail = 38
-reason = "swayward_tree_finding"
-reason_verified = true
+skip = 0
+fail = 0
+unreached = 38
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
 
 [files."537-move-single-to-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 8
-tap_plan = 8
-pass = 8
+tap_plan = "none"
+source_assertions = 8
+pass = 0
+skip = 0
+fail = 0
+unreached = 8
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."538-i3bar-primary-output.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
@@ -2524,91 +3313,178 @@ assertions = 4
 tap_plan = "none"
 source_assertions = 4
 pass = 0
+skip = 0
 fail = 0
 unreached = 4
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4]
 
 [files."539-disable_focus_wrapping.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 10
-tap_plan = 10
-pass = 10
+tap_plan = "none"
+source_assertions = 10
+pass = 0
+skip = 0
+fail = 0
+unreached = 10
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 [files."540-sigterm-cleanup.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."541-resize-set-tiling.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 32
-tap_plan = 32
-pass = 30
-fail = 2
-reason = "swayward_geometry_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 32
+pass = 0
+skip = 0
+fail = 0
+unreached = 32
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
 
 [files."543-move-workspace-to-multiple-outputs.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 63
-tap_plan = 63
-pass = 17
-fail = 46
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 63
+pass = 0
+skip = 0
+fail = 0
+unreached = 63
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
 
 [files."544-focus-multiple-outputs.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 41
-tap_plan = 41
-pass = 8
-fail = 33
-reason = "swayward_tree_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 41
+pass = 0
+skip = 0
+fail = 0
+unreached = 41
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
 
 [files."545-i3-registration.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."546-empty-bindcommand.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."547-explicit-mode-default.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 1
-tap_plan = 1
-pass = 1
+tap_plan = "none"
+source_assertions = 1
+pass = 0
+skip = 0
+fail = 0
+unreached = 1
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1]
 
 [files."547-nested-variables.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."549-focus-wrapping-gaps.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
+plan_unknown = true
 assertions = 2
-tap_plan = 2
-pass = 2
+tap_plan = "none"
+source_assertions = 2
+pass = 0
+skip = 0
+fail = 0
+unreached = 2
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2]
 
 [files."550-focus-workspace.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 17
 tap_plan = "none"
+source_assertions = 17
 pass = 0
-fail = 8
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 13, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 14, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 15, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 16, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 17, reason = "xwayland_satellite_kill_disconnects_client" }]
+skip = 0
+fail = 0
+unreached = 17
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 
 [files."550-split-redundant-containers.t"]
 adapted = ["remove-adapter-ipc-socket"]
@@ -2617,45 +3493,70 @@ assertions = 8
 tap_plan = "none"
 source_assertions = 8
 pass = 0
+skip = 0
 fail = 0
 unreached = 8
-reason = "swayward_adapter_finding"
-reason_verified = true
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
 
 [files."551-net-wm-state-maximized.t"]
 adapted = ["remove-adapter-ipc-socket"]
 plan_unknown = true
 assertions = 12
 tap_plan = "none"
+source_assertions = 12
 pass = 0
-fail = 2
-reason = "xwayland_satellite_kill_disconnects_client"
-reason_verified = true
-citation = "i3/src/x.c:328-338; i3/src/commands.c:1205-1225; xwayland-satellite/src/server/event.rs:410-412; xwayland-satellite/src/xstate/mod.rs:1456-1487; i3test open_window implementation lines 332-362"
-skip = [{ n = 3, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 4, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 5, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 6, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 7, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 8, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 9, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 10, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 11, reason = "xwayland_satellite_kill_disconnects_client" }, { n = 12, reason = "xwayland_satellite_kill_disconnects_client" }]
+skip = 0
+fail = 0
+unreached = 12
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [files."553-popup_during_fullscreen.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 20
-tap_plan = 20
-pass = 20
+tap_plan = "none"
+source_assertions = 20
+pass = 1
+skip = 0
+fail = 0
+unreached = 19
+pass_assertions = [1]
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 [files."554-commands-crash-for-window.t"]
 adapted = ["remove-adapter-ipc-socket"]
+plan_unknown = true
 assertions = 101
-tap_plan = 101
-pass = 69
-fail = 32
-reason = "swayward_command_finding"
-reason_verified = true
+tap_plan = "none"
+source_assertions = 101
+pass = 0
+skip = 0
+fail = 0
+unreached = 101
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101]
 
 [files."556-workspace-keeps-focus-after-move.t"]
 adapted = ["remove-adapter-ipc-socket", "fake-outputs->headless-outputs"]
 plan_unknown = true
-assertions = 3
+assertions = 5
 tap_plan = "none"
 source_assertions = 5
-pass = 3
+pass = 0
+skip = 0
 fail = 0
-reason = "swayward_adapter_finding"
-reason_verified = true
+unreached = 5
+pass_assertions = []
+skip_assertions = []
+fail_assertions = []
+unreached_assertions = [1, 2, 3, 4, 5]
