@@ -72,6 +72,8 @@ PY
         ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
             --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel" \
             --require-complete "${canaries[@]}"
+        # i3's complete-run.pl names output directories at one-second resolution.
+        sleep 1
         ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
             --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel"
         sanity_check "$compositor"
