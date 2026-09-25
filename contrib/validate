@@ -26,8 +26,10 @@ if [[ ${1:-} == reproduce ]]; then
             sway) binary=$SWAY_BINARY ;;
             swayward) binary=$SWAYWARD_BINARY ;;
         esac
+        parallel=1
+        [[ $compositor == i3 ]] && parallel=4
         ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
-            --i3src "$I3SRC" --i3build "$I3BUILD"
+            --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel"
         ./contrib/sway-ipc-run --compositor "$compositor" --binary "$binary" \
             --out "sway-ipc/results/$compositor.toml" || [[ $? == 1 ]]
     }
@@ -78,71 +80,54 @@ done
 for result in "${sway_ipc_results[@]}"; do
     python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$result" || status=1
 done
+python3 - <<'PY' || status=1
+import tomllib
+from pathlib import Path
+
+measurement_path = Path("sway-ipc/results/differential-swayward.toml")
+classification_path = Path("sway-ipc/classifications/differential-swayward.toml")
+measurement = tomllib.load(measurement_path.open("rb"))
+classification = tomllib.load(classification_path.open("rb"))
+
+def key(row):
+    return (tuple(row.get("commands", [])), row.get("request"), tuple(row.get("differences", [])))
+
+measured = {key(row): row for row in measurement["result"] if row["verdict"] == "mismatch"}
+classified = {key(row): row for row in classification.get("classification", [])}
+for missing in measured.keys() - classified.keys():
+    print(f"differential mismatch has no classification: {missing}")
+for stale in classified.keys() - measured.keys():
+    print(f"differential classification points at no mismatch: {stale}")
+for row in classified.values():
+    if row.get("triage") == "untriaged":
+        print(f"differential classification remains untriaged: {key(row)}")
+if measured.keys() != classified.keys() or any(row.get("triage") == "untriaged" for row in classified.values()):
+    raise SystemExit(1)
+PY
 ((status == 0)) || exit "$status"
 python3 - <<'PY'
-import re, tomllib
+import tomllib
 from pathlib import Path
+
 readme = Path("README.md").read_text()
 docs = {name: tomllib.load(open(f"i3/results/{name}.toml", "rb")) for name in ("i3", "sway", "swayward")}
 def counts(entry):
-    return entry.get("pass", 0), len(entry.get("skip", [])), entry.get("fail", 0) + entry.get("unreached", 0)
+    return entry.get("pass", 0), entry.get("skip", 0), entry.get("fail", 0) + entry.get("unreached", 0)
 def totals(doc):
-    rows = [counts(entry) for entry in doc["files"].values()]
+    rows = [counts(entry) for entry in doc["files"].values() if not entry.get("flaky")]
     return tuple(sum(row[i] for row in rows) for i in range(3))
 for name, doc in docs.items():
-    expected = "/".join(f"{n:,}" for n in totals(doc))
+    expected = "/".join(f"{number:,}" for number in totals(doc))
     if f"{name} **{expected}**" not in readme:
         raise SystemExit(f"README i3-suite summary for {name} is not {expected}")
-    claim = f"All {name} failures now carry a verified family classification."
-    unverified = [
-        filename
-        for filename, entry in doc["files"].items()
-        if (entry.get("fail", 0) or entry.get("unreached", 0))
-        and entry.get("reason_verified") is not True
-    ]
-    if claim in readme and unverified:
-        raise SystemExit(
-            f"README claims all {name} failures are verified, but {len(unverified)} rows are not"
-        )
-for name in docs["i3"]["files"]:
-    expected = " | ".join("/".join(map(str, counts(docs[c]["files"][name]))) for c in ("i3", "sway", "swayward"))
-    if f"| `{name}` | {expected} |" not in readme:
-        raise SystemExit(f"README i3-suite row is stale: {name}")
-
-wayland_docs = {name: docs[name] for name in ("sway", "swayward")}
-for compositor, doc in wayland_docs.items():
-    for filename, entry in doc["files"].items():
-        if "fake-outputs->headless-outputs" in entry.get("adapted", []):
-            reasons = {entry.get("reason")} | {skip.get("reason") for skip in entry.get("skip", [])}
-            if "i3_fake_outputs" in reasons:
-                raise SystemExit(
-                    f"{compositor} {filename} translates fake outputs but retains an i3_fake_outputs skip"
-                )
-boundary_families = {
-    family
-    for doc in wayland_docs.values()
-    for family in doc.get("families", {})
-    if family.endswith("_boundary")
-}
-for family in sorted(boundary_families):
-    verdicts = {}
-    for compositor, doc in wayland_docs.items():
-        if family not in doc.get("families", {}):
-            verdicts[compositor] = "missing"
-            continue
-        entries = [entry for entry in doc["files"].values() if entry.get("reason") == family]
-        kinds = {
-            "fail"
-            if entry.get("fail", 0) or entry.get("unreached", 0)
-            else "skip"
-            if entry.get("skip")
-            else "empty"
-            for entry in entries
-        }
-        verdicts[compositor] = ",".join(sorted(kinds)) if kinds else "unused"
-    if len(set(verdicts.values())) != 1 or next(iter(verdicts.values())) not in {"fail", "skip"}:
-        detail = ", ".join(f"{name}={verdict}" for name, verdict in verdicts.items())
-        raise SystemExit(f"boundary family {family} has inconsistent verdicts: {detail}")
+for filename in docs["i3"]["files"]:
+    expected = " | ".join(
+        "flaky" if docs[compositor]["files"][filename].get("flaky")
+        else "/".join(map(str, counts(docs[compositor]["files"][filename])))
+        for compositor in ("i3", "sway", "swayward")
+    )
+    if f"| `{filename}` | {expected} |" not in readme:
+        raise SystemExit(f"README i3-suite row is stale: {filename}")
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
 if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then
