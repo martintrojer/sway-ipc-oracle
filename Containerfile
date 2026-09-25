@@ -3,7 +3,7 @@ FROM registry.fedoraproject.org/fedora:44
 ARG I3_COMMIT=9be3249ac5b377ed3270e36bca83df53d8023337
 ARG SWAY_COMMIT=88869399f421d9180dd8b6ed0b5a1f4a3585d252
 ARG WLROOTS_COMMIT=c1d38536c926134698ff2615843e0d4103e84ac4
-ARG SWAYWARD_COMMIT=b420c1a4316af8ed55c83d73fbad93d66f4d8530
+ARG SWAYWARD_COMMIT=10db3ba38864bf65ed4da2b473ebbe9dea4ae257
 
 RUN dnf install -y \
         bash git gcc gcc-c++ clang cargo meson ninja-build pkgconf-pkg-config \
