@@ -19,6 +19,44 @@ if [[ ${1:-} == reproduce ]]; then
         echo 'reproduce must run in the oracle container; see README.md' >&2
         exit 2
     }
+    sanity_check() {
+        compositor=$1
+        python3 - "$compositor" <<'PY'
+import sys, tomllib
+from pathlib import Path
+
+compositor = sys.argv[1]
+result = tomllib.load(open(f"i3/results/{compositor}.toml", "rb"))
+files = result["files"]
+canaries = {
+    "i3": {"001-tile.t": (3, 0, 0), "122-split.t": (41, 0, 0)},
+    "sway": {"001-tile.t": (3, 0, 0), "112-floating-resize.t": (15, 0, 0)},
+    "swayward": {"001-tile.t": (3, 0, 0), "122-split.t": (41, 0, 0)},
+}
+for name, expected in canaries[compositor].items():
+    entry = files[name]
+    actual = (entry.get("pass", 0), entry.get("skip", 0),
+              entry.get("fail", 0) + entry.get("unreached", 0))
+    if actual != expected:
+        raise SystemExit(
+            f"{compositor} harness sanity failed: {name} is {actual}, expected {expected}"
+        )
+zero_pass = sum(entry.get("pass", 0) == 0 for entry in files.values())
+if zero_pass > 60:
+    raise SystemExit(
+        f"{compositor} harness sanity failed: {zero_pass} files have zero passes (limit 60)"
+    )
+diagnostics = Path(f"target/i3-suite/{compositor}")
+needles = ("No such atom (I3_SOCKET_PATH)", "no free X11 display")
+for path in diagnostics.rglob("*"):
+    if path.is_file():
+        text = path.read_text(errors="replace")
+        for needle in needles:
+            if needle in text:
+                raise SystemExit(f"{compositor} harness sanity failed: {needle} in {path}")
+print(f"{compositor} harness sanity passed ({zero_pass} zero-pass files)")
+PY
+    }
     run_one() {
         compositor=$1
         case $compositor in
@@ -30,6 +68,7 @@ if [[ ${1:-} == reproduce ]]; then
         [[ $compositor == i3 ]] && parallel=4
         ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
             --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel"
+        sanity_check "$compositor"
         ./contrib/sway-ipc-run --compositor "$compositor" --binary "$binary" \
             --out "sway-ipc/results/$compositor.toml" || [[ $? == 1 ]]
     }
