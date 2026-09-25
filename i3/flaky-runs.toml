@@ -1,4 +1,4 @@
-# Per-assertion evidence from the two complete fixed-container runs used to mark flakes.
+# Per-assertion evidence from complete fixed-container runs used to mark flakes.
 
 [[run]]
 compositor = "sway"
@@ -10,6 +10,42 @@ first_unreached = []
 second_pass = [1, 2, 6, 7, 8, 11, 12, 13]
 second_skip = []
 second_fail = [3, 4, 5, 9, 10]
+second_unreached = []
+
+[[run]]
+compositor = "sway"
+file = "104-focus-stack.t"
+first_pass = [1, 2]
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
+file = "111-goto.t"
+first_pass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
+file = "112-floating-resize.t"
+first_pass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
 second_unreached = []
 
 [[run]]
@@ -158,6 +194,42 @@ second_unreached = []
 
 [[run]]
 compositor = "sway"
+file = "186-regress-assign-focus-parent.t"
+first_pass = [1, 2, 3, 4, 5, 6, 7, 8]
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
+file = "200-urgency-timer.t"
+first_pass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
+file = "206-fullscreen-scratchpad.t"
+first_pass = [1, 2, 3, 4]
+first_skip = []
+first_fail = []
+first_unreached = [5, 6, 7, 8]
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
 file = "210-mark-unmark.t"
 first_pass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16]
 first_skip = []
@@ -182,6 +254,18 @@ second_unreached = [9, 10]
 
 [[run]]
 compositor = "sway"
+file = "225-ipc-window-fullscreen.t"
+first_pass = [1, 2]
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
 file = "228-border-widths.t"
 first_pass = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 21]
 first_skip = []
@@ -196,6 +280,18 @@ second_unreached = []
 compositor = "sway"
 file = "232-cmd-move-criteria.t"
 first_pass = []
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
+file = "240-focus-on-window-activation.t"
+first_pass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 first_skip = []
 first_fail = []
 first_unreached = []
@@ -302,6 +398,18 @@ second_unreached = []
 
 [[run]]
 compositor = "sway"
+file = "299-regress-scratchpad-focus.t"
+first_pass = [1]
+first_skip = []
+first_fail = []
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
+second_unreached = []
+
+[[run]]
+compositor = "sway"
 file = "313-include.t"
 first_pass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24]
 first_skip = [19]
@@ -322,6 +430,18 @@ first_unreached = []
 second_pass = [11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28]
 second_skip = []
 second_fail = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 19, 20]
+second_unreached = []
+
+[[run]]
+compositor = "sway"
+file = "503-workspace.t"
+first_pass = [1, 12, 16]
+first_skip = []
+first_fail = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 17, 18]
+first_unreached = []
+second_pass = []
+second_skip = []
+second_fail = []
 second_unreached = []
 
 [[run]]

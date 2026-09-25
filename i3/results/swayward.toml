@@ -4,7 +4,7 @@
 
 [run]
 compositor = "swayward"
-version = "26.04 (0fbb931c)"
+version = "swayward 26.04 (0fbb931c)"
 commit = "0fbb931cda0b3225a52f1e14d6da4457f5510f90"
 i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"

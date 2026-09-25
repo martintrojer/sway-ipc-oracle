@@ -129,7 +129,7 @@ Publish black-box results from the oracle's runners under the matching oracle's 
 
 ## i3 suite comparison
 
-These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record both complete totals and stable-file totals. The stable counts are i3 **3,754/1/0**, sway **1,154/19/1,802**, and swayward **1,443/11/2,279**. Two complete fixed-container runs found 31 unstable sway files (1,111 assertions) and one unstable swayward file (22 assertions); i3 had none. The files remain visible as `flaky` rows, and `i3/flaky-runs.toml` records both runs per assertion. `i3/flaky.toml` names the exclusions. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
+These are measurements, not scores. Each cell is pass/skip/fail; “fail” includes assertions the run did not reach. The shared `headless_xtest_boundary` family marks those assertions as not measured by the harness, not as compositor behavior. The pinned runs record both complete totals and stable-file totals. The stable counts are i3 **3,754/1/0**, sway **1,079/19/1,783**, and swayward **1,443/11/2,279**. Repeated complete fixed-container runs found 41 unstable sway files and one unstable swayward file; i3 had none. The files remain visible as `flaky` rows, and `i3/flaky-runs.toml` records per-assertion evidence. `i3/flaky.toml` names the exclusions. `contrib/validate` checks these hand-written summary figures and every table row against the TOML files.
 
 | File | i3 P/S/F | sway P/S/F | swayward P/S/F |
 | --- | ---: | ---: | ---: |
@@ -139,9 +139,9 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `100-fullscreen.t` | 79/0/0 | 17/0/62 | 21/0/58 |
 | `101-focus.t` | 8/0/0 | 8/0/0 | 4/0/4 |
 | `102-dock.t` | 23/0/0 | 5/0/18 | 1/0/22 |
-| `104-focus-stack.t` | 2/0/0 | 2/0/0 | 2/0/0 |
-| `111-goto.t` | 13/0/0 | 13/0/0 | 13/0/0 |
-| `112-floating-resize.t` | 15/0/0 | 15/0/0 | 15/0/0 |
+| `104-focus-stack.t` | 2/0/0 | flaky | 2/0/0 |
+| `111-goto.t` | 13/0/0 | flaky | 13/0/0 |
+| `112-floating-resize.t` | 15/0/0 | flaky | 15/0/0 |
 | `113-urgent.t` | 64/0/0 | flaky | 18/0/46 |
 | `115-ipc-workspaces.t` | 9/0/0 | 9/0/0 | 9/0/0 |
 | `116-nestedcons.t` | 7/0/0 | 4/0/3 | 4/0/3 |
@@ -205,7 +205,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `183-config-variables.t` | 9/0/0 | 9/0/0 | 9/0/0 |
 | `184-regress-float-split-resize.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `185-scratchpad.t` | 100/0/0 | 2/0/98 | 2/0/98 |
-| `186-regress-assign-focus-parent.t` | 8/0/0 | 8/0/0 | 8/0/0 |
+| `186-regress-assign-focus-parent.t` | 8/0/0 | flaky | 8/0/0 |
 | `187-commands-parser.t` | 25/0/0 | 0/0/25 | 0/0/25 |
 | `188-regress-focus-restart.t` | 11/0/0 | 11/0/0 | 11/0/0 |
 | `189-floating-constraints.t` | 28/0/0 | 24/0/4 | 12/0/16 |
@@ -218,13 +218,13 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `197-regression-move-vanish.t` | 4/0/0 | 4/0/0 | 4/0/0 |
 | `198-regression-scratchpad-crash.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `199-ipc-mode-event.t` | 2/0/0 | 2/0/0 | 2/0/0 |
-| `200-urgency-timer.t` | 12/0/0 | 12/0/0 | 8/0/4 |
+| `200-urgency-timer.t` | 12/0/0 | flaky | 8/0/4 |
 | `201-config-parser.t` | 32/0/0 | 0/0/32 | 0/0/32 |
 | `202-scratchpad-criteria.t` | 27/0/0 | 8/0/19 | 11/0/16 |
 | `203-regress-assign-and-move.t` | 2/0/0 | 2/0/0 | 2/0/0 |
 | `204-regress-scratchpad-move.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `205-ipc-windows.t` | 4/0/0 | 2/0/2 | 4/0/0 |
-| `206-fullscreen-scratchpad.t` | 8/0/0 | 4/0/4 | 4/0/4 |
+| `206-fullscreen-scratchpad.t` | 8/0/0 | flaky | 4/0/4 |
 | `208-regress-floating-criteria.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `210-mark-unmark.t` | 17/0/0 | flaky | 7/0/10 |
 | `211-regress-urgency-assign.t` | 3/0/0 | 2/0/1 | 1/0/2 |
@@ -236,7 +236,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `221-floating-type-hints.t` | 8/0/0 | 0/0/8 | 0/0/8 |
 | `222-regress-dock-resize.t` | 1/0/0 | 1/0/0 | 0/0/1 |
 | `224-regress-resize-branch.t` | 1/0/0 | 1/0/0 | 1/0/0 |
-| `225-ipc-window-fullscreen.t` | 2/0/0 | 2/0/0 | 2/0/0 |
+| `225-ipc-window-fullscreen.t` | 2/0/0 | flaky | 2/0/0 |
 | `226-internal-workspaces.t` | 5/0/0 | 1/0/4 | 1/0/4 |
 | `227-ipc-workspace-empty.t` | 3/0/0 | 0/0/3 | 2/0/1 |
 | `228-border-widths.t` | 21/0/0 | flaky | 6/0/15 |
@@ -247,7 +247,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `236-floating-focus-raise.t` | 6/0/0 | 0/0/6 | 0/0/6 |
 | `237-regress-assign-focus.t` | 1/0/0 | 1/0/0 | 1/0/0 |
 | `238-ipc-binding-event.t` | 15/0/0 | 2/0/13 | 2/0/13 |
-| `240-focus-on-window-activation.t` | 15/0/0 | 15/0/0 | 13/0/2 |
+| `240-focus-on-window-activation.t` | 15/0/0 | flaky | 13/0/2 |
 | `241-consistent-center.t` | 12/0/0 | 8/0/4 | 10/0/2 |
 | `242-no-focus.t` | 6/0/0 | 6/0/0 | 3/0/3 |
 | `243-move-to-mark.t` | 50/0/0 | flaky | 3/0/47 |
@@ -301,7 +301,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `297-assign-workspace-to-output.t` | 25/0/0 | 13/0/12 | 12/0/13 |
 | `297-scroll-tabbed.t` | 16/0/0 | 1/0/15 | 1/0/15 |
 | `298-ipc-misbehaving-connection.t` | 2/0/0 | 1/0/1 | 1/0/1 |
-| `299-regress-scratchpad-focus.t` | 1/0/0 | 1/0/0 | 1/0/0 |
+| `299-regress-scratchpad-focus.t` | 1/0/0 | flaky | 1/0/0 |
 | `301-shape.t` | 4/0/0 | 1/0/3 | 1/0/3 |
 | `302-tree.t` | 15/0/0 | 0/0/15 | 0/0/15 |
 | `303-regress-move-floating.t` | 3/0/0 | 1/0/2 | 3/0/0 |
@@ -330,7 +330,7 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `500-multi-monitor.t` | 1/0/0 | 0/0/1 | 1/0/0 |
 | `501-scratchpad.t` | 44/0/0 | 44/0/0 | 44/0/0 |
 | `502-focus-output.t` | 19/0/0 | 19/0/0 | 19/0/0 |
-| `503-workspace.t` | 18/0/0 | 3/0/15 | 16/0/2 |
+| `503-workspace.t` | 18/0/0 | flaky | 16/0/2 |
 | `504-move-workspace-to-output.t` | 31/0/0 | 9/0/22 | 28/0/3 |
 | `505-scratchpad-resolution.t` | 90/0/0 | 45/0/45 | 45/0/45 |
 | `506-focus-right.t` | 31/0/0 | flaky | 28/0/3 |

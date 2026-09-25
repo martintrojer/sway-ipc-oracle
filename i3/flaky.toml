@@ -1,10 +1,13 @@
-# Files whose per-assertion outcomes changed between two complete fixed-container runs.
-# Raw outcomes for both runs are retained in flaky-runs.toml; these files remain
-# visible but are excluded from published stable pass/skip/fail counts.
+# Files whose per-assertion outcomes changed between complete fixed-container runs.
+# Raw outcomes are retained in flaky-runs.toml; these rows stay visible but are
+# excluded from published stable pass/skip/fail counts.
 
 [sway]
 files = [
   "005-floating.t",
+  "104-focus-stack.t",
+  "111-goto.t",
+  "112-floating-resize.t",
   "113-urgent.t",
   "129-focus-after-close.t",
   "135-floating-focus.t",
@@ -17,10 +20,15 @@ files = [
   "167-workspace_layout.t",
   "170-force_focus_wrapping.t",
   "174-border-config.t",
+  "186-regress-assign-focus-parent.t",
+  "200-urgency-timer.t",
+  "206-fullscreen-scratchpad.t",
   "210-mark-unmark.t",
   "219-ipc-window-focus.t",
+  "225-ipc-window-fullscreen.t",
   "228-border-widths.t",
   "232-cmd-move-criteria.t",
+  "240-focus-on-window-activation.t",
   "243-move-to-mark.t",
   "251-command-criteria-focused.t",
   "269-focus-stack-above.t",
@@ -29,8 +37,10 @@ files = [
   "277-ipc-window-urgent.t",
   "285-sticky.t",
   "293-focus-follows-mouse.t",
+  "299-regress-scratchpad-focus.t",
   "313-include.t",
   "319-gaps.t",
+  "503-workspace.t",
   "506-focus-right.t",
   "528-workspace-next-prev-reversed.t",
   "541-resize-set-tiling.t",
