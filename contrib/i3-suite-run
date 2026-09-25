@@ -285,8 +285,12 @@ perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
                 print(f"EXIT={code} {name}")
     taps = {p.name.removesuffix('.tap'): p.read_text(errors='replace') for p in out.glob('*.tap')}
     if args.require_complete:
+        selected_names = {test.name for test in selected_tests(args)}
         diagnostics = "\n".join(
-            path.read_text(errors="replace") for path in out.rglob("*") if path.is_file()
+            path.read_text(errors="replace")
+            for path in out.rglob("*")
+            if path.is_file() and any(name in path.parts or path.name == f"{name}.tap"
+                                      for name in selected_names)
         )
         require_complete(taps, selected_tests(args), diagnostics)
         return

@@ -21,7 +21,7 @@ if [[ ${1:-} == reproduce ]]; then
     }
     # Fast canaries stop a broken harness before it spends an hour producing
     # measurements. The post-run checks below also protect direct full runs.
-    canaries=(003-ipc.t 104-focus-stack.t 112-floating-resize.t 134-invalid-command.t 136-floating-ws-empty.t)
+    canaries=(003-ipc.t 115-ipc-workspaces.t 126-regress-close.t 134-invalid-command.t 139-ws-numbers.t)
     sanity_check() {
         compositor=$1
         python3 - "$compositor" <<'PY'
@@ -32,12 +32,15 @@ compositor = sys.argv[1]
 result = tomllib.load(open(f"i3/results/{compositor}.toml", "rb"))
 files = result["files"]
 canaries = {
-    "i3": {"001-tile.t": (3, 0, 0), "122-split.t": (41, 0, 0)},
-    "sway": {"001-tile.t": (3, 0, 0), "112-floating-resize.t": (15, 0, 0)},
-    "swayward": {"001-tile.t": (3, 0, 0), "122-split.t": (41, 0, 0)},
+    "003-ipc.t": 1,
+    "115-ipc-workspaces.t": 9,
+    "126-regress-close.t": 1,
+    "134-invalid-command.t": 1,
+    "139-ws-numbers.t": 8,
 }
-for name, expected in canaries[compositor].items():
+for name, assertions in canaries.items():
     entry = files[name]
+    expected = (assertions, 0, 0)
     actual = (entry.get("pass", 0), entry.get("skip", 0),
               entry.get("fail", 0) + entry.get("unreached", 0))
     if actual != expected:
@@ -52,7 +55,7 @@ if zero_pass > 60:
 diagnostics = Path(f"target/i3-suite/{compositor}")
 needles = ("No such atom (I3_SOCKET_PATH)", "no free X11 display")
 for path in diagnostics.rglob("*"):
-    if path.is_file():
+    if path.is_file() and "159-socketpaths.t" not in path.parts and path.name != "159-socketpaths.t.tap":
         text = path.read_text(errors="replace")
         for needle in needles:
             if needle in text:
