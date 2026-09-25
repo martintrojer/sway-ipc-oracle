@@ -4,7 +4,7 @@
 
 [run]
 compositor = "sway"
-version = "sway version 1.12-88869399 (Sep 25 2026, branch 'HEAD')"
+version = "sway version 1.12-88869399"
 commit = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
@@ -34,16 +34,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."005-floating.t"]
+flaky = true
 assertions = 13
-tap_plan = 13
-pass = 11
-skip = 0
-fail = 2
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13]
-skip_assertions = []
-fail_assertions = [9, 10]
-unreached_assertions = []
 
 [files."100-fullscreen.t"]
 plan_unknown = true
@@ -120,18 +112,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."113-urgent.t"]
-plan_unknown = true
+flaky = true
 assertions = 64
-tap_plan = "none"
-source_assertions = 64
-pass = 21
-skip = 0
-fail = 2
-unreached = 41
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 22, 23]
-skip_assertions = []
-fail_assertions = [20, 21]
-unreached_assertions = [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64]
 
 [files."115-ipc-workspaces.t"]
 assertions = 9
@@ -286,18 +268,8 @@ fail_assertions = [2, 3, 4, 6]
 unreached_assertions = []
 
 [files."129-focus-after-close.t"]
-plan_unknown = true
+flaky = true
 assertions = 15
-tap_plan = "none"
-source_assertions = 15
-pass = 8
-skip = 0
-fail = 4
-unreached = 3
-pass_assertions = [1, 2, 5, 7, 8, 10, 11, 12]
-skip_assertions = []
-fail_assertions = [3, 4, 6, 9]
-unreached_assertions = [13, 14, 15]
 
 [files."130-close-empty-split.t"]
 assertions = 8
@@ -362,30 +334,12 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."135-floating-focus.t"]
-plan_unknown = true
+flaky = true
 assertions = 82
-tap_plan = "none"
-source_assertions = 82
-pass = 2
-skip = 0
-fail = 2
-unreached = 78
-pass_assertions = [3, 4]
-skip_assertions = []
-fail_assertions = [1, 2]
-unreached_assertions = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82]
 
 [files."136-floating-ws-empty.t"]
+flaky = true
 assertions = 11
-tap_plan = 11
-pass = 11
-skip = 0
-fail = 0
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-skip_assertions = []
-fail_assertions = []
-unreached_assertions = []
 
 [files."137-floating-unmap.t"]
 assertions = 2
@@ -400,16 +354,8 @@ fail_assertions = [2]
 unreached_assertions = []
 
 [files."138-floating-attach.t"]
+flaky = true
 assertions = 11
-tap_plan = 11
-pass = 11
-skip = 0
-fail = 0
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-skip_assertions = []
-fail_assertions = []
-unreached_assertions = []
 
 [files."139-ws-numbers.t"]
 assertions = 8
@@ -424,28 +370,12 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."140-focus-lost.t"]
+flaky = true
 assertions = 3
-tap_plan = 3
-pass = 3
-skip = 0
-fail = 0
-unreached = 0
-pass_assertions = [1, 2, 3]
-skip_assertions = []
-fail_assertions = []
-unreached_assertions = []
 
 [files."141-resize.t"]
+flaky = true
 assertions = 84
-tap_plan = 84
-pass = 63
-skip = 0
-fail = 21
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 14, 15, 24, 25, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 68, 69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83]
-skip_assertions = []
-fail_assertions = [10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 26, 29, 42, 43, 67, 71, 76, 80, 84]
-unreached_assertions = []
 
 [files."142-regress-move-floating.t"]
 assertions = 1
@@ -486,28 +416,12 @@ fail_assertions = []
 unreached_assertions = [1]
 
 [files."145-flattening.t"]
+flaky = true
 assertions = 8
-tap_plan = 8
-pass = 6
-skip = 0
-fail = 2
-unreached = 0
-pass_assertions = [1, 2, 4, 5, 6, 7]
-skip_assertions = []
-fail_assertions = [3, 8]
-unreached_assertions = []
 
 [files."146-floating-reinsert.t"]
+flaky = true
 assertions = 3
-tap_plan = 3
-pass = 3
-skip = 0
-fail = 0
-unreached = 0
-pass_assertions = [1, 2, 3]
-skip_assertions = []
-fail_assertions = []
-unreached_assertions = []
 
 [files."147-regress-floatingmove.t"]
 assertions = 2
@@ -702,18 +616,8 @@ fail_assertions = [13, 15, 17, 20, 22]
 unreached_assertions = [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106]
 
 [files."167-workspace_layout.t"]
-plan_unknown = true
+flaky = true
 assertions = 87
-tap_plan = "none"
-source_assertions = 87
-pass = 8
-skip = 0
-fail = 20
-unreached = 59
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 23]
-skip_assertions = []
-fail_assertions = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28]
-unreached_assertions = [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87]
 
 [files."168-regress-fullscreen-restart.t"]
 assertions = 1
@@ -740,16 +644,8 @@ fail_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
 unreached_assertions = []
 
 [files."170-force_focus_wrapping.t"]
+flaky = true
 assertions = 12
-tap_plan = 12
-pass = 8
-skip = 0
-fail = 4
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8]
-skip_assertions = []
-fail_assertions = [9, 10, 11, 12]
-unreached_assertions = []
 
 [files."172-start-on-named-ws.t"]
 assertions = 7
@@ -776,16 +672,8 @@ fail_assertions = [2]
 unreached_assertions = []
 
 [files."174-border-config.t"]
+flaky = true
 assertions = 13
-tap_plan = 13
-pass = 9
-skip = 0
-fail = 4
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 8, 9, 11, 12]
-skip_assertions = []
-fail_assertions = [6, 7, 10, 13]
-unreached_assertions = []
 
 [files."176-workspace-baf.t"]
 plan_unknown = true
@@ -1173,16 +1061,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."210-mark-unmark.t"]
+flaky = true
 assertions = 17
-tap_plan = 17
-pass = 14
-skip = 0
-fail = 3
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16]
-skip_assertions = []
-fail_assertions = [14, 15, 17]
-unreached_assertions = []
 
 [files."211-regress-urgency-assign.t"]
 assertions = 3
@@ -1234,19 +1114,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."219-ipc-window-focus.t"]
-adapted = ["fake-outputs->headless-outputs"]
-plan_unknown = true
+flaky = true
 assertions = 10
-tap_plan = "none"
-source_assertions = 10
-pass = 1
-skip = 0
-fail = 7
-unreached = 2
-pass_assertions = [6]
-skip_assertions = []
-fail_assertions = [1, 2, 3, 4, 5, 7, 8]
-unreached_assertions = [9, 10]
 
 [files."220-ipc-window-title.t"]
 assertions = 4
@@ -1335,16 +1204,8 @@ fail_assertions = [1]
 unreached_assertions = [2, 3]
 
 [files."228-border-widths.t"]
+flaky = true
 assertions = 21
-tap_plan = 21
-pass = 18
-skip = 0
-fail = 3
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 21]
-skip_assertions = []
-fail_assertions = [6, 13, 20]
-unreached_assertions = []
 
 [files."231-ipc-floating-event.t"]
 assertions = 2
@@ -1526,16 +1387,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."251-command-criteria-focused.t"]
+flaky = true
 assertions = 11
-tap_plan = 11
-pass = 7
-skip = 0
-fail = 4
-unreached = 0
-pass_assertions = [4, 5, 6, 8, 9, 10, 11]
-skip_assertions = []
-fail_assertions = [1, 2, 3, 7]
-unreached_assertions = []
 
 [files."252-floating-size.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -1734,16 +1587,8 @@ fail_assertions = [2]
 unreached_assertions = []
 
 [files."269-focus-stack-above.t"]
+flaky = true
 assertions = 5
-tap_plan = 5
-pass = 3
-skip = 0
-fail = 2
-unreached = 0
-pass_assertions = [1, 4, 5]
-skip_assertions = []
-fail_assertions = [2, 3]
-unreached_assertions = []
 
 [files."270-config-no-newline-end.t"]
 assertions = 2
@@ -1758,16 +1603,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."271-for_window_tilingfloating.t"]
+flaky = true
 assertions = 20
-tap_plan = 20
-pass = 11
-skip = 0
-fail = 9
-unreached = 0
-pass_assertions = [1, 3, 5, 7, 9, 11, 13, 14, 15, 17, 19]
-skip_assertions = []
-fail_assertions = [2, 4, 6, 8, 10, 12, 16, 18, 20]
-unreached_assertions = []
 
 [files."272-regress-focus-assign.t"]
 assertions = 8
@@ -1794,16 +1631,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."274-move-branch-position.t"]
+flaky = true
 assertions = 16
-tap_plan = 16
-pass = 11
-skip = 0
-fail = 5
-unreached = 0
-pass_assertions = [2, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16]
-skip_assertions = []
-fail_assertions = [1, 3, 4, 7, 8]
-unreached_assertions = []
 
 [files."275-ipc-window-close.t"]
 assertions = 3
@@ -1830,16 +1659,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."277-ipc-window-urgent.t"]
+flaky = true
 assertions = 2
-tap_plan = 2
-pass = 0
-skip = 0
-fail = 2
-unreached = 0
-pass_assertions = []
-skip_assertions = []
-fail_assertions = [1, 2]
-unreached_assertions = []
 
 [files."279-regress-default-floating-border.t"]
 assertions = 1
@@ -1904,19 +1725,8 @@ fail_assertions = []
 unreached_assertions = [1, 2, 3, 4, 5]
 
 [files."285-sticky.t"]
-adapted = ["fake-outputs->headless-outputs"]
-plan_unknown = true
+flaky = true
 assertions = 11
-tap_plan = "none"
-source_assertions = 11
-pass = 4
-skip = 0
-fail = 0
-unreached = 7
-pass_assertions = [1, 2, 3, 4]
-skip_assertions = []
-fail_assertions = []
-unreached_assertions = [5, 6, 7, 8, 9, 10, 11]
 
 [files."286-root-window-mouse-binding.t"]
 plan_unknown = true
@@ -1999,17 +1809,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."293-focus-follows-mouse.t"]
-adapted = ["fake-outputs->headless-outputs"]
+flaky = true
 assertions = 10
-tap_plan = 10
-pass = 4
-skip = 0
-fail = 6
-unreached = 0
-pass_assertions = [1, 3, 4, 5]
-skip_assertions = []
-fail_assertions = [2, 6, 7, 8, 9, 10]
-unreached_assertions = []
 
 [files."293-sticky-output-crash.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2267,16 +2068,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."313-include.t"]
+flaky = true
 assertions = 30
-tap_plan = 30
-pass = 22
-skip = 1
-fail = 7
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24]
-skip_assertions = [19]
-fail_assertions = [23, 25, 26, 27, 28, 29, 30]
-unreached_assertions = []
 
 [files."315-all-criterion.t"]
 plan_unknown = true
@@ -2372,16 +2165,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."319-gaps.t"]
+flaky = true
 assertions = 28
-tap_plan = 28
-pass = 22
-skip = 0
-fail = 6
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 21, 22, 25, 26, 27, 28]
-skip_assertions = []
-fail_assertions = [17, 18, 19, 20, 23, 24]
-unreached_assertions = []
 
 [files."320-mouse-bindings.t"]
 plan_unknown = true
@@ -2528,17 +2313,8 @@ fail_assertions = []
 unreached_assertions = [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
 
 [files."506-focus-right.t"]
-adapted = ["fake-outputs->headless-outputs"]
+flaky = true
 assertions = 31
-tap_plan = 31
-pass = 26
-skip = 0
-fail = 5
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 28, 29, 31]
-skip_assertions = []
-fail_assertions = [14, 15, 26, 27, 30]
-unreached_assertions = []
 
 [files."507-workspace-move-crash.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2782,17 +2558,8 @@ fail_assertions = []
 unreached_assertions = [2]
 
 [files."528-workspace-next-prev-reversed.t"]
-adapted = ["fake-outputs->headless-outputs"]
+flaky = true
 assertions = 38
-tap_plan = 38
-pass = 3
-skip = 0
-fail = 35
-unreached = 0
-pass_assertions = [4, 5, 35]
-skip_assertions = []
-fail_assertions = [1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38]
-unreached_assertions = []
 
 [files."530-bug-2229.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -2897,16 +2664,8 @@ fail_assertions = []
 unreached_assertions = []
 
 [files."541-resize-set-tiling.t"]
+flaky = true
 assertions = 32
-tap_plan = 32
-pass = 26
-skip = 0
-fail = 6
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 22, 23, 26, 27, 28, 29, 30, 31, 32]
-skip_assertions = []
-fail_assertions = [12, 19, 20, 21, 24, 25]
-unreached_assertions = []
 
 [files."543-move-workspace-to-multiple-outputs.t"]
 adapted = ["fake-outputs->headless-outputs"]
@@ -3038,16 +2797,8 @@ fail_assertions = [2]
 unreached_assertions = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [files."553-popup_during_fullscreen.t"]
+flaky = true
 assertions = 20
-tap_plan = 20
-pass = 16
-skip = 0
-fail = 4
-unreached = 0
-pass_assertions = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 18, 20]
-skip_assertions = []
-fail_assertions = [9, 14, 16, 19]
-unreached_assertions = []
 
 [files."554-commands-crash-for-window.t"]
 assertions = 101

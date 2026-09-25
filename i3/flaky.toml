@@ -1,11 +1,43 @@
-# Files whose per-assertion outcomes changed between three consecutive pinned
-# runs after the sway Xwayland map barrier and 180-second file timeout.
-# They remain visible but are excluded from published pass/skip/fail counts.
+# Files whose per-assertion outcomes changed between two complete fixed-container runs.
+# Raw outcomes for both runs are retained in flaky-runs.toml; these files remain
+# visible but are excluded from published stable pass/skip/fail counts.
+
 [sway]
 files = [
+  "005-floating.t",
+  "113-urgent.t",
+  "129-focus-after-close.t",
+  "135-floating-focus.t",
+  "136-floating-ws-empty.t",
+  "138-floating-attach.t",
+  "140-focus-lost.t",
+  "141-resize.t",
+  "145-flattening.t",
+  "146-floating-reinsert.t",
+  "167-workspace_layout.t",
+  "170-force_focus_wrapping.t",
+  "174-border-config.t",
+  "210-mark-unmark.t",
+  "219-ipc-window-focus.t",
+  "228-border-widths.t",
   "232-cmd-move-criteria.t",
   "243-move-to-mark.t",
+  "251-command-criteria-focused.t",
+  "269-focus-stack-above.t",
+  "271-for_window_tilingfloating.t",
+  "274-move-branch-position.t",
+  "277-ipc-window-urgent.t",
+  "285-sticky.t",
+  "293-focus-follows-mouse.t",
+  "313-include.t",
+  "319-gaps.t",
+  "506-focus-right.t",
+  "528-workspace-next-prev-reversed.t",
+  "541-resize-set-tiling.t",
+  "553-popup_during_fullscreen.t",
 ]
 
 [swayward]
-files = []
+files = [
+  "232-cmd-move-criteria.t",
+]

@@ -4,7 +4,7 @@
 
 [run]
 compositor = "swayward"
-version = "swayward 26.04 (0fbb931c)"
+version = "26.04 (0fbb931c)"
 commit = "0fbb931cda0b3225a52f1e14d6da4457f5510f90"
 i3_suite_commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 environment = "headless compositor with private IPC/X11 sockets and real X11 clients"
@@ -1472,19 +1472,8 @@ fail_assertions = [1, 2]
 unreached_assertions = []
 
 [files."232-cmd-move-criteria.t"]
-adapted = ["remove-adapter-ipc-socket"]
-plan_unknown = true
+flaky = true
 assertions = 22
-tap_plan = "none"
-source_assertions = 22
-pass = 1
-skip = 0
-fail = 1
-unreached = 20
-pass_assertions = [2]
-skip_assertions = []
-fail_assertions = [1]
-unreached_assertions = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
 
 [files."233-regress-manage-focus-unmapped.t"]
 adapted = ["remove-adapter-ipc-socket"]
