@@ -83,8 +83,13 @@ sway maintainers, never into a ranking.
 
 - Long runs go in the background with a log, and you poll in minutes. A
   one-hour tool call that times out loses the run.
-- Scratch output, clones and build directories go on disk, never in `/tmp`,
-  which is often RAM.
+- Work in a git worktree beside your checkout, not in a second clone:
+  `git worktree add ../sway-ipc-oracle.worktrees/<name> -b <branch> origin/main`.
+  Worktrees share one object store and one fetch, and `git worktree remove`
+  cleans them up. The one exception is a reproduction proof, which should
+  start from a fresh clone, because that is what a stranger does.
+- Scratch output and build directories go on disk, never in `/tmp`, which is
+  often RAM.
 - Use a private socket and a memory cap for every nested compositor. Keep the
   operator's session out of reach.
 - `./contrib/validate` passes before every push.
