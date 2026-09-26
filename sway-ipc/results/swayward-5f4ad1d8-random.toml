@@ -4,9 +4,9 @@
 
 [run]
 compositor = "swayward"
-version = "26.04 (v26.04-151-g0fbb931c)"
-commit = "0fbb931cda0b3225a52f1e14d6da4457f5510f90"
-oracle_commit = "62b45153508497f5234e65030864470083d962aa"
+version = "26.04 (5f4ad1d8)"
+commit = "5f4ad1d8108d55e5d859d6b2fdc7cd56ae4bfe4d"
+oracle_commit = "17242fec06c9e6da0080ff7a4159070029afb861"
 date = "2026-09-26"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]

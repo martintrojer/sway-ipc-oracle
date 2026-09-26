@@ -4,9 +4,9 @@
 
 [run]
 compositor = "swayward"
-version = "26.04 (v26.04-151-g0fbb931c)"
-commit = "0fbb931cda0b3225a52f1e14d6da4457f5510f90"
-oracle_commit = "74d644b43823bddb6552c0ac125ff7068f26b58b"
+version = "26.04 (5f4ad1d8)"
+commit = "5f4ad1d8108d55e5d859d6b2fdc7cd56ae4bfe4d"
+oracle_commit = "17242fec06c9e6da0080ff7a4159070029afb861"
 date = "2026-09-26"
 corpus = "wire-fuzz"
 seed = 0

@@ -189,6 +189,27 @@ for oracle in ("i3", "sway-ipc"):
         commit = str(run.get("commit", ""))
         if run.get("compositor") != compositor or not pins[compositor].startswith(commit[:8] or "?"):
             raise SystemExit(f"{path}: [run] does not match snapshot {stem} (compositor/commit)")
+
+# Every hand-picked state snapshot must cover sway's scenario and request
+# families, using not-applicable rows where a request does not apply.
+reference_path = Path(f"sway-ipc/results/{names['sway']}.toml")
+reference = tomllib.load(reference_path.open("rb"))
+reference_rows = reference.get("result", [])
+reference_scenarios = {row["scenario"] for row in reference_rows}
+reference_requests = {row["request"] for row in reference_rows}
+for compositor, name in names.items():
+    path = Path(f"sway-ipc/results/{name}.toml")
+    rows = tomllib.load(path.open("rb")).get("result", [])
+    scenarios = {row["scenario"] for row in rows}
+    requests = {row["request"] for row in rows}
+    if scenarios != reference_scenarios or requests != reference_requests:
+        raise SystemExit(
+            f"{path}: hand-picked coverage differs from {reference_path}: "
+            f"scenarios missing {sorted(reference_scenarios - scenarios)}, "
+            f"extra {sorted(scenarios - reference_scenarios)}; "
+            f"requests missing {sorted(reference_requests - requests)}, "
+            f"extra {sorted(requests - reference_requests)}"
+        )
 for path in Path("i3/results").iterdir():
     if path.suffix != ".toml":
         raise SystemExit(f"{path}: only snapshot TOML files belong in results/")

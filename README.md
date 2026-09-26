@@ -35,7 +35,7 @@ inventory below.
 | --- | --- | --- | --- | --- | --- |
 | `i3-4.25` | 3,754/1/0 | 0 | 88/144/151 | 1/28/9 | `9be3249a` |
 | `sway-1.12` | 1,502/20/2,137 | 81 | 310/0/0 | 32/0/0 | `88869399` |
-| `swayward-0fbb931c` | 1,443/11/2,279 | 12 | 248/62/0 | 0/31/3 | `0fbb931c` |
+| `swayward-5f4ad1d8` | 1,440/11/2,282 | 12 | 279/31/0 | 22/9/3 | `5f4ad1d8` |
 | SwayFX | not yet measured | — | — | — | — |
 | scroll | not yet measured | — | — | — | — |
 | swirl | not yet measured | — | — | — | — |
@@ -64,7 +64,7 @@ mismatch because its protocol lacks sway extensions.
 | --- | ---: | ---: | ---: |
 | `i3-4.25` | 900 | 1,524 | 1,616 |
 | `sway-1.12` | 3,030 | 0 | 0 |
-| `swayward-0fbb931c` | 2,281 | 749 | 0 |
+| `swayward-5f4ad1d8` | 2,908 | 122 | 0 |
 
 ### Random sequence corpus
 
@@ -74,7 +74,7 @@ match/mismatch/not applicable per seed. The i3 replay is pending.
 | Snapshot | match/mismatch/n.a. | Commit |
 | --- | --- | --- |
 | `sway-1.12-random` | 500/0/0 | `88869399` |
-| `swayward-0fbb931c-random` | 54/446/0 | `0fbb931c` |
+| `swayward-5f4ad1d8-random` | 54/446/0 | `5f4ad1d8` |
 
 ### Fuzz corpora
 
@@ -89,8 +89,8 @@ for i3. Crash and hang record compositor health, separately from mismatch.
 | `i3-4.25-wire-fuzz` | 3/7/0/0/0 | `9be3249a` |
 | `sway-1.12-command-fuzz` | 24/0/0/0/0 | `88869399` |
 | `sway-1.12-wire-fuzz` | 10/0/0/0/0 | `88869399` |
-| `swayward-0fbb931c-command-fuzz` | 19/5/0/0/0 | `0fbb931c` |
-| `swayward-0fbb931c-wire-fuzz` | 5/5/0/0/0 | `0fbb931c` |
+| `swayward-5f4ad1d8-command-fuzz` | 24/0/0/0/0 | `5f4ad1d8` |
+| `swayward-5f4ad1d8-wire-fuzz` | 5/5/0/0/0 | `5f4ad1d8` |
 
 ## Try it
 

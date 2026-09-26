@@ -1311,11 +1311,6 @@ def scenario_main(args, parser):
                     for scenario in batch:
                         command_replies = []
                         if args.compositor not in scenario.get("compositors", ADAPTERS):
-                            for action in scenario["actions"]:
-                                kind, value = action.split(":", 1)
-                                if kind == "capture":
-                                    for request in ("tree", "workspaces", "outputs"):
-                                        rows.append({"scenario": value, "request": request, "verdict": "not applicable", "reason": scenario["reason"]})
                             continue
                         adapter.reset()
                         subscription = EventSubscription(adapter.socket) if args.corpus == "events" else None
@@ -1323,9 +1318,9 @@ def scenario_main(args, parser):
                             for action in scenario["actions"]:
                                 kind, value = action.split(":", 1)
                                 if kind == "command":
-                                    adapter.run_command(value)
+                                    command_replies.append(command_observation(value, adapter.command_reply(value)))
                                 elif kind == "step":
-                                    adapter.command_reply(value)
+                                    command_replies.append(command_observation(value, adapter.command_reply(value)))
                                 elif kind == "probe":
                                     fixture_name, text = value.split(":", 1)
                                     actual = adapter.command_reply(text)
@@ -1337,16 +1332,17 @@ def scenario_main(args, parser):
                                     verdict = "differs" if args.compositor == "i3" and differences else "mismatch" if differences else "match"
                                     rows.append({"scenario": fixture_name, "request": "command", "verdict": verdict, "differences": differences})
                                 elif kind == "window":
-                                    adapter.open_window(value)
+                                    command_replies.append(adapter.open_window(value))
                                 elif kind == "window_title":
                                     ident, title = value.split("|", 1)
-                                    adapter.open_window(ident, title)
+                                    command_replies.append(adapter.open_window(ident, title))
                                 elif kind == "capture":
                                     time.sleep(0.15)
-                                    requests = ("events",) if args.corpus == "events" else ("tree", "workspaces", "outputs")
+                                    requests = ("events",) if args.corpus == "events" else (*QUERY_REQUESTS, "commands")
                                     for request in requests:
                                         actual = (subscription.checkpoint(adapter.socket, f"oracle-{value}")
-                                                  if request == "events" else ipc(adapter.socket, request))
+                                                  if request == "events" else command_replies
+                                                  if request == "commands" else ipc(adapter.socket, request))
                                         fixture = FIXTURES / f"{value}.{request}.json"
                                         if args.capture:
                                             fixture.write_text(json.dumps(actual, indent=2, sort_keys=True) + "\n")

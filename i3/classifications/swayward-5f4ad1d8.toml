@@ -17178,3 +17178,24 @@ assertion = 5
 outcome = "unreached"
 reason = "swayward_adapter_finding"
 reason_verified = true
+
+[[classification]]
+file = "205-ipc-windows.t"
+assertion = 2
+outcome = "fail"
+reason = "swayward_ipc_finding"
+reason_verified = true
+
+[[classification]]
+file = "205-ipc-windows.t"
+assertion = 4
+outcome = "fail"
+reason = "swayward_ipc_finding"
+reason_verified = true
+
+[[classification]]
+file = "265-ipc-mark.t"
+assertion = 1
+outcome = "fail"
+reason = "swayward_ipc_finding"
+reason_verified = true

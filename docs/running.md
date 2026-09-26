@@ -28,7 +28,7 @@ uses the ambient `SWAYSOCK`, `I3SOCK`, `WAYLAND_DISPLAY`, or `DISPLAY`.
 ./contrib/sway-ipc-run --compositor sway --binary /path/to/sway \
   --out sway-ipc/results/sway-1.12.toml
 ./contrib/sway-ipc-run --compositor swayward --binary /path/to/swayward \
-  --out sway-ipc/results/swayward-0fbb931c.toml
+  --out sway-ipc/results/swayward-5f4ad1d8.toml
 ```
 
 Recipes live in `sway-ipc/scenarios.toml`; comparison rules and their reasons
