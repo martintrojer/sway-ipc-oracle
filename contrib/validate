@@ -198,9 +198,9 @@ readme = Path("README.md").read_text()
 table = {}
 for line in readme.splitlines():
     cells = [c.strip() for c in line.strip().strip("|").split("|")]
-    if len(cells) == 5 and cells[0].startswith("`") and cells[0].strip("`") in names.values():
+    if len(cells) == 6 and cells[0].startswith("`") and cells[0].strip("`") in names.values():
         table[cells[0].strip("`")] = cells
-    elif len(cells) == 5 and cells[1] == "not yet measured" and cells[2:] != ["—", "—", "—"]:
+    elif len(cells) == 6 and cells[1] == "not yet measured" and cells[2:] != ["—", "—", "—", "—"]:
         raise SystemExit(f"README placeholder row for {cells[0]} must not carry figures")
 def counts(entry):
     return entry.get("pass", 0), entry.get("skip", 0), entry.get("fail", 0) + entry.get("unreached", 0)
@@ -211,8 +211,10 @@ for compositor, name in names.items():
     flaky = str(sum(1 for e in doc["files"].values() if e.get("flaky")))
     ipc = tomllib.load(open(f"sway-ipc/results/{name}.toml", "rb"))["run"]
     fields = "/".join(str(n) for n in (ipc.get("match", 0), ipc.get("mismatch", ipc.get("differs", 0)), ipc.get("not_applicable", 0)))
+    ev = tomllib.load(open(f"sway-ipc/results/{name}-events.toml", "rb"))["run"]
+    events = "/".join(str(n) for n in (ev.get("match", 0), ev.get("mismatch", ev.get("differs", 0)), ev.get("not_applicable", 0)))
     commit = f"`{pins[compositor][:8]}`"
-    expected = [f"`{name}`", suite, flaky, fields, commit]
+    expected = [f"`{name}`", suite, flaky, fields, events, commit]
     if table.get(name) != expected:
         raise SystemExit(f"README snapshot row for {name} should be: | {' | '.join(expected)} |")
 PY

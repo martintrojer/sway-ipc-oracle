@@ -31,27 +31,25 @@ lacks sway's extensions. These are measurements, not scores. Rows marked "not
 yet measured" are compositors that speak i3/sway IPC but have no snapshot yet;
 see the inventory below.
 
-| Snapshot | i3 suite (pass/skip/fail) | Flaky files | sway IPC | Commit |
-| --- | --- | --- | --- | --- |
-| `i3-4.25` | 3,754/1/0 | 0 | 28/59/93 | `9be3249a` |
-| `sway-1.12` | 1,110/19/1,682 | 40 | 93/0/0 | `88869399` |
-| `swayward-0fbb931c` | 1,443/11/2,279 | 1 | 93/0/0 | `0fbb931c` |
-| SwayFX | not yet measured | — | — | — |
-| scroll | not yet measured | — | — | — |
-| swirl | not yet measured | — | — | — |
-| miracle-wm | not yet measured | — | — | — |
+| Snapshot | i3 suite (pass/skip/fail) | Flaky files | sway IPC | Events | Commit |
+| --- | --- | --- | --- | --- | --- |
+| `i3-4.25` | 3,754/1/0 | 0 | 28/59/93 | 1/28/9 | `9be3249a` |
+| `sway-1.12` | 1,110/19/1,682 | 40 | 93/0/0 | 32/0/0 | `88869399` |
+| `swayward-0fbb931c` | 1,443/11/2,279 | 1 | 93/0/0 | 0/31/3 | `0fbb931c` |
+| SwayFX | not yet measured | — | — | — | — |
+| scroll | not yet measured | — | — | — | — |
+| swirl | not yet measured | — | — | — | — |
+| miracle-wm | not yet measured | — | — | — | — |
 
 Most of sway's non-passes against i3's tests are deliberate: sway is a Wayland
 compositor, and many i3 tests assume X11. Every non-pass carries a reviewed
 classification with a source citation, in `i3/classifications/`.
 
-The event corpus subscribes to all nine sway event families before each
-scenario and compares the ordered stream through a `SEND_TICK` barrier. Sway
-1.12 matches all 32 captured scenario streams (32/0/0
-match/mismatch/not-applicable). `sway-ipc/command-coverage.toml` records which
-of sway 1.12's 90 top-level command handlers these scenarios exercise and why
-the remaining configuration or lifecycle commands are not portable headless
-scenarios.
+The events column replays 32 scenarios with a subscription to all nine sway
+event families and compares the ordered event stream (match/mismatch/not
+applicable; match/differs/not applicable for i3).
+`sway-ipc/command-coverage.toml` records which of sway 1.12's 90 top-level
+commands the scenarios exercise, and why the rest cannot run headless.
 
 ## Try it
 
