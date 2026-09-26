@@ -96,6 +96,7 @@ finally:
     runner.ipc = original_ipc
 assert calls == [("test.sock", "command", '[instance="fixture"] focus')]
 assert runner.SwaywardAdapter.open_window_command is runner.WaylandAdapter.open_window_command
+assert 'mode "resize"' in runner.SwaywardAdapter.config_text
 
 sequence = runner.generate_commands(17, 20)
 assert sequence == runner.generate_commands(17, 20)

@@ -669,7 +669,7 @@ class SwayAdapter(WaylandAdapter):
 
 class SwaywardAdapter(WaylandAdapter):
     config_name = "config.kdl"
-    config_text = "layout { default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\n"
+    config_text = "layout { default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\nmode \"resize\" { Escape { command \"mode default\"; }; }\n"
 
     def rendered_config(self):
         outputs = (
