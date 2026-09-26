@@ -12,6 +12,16 @@ rules = runner.load_applicability()
 scenarios = {item["name"]: item for item in runner.selected_scenarios(None)}
 assert "i3" not in scenarios["disabled_output_evacuation"]["compositors"]
 assert "sway/sway/commands/output/disable.c" in scenarios["disabled_output_evacuation"]["reason"]
+assert runner.QUERY_REQUESTS == (
+    "tree", "workspaces", "outputs", "marks", "binding_modes",
+    "binding_state", "seats", "inputs", "version",
+)
+assert rules["i3"]["seats"]["applicable"] is False
+assert rules["i3"]["inputs"]["applicable"] is False
+assert rules["i3"]["marks"]["fields"] == []
+assert runner.shape_view({"major": 1, "loaded_config_file_name": None}) == {
+    "major": "number", "loaded_config_file_name": "null",
+}
 
 expected = [{
     "name": "WL-1",
@@ -62,6 +72,17 @@ assert "app_id" not in left["nodes"][0]
 assert set(runner.compare(left, right, "tree", runner.load_rules())) == {
     "$tree.scratchpad_state: 'none' != 'fresh'",
     "$tree.nodes: length 1 != 0",
+}
+
+expected_command = [{"success": False, "parse_error": True, "error": "sway text"}]
+actual_command = [{"success": False, "error": "i3 text"}]
+left, right, excluded = runner.i3_protocol_view(
+    expected_command, actual_command, "command", rules
+)
+assert left == [{"success": False, "error": "sway text"}]
+assert excluded == ["parse_error"]
+assert runner.command_observation("focus left", expected_command) == {
+    "command": "focus left", "reply": expected_command,
 }
 
 sequence = runner.generate_commands(17, 20)

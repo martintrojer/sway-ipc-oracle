@@ -405,7 +405,20 @@ def load_applicability():
 
 
 def i3_protocol_view(expected, actual, request, applicability):
-    fields = set(applicability["i3"][request]["fields"])
+    if request == "commands":
+        left, right, excluded = [], [], set()
+        for expected_item, actual_item in zip(expected, actual):
+            expected_reply, actual_reply, item_excluded = i3_protocol_view(
+                expected_item["reply"], actual_item["reply"], "command", applicability
+            )
+            left.append({"command": expected_item["command"], "reply": expected_reply})
+            right.append({"command": actual_item["command"], "reply": actual_reply})
+            excluded.update(item_excluded)
+        return left, right, sorted(excluded)
+    fields = applicability["i3"][request].get("fields")
+    if fields is None:
+        return copy.deepcopy(expected), copy.deepcopy(actual), []
+    fields = set(fields)
     excluded = set()
 
     def project(value, collect=False, protocol_object=True):
@@ -424,6 +437,24 @@ def i3_protocol_view(expected, actual, request, applicability):
         return value
 
     return project(expected, True), project(actual), sorted(excluded)
+
+
+def shape_view(value):
+    if isinstance(value, dict):
+        return {key: shape_view(child) for key, child in value.items()}
+    if isinstance(value, list):
+        return [shape_view(child) for child in value]
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "boolean"
+    if isinstance(value, (int, float)):
+        return "number"
+    return "string"
+
+
+def command_observation(text, reply):
+    return {"command": text, "reply": reply}
 
 
 def normalize(value, rules, path="$", is_output=False):
@@ -593,6 +624,9 @@ class WaylandAdapter(Adapter):
     def rendered_config(self):
         return self.config_text
 
+    def open_window_command(self, ident, title):
+        return f"exec foot --app-id={shlex.quote(ident)} --title={shlex.quote(title)} sh -c 'sleep 300'"
+
     def start(self, log):
         config = self.run_dir / self.config_name
         config.write_text(self.rendered_config())
@@ -609,8 +643,12 @@ class WaylandAdapter(Adapter):
     def open_window(self, ident, title=None):
         before = fixture_window_count(ipc(self.socket, "tree"))
         title = title or ident
-        command(self.socket, f"exec foot --app-id={shlex.quote(ident)} --title={shlex.quote(title)} sh -c 'sleep 300'")
+        text = self.open_window_command(ident, title)
+        reply = self.command_reply(text)
+        if not isinstance(reply, list) or not all(item.get("success") for item in reply):
+            raise RuntimeError(f"command failed: {text}: {reply}")
         wait_for(lambda: fixture_window_count(ipc(self.socket, "tree")) == before + 1, ident)
+        return command_observation(text, reply)
 
 
 class SwayAdapter(WaylandAdapter):
@@ -635,6 +673,9 @@ class SwaywardAdapter(WaylandAdapter):
             for number in range(1, self.scenario.get("outputs", 1) + 1)
         )
         return "".join(outputs) + self.config_text
+
+    def open_window_command(self, ident, title):
+        return f"spawn foot --app-id={shlex.quote(ident)} --title={shlex.quote(title)} sh -c 'sleep 300'"
 
     @staticmethod
     def version_details(reply):
@@ -687,8 +728,12 @@ class I3Adapter(Adapter):
     def open_window(self, ident, title=None):
         before = fixture_window_count(ipc(self.socket, "tree"))
         title = title or ident
-        self.run_command(f"exec --no-startup-id xterm -name {shlex.quote(ident)} -title {shlex.quote(title)}")
+        text = f"exec --no-startup-id xterm -name {shlex.quote(ident)} -title {shlex.quote(title)}"
+        reply = self.command_reply(text)
+        if not isinstance(reply, list) or not all(item.get("success") for item in reply):
+            raise RuntimeError(f"command failed: {text}: {reply}")
         wait_for(lambda: fixture_window_count(ipc(self.socket, "tree")) == before + 1, ident)
+        return command_observation(text, reply)
 
 
 ADAPTERS = {"sway": SwayAdapter, "swayward": SwaywardAdapter, "i3": I3Adapter}
@@ -845,11 +890,19 @@ def load_i3_logs(directory):
     return records
 
 
-def settled_state(adapter):
+def query_state(adapter, compositor):
+    applicability = load_applicability()["i3"]
+    return {
+        request: ipc(adapter.socket, request)
+        for request in QUERY_REQUESTS
+        if compositor != "i3" or applicability[request].get("applicable", True)
+    }
+
+
+def settled_state(adapter, compositor):
     previous = None
     for _ in range(40):
-        state = {request: ipc(adapter.socket, request)
-                 for request in ("tree", "workspaces", "outputs")}
+        state = query_state(adapter, compositor)
         encoded = json.dumps(state, sort_keys=True)
         if encoded == previous:
             return state
@@ -859,7 +912,7 @@ def settled_state(adapter):
 
 
 def replay_i3_segment(adapter, records, capture, seen, scenarios, skips):
-    actions = []
+    actions, command_replies = [], []
     for index, record in enumerate(records, 1):
         kind, value = record["kind"], record["value"]
         if kind == "command":
@@ -873,16 +926,17 @@ def replay_i3_segment(adapter, records, capture, seen, scenarios, skips):
                 break
         if kind == "window":
             ident = f"fixture-i3-{len(actions) + 1}"
-            adapter.open_window(ident)
+            command_replies.append(adapter.open_window(ident))
             time.sleep(0.15)
             actions.append({"kind": "window", "value": ident})
         elif kind == "command":
-            adapter.command_reply(value)
+            reply = adapter.command_reply(value)
             actions.append({"kind": "command", "value": value})
+            command_replies.append(command_observation(value, reply))
         else:
             continue
         try:
-            state = settled_state(adapter)
+            state = settled_state(adapter, "sway")
         except OSError as error:
             skips.append({"test": record["test"], "line": record["line"],
                           "reason": f"replay terminated the compositor: {error}"})
@@ -899,6 +953,7 @@ def replay_i3_segment(adapter, records, capture, seen, scenarios, skips):
         }
         scenarios.append(scenario)
         if capture:
+            state["commands"] = copy.deepcopy(command_replies)
             (I3_DERIVED / f"{digest}.json").write_text(
                 json.dumps(state, sort_keys=True, separators=(",", ":")) + "\n"
             )
@@ -951,28 +1006,49 @@ def i3_derived_main(args, parser):
         if unknown:
             raise RuntimeError("unknown i3-derived scenarios: " + ", ".join(sorted(unknown)))
         scenarios = [item for item in scenarios if item["name"] in args.scenario]
-    rules, rows = load_rules(), []
+    rules, applicability, rows = load_rules(), load_applicability(), []
     for scenario in scenarios:
         with tempfile.TemporaryDirectory(prefix="sway-ipc-i3-derived-") as directory:
             adapter = ADAPTERS[args.compositor](args, Path(directory))
             with open(Path(directory) / "compositor.log", "w") as log:
                 try:
                     version_reply = adapter.start(log)
+                    command_replies = []
                     for action in scenario["actions"]:
                         if action["kind"] == "window":
-                            adapter.open_window(action["value"])
+                            command_replies.append(adapter.open_window(action["value"]))
                             time.sleep(0.15)
                         else:
-                            adapter.command_reply(action["value"])
-                    actual = settled_state(adapter)
+                            reply = adapter.command_reply(action["value"])
+                            command_replies.append(command_observation(action["value"], reply))
+                    actual = settled_state(adapter, args.compositor)
+                    actual["commands"] = command_replies
                 finally:
                     adapter.stop()
         expected = json.loads((I3_DERIVED / f"{scenario['name']}.json").read_text())
-        for request in ("tree", "workspaces", "outputs"):
-            differences = compare(expected[request], actual[request], request, rules)
+        for request in (*QUERY_REQUESTS, "commands"):
+            applicable = applicability["i3"][request].get("applicable", True)
+            if args.compositor == "i3" and not applicable:
+                rows.append({
+                    "scenario": f"i3-derived/{scenario['name']}", "request": request,
+                    "verdict": "not applicable", "reason": applicability["i3"][request]["reason"],
+                })
+                continue
+            left, right, excluded = expected[request], actual[request], []
+            if request == "version":
+                left, right = shape_view(left), shape_view(right)
+            elif args.compositor == "i3":
+                left, right, excluded = i3_protocol_view(left, right, request, applicability)
+            differences = compare(left, right, request, rules)
+            verdict = "differs" if args.compositor == "i3" and differences else "mismatch" if differences else "match"
             rows.append({"scenario": f"i3-derived/{scenario['name']}", "request": request,
-                         "verdict": "mismatch" if differences else "match",
-                         "differences": differences})
+                         "verdict": verdict, "differences": differences})
+            if excluded:
+                rows.append({
+                    "scenario": f"i3-derived/{scenario['name']}", "request": request,
+                    "verdict": "not applicable",
+                    "reason": f"sway extension fields: {', '.join(excluded)}; source: {applicability['i3'][request]['sway_extension_source']}",
+                })
     version, commit = adapter.version_details(version_reply)
     out = args.out or ROOT / "sway-ipc/results" / f"{PINS['snapshot'][args.compositor]}-i3-derived.toml"
     counts, _ = write_results(out, args.compositor, version, commit, rows, rules,
@@ -1232,6 +1308,7 @@ def scenario_main(args, parser):
                         capture_individual_events(adapter)
                         batch = []
                     for scenario in batch:
+                        command_replies = []
                         if args.compositor not in scenario.get("compositors", ADAPTERS):
                             for action in scenario["actions"]:
                                 kind, value = action.split(":", 1)

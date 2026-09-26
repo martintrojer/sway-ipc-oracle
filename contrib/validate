@@ -343,6 +343,10 @@ manifest = json.loads((root / "scenarios.json").read_text())
 names = [row["name"] for row in manifest["scenarios"]]
 assert len(names) == len(set(names))
 assert set(names) == {path.stem for path in root.glob("*.json") if path.name != "scenarios.json"}
+requests = {
+    "tree", "workspaces", "outputs", "marks", "binding_modes",
+    "binding_state", "seats", "inputs", "version", "commands",
+}
 for row in manifest["scenarios"]:
     assert row["provenance"]["test"].endswith(".t") and row["provenance"]["line"] > 0
     capture = json.loads((root / f"{row['name']}.json").read_text())
