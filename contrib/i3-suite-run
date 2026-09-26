@@ -114,7 +114,7 @@ def wayland_adaptations(test: Path, compositor: str) -> list[str]:
 
 
 def emit(path: Path, compositor: str, version: str, commit: str,
-         taps: dict[str, str], environment: str = "") -> None:
+         taps: dict[str, str], environment: str = "", tests: list[Path] | None = None) -> None:
     lines = [
         "# Generated raw result of an unchanged upstream i3 test-suite run.",
         "# Counts use the first unindented TAP plan and first TAP stream.",
@@ -125,7 +125,7 @@ def emit(path: Path, compositor: str, version: str, commit: str,
     if environment:
         lines.append(f'environment = "{environment}"')
     flaky = tomllib.load((ROOT / "i3/flaky.toml").open("rb")).get(compositor, {}).get("files", [])
-    for test in sorted((ROOT / "i3/t").glob("*.t")):
+    for test in tests if tests is not None else sorted((ROOT / "i3/t").glob("*.t")):
         verdicts, plan = parse_tap(taps.get(test.name, ""))
         static = static_plan(test)
         lines += ["", f'[files."{test.name}"]']
@@ -187,21 +187,74 @@ def i3_adapter(args) -> None:
     if not after:
         print(cp.stdout, cp.stderr, file=sys.stderr); raise SystemExit("i3 runner produced no log")
     log = max(after, key=lambda p: p.stat().st_mtime) / "complete-run.log"
-    (ROOT / "target/i3-suite/i3").mkdir(parents=True, exist_ok=True)
-    shutil.copy2(log, ROOT / "target/i3-suite/i3/complete-run.log")
+    out = args.work_dir or ROOT / "target/i3-suite/i3"
+    out.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(log, out / "complete-run.log")
     taps = extract_complete_log(log.read_text(errors="replace"))
     if args.require_complete:
         require_complete(taps, selected, log.read_text(errors="replace"))
         return
-    emit(ROOT / "i3/results/i3.toml", "i3", "4.25-25-g9be3249a", I3_PIN, taps,
-         "Xvfb with i3's complete-run.pl")
+    emit(args.out or ROOT / "i3/results/i3.toml", "i3", "4.25-25-g9be3249a", I3_PIN, taps,
+         "Xvfb with i3's complete-run.pl", selected)
     if cp.returncode:
         print(cp.stdout, cp.stderr, file=sys.stderr)
 
 
 def selected_tests(args):
     tests = sorted((ROOT / "i3/t").glob("*.t"))
-    return [p for p in tests if not args.tests or p.name in args.tests]
+    names = set(args.tests + args.files)
+    if names:
+        unknown = names - {path.name for path in tests}
+        if unknown:
+            raise SystemExit("unknown test files: " + ", ".join(sorted(unknown)))
+        tests = [path for path in tests if path.name in names]
+    if args.shard:
+        index, count = parse_shard(args.shard)
+        tests = [path for offset, path in enumerate(tests) if offset % count == index - 1]
+    return tests
+
+
+def parse_shard(value: str) -> tuple[int, int]:
+    try:
+        index, count = map(int, value.split("/", 1))
+    except ValueError:
+        raise argparse.ArgumentTypeError("shard must be K/N") from None
+    if count < 1 or index < 1 or index > count:
+        raise argparse.ArgumentTypeError("shard must satisfy 1 <= K <= N")
+    return index, count
+
+
+def merge_results(paths: list[Path], out: Path) -> None:
+    documents = [(path, tomllib.load(path.open("rb"))) for path in paths]
+    if not documents:
+        raise SystemExit("--merge needs at least one partial result")
+    run = documents[0][1]["run"]
+    files = {}
+    for path, document in documents:
+        if document["run"] != run:
+            raise SystemExit(f"partial result metadata differs: {path}")
+        overlap = files.keys() & document["files"].keys()
+        if overlap:
+            raise SystemExit("duplicate files in partial results: " + ", ".join(sorted(overlap)))
+        files.update(document["files"])
+    expected = {path.name for path in (ROOT / "i3/t").glob("*.t")}
+    if files.keys() != expected:
+        missing = expected - files.keys()
+        extra = files.keys() - expected
+        raise SystemExit(f"partial results are incomplete: missing={sorted(missing)} extra={sorted(extra)}")
+
+    # Re-emitting from TAP would rerun the measurement. Join the generator's
+    # own TOML sections instead, after validating their metadata and coverage.
+    first = paths[0].read_text()
+    header = first.split("\n[files.", 1)[0]
+    sections = {}
+    for path in paths:
+        text = path.read_text()
+        for section in text.split("\n[files.")[1:]:
+            name = section.split('"', 2)[1]
+            sections[name] = "\n[files." + section
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(header + "".join(sections[name] for name in sorted(sections)))
 
 
 def require_complete(taps: dict[str, str], tests: list[Path], diagnostics: str = "") -> None:
@@ -231,8 +284,8 @@ def wayland_adapter(args) -> None:
     adapter = ROOT / "i3/adapters" / args.compositor
     if not adapter.is_dir():
         raise SystemExit(f"missing adapter: {adapter}")
-    out = ROOT / "target/i3-suite" / args.compositor
-    if not args.tests:
+    out = args.work_dir or ROOT / "target/i3-suite" / args.compositor
+    if not args.tests and not args.files and not args.shard:
         shutil.rmtree(out, ignore_errors=True)
     out.mkdir(parents=True, exist_ok=True)
     runtime = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}"))
@@ -297,8 +350,8 @@ perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
     version = run([str(binary), "--version"], capture_output=True).stdout.strip()
     if re.search(r"(?:-dirty|-modified)\b", version):
         raise SystemExit(f"refusing to record dirty {args.compositor} version: {version}")
-    emit(ROOT / f"i3/results/{args.compositor}.toml", args.compositor, version, compositor_commit, taps,
-         "headless compositor with private IPC/X11 sockets and real X11 clients")
+    emit(args.out or ROOT / f"i3/results/{args.compositor}.toml", args.compositor, version, compositor_commit, taps,
+         "headless compositor with private IPC/X11 sockets and real X11 clients", selected_tests(args))
 
 
 def self_test() -> None:
@@ -307,7 +360,15 @@ def self_test() -> None:
     echoed = text + text
     assert parse_tap(echoed) == ({1: "pass", 2: "skip", 3: "fail"}, 3)
     assert parse_tap("1..0 # SKIP unavailable\n") == ({}, 0)
-    print("i3-suite TAP parser self-test passed")
+    assert parse_shard("1/1") == (1, 1)
+    for invalid in ("0/1", "2/1", "1/0", "bad"):
+        try:
+            parse_shard(invalid)
+        except argparse.ArgumentTypeError:
+            pass
+        else:
+            raise AssertionError(f"accepted invalid shard {invalid}")
+    print("i3-suite TAP parser and shard self-test passed")
 
 
 def main() -> int:
@@ -316,6 +377,14 @@ def main() -> int:
     )
     ap.add_argument("--compositor", choices=("i3", "sway", "swayward"))
     ap.add_argument("--self-test", action="store_true", help="test the embedded TAP parser and exit")
+    ap.add_argument("--files", action="append", default=[], metavar="FILE",
+                    help="run only FILE (repeatable; positional file names remain supported)")
+    ap.add_argument("--shard", metavar="K/N", help="run the Kth deterministic file shard")
+    ap.add_argument("--out", type=Path, help="write this result instead of the committed result")
+    ap.add_argument("--work-dir", type=Path,
+                    help="write diagnostics here (use a private path for concurrent shards)")
+    ap.add_argument("--merge", nargs="+", type=Path, metavar="PARTIAL",
+                    help="merge complete, disjoint partial results into --out")
     ap.add_argument("--i3src", default="/var/home/martintrojer/hacking/i3")
     ap.add_argument("--i3build", default="/var/home/martintrojer/hacking/i3/build")
     ap.add_argument("--container", default="swayward-dev")
@@ -332,8 +401,15 @@ def main() -> int:
     if args.self_test:
         self_test()
         return 0
+    if args.merge:
+        if not args.out:
+            ap.error("--merge requires --out")
+        merge_results(args.merge, args.out)
+        return 0
+    if args.shard:
+        parse_shard(args.shard)
     if args.compositor is None:
-        ap.error("--compositor is required unless --self-test is used")
+        ap.error("--compositor is required unless --self-test or --merge is used")
     if args.compositor == "i3":
         i3_adapter(args)
     else:

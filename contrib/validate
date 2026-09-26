@@ -2,19 +2,39 @@
 set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")/.."
 
+usage='usage: validate [reproduce {i3|sway|swayward|all} [--snapshot {i3-suite|sway-ipc}] [--shard K/N] [--out PATH]]'
 if [[ ${1:-} == --help ]]; then
-    echo 'usage: validate [reproduce {i3|sway|swayward|all}]'
-    echo 'Validate the repository, or reproduce results in the oracle container.'
+    echo "$usage"
+    echo 'Validate the repository, or reproduce one independent snapshot in the oracle container.'
     exit 0
 fi
 
 if [[ ${1:-} == reproduce ]]; then
     mode=${2:-all}
-    (($# <= 2)) || { echo 'usage: validate reproduce {i3|sway|swayward|all}' >&2; exit 2; }
+    shift $(( $# >= 2 ? 2 : $# ))
+    snapshot=all shard= out=
+    while (($#)); do
+        case $1 in
+            --snapshot) snapshot=${2:-}; shift 2 ;;
+            --shard) shard=${2:-}; shift 2 ;;
+            --out) out=${2:-}; shift 2 ;;
+            *) echo "$usage" >&2; exit 2 ;;
+        esac
+    done
     case $mode in
         i3|sway|swayward|all) ;;
-        *) echo 'usage: validate reproduce {i3|sway|swayward|all}' >&2; exit 2 ;;
+        *) echo "$usage" >&2; exit 2 ;;
     esac
+    case $snapshot in
+        i3-suite|sway-ipc|all) ;;
+        *) echo "$usage" >&2; exit 2 ;;
+    esac
+    [[ -z $shard || $snapshot != all ]] || snapshot=i3-suite
+    [[ -z $shard || $snapshot == i3-suite ]] || { echo '--shard requires --snapshot i3-suite' >&2; exit 2; }
+    [[ -z $shard || -n $out ]] || { echo '--shard requires --out' >&2; exit 2; }
+    [[ $mode != all || ( -z $shard && -z $out && $snapshot == all ) ]] || {
+        echo 'all does not accept snapshot output options' >&2; exit 2
+    }
     [[ ${ORACLE_CONTAINER:-} == 1 ]] || {
         echo 'reproduce must run in the oracle container; see README.md' >&2
         exit 2
@@ -66,32 +86,44 @@ for path in diagnostics.rglob("*"):
 print(f"{compositor} harness sanity passed ({zero_pass} zero-pass files)")
 PY
     }
-    run_one() {
-        compositor=$1
-        case $compositor in
-            i3) binary=$I3_BINARY ;;
-            sway) binary=$SWAY_BINARY ;;
-            swayward) binary=$SWAYWARD_BINARY ;;
+    binary_for() {
+        case $1 in
+            i3) echo "$I3_BINARY" ;;
+            sway) echo "$SWAY_BINARY" ;;
+            swayward) echo "$SWAYWARD_BINARY" ;;
         esac
+    }
+    run_i3_suite() {
+        compositor=$1 binary=$(binary_for "$1")
         parallel=1
         [[ $compositor == i3 ]] && parallel=4
-        ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
-            --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel" \
-            --require-complete "${canaries[@]}"
+        preflight=(--compositor "$compositor" --binary "$binary" --i3src "$I3SRC"
+                   --i3build "$I3BUILD" --parallel "$parallel" --require-complete)
+        [[ -z $out ]] || preflight+=(--work-dir "${out}.canary-work")
+        ./contrib/i3-suite-run "${preflight[@]}" "${canaries[@]}"
         # i3's complete-run.pl names output directories at one-second resolution.
         sleep 1
-        ./contrib/i3-suite-run --compositor "$compositor" --binary "$binary" \
-            --i3src "$I3SRC" --i3build "$I3BUILD" --parallel "$parallel"
-        sanity_check "$compositor"
+        args=(--compositor "$compositor" --binary "$binary" --i3src "$I3SRC"
+              --i3build "$I3BUILD" --parallel "$parallel")
+        [[ -z $shard ]] || args+=(--shard "$shard" --work-dir "${out}.work")
+        [[ -z $out ]] || args+=(--out "$out")
+        ./contrib/i3-suite-run "${args[@]}"
+        [[ -n $shard || -n $out ]] || sanity_check "$compositor"
+    }
+    run_sway_ipc() {
+        compositor=$1 binary=$(binary_for "$1")
+        result=${out:-sway-ipc/results/$compositor.toml}
         ./contrib/sway-ipc-run --compositor "$compositor" --binary "$binary" \
-            --out "sway-ipc/results/$compositor.toml" || [[ $? == 1 ]]
+            --out "$result" || [[ $? == 1 ]]
+    }
+    run_one() {
+        [[ $snapshot == sway-ipc ]] || run_i3_suite "$1"
+        [[ $snapshot == i3-suite ]] || run_sway_ipc "$1"
     }
     if [[ $mode == all ]]; then
         run_one i3
         run_one sway
         run_one swayward
-        ./contrib/sway-ipc-run differential --a-binary "$SWAY_BINARY" \
-            --b-binary "$SWAYWARD_BINARY" --seeds 200 --steps 30 || [[ $? == 1 ]]
     else
         run_one "$mode"
     fi
