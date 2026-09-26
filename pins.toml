@@ -3,3 +3,11 @@ i3 = "9be3249ac5b377ed3270e36bca83df53d8023337"
 sway = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 wlroots = "c1d38536c926134698ff2615843e0d4103e84ac4"
 swayward = "0fbb931cda0b3225a52f1e14d6da4457f5510f90"
+
+# Snapshot names: results live in <oracle>/results/<name>.toml. The name carries
+# the release; the exact commit is recorded above and inside each result.
+# swayward has no release yet, so its name carries the short commit.
+[snapshot]
+i3 = "i3-4.25"
+sway = "sway-1.12"
+swayward = "swayward-0fbb931c"

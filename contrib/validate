@@ -49,7 +49,8 @@ import sys, tomllib
 from pathlib import Path
 
 compositor = sys.argv[1]
-result = tomllib.load(open(f"i3/results/{compositor}.toml", "rb"))
+name = tomllib.load(open("pins.toml", "rb"))["snapshot"][compositor]
+result = tomllib.load(open(f"i3/results/{name}.toml", "rb"))
 files = result["files"]
 canaries = {
     "003-ipc.t": 1,
@@ -110,9 +111,12 @@ PY
         ./contrib/i3-suite-run "${args[@]}"
         [[ -n $shard || -n $out ]] || sanity_check "$compositor"
     }
+    snapshot_name() {
+        python3 -c 'import sys, tomllib; print(tomllib.load(open("pins.toml", "rb"))["snapshot"][sys.argv[1]])' "$1"
+    }
     run_sway_ipc() {
         compositor=$1 binary=$(binary_for "$1")
-        result=${out:-sway-ipc/results/$compositor.toml}
+        result=${out:-sway-ipc/results/$(snapshot_name "$compositor").toml}
         ./contrib/sway-ipc-run --compositor "$compositor" --binary "$binary" \
             --out "$result" || [[ $? == 1 ]]
     }
@@ -165,54 +169,48 @@ done
 for result in "${sway_ipc_results[@]}"; do
     python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$result" || status=1
 done
-python3 - <<'PY' || status=1
-import tomllib
-from pathlib import Path
-
-measurement_path = Path("sway-ipc/results/differential-swayward.toml")
-classification_path = Path("sway-ipc/classifications/differential-swayward.toml")
-measurement = tomllib.load(measurement_path.open("rb"))
-classification = tomllib.load(classification_path.open("rb"))
-
-def key(row):
-    return (tuple(row.get("commands", [])), row.get("request"), tuple(row.get("differences", [])))
-
-measured = {key(row): row for row in measurement["result"] if row["verdict"] == "mismatch"}
-classified = {key(row): row for row in classification.get("classification", [])}
-for missing in measured.keys() - classified.keys():
-    print(f"differential mismatch has no classification: {missing}")
-for stale in classified.keys() - measured.keys():
-    print(f"differential classification points at no mismatch: {stale}")
-for row in classified.values():
-    if row.get("triage") == "untriaged":
-        print(f"differential classification remains untriaged: {key(row)}")
-if measured.keys() != classified.keys() or any(row.get("triage") == "untriaged" for row in classified.values()):
-    raise SystemExit(1)
-PY
 ((status == 0)) || exit "$status"
 python3 - <<'PY'
-import tomllib
+import re, tomllib
 from pathlib import Path
 
+pins = tomllib.load(open("pins.toml", "rb"))
+names = pins["snapshot"]
+# Every result is one compositor at one version, named from pins.toml.
+for oracle in ("i3", "sway-ipc"):
+    for path in sorted(Path(oracle, "results").glob("*.toml")):
+        stem = path.stem.removesuffix("-i3-derived")
+        compositor = next((c for c, n in names.items() if n == stem), None)
+        if compositor is None:
+            raise SystemExit(f"{path}: name is not a snapshot in pins.toml [snapshot]")
+        run = tomllib.load(path.open("rb")).get("run", {})
+        commit = str(run.get("commit", ""))
+        if run.get("compositor") != compositor or not pins[compositor].startswith(commit[:8] or "?"):
+            raise SystemExit(f"{path}: [run] does not match snapshot {stem} (compositor/commit)")
+for path in Path("i3/results").iterdir():
+    if path.suffix != ".toml":
+        raise SystemExit(f"{path}: only snapshot TOML files belong in results/")
+
+# The README snapshot table quotes each snapshot's figures, all columns together.
 readme = Path("README.md").read_text()
-docs = {name: tomllib.load(open(f"i3/results/{name}.toml", "rb")) for name in ("i3", "sway", "swayward")}
+table = {}
+for line in readme.splitlines():
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if len(cells) == 5 and cells[0].startswith("`") and cells[0].strip("`") in names.values():
+        table[cells[0].strip("`")] = cells
 def counts(entry):
     return entry.get("pass", 0), entry.get("skip", 0), entry.get("fail", 0) + entry.get("unreached", 0)
-def totals(doc):
-    rows = [counts(entry) for entry in doc["files"].values() if not entry.get("flaky")]
-    return tuple(sum(row[i] for row in rows) for i in range(3))
-for name, doc in docs.items():
-    expected = "/".join(f"{number:,}" for number in totals(doc))
-    if f"{name} **{expected}**" not in readme:
-        raise SystemExit(f"README i3-suite summary for {name} is not {expected}")
-for filename in docs["i3"]["files"]:
-    expected = " | ".join(
-        "flaky" if docs[compositor]["files"][filename].get("flaky")
-        else "/".join(map(str, counts(docs[compositor]["files"][filename])))
-        for compositor in ("i3", "sway", "swayward")
-    )
-    if f"| `{filename}` | {expected} |" not in readme:
-        raise SystemExit(f"README i3-suite row is stale: {filename}")
+for compositor, name in names.items():
+    doc = tomllib.load(open(f"i3/results/{name}.toml", "rb"))
+    rows = [counts(e) for e in doc["files"].values() if not e.get("flaky")]
+    suite = "/".join(f"{n:,}" for n in (sum(r[i] for r in rows) for i in range(3)))
+    flaky = str(sum(1 for e in doc["files"].values() if e.get("flaky")))
+    ipc = tomllib.load(open(f"sway-ipc/results/{name}.toml", "rb"))["run"]
+    fields = "/".join(str(n) for n in (ipc.get("match", 0), ipc.get("mismatch", ipc.get("differs", 0)), ipc.get("not_applicable", 0)))
+    commit = f"`{pins[compositor][:8]}`"
+    expected = [f"`{name}`", suite, flaky, fields, commit]
+    if table.get(name) != expected:
+        raise SystemExit(f"README snapshot row for {name} should be: | {' | '.join(expected)} |")
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
 if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then

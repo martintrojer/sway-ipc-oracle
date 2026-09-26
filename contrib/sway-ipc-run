@@ -778,7 +778,7 @@ def i3_derived_main(args, parser):
                          "verdict": "mismatch" if differences else "match",
                          "differences": differences})
     version, commit = adapter.version_details(version_reply)
-    out = args.out or ROOT / f"sway-ipc/results/{args.compositor}-i3-derived.toml"
+    out = args.out or ROOT / "sway-ipc/results" / f"{PINS['snapshot'][args.compositor]}-i3-derived.toml"
     counts, _ = write_results(out, args.compositor, version, commit, rows, rules,
                               "fresh compositor per derived i3 state")
     print("; ".join(f"{key}: {counts[key]}" for key in counts))
@@ -921,7 +921,7 @@ def scenario_main(args, parser):
         commit = version_reply.get("commit", "unknown")
     reject_dirty_version(args.compositor, version, commit)
     commit = PINS[args.compositor]
-    out = args.out or ROOT / f"sway-ipc/results/{args.compositor}.toml"
+    out = args.out or ROOT / "sway-ipc/results" / f"{PINS['snapshot'][args.compositor]}.toml"
     run_mode = "fresh compositor per scenario" if args.fresh_per_scenario else "sequential, with output-count scenarios isolated"
     counts, difference_fields = write_results(out, args.compositor, version, commit, rows, rules, run_mode)
     print("; ".join([*(f"{key}: {counts[key]}" for key in counts),
@@ -1003,7 +1003,9 @@ def differential_main(args):
         rows.append({"seed": seed, "verdict": "mismatch", "commands": minimal,
                      "scenario": scenario, **{k: final[k] for k in
                      ("step", "request", "differences")}})
-    out = args.out or ROOT / "sway-ipc/results/differential-swayward.toml"
+    if not args.out:
+        raise RuntimeError("differential is a developer tool: pass --out outside the repository")
+    out = Path(args.out)
     return write_differential_results(out, args, rows)
 
 

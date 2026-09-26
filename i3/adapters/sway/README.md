@@ -11,4 +11,4 @@ headless output count, mode, and position settings, then maps `fake-N` to
 `HEADLESS-(N+1)` at config and command boundaries and back in IPC replies and
 subscribed event payloads.
 Rows affected by this translation carry `adapted =
-["fake-outputs->headless-outputs"]` in `i3/results/sway.toml`.
+["fake-outputs->headless-outputs"]` in `i3/results/sway-1.12.toml`.

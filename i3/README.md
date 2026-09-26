@@ -16,7 +16,7 @@ A result file has a `[files]` entry for every vendored `.t` file. Each entry rec
   plan without the compositor or test process failing. This is distinct from a
   file-level skip: the test ran and its survival condition passed.
 
-Store each result as `i3/results/COMPOSITOR.toml`; for example, `i3/results/sway.toml` means “the i3 suite run on sway.” The counts must cover the full plan. Run `contrib/coverage-report i3/results/COMPOSITOR.toml --check` to validate a file.
+Each result is `i3/results/<snapshot>.toml`, named in `pins.toml` `[snapshot]`; for example, `i3/results/sway-1.12.toml` is the i3 suite run on sway 1.12. The exact commit is in the file's `[run]` section. The counts must cover the full plan. Run `contrib/coverage-report i3/results/<snapshot>.toml --check` to validate a file.
 
 ## Skip policy
 

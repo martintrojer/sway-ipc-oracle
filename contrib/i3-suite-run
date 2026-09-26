@@ -161,13 +161,19 @@ def emit(path: Path, compositor: str, version: str, commit: str,
     path.write_text("\n".join(lines) + "\n")
 
 
+def snapshot_name(compositor: str) -> str:
+    """Versioned result name for a compositor, from pins.toml [snapshot]."""
+    with (ROOT / "pins.toml").open("rb") as fh:
+        return tomllib.load(fh)["snapshot"][compositor]
+
+
 def static_plan(path: Path) -> int:
     # Use the first unindented plan, or the checked-in census where
     # done_testing makes the plan dynamic.
     for line in path.read_text(errors="replace").splitlines():
         if m := re.match(r"^plan tests => (\d+);", line):
             return int(m.group(1))
-    with (ROOT / "i3/results/i3.toml").open("rb") as fh:
+    with (ROOT / "i3/results" / f"{snapshot_name('i3')}.toml").open("rb") as fh:
         return tomllib.load(fh)["files"][path.name].get("assertions", 0)
 
 
@@ -194,7 +200,7 @@ def i3_adapter(args) -> None:
     if args.require_complete:
         require_complete(taps, selected, log.read_text(errors="replace"))
         return
-    emit(args.out or ROOT / "i3/results/i3.toml", "i3", "4.25-25-g9be3249a", I3_PIN, taps,
+    emit(args.out or ROOT / "i3/results" / f"{snapshot_name('i3')}.toml", "i3", "4.25-25-g9be3249a", I3_PIN, taps,
          "Xvfb with i3's complete-run.pl", selected)
     if cp.returncode:
         print(cp.stdout, cp.stderr, file=sys.stderr)
@@ -350,7 +356,7 @@ perl -I"$STAGE" -Mswaycal::Shim t/{shlex.quote(test.name)}
     version = run([str(binary), "--version"], capture_output=True).stdout.strip()
     if re.search(r"(?:-dirty|-modified)\b", version):
         raise SystemExit(f"refusing to record dirty {args.compositor} version: {version}")
-    emit(args.out or ROOT / f"i3/results/{args.compositor}.toml", args.compositor, version, compositor_commit, taps,
+    emit(args.out or ROOT / "i3/results" / f"{snapshot_name(args.compositor)}.toml", args.compositor, version, compositor_commit, taps,
          "headless compositor with private IPC/X11 sockets and real X11 clients", selected_tests(args))
 
 

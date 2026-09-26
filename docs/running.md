@@ -1,0 +1,71 @@
+# Running the oracle
+
+## The i3 suite
+
+Build the pinned i3 and compositor revisions, then run one command per result:
+
+```sh
+./contrib/i3-suite-run --compositor i3
+./contrib/i3-suite-run --compositor sway --binary /path/to/pinned/sway
+./contrib/i3-suite-run --compositor swayward --binary /path/to/pinned/swayward
+```
+
+The i3 adapter delegates to upstream `complete-run.pl` on Xvfb. The sway and
+swayward adapters run each unchanged test against a headless compositor with a
+private IPC socket and private X11 socket directory. Sway owns Xwayland;
+swayward uses xwayland-satellite. Every compositor run has a 2 GiB memory cap,
+no swap, and a wall-time limit. See [`i3/adapters/`](../i3/adapters/) for the
+adapter boundaries.
+
+## The sway IPC scenarios
+
+`contrib/sway-ipc-run` uses only Python's standard library. It starts sway or
+swayward under a 2 GiB, zero-swap systemd scope with a wall-time limit and
+private IPC and Wayland sockets. It opens standalone `foot` clients and never
+uses the ambient `SWAYSOCK`, `I3SOCK`, `WAYLAND_DISPLAY`, or `DISPLAY`.
+
+```sh
+./contrib/sway-ipc-run --compositor sway --binary /path/to/sway \
+  --out sway-ipc/results/sway-1.12.toml
+./contrib/sway-ipc-run --compositor swayward --binary /path/to/swayward \
+  --out sway-ipc/results/swayward-0fbb931c.toml
+```
+
+Recipes live in `sway-ipc/scenarios.toml`; comparison rules and their reasons
+live in `sway-ipc/normalize.toml`. `sway-ipc/applicability.toml` limits i3
+comparisons to the fields in i3's pinned IPC protocol and cites sway's source
+for excluded sway extensions. Every sway field remains applicable to swayward.
+Use repeated `--scenario NAME` arguments for a subset. The runner starts a
+fresh compositor for each recipe so runtime commands cannot leak into later
+measurements. The pinned swayward run records **90 match / 0 mismatch / 3 not
+applicable**. Use `--no-fresh-per-scenario` only when investigating sequential
+state. `--capture` is
+restricted to sway and replaces the selected query fixtures after running the
+same comparisons. The i3 adapter runs i3 under private Xvfb and opens xterm
+clients; both programs must be installed beside the runner.
+
+## States derived from i3's test suite
+
+The optional calibration recorder logs replayable IPC commands and ordinary
+mapped windows while i3's unchanged `.t` files run against sway. It records the
+source file and line for each operation. Capture mode replays those logs through
+the same isolated sway adapter, hashes a normalized tree shape after every
+operation, and keeps one scenario per distinct shape. The committed fixtures
+are therefore states reached by i3's own tests, captured from sway 1.12; they
+are not hand-authored approximations.
+
+```sh
+./contrib/i3-suite-run --compositor sway --record-commands \
+  --binary /path/to/pinned/sway
+./contrib/sway-ipc-run i3-derived --compositor sway \
+  --binary /path/to/pinned/sway --command-logs target/i3-suite/sway --capture
+./contrib/sway-ipc-run i3-derived --compositor swayward \
+  --binary /path/to/swayward
+```
+
+`sway-ipc/i3-derived/scenarios.json` is the compact replay and provenance
+manifest. Each hash-named JSON file contains sway's raw tree, workspace, and
+output replies for one distinct normalized shape. Commands tied to X11 window
+IDs, compositor process lifecycle, or spawned programs are stopped and listed
+with a reason rather than translated silently. Capture remains restricted to
+real sway.

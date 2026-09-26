@@ -13,7 +13,7 @@ were wrong.
 Result files under `i3/results/` and `sway-ipc/results/` are written by
 `contrib/i3-suite-run` and `contrib/sway-ipc-run`, and by nothing else. Review
 work lives beside them: reasons, citations and families go in
-`i3/classifications/<compositor>.toml`, keyed by file and assertion. Regenerating
+`i3/classifications/<snapshot>.toml`, keyed by file and assertion. Regenerating
 a snapshot then never erases a review, and a review never changes a
 measurement.
 
@@ -24,7 +24,7 @@ edited by hand, and the diff against a fresh run was 2,712 lines long.
 
 ## Measure only committed builds
 
-`pins.toml` names the exact source revision of every compositor. The runners
+`pins.toml` names the exact source revision of every compositor, and in `[snapshot]` the versioned name its result files use. The runners
 refuse a build whose `git describe` ends in `-dirty` or `-modified`. To measure
 a newer compositor, change its pin in one commit and regenerate its snapshot in
 the same pull request.
