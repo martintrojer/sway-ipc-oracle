@@ -43,13 +43,15 @@ A canary that flakes is a harness bug to fix. It stays in the canary set.
 
 ## Every compositor gets the same rules
 
-- **Flakiness.** A file is flaky under one rule for all compositors: the same
-  number of runs, and the per-assertion outcomes recorded in
-  `i3/flaky-runs.toml`. Flaky files stay visible, and the README gives totals
-  with and without them. When one compositor's flaky list is much longer than
-  another's, look for a synchronisation gap in its adapter first. Sway's list
-  once went from 41 files to 8 after its adapter learned to wait for X11 focus
-  to settle.
+- **Flakiness.** An assertion is unstable under one rule for all compositors:
+  its outcome differs across the same number of runs, whose per-assertion
+  outcomes are recorded in `i3/flaky-runs.toml`. `i3/unstable.toml` lists those
+  assertions; they stay visible but are excluded from published stable counts.
+  Whole-file exclusion is reserved for files whose TAP plan differs between
+  runs or whose run aborts at a different point. When one compositor's unstable
+  list is much longer than another's, look for a synchronisation gap in its
+  adapter first. Sway's list once shrank after its adapter learned to wait for
+  X11 focus to settle.
 - **Adapter translations.** An adapter may translate a test's premise into the
   compositor's own configuration language, such as i3 config into KDL or i3's
   `fake-outputs` into headless outputs. It must translate the same premise for

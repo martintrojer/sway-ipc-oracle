@@ -12,6 +12,32 @@ UNVENDORED = ROOT / "i3/unvendored.toml"
 OUTCOMES = ("pass", "skip", "fail", "unreached")
 
 
+def unstable_assertions(doc):
+    compositor = doc["run"]["compositor"]
+    declared = {
+        (item["file"], number)
+        for item in load(ROOT / "i3/unstable.toml").get("unstable", [])
+        if item["compositor"] == compositor
+        for number in item["assertions"]
+    }
+    derived = set()
+    for run in load(ROOT / "i3/flaky-runs.toml").get("run", []):
+        if run["compositor"] != compositor:
+            continue
+        first = {number: outcome for outcome in OUTCOMES
+                 for number in run[f"first_{outcome}"]}
+        second = {number: outcome for outcome in OUTCOMES
+                  for number in run[f"second_{outcome}"]}
+        derived.update(
+            (run["file"], number)
+            for number in first.keys() | second.keys()
+            if first.get(number) != second.get(number)
+        )
+    if declared != derived:
+        raise SystemExit(f"i3/unstable.toml does not match i3/flaky-runs.toml for {compositor}")
+    return declared
+
+
 def load(path):
     with path.open("rb") as file:
         return tomllib.load(file)
@@ -57,15 +83,24 @@ def validate(result, doc, classifications):
     for name in sorted(set(files) - vendored):
         bad.append(f"{name}: measured but is not vendored")
 
+    unstable = unstable_assertions(doc)
     observed = {}
     for name, entry in sorted(files.items()):
         if entry.get("flaky"):
             continue
         for problem in assertion_outcomes(entry):
             bad.append(f"{name}: {problem}")
+        listed_unstable = set(entry.get("unstable_assertions", []))
+        expected_unstable = {number for file, number in unstable if file == name}
+        if listed_unstable != expected_unstable:
+            bad.append(
+                f"{name}: unstable assertions {sorted(listed_unstable)} != "
+                f"i3/unstable.toml {sorted(expected_unstable)}"
+            )
         for outcome in OUTCOMES:
             for number in entry.get(f"{outcome}_assertions", []):
-                observed[(name, number)] = outcome
+                if (name, number) not in unstable:
+                    observed[(name, number)] = outcome
 
     classified = {}
     families = classifications.get("families", {})
@@ -98,13 +133,25 @@ def validate(result, doc, classifications):
 
 def census(doc, classifications):
     files = doc["files"]
-    stable = [entry for entry in files.values() if not entry.get("flaky")]
-    totals = {outcome: sum(entry.get(outcome, 0) for entry in stable) for outcome in OUTCOMES}
+    unstable = unstable_assertions(doc)
+    stable = [(name, entry) for name, entry in files.items() if not entry.get("flaky")]
+    totals = {
+        outcome: sum(
+            1
+            for name, entry in stable
+            for number in entry.get(f"{outcome}_assertions", [])
+            if (name, number) not in unstable
+        )
+        for outcome in OUTCOMES
+    }
     rows = classifications.get("classification", [])
     return {
         "files": len(files),
-        "assertions": sum(entry.get("assertions", 0) for entry in stable),
+        "assertions": sum(entry.get("assertions", 0) for _, entry in stable)
+        - sum((name, number) in unstable for name, entry in stable
+              for number in range(1, entry.get("assertions", 0) + 1)),
         "flaky_files": len(files) - len(stable),
+        "unstable": len(unstable),
         **totals,
         "classified": len(rows),
         "verified": sum(item.get("reason_verified") is True for item in rows),

@@ -125,6 +125,11 @@ def emit(path: Path, compositor: str, version: str, commit: str,
     if environment:
         lines.append(f'environment = "{environment}"')
     flaky = tomllib.load((ROOT / "i3/flaky.toml").open("rb")).get(compositor, {}).get("files", [])
+    unstable = {
+        item["file"]: item["assertions"]
+        for item in tomllib.load((ROOT / "i3/unstable.toml").open("rb")).get("unstable", [])
+        if item["compositor"] == compositor and item["file"] not in flaky
+    }
     for test in tests if tests is not None else sorted((ROOT / "i3/t").glob("*.t")):
         verdicts, plan = parse_tap(taps.get(test.name, ""))
         static = static_plan(test)
@@ -132,6 +137,8 @@ def emit(path: Path, compositor: str, version: str, commit: str,
         if test.name in flaky:
             lines += ["flaky = true", f"assertions = {static}"]
             continue
+        if test.name in unstable:
+            lines.append(f"unstable_assertions = {unstable[test.name]}")
         if compositor in {"sway", "swayward"}:
             adaptations = wayland_adaptations(test, compositor)
             if adaptations:

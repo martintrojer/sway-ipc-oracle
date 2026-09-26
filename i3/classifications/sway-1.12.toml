@@ -24,6 +24,475 @@ sway_focus_workspace_command = "Sway's focus command implements containers, mode
 sway_xwayland_maximized_state = "Sway reports every tiled Xwayland view maximized in both dimensions, while i3 varies the EWMH maximized axes with the split layout."
 
 [[classification]]
+file = "005-floating.t"
+assertion = 3
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "005-floating.t"
+assertion = 4
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "005-floating.t"
+assertion = 5
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "005-floating.t"
+assertion = 9
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "005-floating.t"
+assertion = 10
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 7
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 8
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 10
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 14
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 15
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 16
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 24
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 25
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 26
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 27
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 28
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 29
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 30
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 31
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 32
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 33
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 34
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 35
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 36
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 37
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 38
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 39
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 40
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 41
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 42
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 43
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 44
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 45
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 46
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 47
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 48
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 49
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 50
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 51
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 52
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 53
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 54
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 55
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 56
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 57
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 58
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 59
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 60
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 61
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 62
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 63
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 64
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 65
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 66
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 67
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 68
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 69
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 70
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 71
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 72
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 73
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 74
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 75
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 76
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 77
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 78
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "100-fullscreen.t"
+assertion = 79
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
 file = "102-dock.t"
 assertion = 2
 outcome = "fail"
@@ -1635,78 +2104,6 @@ reason_verified = true
 
 [[classification]]
 file = "132-move-workspace.t"
-assertion = 10
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 22
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 34
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 46
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 53
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 62
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 78
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 80
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
-assertion = 98
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/132-move-workspace.t:1"
-
-[[classification]]
-file = "132-move-workspace.t"
 assertion = 4
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
@@ -1725,6 +2122,14 @@ assertion = 9
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "132-move-workspace.t"
+assertion = 10
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
 
 [[classification]]
 file = "132-move-workspace.t"
@@ -1756,6 +2161,14 @@ reason_verified = true
 
 [[classification]]
 file = "132-move-workspace.t"
+assertion = 22
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
+
+[[classification]]
+file = "132-move-workspace.t"
 assertion = 24
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
@@ -1781,6 +2194,14 @@ assertion = 33
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "132-move-workspace.t"
+assertion = 34
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
 
 [[classification]]
 file = "132-move-workspace.t"
@@ -1812,6 +2233,14 @@ reason_verified = true
 
 [[classification]]
 file = "132-move-workspace.t"
+assertion = 46
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
+
+[[classification]]
+file = "132-move-workspace.t"
 assertion = 48
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
@@ -1833,6 +2262,14 @@ reason_verified = true
 
 [[classification]]
 file = "132-move-workspace.t"
+assertion = 53
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
+
+[[classification]]
+file = "132-move-workspace.t"
 assertion = 58
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
@@ -1844,6 +2281,14 @@ assertion = 61
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "132-move-workspace.t"
+assertion = 62
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
 
 [[classification]]
 file = "132-move-workspace.t"
@@ -1875,10 +2320,26 @@ reason_verified = true
 
 [[classification]]
 file = "132-move-workspace.t"
+assertion = 78
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
+
+[[classification]]
+file = "132-move-workspace.t"
 assertion = 79
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "132-move-workspace.t"
+assertion = 80
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
 
 [[classification]]
 file = "132-move-workspace.t"
@@ -1907,6 +2368,14 @@ assertion = 97
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "132-move-workspace.t"
+assertion = 98
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/132-move-workspace.t:1"
 
 [[classification]]
 file = "132-move-workspace.t"
@@ -2959,6 +3428,125 @@ reason = "unclassified"
 reason_verified = false
 
 [[classification]]
+file = "141-resize.t"
+assertion = 16
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 17
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 18
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 19
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 21
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 22
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 23
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 26
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 29
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 42
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 43
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 67
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 71
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 76
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 80
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "141-resize.t"
+assertion = 84
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
 file = "143-regress-floating-restart.t"
 assertion = 2
 outcome = "fail"
@@ -3047,6 +3635,440 @@ file = "155-floating-split-size.t"
 assertion = 4
 outcome = "fail"
 reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 3
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 4
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 5
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 6
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 7
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 8
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 9
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 10
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 11
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 12
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 13
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 14
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 15
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 16
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 17
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 18
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 19
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 20
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 21
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 22
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 23
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 24
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 25
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 26
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 27
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 28
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 29
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 30
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 31
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 32
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 33
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 34
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 35
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 36
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 37
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 38
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 39
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 40
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 41
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 42
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 43
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 44
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 45
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 46
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 47
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 48
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 49
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 50
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 51
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 52
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 53
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 54
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 55
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 56
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 57
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 58
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 59
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 60
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 61
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 62
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 63
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
+reason_verified = true
+
+[[classification]]
+file = "156-fullscreen-focus.t"
+assertion = 64
+outcome = "unreached"
+reason = "sway_xwayland_mapping_finding"
 reason_verified = true
 
 [[classification]]
@@ -3194,6 +4216,426 @@ reason_verified = false
 [[classification]]
 file = "164-kill-win-vs-client.t"
 assertion = 12
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 20
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 21
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 22
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 23
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 24
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 25
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 26
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 27
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 28
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 29
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 30
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 31
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 32
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 33
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 34
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 35
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 36
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 37
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 38
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 39
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 40
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 41
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 42
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 43
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 44
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 45
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 46
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 47
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 48
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 49
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 50
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 51
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 52
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 53
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 54
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 55
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 56
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 57
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 58
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 59
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 60
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 61
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 62
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 63
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 64
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 65
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 66
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 67
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 68
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 69
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 70
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 71
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 72
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 73
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 74
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 75
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 76
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 77
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 78
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "165-for_window.t"
+assertion = 79
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
@@ -3815,6 +5257,545 @@ reason = "unclassified"
 reason_verified = false
 
 [[classification]]
+file = "167-workspace_layout.t"
+assertion = 8
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 9
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 10
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 11
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 12
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 13
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 14
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 15
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 16
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 17
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 18
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 19
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 21
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 22
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 24
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 27
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 28
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 29
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 30
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 31
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 32
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 33
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 34
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 35
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 36
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 37
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 38
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 39
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 40
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 41
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 42
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 43
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 44
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 45
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 46
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 47
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 48
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 49
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 50
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 51
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 52
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 53
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 54
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 55
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 56
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 57
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 58
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 59
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 60
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 61
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 62
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 63
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 64
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 65
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 66
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 67
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 68
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 69
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 70
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 71
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 72
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 73
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 74
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 75
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 76
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 77
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 78
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 79
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 80
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 81
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 82
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 83
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 84
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 85
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 86
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "167-workspace_layout.t"
+assertion = 87
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
 file = "169-border-toggle.t"
 assertion = 1
 outcome = "fail"
@@ -4242,22 +6223,6 @@ reason_verified = true
 
 [[classification]]
 file = "179-regress-multiple-ws.t"
-assertion = 4
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/179-regress-multiple-ws.t:1"
-
-[[classification]]
-file = "179-regress-multiple-ws.t"
-assertion = 6
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/179-regress-multiple-ws.t:1"
-
-[[classification]]
-file = "179-regress-multiple-ws.t"
 assertion = 2
 outcome = "fail"
 reason = "sway_xwayland_mapping_finding"
@@ -4272,10 +6237,26 @@ reason_verified = true
 
 [[classification]]
 file = "179-regress-multiple-ws.t"
+assertion = 4
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/179-regress-multiple-ws.t:1"
+
+[[classification]]
+file = "179-regress-multiple-ws.t"
 assertion = 5
 outcome = "fail"
 reason = "sway_xwayland_mapping_finding"
 reason_verified = true
+
+[[classification]]
+file = "179-regress-multiple-ws.t"
+assertion = 6
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/179-regress-multiple-ws.t:1"
 
 [[classification]]
 file = "181-regress-float-border.t"
@@ -5178,6 +7159,34 @@ reason_verified = true
 citation = "i3/t/187-commands-parser.t:17-28; i3/meson.build:685-696"
 
 [[classification]]
+file = "189-floating-constraints.t"
+assertion = 23
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "189-floating-constraints.t"
+assertion = 24
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "189-floating-constraints.t"
+assertion = 27
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "189-floating-constraints.t"
+assertion = 28
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
 file = "191-resize-levels.t"
 assertion = 2
 outcome = "fail"
@@ -5187,6 +7196,90 @@ reason_verified = false
 [[classification]]
 file = "191-resize-levels.t"
 assertion = 3
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 8
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 9
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 10
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 11
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 12
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 13
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 14
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 15
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 16
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 17
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "192-layout.t"
+assertion = 18
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -5430,6 +7523,139 @@ reason = "i3_parser_internals"
 reason_verified = true
 
 [[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 3
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 4
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 6
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 12
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 13
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 14
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 15
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 16
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 17
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 18
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 19
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 20
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 21
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 22
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 23
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 24
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 25
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 26
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "202-scratchpad-criteria.t"
+assertion = 27
+outcome = "unreached"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
 file = "205-ipc-windows.t"
 assertion = 2
 outcome = "fail"
@@ -5442,6 +7668,34 @@ assertion = 4
 outcome = "fail"
 reason = "sway_ipc_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "206-fullscreen-scratchpad.t"
+assertion = 5
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "206-fullscreen-scratchpad.t"
+assertion = 6
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "206-fullscreen-scratchpad.t"
+assertion = 7
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "206-fullscreen-scratchpad.t"
+assertion = 8
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
 
 [[classification]]
 file = "210-mark-unmark.t"
@@ -5467,6 +7721,69 @@ reason_verified = false
 [[classification]]
 file = "212-assign-urgency.t"
 assertion = 1
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 4
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 5
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 6
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 9
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 10
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 11
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 12
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 16
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "213-layout-restore-simple.t"
+assertion = 18
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -5794,6 +8111,69 @@ reason = "unclassified"
 reason_verified = false
 
 [[classification]]
+file = "243-move-to-mark.t"
+assertion = 13
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 35
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 36
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 38
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 40
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 43
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 44
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 46
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "243-move-to-mark.t"
+assertion = 50
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
 file = "244-new-workspace-floating-enable-center.t"
 assertion = 1
 outcome = "fail"
@@ -5949,11 +8329,25 @@ reason_verified = true
 
 [[classification]]
 file = "254-move-to-output-with-criteria.t"
+assertion = 1
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "254-move-to-output-with-criteria.t"
 assertion = 2
 outcome = "skip"
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
 reason_verified = true
 citation = "i3/t/254-move-to-output-with-criteria.t:1"
+
+[[classification]]
+file = "254-move-to-output-with-criteria.t"
+assertion = 3
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [[classification]]
 file = "254-move-to-output-with-criteria.t"
@@ -5965,11 +8359,25 @@ citation = "i3/t/254-move-to-output-with-criteria.t:1"
 
 [[classification]]
 file = "254-move-to-output-with-criteria.t"
+assertion = 7
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "254-move-to-output-with-criteria.t"
 assertion = 8
 outcome = "skip"
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
 reason_verified = true
 citation = "i3/t/254-move-to-output-with-criteria.t:1"
+
+[[classification]]
+file = "254-move-to-output-with-criteria.t"
+assertion = 9
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [[classification]]
 file = "254-move-to-output-with-criteria.t"
@@ -5981,54 +8389,18 @@ citation = "i3/t/254-move-to-output-with-criteria.t:1"
 
 [[classification]]
 file = "254-move-to-output-with-criteria.t"
+assertion = 11
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "254-move-to-output-with-criteria.t"
 assertion = 12
 outcome = "skip"
 reason = "The unchanged upstream test marked this assertion skipped in this environment."
 reason_verified = true
 citation = "i3/t/254-move-to-output-with-criteria.t:1"
-
-[[classification]]
-file = "254-move-to-output-with-criteria.t"
-assertion = 16
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
-reason_verified = true
-citation = "i3/t/254-move-to-output-with-criteria.t:1"
-
-[[classification]]
-file = "254-move-to-output-with-criteria.t"
-assertion = 1
-outcome = "fail"
-reason = "sway_tree_semantics_finding"
-reason_verified = true
-
-[[classification]]
-file = "254-move-to-output-with-criteria.t"
-assertion = 3
-outcome = "fail"
-reason = "sway_tree_semantics_finding"
-reason_verified = true
-
-[[classification]]
-file = "254-move-to-output-with-criteria.t"
-assertion = 7
-outcome = "fail"
-reason = "sway_tree_semantics_finding"
-reason_verified = true
-
-[[classification]]
-file = "254-move-to-output-with-criteria.t"
-assertion = 9
-outcome = "fail"
-reason = "sway_tree_semantics_finding"
-reason_verified = true
-
-[[classification]]
-file = "254-move-to-output-with-criteria.t"
-assertion = 11
-outcome = "fail"
-reason = "sway_tree_semantics_finding"
-reason_verified = true
 
 [[classification]]
 file = "254-move-to-output-with-criteria.t"
@@ -6043,6 +8415,14 @@ assertion = 15
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "254-move-to-output-with-criteria.t"
+assertion = 16
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/254-move-to-output-with-criteria.t:1"
 
 [[classification]]
 file = "256-no-auto-back-and-forth.t"
@@ -6746,11 +9126,109 @@ reason = "unclassified"
 reason_verified = false
 
 [[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 4
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 6
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 8
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 10
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 12
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 16
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 18
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "271-for_window_tilingfloating.t"
+assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "274-move-branch-position.t"
+assertion = 3
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "274-move-branch-position.t"
+assertion = 4
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "274-move-branch-position.t"
+assertion = 7
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "274-move-branch-position.t"
+assertion = 8
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
 file = "279-regress-default-floating-border.t"
 assertion = 1
 outcome = "fail"
 reason = "sway_xwayland_geometry_finding"
 reason_verified = true
+
+[[classification]]
+file = "280-wm-class-change-handler.t"
+assertion = 4
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
 
 [[classification]]
 file = "284-ewmh-visible-name.t"
@@ -6856,6 +9334,20 @@ assertion = 2
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
+
+[[classification]]
+file = "287-edge-borders.t"
+assertion = 3
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
+
+[[classification]]
+file = "287-edge-borders.t"
+assertion = 20
+outcome = "fail"
+reason = "sway_xwayland_geometry_finding"
+reason_verified = true
 
 [[classification]]
 file = "289-ipc-shutdown-event.t"
@@ -8503,6 +10995,48 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [[classification]]
+file = "293-focus-follows-mouse.t"
+assertion = 2
+outcome = "fail"
+reason = "headless_xtest_boundary"
+reason_verified = true
+
+[[classification]]
+file = "293-focus-follows-mouse.t"
+assertion = 6
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "293-focus-follows-mouse.t"
+assertion = 7
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "293-focus-follows-mouse.t"
+assertion = 8
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "293-focus-follows-mouse.t"
+assertion = 9
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "293-focus-follows-mouse.t"
+assertion = 10
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
 file = "294-focus-order.t"
 assertion = 2
 outcome = "unreached"
@@ -8918,6 +11452,20 @@ reason_verified = false
 [[classification]]
 file = "294-focus-order.t"
 assertion = 61
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "295-net-wm-state-focused.t"
+assertion = 4
+outcome = "unreached"
+reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "295-net-wm-state-focused.t"
+assertion = 5
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
@@ -9616,6 +12164,62 @@ reason = "The pinned run emitted no TAP plan; retain this as an environment or h
 reason_verified = false
 
 [[classification]]
+file = "313-include.t"
+assertion = 19
+outcome = "skip"
+reason = "upstream_skip"
+reason_verified = false
+
+[[classification]]
+file = "313-include.t"
+assertion = 23
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "313-include.t"
+assertion = 25
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "313-include.t"
+assertion = 26
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "313-include.t"
+assertion = 27
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "313-include.t"
+assertion = 28
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "313-include.t"
+assertion = 29
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "313-include.t"
+assertion = 30
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
 file = "315-all-criterion.t"
 assertion = 3
 outcome = "unreached"
@@ -9865,6 +12469,97 @@ file = "317-bar-config-font-order.t"
 assertion = 1
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "319-gaps.t"
+assertion = 19
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "319-gaps.t"
+assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 4
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 5
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 6
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 7
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 8
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 9
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 10
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 11
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 12
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 13
+outcome = "unreached"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "320-mouse-bindings.t"
+assertion = 14
+outcome = "unreached"
+reason = "unclassified"
 reason_verified = false
 
 [[classification]]
@@ -10541,20 +13236,123 @@ reason = "sway_tree_semantics_finding"
 reason_verified = true
 
 [[classification]]
-file = "512-move-wraps.t"
-assertion = 6
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
+file = "510-focus-across-outputs.t"
+assertion = 1
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
 reason_verified = true
-citation = "i3/t/512-move-wraps.t:1"
 
 [[classification]]
-file = "512-move-wraps.t"
-assertion = 10
-outcome = "skip"
-reason = "The unchanged upstream test marked this assertion skipped in this environment."
+file = "510-focus-across-outputs.t"
+assertion = 2
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
 reason_verified = true
-citation = "i3/t/512-move-wraps.t:1"
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 3
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 4
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 7
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 8
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 9
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 10
+outcome = "fail"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 11
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 12
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 13
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 14
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 15
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 16
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 17
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 18
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
+
+[[classification]]
+file = "510-focus-across-outputs.t"
+assertion = 19
+outcome = "unreached"
+reason = "sway_tree_semantics_finding"
+reason_verified = true
 
 [[classification]]
 file = "512-move-wraps.t"
@@ -10565,10 +13363,26 @@ reason_verified = true
 
 [[classification]]
 file = "512-move-wraps.t"
+assertion = 6
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/512-move-wraps.t:1"
+
+[[classification]]
+file = "512-move-wraps.t"
 assertion = 9
 outcome = "fail"
 reason = "sway_tree_semantics_finding"
 reason_verified = true
+
+[[classification]]
+file = "512-move-wraps.t"
+assertion = 10
+outcome = "skip"
+reason = "The unchanged upstream test marked this assertion skipped in this environment."
+reason_verified = true
+citation = "i3/t/512-move-wraps.t:1"
 
 [[classification]]
 file = "513-move-workspace.t"
@@ -10764,6 +13578,251 @@ file = "527-focus-fallback.t"
 assertion = 2
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 1
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 2
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 3
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 6
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 7
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 8
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 9
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 10
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 11
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 12
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 13
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 14
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 15
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 16
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 17
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 18
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 19
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 21
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 22
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 23
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 24
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 25
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 26
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 27
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 28
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 29
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 30
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 31
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 32
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 33
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 34
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 36
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 37
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "528-workspace-next-prev-reversed.t"
+assertion = 38
+outcome = "fail"
+reason = "unclassified"
 reason_verified = false
 
 [[classification]]
@@ -11021,6 +14080,62 @@ reason_verified = false
 [[classification]]
 file = "535-workspace-next-prev.t"
 assertion = 38
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 12
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 19
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 20
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 21
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 24
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 30
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 31
+outcome = "fail"
+reason = "unclassified"
+reason_verified = false
+
+[[classification]]
+file = "541-resize-set-tiling.t"
+assertion = 32
 outcome = "fail"
 reason = "unclassified"
 reason_verified = false
@@ -11750,6 +14865,94 @@ assertion = 8
 outcome = "unreached"
 reason = "The pinned run emitted no TAP plan; retain this as an environment or harness finding."
 reason_verified = false
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 2
+outcome = "fail"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 3
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 4
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 5
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 6
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 7
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 8
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 9
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 10
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 11
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
+
+[[classification]]
+file = "551-net-wm-state-maximized.t"
+assertion = 12
+outcome = "unreached"
+reason = "sway_xwayland_maximized_state"
+reason_verified = true
+citation = "i3/t/551-net-wm-state-maximized.t:45-56; sway/sway/desktop/xwayland.c:294-300"
 
 [[classification]]
 file = "553-popup_during_fullscreen.t"

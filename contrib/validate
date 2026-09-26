@@ -202,19 +202,46 @@ for line in readme.splitlines():
         table[cells[0].strip("`")] = cells
     elif len(cells) == 6 and cells[1] == "not yet measured" and cells[2:] != ["—", "—", "—", "—"]:
         raise SystemExit(f"README placeholder row for {cells[0]} must not carry figures")
-def counts(entry):
-    return entry.get("pass", 0), entry.get("skip", 0), entry.get("fail", 0) + entry.get("unreached", 0)
+unstable_doc = tomllib.load(open("i3/unstable.toml", "rb"))
+flaky_runs = tomllib.load(open("i3/flaky-runs.toml", "rb")).get("run", [])
 for compositor, name in names.items():
     doc = tomllib.load(open(f"i3/results/{name}.toml", "rb"))
-    rows = [counts(e) for e in doc["files"].values() if not e.get("flaky")]
-    suite = "/".join(f"{n:,}" for n in (sum(r[i] for r in rows) for i in range(3)))
-    flaky = str(sum(1 for e in doc["files"].values() if e.get("flaky")))
+    unstable = {
+        (item["file"], number)
+        for item in unstable_doc.get("unstable", [])
+        if item["compositor"] == compositor
+        for number in item["assertions"]
+    }
+    derived = set()
+    for run in flaky_runs:
+        if run["compositor"] != compositor:
+            continue
+        first = {number: outcome for outcome in ("pass", "skip", "fail", "unreached")
+                 for number in run[f"first_{outcome}"]}
+        second = {number: outcome for outcome in ("pass", "skip", "fail", "unreached")
+                  for number in run[f"second_{outcome}"]}
+        derived.update((run["file"], number) for number in first.keys() | second.keys()
+                       if first.get(number) != second.get(number))
+    if unstable != derived:
+        raise SystemExit(f"i3/unstable.toml does not match i3/flaky-runs.toml for {compositor}")
+    totals = []
+    for outcomes in (("pass",), ("skip",), ("fail", "unreached")):
+        totals.append(sum(
+            1
+            for file, entry in doc["files"].items()
+            if not entry.get("flaky")
+            for outcome in outcomes
+            for number in entry.get(f"{outcome}_assertions", [])
+            if (file, number) not in unstable
+        ))
+    suite = "/".join(f"{n:,}" for n in totals)
+    unstable_count = str(len(unstable))
     ipc = tomllib.load(open(f"sway-ipc/results/{name}.toml", "rb"))["run"]
     fields = "/".join(str(n) for n in (ipc.get("match", 0), ipc.get("mismatch", ipc.get("differs", 0)), ipc.get("not_applicable", 0)))
     ev = tomllib.load(open(f"sway-ipc/results/{name}-events.toml", "rb"))["run"]
     events = "/".join(str(n) for n in (ev.get("match", 0), ev.get("mismatch", ev.get("differs", 0)), ev.get("not_applicable", 0)))
     commit = f"`{pins[compositor][:8]}`"
-    expected = [f"`{name}`", suite, flaky, fields, events, commit]
+    expected = [f"`{name}`", suite, unstable_count, fields, events, commit]
     if table.get(name) != expected:
         raise SystemExit(f"README snapshot row for {name} should be: | {' | '.join(expected)} |")
 

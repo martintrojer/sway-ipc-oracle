@@ -12,6 +12,11 @@ A result file has a `[files]` entry for every vendored `.t` file. Each entry rec
 - `skip`: one table per skipped assertion.
 - `fail`: assertions that ran and did not pass.
 - `unreached`: assertions the run did not reach.
+- `unstable_assertions`: assertion numbers whose outcomes differed between
+  repeated runs. They remain in the raw result but are omitted from stable
+  pass/skip/fail counts.
+- `flaky = true`: the file's TAP plan differed between runs or the file aborted
+  at a different point, so assertion-level comparison is not valid.
 - `survived = true`: a zero-assertion crash-regression file reached its `1..0`
   plan without the compositor or test process failing. This is distinct from a
   file-level skip: the test ran and its survival condition passed.

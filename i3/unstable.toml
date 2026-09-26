@@ -1,0 +1,181 @@
+# Assertions whose outcomes changed between complete serialized fixed-container runs.
+
+[[unstable]]
+compositor = "sway"
+file = "104-focus-stack.t"
+assertions = [1]
+
+[[unstable]]
+compositor = "sway"
+file = "145-flattening.t"
+assertions = [2]
+
+[[unstable]]
+compositor = "sway"
+file = "156-fullscreen-focus.t"
+assertions = [1, 2]
+
+[[unstable]]
+compositor = "sway"
+file = "165-for_window.t"
+assertions = [7, 8, 9, 10, 11]
+
+[[unstable]]
+compositor = "sway"
+file = "167-workspace_layout.t"
+assertions = [25]
+
+[[unstable]]
+compositor = "sway"
+file = "186-regress-assign-focus-parent.t"
+assertions = [8]
+
+[[unstable]]
+compositor = "sway"
+file = "188-regress-focus-restart.t"
+assertions = [1, 2, 3, 7, 8, 9]
+
+[[unstable]]
+compositor = "sway"
+file = "189-floating-constraints.t"
+assertions = [1, 2]
+
+[[unstable]]
+compositor = "sway"
+file = "202-scratchpad-criteria.t"
+assertions = [2, 5, 7]
+
+[[unstable]]
+compositor = "sway"
+file = "206-fullscreen-scratchpad.t"
+assertions = [3]
+
+[[unstable]]
+compositor = "sway"
+file = "211-regress-urgency-assign.t"
+assertions = [2, 3]
+
+[[unstable]]
+compositor = "sway"
+file = "213-layout-restore-simple.t"
+assertions = [17]
+
+[[unstable]]
+compositor = "sway"
+file = "232-cmd-move-criteria.t"
+assertions = [1, 17]
+
+[[unstable]]
+compositor = "sway"
+file = "240-focus-on-window-activation.t"
+assertions = [2, 15]
+
+[[unstable]]
+compositor = "sway"
+file = "243-move-to-mark.t"
+assertions = [14, 15, 16, 17, 18, 19]
+
+[[unstable]]
+compositor = "sway"
+file = "246-window-decoration-focus.t"
+assertions = [1]
+
+[[unstable]]
+compositor = "sway"
+file = "248-regress-urgency-clear.t"
+assertions = [2]
+
+[[unstable]]
+compositor = "sway"
+file = "251-command-criteria-focused.t"
+assertions = [1, 3, 7]
+
+[[unstable]]
+compositor = "sway"
+file = "255-multiple-marks.t"
+assertions = [3, 4]
+
+[[unstable]]
+compositor = "sway"
+file = "261-match-con_id-con_mark-combinations.t"
+assertions = [1, 2, 3]
+
+[[unstable]]
+compositor = "sway"
+file = "271-for_window_tilingfloating.t"
+assertions = [1, 7, 9]
+
+[[unstable]]
+compositor = "sway"
+file = "274-move-branch-position.t"
+assertions = [1, 2]
+
+[[unstable]]
+compositor = "sway"
+file = "280-wm-class-change-handler.t"
+assertions = [1, 2, 3]
+
+[[unstable]]
+compositor = "sway"
+file = "287-edge-borders.t"
+assertions = [6, 8, 9, 10]
+
+[[unstable]]
+compositor = "sway"
+file = "293-focus-follows-mouse.t"
+assertions = [3, 4]
+
+[[unstable]]
+compositor = "sway"
+file = "293-sticky-output-crash.t"
+assertions = [2, 3]
+
+[[unstable]]
+compositor = "sway"
+file = "295-net-wm-state-focused.t"
+assertions = [2, 3]
+
+[[unstable]]
+compositor = "sway"
+file = "299-regress-scratchpad-focus.t"
+assertions = [1]
+
+[[unstable]]
+compositor = "sway"
+file = "313-include.t"
+assertions = [3, 4]
+
+[[unstable]]
+compositor = "sway"
+file = "319-gaps.t"
+assertions = [11, 12, 21, 22]
+
+[[unstable]]
+compositor = "sway"
+file = "320-mouse-bindings.t"
+assertions = [3]
+
+[[unstable]]
+compositor = "sway"
+file = "510-focus-across-outputs.t"
+assertions = [5]
+
+[[unstable]]
+compositor = "sway"
+file = "539-disable_focus_wrapping.t"
+assertions = [2, 3]
+
+[[unstable]]
+compositor = "sway"
+file = "541-resize-set-tiling.t"
+assertions = [16, 17, 18, 22, 23]
+
+[[unstable]]
+compositor = "sway"
+file = "551-net-wm-state-maximized.t"
+assertions = [1]
+
+[[unstable]]
+compositor = "swayward"
+file = "232-cmd-move-criteria.t"
+assertions = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
