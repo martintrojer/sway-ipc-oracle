@@ -138,6 +138,19 @@ fi
 
 python3 - <<'PY'
 import re
+import subprocess
+from pathlib import Path
+
+needles = ("/var/" + "home/", "/" + "home/", "swayward-" + "scratch", "hack" + "ing/")
+for name in subprocess.check_output(["git", "ls-files", "contrib", "docs", "tests"], text=True).splitlines():
+    for number, line in enumerate(Path(name).read_text(errors="replace").splitlines(), 1):
+        prose = re.sub(r"https?://\S+", "", line)
+        if any(needle in prose for needle in needles):
+            raise SystemExit(f"{name}:{number}: machine-specific home or scratch path")
+PY
+
+python3 - <<'PY'
+import re
 from pathlib import Path
 
 root = Path("contrib")

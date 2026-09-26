@@ -93,7 +93,8 @@ actions = ["command:gaps inner all set 17", "command:gaps outer all set 23", "wi
 
 [[scenario]]
 name = "urgent_via_command"
-compositors = ["sway", "swayward"]
+requires = ["sway-command-language"]
+not_applicable = true
 reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
 actions = ["window:fixture-1", "command:workspace 2", "command:[app_id=\"^fixture-1$\"] urgent enable", "capture:urgent_via_command"]
 
@@ -117,6 +118,7 @@ actions = ["window:fixture-1", "command:splitv", "window:fixture-2", "command:sp
 name = "disabled_output_evacuation"
 outputs = 2
 requires = ["sway-command-language"]
+not_applicable = true
 reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
 actions = ["window:fixture-1", "command:move workspace to output right", "command:output HEADLESS-2 disable", "capture:disabled_output_evacuation"]
 

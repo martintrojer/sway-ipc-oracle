@@ -3,7 +3,7 @@
 Build the pinned toolchain and run every result generator from a clean checkout:
 
 ```sh
-git clone https://github.com/martintrojer/sway-ipc-oracle.git
+git clone ORACLE_REPOSITORY_URL sway-ipc-oracle
 cd sway-ipc-oracle
 podman build -t sway-ipc-oracle -f Containerfile .
 podman run --rm --memory 4g --memory-swap 4g \

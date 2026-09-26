@@ -7,7 +7,7 @@
 compositor = "i3"
 version = "4.25-25-g9be3249a"
 commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
-oracle_commit = "2747d33c294382f4a4db3739f40475e26dfbad12"
+oracle_commit = "df64cb361dae014cd3643431df981aa81bef514c"
 date = "2026-09-26"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "version-runtime-identity", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
@@ -15,7 +15,7 @@ scenario_isolation = "fresh compositor per scenario"
 difference_fields = 96
 match = 117
 differs = 115
-not_applicable = 151
+not_applicable = 194
 
 [[result]]
 scenario = "empty"
@@ -70,6 +70,22 @@ verdict = "match"
 
 [[result]]
 scenario = "empty"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "empty"
+request = "commands"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -79,16 +95,6 @@ scenario = "empty"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "empty"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "empty"
-request = "commands"
-verdict = "match"
 
 [[result]]
 scenario = "one_window"
@@ -143,6 +149,23 @@ verdict = "match"
 
 [[result]]
 scenario = "one_window"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "one_window"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "one_window"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -152,17 +175,6 @@ scenario = "one_window"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "one_window"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "one_window"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "two_split_h"
@@ -217,6 +229,23 @@ verdict = "match"
 
 [[result]]
 scenario = "two_split_h"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_h"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "two_split_h"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
+scenario = "two_split_h"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -226,17 +255,6 @@ scenario = "two_split_h"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "two_split_h"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "two_split_h"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "two_split_v"
@@ -291,6 +309,23 @@ verdict = "match"
 
 [[result]]
 scenario = "two_split_v"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "two_split_v"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
+scenario = "two_split_v"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -300,17 +335,6 @@ scenario = "two_split_v"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "two_split_v"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "two_split_v"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "nested_h_in_v"
@@ -365,26 +389,32 @@ verdict = "match"
 
 [[result]]
 scenario = "nested_h_in_v"
-request = "seats"
-verdict = "not applicable"
-reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "nested_h_in_v"
-request = "inputs"
-verdict = "not applicable"
-reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+request = "version"
+verdict = "match"
 
 [[result]]
 scenario = "nested_h_in_v"
 request = "version"
-verdict = "match"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
 scenario = "nested_h_in_v"
 request = "commands"
 verdict = "differs"
 differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[4].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
 
 [[result]]
 scenario = "tabbed"
@@ -439,6 +469,23 @@ verdict = "match"
 
 [[result]]
 scenario = "tabbed"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "tabbed"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
+scenario = "tabbed"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -448,17 +495,6 @@ scenario = "tabbed"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "tabbed"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "tabbed"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "stacked"
@@ -513,6 +549,23 @@ verdict = "match"
 
 [[result]]
 scenario = "stacked"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "stacked"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "stacked"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
+scenario = "stacked"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -522,17 +575,6 @@ scenario = "stacked"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "stacked"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "stacked"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "one_floating"
@@ -587,6 +629,23 @@ verdict = "match"
 
 [[result]]
 scenario = "one_floating"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "one_floating"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[1].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
+scenario = "one_floating"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -596,17 +655,6 @@ scenario = "one_floating"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "one_floating"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "one_floating"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[1].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "two_floating"
@@ -661,20 +709,14 @@ verdict = "match"
 
 [[result]]
 scenario = "two_floating"
-request = "seats"
-verdict = "not applicable"
-reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "two_floating"
-request = "inputs"
-verdict = "not applicable"
-reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+request = "version"
+verdict = "match"
 
 [[result]]
 scenario = "two_floating"
 request = "version"
-verdict = "match"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
 scenario = "two_floating"
@@ -683,6 +725,18 @@ verdict = "differs"
 differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
+scenario = "two_floating"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_floating"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
 scenario = "three_floating_before_raise"
 request = "tree"
 verdict = "differs"
@@ -735,6 +789,23 @@ verdict = "match"
 
 [[result]]
 scenario = "three_floating_before_raise"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-tiled --title=fixture-tiled sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-tiled -title fixture-tiled'", "$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[5].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
+scenario = "three_floating_before_raise"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -744,17 +815,6 @@ scenario = "three_floating_before_raise"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "three_floating_before_raise"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "three_floating_before_raise"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-tiled --title=fixture-tiled sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-tiled -title fixture-tiled'", "$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[5].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "three_floating_after_raise"
@@ -809,6 +869,23 @@ verdict = "match"
 
 [[result]]
 scenario = "three_floating_after_raise"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-tiled --title=fixture-tiled sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-tiled -title fixture-tiled'", "$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[5].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
+scenario = "three_floating_after_raise"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -818,17 +895,6 @@ scenario = "three_floating_after_raise"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "three_floating_after_raise"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "three_floating_after_raise"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-tiled --title=fixture-tiled sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-tiled -title fixture-tiled'", "$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[5].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "fullscreen"
@@ -883,6 +949,23 @@ verdict = "match"
 
 [[result]]
 scenario = "fullscreen"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "fullscreen"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "fullscreen"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -892,17 +975,6 @@ scenario = "fullscreen"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "fullscreen"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "fullscreen"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "marked"
@@ -957,6 +1029,23 @@ verdict = "match"
 
 [[result]]
 scenario = "marked"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "marked"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "marked"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -966,17 +1055,6 @@ scenario = "marked"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "marked"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "marked"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "two_workspaces"
@@ -1031,6 +1109,23 @@ verdict = "match"
 
 [[result]]
 scenario = "two_workspaces"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "two_workspaces"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
+scenario = "two_workspaces"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1040,17 +1135,6 @@ scenario = "two_workspaces"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "two_workspaces"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "two_workspaces"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "numbered_sparse"
@@ -1105,6 +1189,23 @@ verdict = "match"
 
 [[result]]
 scenario = "numbered_sparse"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'", "$commands[4].command: \"exec foot --app-id=fixture-7 --title=fixture-7 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-7 -title fixture-7'"]
+
+[[result]]
+scenario = "numbered_sparse"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1114,17 +1215,6 @@ scenario = "numbered_sparse"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "numbered_sparse"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "numbered_sparse"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'", "$commands[4].command: \"exec foot --app-id=fixture-7 --title=fixture-7 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-7 -title fixture-7'"]
 
 [[result]]
 scenario = "named_workspace"
@@ -1179,6 +1269,23 @@ verdict = "match"
 
 [[result]]
 scenario = "named_workspace"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "named_workspace"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-mail --title=fixture-mail sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-mail -title fixture-mail'"]
+
+[[result]]
+scenario = "named_workspace"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1188,17 +1295,6 @@ scenario = "named_workspace"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "named_workspace"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "named_workspace"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[1].command: \"exec foot --app-id=fixture-mail --title=fixture-mail sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-mail -title fixture-mail'"]
 
 [[result]]
 scenario = "empty_named"
@@ -1253,6 +1349,22 @@ verdict = "match"
 
 [[result]]
 scenario = "empty_named"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "empty_named"
+request = "commands"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1262,16 +1374,6 @@ scenario = "empty_named"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "empty_named"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "empty_named"
-request = "commands"
-verdict = "match"
 
 [[result]]
 scenario = "two_outputs"
@@ -1327,6 +1429,23 @@ verdict = "match"
 
 [[result]]
 scenario = "two_outputs"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "two_outputs"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
+scenario = "two_outputs"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1336,17 +1455,6 @@ scenario = "two_outputs"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "two_outputs"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "two_outputs"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "scratchpad_hidden"
@@ -1401,6 +1509,23 @@ verdict = "match"
 
 [[result]]
 scenario = "scratchpad_hidden"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "scratchpad_hidden"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1410,17 +1535,6 @@ scenario = "scratchpad_hidden"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "scratchpad_hidden"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "scratchpad_hidden"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "scratchpad_shown"
@@ -1475,6 +1589,23 @@ verdict = "match"
 
 [[result]]
 scenario = "scratchpad_shown"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "scratchpad_shown"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1484,17 +1615,6 @@ scenario = "scratchpad_shown"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "scratchpad_shown"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "scratchpad_shown"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "sticky_workspace_switch"
@@ -1549,6 +1669,23 @@ verdict = "match"
 
 [[result]]
 scenario = "sticky_workspace_switch"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "sticky_workspace_switch"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1558,17 +1695,6 @@ scenario = "sticky_workspace_switch"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "sticky_workspace_switch"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "sticky_workspace_switch"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
@@ -1623,6 +1749,23 @@ verdict = "match"
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[7].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1632,17 +1775,6 @@ scenario = "nested_tabbed_in_stacked"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "nested_tabbed_in_stacked"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "nested_tabbed_in_stacked"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[7].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "nested_stacked_in_tabbed"
@@ -1697,6 +1829,23 @@ verdict = "match"
 
 [[result]]
 scenario = "nested_stacked_in_tabbed"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[7].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1706,17 +1855,6 @@ scenario = "nested_stacked_in_tabbed"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "nested_stacked_in_tabbed"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "nested_stacked_in_tabbed"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[7].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "borders_and_gaps"
@@ -1771,20 +1909,14 @@ verdict = "match"
 
 [[result]]
 scenario = "borders_and_gaps"
-request = "seats"
-verdict = "not applicable"
-reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "borders_and_gaps"
-request = "inputs"
-verdict = "not applicable"
-reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+request = "version"
+verdict = "match"
 
 [[result]]
 scenario = "borders_and_gaps"
 request = "version"
-verdict = "match"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
 scenario = "borders_and_gaps"
@@ -1793,6 +1925,18 @@ verdict = "differs"
 differences = ["$commands[2].command: \"exec foot --app-id=fixture-normal --title=fixture-normal sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-normal -title fixture-normal'", "$commands[4].command: \"exec foot --app-id=fixture-pixel --title=fixture-pixel sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-pixel -title fixture-pixel'", "$commands[6].command: \"exec foot --app-id=fixture-none --title=fixture-none sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-none -title fixture-none'"]
 
 [[result]]
+scenario = "borders_and_gaps"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
 scenario = "urgent_via_command"
 request = "tree"
 verdict = "not applicable"
@@ -1807,6 +1951,48 @@ reason = "i3 has no urgent command; source: i3/src/commands.c command table. Thi
 [[result]]
 scenario = "urgent_via_command"
 request = "outputs"
+verdict = "not applicable"
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+
+[[result]]
+scenario = "urgent_via_command"
+request = "marks"
+verdict = "not applicable"
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+
+[[result]]
+scenario = "urgent_via_command"
+request = "binding_modes"
+verdict = "not applicable"
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+
+[[result]]
+scenario = "urgent_via_command"
+request = "binding_state"
+verdict = "not applicable"
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+
+[[result]]
+scenario = "urgent_via_command"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+
+[[result]]
+scenario = "urgent_via_command"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+
+[[result]]
+scenario = "urgent_via_command"
+request = "version"
+verdict = "not applicable"
+reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
+
+[[result]]
+scenario = "urgent_via_command"
+request = "commands"
 verdict = "not applicable"
 reason = "i3 has no urgent command; source: i3/src/commands.c command table. This covers compositor-originated urgency via IPC; client-originated urgency is not covered."
 
@@ -1863,20 +2049,14 @@ verdict = "match"
 
 [[result]]
 scenario = "markup_title"
-request = "seats"
-verdict = "not applicable"
-reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "markup_title"
-request = "inputs"
-verdict = "not applicable"
-reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+request = "version"
+verdict = "match"
 
 [[result]]
 scenario = "markup_title"
 request = "version"
-verdict = "match"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
 scenario = "markup_title"
@@ -1885,6 +2065,18 @@ verdict = "differs"
 differences = ["$commands[0].command: \"exec foot --app-id=fixture-markup --title='<b>bold literal</b>' sh -c 'sleep 300'\" != \"exec --no-startup-id xterm -name fixture-markup -title '<b>bold literal</b>'\""]
 
 [[result]]
+scenario = "markup_title"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "markup_title"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
 scenario = "fullscreen_workspace"
 request = "tree"
 verdict = "differs"
@@ -1937,6 +2129,23 @@ verdict = "match"
 
 [[result]]
 scenario = "fullscreen_workspace"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "fullscreen_workspace"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -1946,17 +2155,6 @@ scenario = "fullscreen_workspace"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "fullscreen_workspace"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "fullscreen_workspace"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "fullscreen_global"
@@ -2011,6 +2209,23 @@ verdict = "match"
 
 [[result]]
 scenario = "fullscreen_global"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
+scenario = "fullscreen_global"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -2020,17 +2235,6 @@ scenario = "fullscreen_global"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "fullscreen_global"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "fullscreen_global"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "container_mark"
@@ -2085,6 +2289,23 @@ verdict = "match"
 
 [[result]]
 scenario = "container_mark"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "container_mark"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "container_mark"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[4].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
+scenario = "container_mark"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -2094,17 +2315,6 @@ scenario = "container_mark"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "container_mark"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "container_mark"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[4].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "disabled_output_evacuation"
@@ -2121,6 +2331,48 @@ reason = "i3 has no output command; source: i3/src/commands.c command table. Out
 [[result]]
 scenario = "disabled_output_evacuation"
 request = "outputs"
+verdict = "not applicable"
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "marks"
+verdict = "not applicable"
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "binding_modes"
+verdict = "not applicable"
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "binding_state"
+verdict = "not applicable"
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "version"
+verdict = "not applicable"
+reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "commands"
 verdict = "not applicable"
 reason = "i3 has no output command; source: i3/src/commands.c command table. Output disable is a sway extension; source: sway/sway/commands/output/disable.c."
 
@@ -2177,6 +2429,23 @@ verdict = "match"
 
 [[result]]
 scenario = "differential_seed_0"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "version"
+verdict = "not applicable"
+reason = "sway extension fields: variant; source: sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-diff-1 -title fixture-diff-1'"]
+
+[[result]]
+scenario = "differential_seed_0"
 request = "seats"
 verdict = "not applicable"
 reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
@@ -2186,14 +2455,3 @@ scenario = "differential_seed_0"
 request = "inputs"
 verdict = "not applicable"
 reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
-
-[[result]]
-scenario = "differential_seed_0"
-request = "version"
-verdict = "match"
-
-[[result]]
-scenario = "differential_seed_0"
-request = "commands"
-verdict = "differs"
-differences = ["$commands[0].command: \"exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-diff-1 -title fixture-diff-1'"]

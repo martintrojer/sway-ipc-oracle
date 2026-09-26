@@ -290,7 +290,9 @@ def wayland_adapter(args) -> None:
     ARGS = args
     src = Path(args.i3src)
     require_clean_checkout(src, I3_PIN, "i3")
-    binary = Path(args.binary or ("/var/home/martintrojer/hacking/sway-1.12-build/build/sway/sway" if args.compositor == "sway" else "/var/home/martintrojer/hacking/swayward/target/debug/swayward"))
+    if not args.binary:
+        raise SystemExit(f"--binary is required for {args.compositor}")
+    binary = Path(args.binary)
     compositor_commit = require_clean_checkout(
         binary_checkout(binary), PINS[args.compositor], args.compositor
     )
@@ -398,8 +400,8 @@ def main() -> int:
                     help="write diagnostics here (use a private path for concurrent shards)")
     ap.add_argument("--merge", nargs="+", type=Path, metavar="PARTIAL",
                     help="merge complete, disjoint partial results into --out")
-    ap.add_argument("--i3src", default="/var/home/martintrojer/hacking/i3")
-    ap.add_argument("--i3build", default="/var/home/martintrojer/hacking/i3/build")
+    ap.add_argument("--i3src", default=os.environ.get("I3SRC", "i3"))
+    ap.add_argument("--i3build", default=os.environ.get("I3BUILD", "i3/build"))
     ap.add_argument("--container", default="swayward-dev")
     ap.add_argument("--parallel", type=int, default=4)
     ap.add_argument("--timeout", type=int, default=900)

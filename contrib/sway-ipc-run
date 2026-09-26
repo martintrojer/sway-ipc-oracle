@@ -35,7 +35,6 @@ RUN_MARKER = "SWAY_IPC_ORACLE_RUN"
 I3_DERIVED = ROOT / "sway-ipc/i3-derived"
 RANDOM = ROOT / "sway-ipc/random"
 FUZZ_FIXTURES = ROOT / "sway-ipc/fuzz"
-FUZZ_SCRATCH = Path("/var/home/martintrojer/hacking/swayward-scratch")
 FUZZ_BUDGETS = {"ci": (24, 10), "local": (48, 16)}
 with (ROOT / "pins.toml").open("rb") as file:
     PINS = tomllib.load(file)
@@ -406,6 +405,13 @@ def difference_path(difference):
 def load_applicability():
     with open(ROOT / "sway-ipc/applicability.toml", "rb") as file:
         return tomllib.load(file)
+
+
+def applicable_requests(compositor, applicability):
+    if compositor != "i3":
+        return QUERY_REQUESTS
+    return tuple(request for request in QUERY_REQUESTS
+                 if applicability["i3"][request].get("applicable", True))
 
 
 def i3_protocol_view(expected, actual, request, applicability):
@@ -1112,8 +1118,11 @@ def random_capture(args, parser):
         parser.error("random --capture is restricted to sway")
     require_clean_binary(args.binary, "sway")
     objects, sequences = {}, []
-    scratch = Path("/var/home/martintrojer/hacking/swayward-scratch/random-capture")
-    scratch.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="sway-ipc-random-capture-") as directory:
+        return random_capture_in(args, objects, sequences, Path(directory))
+
+
+def random_capture_in(args, objects, sequences, scratch):
     for seed in range(args.seed, args.seed + args.seeds):
         commands = generate_commands(seed, args.steps)
         run_dir = scratch / str(seed)
@@ -1204,9 +1213,13 @@ def random_main(args, parser):
     require_clean_binary(args.binary, args.compositor)
     manifest, objects = random_manifest()
     args.steps = manifest["steps"]
-    rows, rules, version_reply = [], load_rules(), None
-    scratch = Path("/var/home/martintrojer/hacking/swayward-scratch/random-replay")
-    scratch.mkdir(parents=True, exist_ok=True)
+    rows, rules = [], load_rules()
+    with tempfile.TemporaryDirectory(prefix="sway-ipc-random-replay-") as directory:
+        return random_replay(args, manifest, objects, rows, rules, Path(directory))
+
+
+def random_replay(args, manifest, objects, rows, rules, scratch):
+    version_reply = None
     for number, sequence in enumerate(manifest["sequences"], 1):
         run_dir = scratch / str(sequence["seed"])
         shutil.rmtree(run_dir, ignore_errors=True)
@@ -1318,6 +1331,14 @@ def scenario_main(args, parser):
                         command_replies = []
                         required = set(scenario.get("requires", []))
                         if not required <= adapter.capabilities:
+                            if scenario.get("not_applicable"):
+                                for action in scenario["actions"]:
+                                    kind, value = action.split(":", 1)
+                                    if kind == "capture":
+                                        for request in (*QUERY_REQUESTS, "commands"):
+                                            rows.append({"scenario": value, "request": request,
+                                                         "verdict": "not applicable",
+                                                         "reason": scenario["reason"]})
                             continue
                         adapter.reset()
                         subscription = EventSubscription(adapter.socket) if args.corpus == "events" else None
@@ -1345,7 +1366,8 @@ def scenario_main(args, parser):
                                     command_replies.append(adapter.open_window(ident, title))
                                 elif kind == "capture":
                                     time.sleep(0.15)
-                                    requests = ("events",) if args.corpus == "events" else (*QUERY_REQUESTS, "commands")
+                                    requests = (("events",) if args.corpus == "events" else
+                                                (*applicable_requests(args.compositor, applicability), "commands"))
                                     for request in requests:
                                         actual = (subscription.checkpoint(adapter.socket, f"oracle-{value}")
                                                   if request == "events" else command_replies
@@ -1363,6 +1385,12 @@ def scenario_main(args, parser):
                                         if excluded:
                                             source = applicability["i3"][request]["sway_extension_source"]
                                             rows.append({"scenario": value, "request": request, "verdict": "not applicable", "reason": f"sway extension fields: {', '.join(excluded)}; source: {source}"})
+                                    if args.compositor == "i3" and args.corpus != "events":
+                                        for request in QUERY_REQUESTS:
+                                            if request not in requests:
+                                                rows.append({"scenario": value, "request": request,
+                                                             "verdict": "not applicable",
+                                                             "reason": applicability["i3"][request]["reason"]})
                                 else:
                                     raise RuntimeError(f"unknown action {kind}")
                         finally:
@@ -1462,10 +1490,9 @@ def fuzz_main(args, parser):
         fixture_cases = {row["case"]: row for row in fixture["cases"]}
         expected_by_name = {name: row["observation"] for name, row in fixture_cases.items()}
         cases = [case for case in cases if case["name"] in fixture_cases]
-    FUZZ_SCRATCH.mkdir(parents=True, exist_ok=True)
     captured, rows = [], []
     for case in cases:
-        with tempfile.TemporaryDirectory(prefix=f"oracle-{corpus}-", dir=FUZZ_SCRATCH) as directory:
+        with tempfile.TemporaryDirectory(prefix=f"oracle-{corpus}-") as directory:
             adapter = ADAPTERS[args.compositor](args, Path(directory))
             with open(Path(directory) / "compositor.log", "w") as log:
                 try:

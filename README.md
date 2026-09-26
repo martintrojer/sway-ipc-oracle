@@ -33,7 +33,7 @@ inventory below.
 
 | Snapshot | i3 suite (pass/skip/fail) | Unstable | sway IPC | Events | Commit |
 | --- | --- | --- | --- | --- | --- |
-| `i3-4.25` | 3,754/1/0 | 0 | 117/115/151 | 1/28/9 | `9be3249a` |
+| `i3-4.25` | 3,754/1/0 | 0 | 117/115/194 | 1/28/9 | `9be3249a` |
 | `sway-1.12` | 1,502/20/2,137 | 81 | 310/0/0 | 32/0/0 | `88869399` |
 | `swayward-5f4ad1d8` | 1,440/11/2,282 | 12 | 310/0/0 | 22/9/3 | `5f4ad1d8` |
 | SwayFX | not yet measured | — | — | — | — |

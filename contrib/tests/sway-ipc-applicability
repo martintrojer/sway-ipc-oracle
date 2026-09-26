@@ -11,7 +11,10 @@ runner = importlib.machinery.SourceFileLoader(
 rules = runner.load_applicability()
 scenarios = {item["name"]: item for item in runner.selected_scenarios(None)}
 assert scenarios["disabled_output_evacuation"]["requires"] == ["sway-command-language"]
+assert scenarios["disabled_output_evacuation"]["not_applicable"] is True
+assert scenarios["urgent_via_command"]["not_applicable"] is True
 assert scenarios["command_coverage"]["requires"] == ["sway-command-language"]
+assert "not_applicable" not in scenarios["command_coverage"]
 assert runner.SwayAdapter.capabilities == {"sway-command-language"}
 assert runner.SwaywardAdapter.capabilities == {"sway-command-language"}
 assert not runner.I3Adapter.capabilities
@@ -22,6 +25,11 @@ assert runner.QUERY_REQUESTS == (
 )
 assert rules["i3"]["seats"]["applicable"] is False
 assert rules["i3"]["inputs"]["applicable"] is False
+assert runner.applicable_requests("i3", rules) == (
+    "tree", "workspaces", "outputs", "marks", "binding_modes",
+    "binding_state", "version",
+)
+assert runner.applicable_requests("sway", rules) == runner.QUERY_REQUESTS
 assert rules["i3"]["marks"]["fields"] == []
 assert runner.shape_view({"major": 1, "loaded_config_file_name": None}) == {
     "major": "number", "loaded_config_file_name": "null",
@@ -32,7 +40,7 @@ sway_version = {
     "minor": 12,
     "patch": 0,
     "human_readable": "1.12-88869399 (Sep 25 2026, branch 'HEAD')",
-    "loaded_config_file_name": "/home/example/.config/sway/config",
+    "loaded_config_file_name": "/example/sway/config",
     "variant": "sway",
 }
 swayward_version = {
@@ -40,7 +48,7 @@ swayward_version = {
     "minor": 4,
     "patch": 0,
     "human_readable": "swayward beta0-dev (v26.04-5f4ad1d8)",
-    "loaded_config_file_name": "/home/example/.config/swayward/config.kdl",
+    "loaded_config_file_name": "/example/swayward/config.kdl",
     "variant": "swayward",
 }
 assert runner.compare(sway_version, swayward_version, "version", runner.load_rules()) == []
