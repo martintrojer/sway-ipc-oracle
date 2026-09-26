@@ -108,3 +108,13 @@ The headless conformance test uses `workspace.reload.json`, `window.focus.json`,
 and `mode.default.json` because those states match deterministic harness events.
 The other files preserve real sway payloads for future event-specific tests.
 Never derive or hand-edit an event fixture from the compositor under test.
+
+## Fuzz fixtures
+
+`sway-ipc/fuzz/command-fuzz.json` and `sway-ipc/fuzz/wire-fuzz.json` were
+captured on 2026-09-26 from pinned sway 1.12 (`88869399`) with
+`contrib/sway-ipc-run {command,wire}-fuzz --capture`, one fresh headless
+compositor per case, in the environment above. Each entry records the input
+(command text, or the raw frame as hex) and sway's observation. Only
+`GET_VERSION` payloads are reduced to their key set, because they name the build
+and the private config path. The same never-hand-edit rule applies.

@@ -41,6 +41,18 @@ see the inventory below.
 | swirl | not yet measured | — | — | — | — |
 | miracle-wm | not yet measured | — | — | — | — |
 
+### Fuzz corpora
+
+Malformed commands (`command-fuzz`) and broken IPC framing (`wire-fuzz`),
+captured from sway 1.12 and replayed at the fixed CI budget. Figures are
+match/mismatch/not applicable/crash/hang. Crash and hang record compositor
+health, separately from mismatch.
+
+| Snapshot | match/mismatch/n.a./crash/hang | Commit |
+| --- | --- | --- |
+| `sway-1.12-command-fuzz` | 24/0/0/0/0 | `88869399` |
+| `sway-1.12-wire-fuzz` | 10/0/0/0/0 | `88869399` |
+
 Most of sway's non-passes against i3's tests are deliberate: sway is a Wayland
 compositor, and many i3 tests assume X11. Every non-pass carries a reviewed
 classification with a source citation, in `i3/classifications/`.

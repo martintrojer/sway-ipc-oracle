@@ -44,6 +44,35 @@ restricted to sway and replaces the selected query fixtures after running the
 same comparisons. The i3 adapter runs i3 under private Xvfb and opens xterm
 clients; both programs must be installed beside the runner.
 
+## Fuzz corpora
+
+Two seeded, deterministic corpora probe input that the scenarios never send.
+`command-fuzz` sends malformed and edge-case commands from sway's grammar: bad
+criteria, wrong argument counts, `px`/`ppt`/unknown units, `;` and `,` chains,
+quoting, Unicode, NUL, and a 64 KiB string. It records the reply and whether
+`get_tree`, `get_workspaces` or `get_outputs` changed. `wire-fuzz` sends broken
+framing: bad magic, truncated headers and payloads, oversized lengths, unknown
+and event message types, invalid JSON for `SUBSCRIBE` and `COMMAND`, and 32
+simultaneous clients. It records a reply, a disconnect or a 2-second timeout.
+
+Each case runs on a fresh compositor. Afterwards the runner checks the process
+and sends `GET_VERSION`. An exited compositor is `crash`, and an unresponsive one
+is `hang`. Both are counted separately from `mismatch`.
+
+```sh
+# Capture (sway only): always records the larger local budget.
+./contrib/sway-ipc-run command-fuzz --compositor sway --binary /path/to/sway --capture
+./contrib/sway-ipc-run wire-fuzz --compositor sway --binary /path/to/sway --capture
+# Replay: --budget ci (default, committed snapshots) or --budget local.
+./contrib/sway-ipc-run command-fuzz --compositor swayward --binary /path/to/swayward
+```
+
+The CI budget is 24 command cases and 10 wire cases; the local budget is 48 and
+16. CI replays a prefix of the local corpus. `--seed` selects the generated
+command cases; the committed fixture uses seed 0. Fixtures live in
+`sway-ipc/fuzz/`, and results in
+`sway-ipc/results/<snapshot>-{command,wire}-fuzz.toml`.
+
 ## States derived from i3's test suite
 
 The optional calibration recorder logs replayable IPC commands and ordinary
