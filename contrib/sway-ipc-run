@@ -568,6 +568,7 @@ def compare(expected, actual, request, rules):
 
 
 class Adapter:
+    capabilities = frozenset()
     def __init__(self, args, run_dir, scenario=None):
         self.args, self.run_dir, self.scenario = args, run_dir, scenario or {}
         self.socket = run_dir / "ipc.sock"
@@ -659,6 +660,7 @@ class WaylandAdapter(Adapter):
 
 
 class SwayAdapter(WaylandAdapter):
+    capabilities = frozenset({"sway-command-language"})
     config_name = "config"
     config_text = "font monospace 10\ndefault_border normal 2\noutput * mode 1270x1408\noutput * bg #000000 solid_color\nmode resize {\n    bindsym Escape mode default\n}\nbindsym Shift+Ctrl+t nop\n"
 
@@ -671,6 +673,7 @@ class SwayAdapter(WaylandAdapter):
 
 
 class SwaywardAdapter(WaylandAdapter):
+    capabilities = frozenset({"sway-command-language"})
     config_name = "config.kdl"
     config_text = "layout { default-border \"normal\" width=2; default-floating-border \"normal\" width=2; border { on; width 2; }; }\nmode \"resize\" { Escape { command \"mode default\"; }; }\n"
 
@@ -1313,7 +1316,8 @@ def scenario_main(args, parser):
                         batch = []
                     for scenario in batch:
                         command_replies = []
-                        if args.compositor not in scenario.get("compositors", ADAPTERS):
+                        required = set(scenario.get("requires", []))
+                        if not required <= adapter.capabilities:
                             continue
                         adapter.reset()
                         subscription = EventSubscription(adapter.socket) if args.corpus == "events" else None

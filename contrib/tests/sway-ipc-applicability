@@ -10,7 +10,11 @@ runner = importlib.machinery.SourceFileLoader(
 ).load_module()
 rules = runner.load_applicability()
 scenarios = {item["name"]: item for item in runner.selected_scenarios(None)}
-assert "i3" not in scenarios["disabled_output_evacuation"]["compositors"]
+assert scenarios["disabled_output_evacuation"]["requires"] == ["sway-command-language"]
+assert scenarios["command_coverage"]["requires"] == ["sway-command-language"]
+assert runner.SwayAdapter.capabilities == {"sway-command-language"}
+assert runner.SwaywardAdapter.capabilities == {"sway-command-language"}
+assert not runner.I3Adapter.capabilities
 assert "sway/sway/commands/output/disable.c" in scenarios["disabled_output_evacuation"]["reason"]
 assert runner.QUERY_REQUESTS == (
     "tree", "workspaces", "outputs", "marks", "binding_modes",
