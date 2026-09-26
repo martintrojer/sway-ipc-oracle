@@ -52,6 +52,8 @@ health, separately from mismatch.
 | --- | --- | --- |
 | `sway-1.12-command-fuzz` | 24/0/0/0/0 | `88869399` |
 | `sway-1.12-wire-fuzz` | 10/0/0/0/0 | `88869399` |
+| `swayward-0fbb931c-command-fuzz` | 19/5/0/0/0 | `0fbb931c` |
+| `swayward-0fbb931c-wire-fuzz` | 5/5/0/0/0 | `0fbb931c` |
 
 Most of sway's non-passes against i3's tests are deliberate: sway is a Wayland
 compositor, and many i3 tests assume X11. Every non-pass carries a reviewed
