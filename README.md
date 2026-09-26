@@ -34,7 +34,7 @@ see the inventory below.
 | Snapshot | i3 suite (pass/skip/fail) | Flaky files | sway IPC | Commit |
 | --- | --- | --- | --- | --- |
 | `i3-4.25` | 3,754/1/0 | 0 | 28/59/93 | `9be3249a` |
-| `sway-1.12` | 1,469/20/2,110 | 8 | 93/0/0 | `88869399` |
+| `sway-1.12` | 1,110/19/1,682 | 40 | 93/0/0 | `88869399` |
 | `swayward-0fbb931c` | 1,443/11/2,279 | 1 | 93/0/0 | `0fbb931c` |
 | SwayFX | not yet measured | — | — | — |
 | scroll | not yet measured | — | — | — |
