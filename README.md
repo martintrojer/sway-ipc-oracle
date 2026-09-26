@@ -45,6 +45,14 @@ Most of sway's non-passes against i3's tests are deliberate: sway is a Wayland
 compositor, and many i3 tests assume X11. Every non-pass carries a reviewed
 classification with a source citation, in `i3/classifications/`.
 
+The event corpus subscribes to all nine sway event families before each
+scenario and compares the ordered stream through a `SEND_TICK` barrier. Sway
+1.12 matches all 32 captured scenario streams (32/0/0
+match/mismatch/not-applicable). `sway-ipc/command-coverage.toml` records which
+of sway 1.12's 90 top-level command handlers these scenarios exercise and why
+the remaining configuration or lifecycle commands are not portable headless
+scenarios.
+
 ## Try it
 
 Run one test file against your own sway build:

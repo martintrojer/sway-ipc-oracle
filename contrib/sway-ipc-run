@@ -24,7 +24,8 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "sway-ipc/fixtures"
 MAGIC = b"i3-ipc"
-TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
+TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "tick": 10, "inputs": 100}
+EVENTS = ("workspace", "output", "mode", "window", "barconfig_update", "binding", "shutdown", "tick", "input")
 NORMAL = "__oracle_normalized__"
 RUN_MARKER = "SWAY_IPC_ORACLE_RUN"
 I3_DERIVED = ROOT / "sway-ipc/i3-derived"
@@ -136,25 +137,47 @@ def recv_exact(stream, length):
     return b"".join(chunks)
 
 
+class EventSubscription:
+    def __init__(self, sock_path, families=EVENTS):
+        self.stream = socket.socket(socket.AF_UNIX)
+        self.stream.settimeout(8)
+        self.stream.connect(os.fspath(sock_path))
+        body = json.dumps(families).encode()
+        self.stream.sendall(MAGIC + struct.pack("=II", len(body), TYPES["subscribe"]) + body)
+        header = recv_exact(self.stream, 14)
+        length, reply_type = struct.unpack("=II", header[6:])
+        self.reply = json.loads(recv_exact(self.stream, length))
+        self.active = reply_type == TYPES["subscribe"] and self.reply.get("success")
+
+    def checkpoint(self, sock_path, token):
+        if not self.active:
+            return {"subscription": self.reply}
+        ipc(sock_path, "tick", token)
+        events = []
+        while True:
+            header = recv_exact(self.stream, 14)
+            length, reply_type = struct.unpack("=II", header[6:])
+            event = json.loads(recv_exact(self.stream, length))
+            if not reply_type & (1 << 31):
+                raise RuntimeError(f"expected event, got IPC type {reply_type}")
+            if event.get("payload") == token:
+                return events
+            events.append(event)
+
+    def close(self):
+        self.stream.close()
+
+
 def subscribed_event(sock_path, family, trigger):
-    stream = socket.socket(socket.AF_UNIX)
-    stream.settimeout(8)
-    stream.connect(os.fspath(sock_path))
-    body = json.dumps([family]).encode()
-    stream.sendall(MAGIC + struct.pack("=II", len(body), TYPES["subscribe"]) + body)
-    header = recv_exact(stream, 14)
-    length, reply_type = struct.unpack("=II", header[6:])
-    reply = json.loads(recv_exact(stream, length))
-    if reply_type != TYPES["subscribe"] or not reply.get("success"):
-        raise RuntimeError(f"subscription failed: {reply}")
+    subscription = EventSubscription(sock_path, (family,))
     trigger()
-    header = recv_exact(stream, 14)
-    length, reply_type = struct.unpack("=II", header[6:])
-    event = json.loads(recv_exact(stream, length))
-    stream.close()
-    if not reply_type & (1 << 31):
-        raise RuntimeError(f"expected event, got IPC type {reply_type}")
-    return event
+    try:
+        events = subscription.checkpoint(sock_path, "individual-event-barrier")
+    finally:
+        subscription.close()
+    if not events:
+        raise RuntimeError(f"expected {family} event")
+    return events[0]
 
 
 def command(sock_path, text):
@@ -904,46 +927,53 @@ def scenario_main(args, parser):
                                         rows.append({"scenario": value, "request": request, "verdict": "not applicable", "reason": scenario["reason"]})
                             continue
                         adapter.reset()
-                        for action in scenario["actions"]:
-                            kind, value = action.split(":", 1)
-                            if kind == "command":
-                                adapter.run_command(value)
-                            elif kind == "step":
-                                adapter.command_reply(value)
-                            elif kind == "probe":
-                                fixture_name, text = value.split(":", 1)
-                                actual = adapter.command_reply(text)
-                                fixture = FIXTURES / f"{fixture_name}.command.json"
-                                if args.capture:
-                                    fixture.write_text(json.dumps(actual, indent=2, sort_keys=True) + "\n")
-                                expected = json.loads(fixture.read_text())
-                                differences = compare(expected, actual, "command", rules)
-                                verdict = "differs" if args.compositor == "i3" and differences else "mismatch" if differences else "match"
-                                rows.append({"scenario": fixture_name, "request": "command", "verdict": verdict, "differences": differences})
-                            elif kind == "window":
-                                adapter.open_window(value)
-                            elif kind == "window_title":
-                                ident, title = value.split("|", 1)
-                                adapter.open_window(ident, title)
-                            elif kind == "capture":
-                                time.sleep(0.15)
-                                for request in ("tree", "workspaces", "outputs"):
-                                    actual = ipc(adapter.socket, request)
-                                    fixture = FIXTURES / f"{value}.{request}.json"
+                        subscription = EventSubscription(adapter.socket) if args.corpus == "events" else None
+                        try:
+                            for action in scenario["actions"]:
+                                kind, value = action.split(":", 1)
+                                if kind == "command":
+                                    adapter.run_command(value)
+                                elif kind == "step":
+                                    adapter.command_reply(value)
+                                elif kind == "probe":
+                                    fixture_name, text = value.split(":", 1)
+                                    actual = adapter.command_reply(text)
+                                    fixture = FIXTURES / f"{fixture_name}.command.json"
                                     if args.capture:
                                         fixture.write_text(json.dumps(actual, indent=2, sort_keys=True) + "\n")
                                     expected = json.loads(fixture.read_text())
-                                    excluded = []
-                                    if args.compositor == "i3":
-                                        expected, actual, excluded = i3_protocol_view(expected, actual, request, applicability)
-                                    differences = compare(expected, actual, request, rules)
+                                    differences = compare(expected, actual, "command", rules)
                                     verdict = "differs" if args.compositor == "i3" and differences else "mismatch" if differences else "match"
-                                    rows.append({"scenario": value, "request": request, "verdict": verdict, "differences": differences})
-                                    if excluded:
-                                        source = applicability["i3"][request]["sway_extension_source"]
-                                        rows.append({"scenario": value, "request": request, "verdict": "not applicable", "reason": f"sway extension fields: {', '.join(excluded)}; source: {source}"})
-                            else:
-                                raise RuntimeError(f"unknown action {kind}")
+                                    rows.append({"scenario": fixture_name, "request": "command", "verdict": verdict, "differences": differences})
+                                elif kind == "window":
+                                    adapter.open_window(value)
+                                elif kind == "window_title":
+                                    ident, title = value.split("|", 1)
+                                    adapter.open_window(ident, title)
+                                elif kind == "capture":
+                                    time.sleep(0.15)
+                                    requests = ("events",) if args.corpus == "events" else ("tree", "workspaces", "outputs")
+                                    for request in requests:
+                                        actual = (subscription.checkpoint(adapter.socket, f"oracle-{value}")
+                                                  if request == "events" else ipc(adapter.socket, request))
+                                        fixture = FIXTURES / f"{value}.{request}.json"
+                                        if args.capture:
+                                            fixture.write_text(json.dumps(actual, indent=2, sort_keys=True) + "\n")
+                                        expected = json.loads(fixture.read_text())
+                                        excluded = []
+                                        if args.compositor == "i3" and request != "events":
+                                            expected, actual, excluded = i3_protocol_view(expected, actual, request, applicability)
+                                        differences = compare(expected, actual, request, rules)
+                                        verdict = "differs" if args.compositor == "i3" and differences else "mismatch" if differences else "match"
+                                        rows.append({"scenario": value, "request": request, "verdict": verdict, "differences": differences})
+                                        if excluded:
+                                            source = applicability["i3"][request]["sway_extension_source"]
+                                            rows.append({"scenario": value, "request": request, "verdict": "not applicable", "reason": f"sway extension fields: {', '.join(excluded)}; source: {source}"})
+                                else:
+                                    raise RuntimeError(f"unknown action {kind}")
+                        finally:
+                            if subscription:
+                                subscription.close()
                 finally:
                     adapter.stop()
     if hasattr(adapter, "version_details"):
@@ -953,7 +983,8 @@ def scenario_main(args, parser):
         commit = version_reply.get("commit", "unknown")
     reject_dirty_version(args.compositor, version, commit)
     commit = PINS[args.compositor]
-    out = args.out or ROOT / "sway-ipc/results" / f"{PINS['snapshot'][args.compositor]}.toml"
+    suffix = "-events" if args.corpus == "events" else ""
+    out = args.out or ROOT / "sway-ipc/results" / f"{PINS['snapshot'][args.compositor]}{suffix}.toml"
     run_mode = "fresh compositor per scenario" if args.fresh_per_scenario else "sequential, with output-count scenarios isolated"
     counts, difference_fields = write_results(out, args.compositor, version, commit, rows, rules, run_mode)
     print("; ".join([*(f"{key}: {counts[key]}" for key in counts),
@@ -1051,6 +1082,7 @@ def main():
     parser.add_argument("--scenario", action="append")
     parser.add_argument("--out", type=Path)
     parser.add_argument("--capture", action="store_true", help="replace selected sway fixtures")
+    parser.add_argument("--corpus", choices=("state", "events"), default="state")
     parser.add_argument("--capture-events", action="store_true", help="replace individual sway event fixtures")
     parser.add_argument("--command-logs", type=Path, help="directory of i3-suite *.commands.jsonl files")
     parser.add_argument("--fresh-per-scenario", action=argparse.BooleanOptionalAction,

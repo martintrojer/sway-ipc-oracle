@@ -17,7 +17,9 @@ sway 1.11 captures as noted below.
 - scenario source: `sway-ipc/scenarios.toml`
 
 Each captured scenario has the raw replies to `get_tree`, `get_workspaces`, and
-`get_outputs`, formatted only with `jq -S .` for stable key order. The
+`get_outputs`, formatted only with `jq -S .` for stable key order. Each also has
+an `*.events.json` file captured after subscribing to all nine event families;
+the ordered stream ends at a runner-generated `SEND_TICK` barrier. The
 `two_floating` and `three_floating_*` scenarios show that `floating_nodes` uses
 back-to-front stacking order, while the workspace `focus` array lists the
 focused floating window first. `three_floating_after_raise` focuses
@@ -83,6 +85,11 @@ from its source workspace's last window. Sway 1.12 emits one `window::move`
 event and no workspace event in all three cases. A future scenario extension
 must capture subscriptions through the same runner and use sway `SEND_TICK` as
 the end-of-stream barrier.
+
+The 27 existing event fixtures remain as focused examples of individual event
+payloads and multi-event transitions. The per-scenario event corpus folds their
+covered window, workspace, and mode changes into replayable whole-scenario
+streams while preserving these fixtures for precise protocol checks.
 
 `window-map-focused.sequence.json` and `window-map-unfocused.sequence.json`
 were recaptured from the capped sway 1.12 Wayland-backend session. Mapping a

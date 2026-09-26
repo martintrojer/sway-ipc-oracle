@@ -123,3 +123,9 @@ actions = ["window:fixture-1", "command:move workspace to output right", "comman
 [[scenario]]
 name = "differential_seed_0"
 actions = ["window:fixture-diff-1", "capture:differential_seed_0"]
+
+[[scenario]]
+name = "command_coverage"
+compositors = ["sway"]
+reason = "These sway-only command extensions are absent or not fully implemented in the other pinned compositors."
+actions = ["window:fixture-command-1", "command:mark commandmark", "window:fixture-command-2", "command:allow_tearing enable", "command:inhibit_idle focus", "command:max_render_time 1", "command:opacity 0.9", "step:resize grow width 10 px", "command:shortcuts_inhibitor enable", "command:title_format command-title", "command:swap container with mark commandmark", "command:unmark commandmark", "command:rename workspace 1 to command-workspace", "command:[app_id=\"^fixture-command-2$\"] kill", "capture:command_coverage"]

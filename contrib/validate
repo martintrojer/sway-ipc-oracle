@@ -179,7 +179,9 @@ names = pins["snapshot"]
 # Every result is one compositor at one version, named from pins.toml.
 for oracle in ("i3", "sway-ipc"):
     for path in sorted(Path(oracle, "results").glob("*.toml")):
-        stem = path.stem.removesuffix("-i3-derived")
+        stem = path.stem
+        for suffix in ("-i3-derived", "-events"):
+            stem = stem.removesuffix(suffix)
         compositor = next((c for c, n in names.items() if n == stem), None)
         if compositor is None:
             raise SystemExit(f"{path}: name is not a snapshot in pins.toml [snapshot]")
@@ -220,6 +222,28 @@ if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-
     exit 1
 fi
 python3 -c 'import tomllib; tomllib.load(open("sway-ipc/scenarios.toml", "rb")); tomllib.load(open("sway-ipc/normalize.toml", "rb")); tomllib.load(open("sway-ipc/applicability.toml", "rb"))'
+python3 - <<'PY'
+import re, tomllib
+from pathlib import Path
+
+source = Path("sway-ipc/fixtures/schema-version.json")
+expected_commit = __import__("json").loads(source.read_text())["commit"]
+census = tomllib.load(open("sway-ipc/command-coverage.toml", "rb"))
+if census["commit"] != expected_commit or census["source"] != "sway/sway/commands.c":
+    raise SystemExit("command census source does not match the pinned sway fixture source")
+entries = census["command"]
+keys = [(row["table"], row["name"]) for row in entries]
+if len(keys) != len(set(keys)):
+    raise SystemExit("duplicate command census entry")
+for row in entries:
+    if bool(row.get("scenarios")) == bool(row.get("reason")):
+        raise SystemExit(f"command census {row['name']}: set exactly one of scenarios or reason")
+scenarios = {row["name"] for row in tomllib.load(open("sway-ipc/scenarios.toml", "rb"))["scenario"]}
+for row in entries:
+    unknown = set(row.get("scenarios", [])) - scenarios
+    if unknown:
+        raise SystemExit(f"command census {row['name']}: unknown scenarios {sorted(unknown)}")
+PY
 python3 - <<'PY'
 import json
 from pathlib import Path
