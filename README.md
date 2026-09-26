@@ -376,11 +376,34 @@ These are measurements, not scores. Each cell is pass/skip/fail; “fail” incl
 | `554-commands-crash-for-window.t` | 101/0/0 | 67/0/34 | 68/0/33 |
 | `556-workspace-keeps-focus-after-move.t` | 5/0/0 | 1/0/4 | 3/0/2 |
 
-## Why this does not run against hy3
+## Compositor inventory
 
-The harness requires an i3/sway IPC socket, i3-ipc framing, sway commands, and the i3 `GET_TREE` schema. [hy3](https://github.com/outfoxxed/hy3) is a Hyprland layout plugin. Its current source registers a Hyprland tiled layout and Hyprland dispatchers such as `hy3:movefocus`; it does not create an i3/sway IPC endpoint. Its Lua configuration support also exposes Hyprland dispatcher factories rather than an i3/sway socket. A separate [Lua hy3 layout](https://github.com/aarobc/hy3-lua) registers as `lua:hy3` through Hyprland's custom layout API and requires Hyprland 0.50 or newer.
+The runners need an i3/sway IPC socket, `i3-ipc` framing, compatible commands,
+and the i3 `GET_TREE` schema. “Runnable” means that an oracle adapter can start
+the project and test that interface without translating another IPC protocol.
+The list covers the i3/sway-like compositors considered for this oracle.
 
-Testing either implementation would require a translator from sway commands and `GET_TREE` to Hyprland's IPC and state model. The tests would then measure that translator as well as the layout, so this repository does not present such a run as an oracle measurement.
+| Project | IPC | Runnable? | Snapshotted? | Why not? |
+| --- | --- | :---: | :---: | --- |
+| [i3](https://i3wm.org/docs/ipc.html) | i3 IPC | Yes | Yes | — |
+| [sway](https://github.com/swaywm/sway/blob/master/sway/sway-ipc.7.scd) | i3-compatible sway IPC | Yes | Yes | — |
+| [swayward](https://github.com/martintrojer/swayward) | sway IPC | Yes | Yes | — |
+| [SwayFX](https://github.com/wlrfx/swayfx) | sway IPC, with effect commands | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
+| [scroll](https://github.com/dawsers/scroll) | sway IPC, with scrolling-layout extensions through `scrollmsg` | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
+| [swirl](https://github.com/visnudeva/swirl) | sway IPC through stock `swaymsg` | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
+| [miracle-wm](https://wiki.miracle-wm.org/develop/ipc/) | i3/sway IPC; no `GET_CONFIG` or `GET_BAR_CONFIG`, and no `GET_INPUTS` or `GET_SEATS` yet | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
+| [niri](https://niri-wm.github.io/niri/IPC.html) | Its own newline-delimited JSON protocol on `NIRI_SOCKET` | No | No | It has no i3/sway IPC endpoint. |
+| [Hyprland](https://wiki.hypr.land/IPC/), including [hy3](https://github.com/outfoxxed/hy3) | Hyprland command and event sockets | No | No | Its plugins can add i3-like layouts, but the compositor has no i3/sway IPC endpoint. |
+| [river](https://man.archlinux.org/man/river.1.en) | `river-window-management-v1` Wayland protocol | No | No | It has no i3/sway IPC endpoint. |
+| [Qtile](https://github.com/qtile/qtile/blob/master/libqtile/ipc.py) | Qtile's own Unix-socket protocol | No | No | It has no i3/sway IPC endpoint. |
+| [Wayfire](https://wayfire.org/2023/10/07/Wayfire-0-8.html) | Its own extensible JSON IPC plugin | No | No | Its upstream IPC is not i3/sway IPC. A separate experimental [`wayfire-ipc`](https://github.com/AR-CADE/wayfire-ipc) plugin would make the measurement depend on an adapter inside the compositor. |
+| [COSMIC](https://github.com/pop-os/cosmic-protocols) | COSMIC-specific Wayland protocol extensions | No | No | It has no i3/sway IPC endpoint. |
+| [i3-gaps](https://github.com/Airblader/i3) | i3 IPC | Covered | Covered by i3 | i3-gaps was merged into i3 for version 4.22 and its repository was archived. |
+
+A runnable project gets a snapshot only after its maintainers receive a courtesy
+note, as i3 and sway did. An adapter may handle process startup and platform
+premises, but published results must measure the project's own i3/sway IPC
+implementation rather than a protocol translator.
 
 ## Reproduce the results
 
