@@ -41,6 +41,16 @@ see the inventory below.
 | swirl | not yet measured | — | — | — | — |
 | miracle-wm | not yet measured | — | — | — | — |
 
+Most of sway's non-passes against i3's tests are deliberate: sway is a Wayland
+compositor, and many i3 tests assume X11. Every non-pass carries a reviewed
+classification with a source citation, in `i3/classifications/`.
+
+The events column replays 32 scenarios with a subscription to all nine sway
+event families and compares the ordered event stream (match/mismatch/not
+applicable; match/differs/not applicable for i3).
+`sway-ipc/command-coverage.toml` records which of sway 1.12's 90 top-level
+commands the scenarios exercise, and why the rest cannot run headless.
+
 ### Fuzz corpora
 
 Malformed commands (`command-fuzz`) and broken IPC framing (`wire-fuzz`),
@@ -54,16 +64,6 @@ health, separately from mismatch.
 | `sway-1.12-wire-fuzz` | 10/0/0/0/0 | `88869399` |
 | `swayward-0fbb931c-command-fuzz` | 19/5/0/0/0 | `0fbb931c` |
 | `swayward-0fbb931c-wire-fuzz` | 5/5/0/0/0 | `0fbb931c` |
-
-Most of sway's non-passes against i3's tests are deliberate: sway is a Wayland
-compositor, and many i3 tests assume X11. Every non-pass carries a reviewed
-classification with a source citation, in `i3/classifications/`.
-
-The events column replays 32 scenarios with a subscription to all nine sway
-event families and compares the ordered event stream (match/mismatch/not
-applicable; match/differs/not applicable for i3).
-`sway-ipc/command-coverage.toml` records which of sway 1.12's 90 top-level
-commands the scenarios exercise, and why the rest cannot run headless.
 
 ## Try it
 
