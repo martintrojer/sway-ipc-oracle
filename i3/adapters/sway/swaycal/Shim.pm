@@ -75,13 +75,14 @@ sub _tree {
     return _ipc(4, '');                                # IPC_GET_TREE
 }
 
-sub _tree_has_window {
+sub _tree_window {
     my ($node, $id) = @_;
-    return 1 if defined($node->{window}) && $node->{window} == $id;
+    return $node if defined($node->{window}) && $node->{window} == $id;
     for my $child (@{$node->{nodes} // []}, @{$node->{floating_nodes} // []}) {
-        return 1 if _tree_has_window($child, $id);
+        my $found = _tree_window($child, $id);
+        return $found if $found;
     }
-    return 0;
+    return undef;
 }
 
 sub _wait_for_sway_window {
@@ -90,7 +91,7 @@ sub _wait_for_sway_window {
         ? $window->id : $window;
     for my $i (1 .. 100) {
         my $body = _tree();
-        return 1 if defined($body) && _tree_has_window(JSON::PP::decode_json($body), $id);
+        return 1 if defined($body) && _tree_window(JSON::PP::decode_json($body), $id);
         select(undef, undef, undef, 0.02);
     }
     return 0;
@@ -140,8 +141,19 @@ sub sway_sync {
     *i3test::sync_with_i3 = \&sway_sync;
     *i3test::wait_for_map = sub {
         my $result = $wait_for_map->(@_);
-        _wait_for_sway_window($_[0]);
+        my $window = $_[0];
+        my $id = blessed($window) && $window->isa('X11::XCB::Window')
+            ? $window->id : $window;
+        _wait_for_sway_window($window);
         sway_sync();
+        my $tree = _tree();
+        my $node = defined($tree) ? _tree_window(JSON::PP::decode_json($tree), $id) : undef;
+        if ($node && $node->{focused}) {
+            for my $i (1 .. 100) {
+                last if $i3test::x->input_focus == $id;
+                select(undef, undef, undef, 0.02);
+            }
+        }
         return $result;
     };
     my $cmd = \&i3test::cmd;
