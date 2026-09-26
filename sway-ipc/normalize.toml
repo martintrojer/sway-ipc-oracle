@@ -32,6 +32,12 @@ name = "backend-output-capabilities"
 suffixes = [".current_mode.refresh", ".features.adaptive_sync"]
 reason = "Refresh and adaptive-sync support depend on the backend."
 
+[[shape_path]]
+name = "version-runtime-identity"
+paths = ["$version.major", "$version.minor", "$version.patch", "$version.human_readable", "$version.loaded_config_file_name", "$version.variant"]
+reason = "GET_VERSION identifies the compositor build and the config path used by that run; compare each field's presence and JSON type, not its compositor- or run-specific value."
+evidence = "sway-ipc(7) defines GET_VERSION as version information about the sway process, documents major/minor/patch as integers, human_readable as a string likely containing the git hash and branch, and loaded_config_file_name as the loaded config path: https://man.archlinux.org/man/sway-ipc.7.en#7._GET_VERSION"
+
 [[ignore_output_key]]
 name = "backend-output-name"
 keys = ["name"]

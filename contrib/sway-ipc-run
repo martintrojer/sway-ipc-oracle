@@ -467,11 +467,14 @@ def normalize(value, rules, path="$", is_output=False):
         ignored = {key for rule in rules["ignore_key"] for key in rule["keys"]}
         output_ignored = {key for rule in rules["ignore_output_key"] for key in rule["keys"]}
         suffixes = tuple(suffix for rule in rules["ignore_path"] for suffix in rule["suffixes"])
+        shape_paths = {item for rule in rules["shape_path"] for item in rule["paths"]}
         conditional_ignores = [rule for rule in rules["tree_field_rule"]
                                if rule["action"] == "ignore" and rule_matches(rule, value)]
         for key, child in value.items():
             child_path = f"{path}.{key}"
-            if (key in ignored or (output and key in output_ignored)
+            if child_path in shape_paths:
+                value[key] = shape_view(child)
+            elif (key in ignored or (output and key in output_ignored)
                     or child_path.endswith(suffixes)
                     or any(rule["field"] == key for rule in conditional_ignores)):
                 value[key] = NORMAL

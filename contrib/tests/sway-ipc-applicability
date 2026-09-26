@@ -23,6 +23,33 @@ assert runner.shape_view({"major": 1, "loaded_config_file_name": None}) == {
     "major": "number", "loaded_config_file_name": "null",
 }
 
+sway_version = {
+    "major": 1,
+    "minor": 12,
+    "patch": 0,
+    "human_readable": "1.12-88869399 (Sep 25 2026, branch 'HEAD')",
+    "loaded_config_file_name": "/home/example/.config/sway/config",
+    "variant": "sway",
+}
+swayward_version = {
+    "major": 26,
+    "minor": 4,
+    "patch": 0,
+    "human_readable": "swayward beta0-dev (v26.04-5f4ad1d8)",
+    "loaded_config_file_name": "/home/example/.config/swayward/config.kdl",
+    "variant": "swayward",
+}
+assert runner.compare(sway_version, swayward_version, "version", runner.load_rules()) == []
+wrong_identity_type = {**sway_version, "major": "1"}
+assert runner.compare(sway_version, wrong_identity_type, "version", runner.load_rules()) == [
+    "$version.major: 'number' != 'string'"
+]
+missing_identity = sway_version.copy()
+del missing_identity["loaded_config_file_name"]
+assert runner.compare(sway_version, missing_identity, "version", runner.load_rules()) == [
+    "$version: keys differ"
+]
+
 expected = [{
     "name": "WL-1",
     "active": True,

@@ -7,14 +7,14 @@
 compositor = "swayward"
 version = "26.04 (5f4ad1d8)"
 commit = "5f4ad1d8108d55e5d859d6b2fdc7cd56ae4bfe4d"
-oracle_commit = "17242fec06c9e6da0080ff7a4159070029afb861"
+oracle_commit = "664bd49a5362c18dde39084749d218bd1628b150"
 date = "2026-09-26"
 normalization = "sway-ipc/normalize.toml"
-normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
+normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "version-runtime-identity", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 5
-match = 279
-mismatch = 31
+difference_fields = 0
+match = 310
+mismatch = 0
 not_applicable = 0
 
 [[result]]
@@ -60,8 +60,7 @@ verdict = "match"
 [[result]]
 scenario = "empty"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-vur38vuw/config' != '/tmp/sway-ipc-oracle-gi18khjs/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "empty"
@@ -111,8 +110,7 @@ verdict = "match"
 [[result]]
 scenario = "one_window"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-yq9u2avn/config' != '/tmp/sway-ipc-oracle-8iyej0vw/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "one_window"
@@ -162,8 +160,7 @@ verdict = "match"
 [[result]]
 scenario = "two_split_h"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-lecl5yms/config' != '/tmp/sway-ipc-oracle-1ev7ry1m/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "two_split_h"
@@ -213,8 +210,7 @@ verdict = "match"
 [[result]]
 scenario = "two_split_v"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-8qzkgeu7/config' != '/tmp/sway-ipc-oracle-urpknwya/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "two_split_v"
@@ -264,8 +260,7 @@ verdict = "match"
 [[result]]
 scenario = "nested_h_in_v"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-vc460iik/config' != '/tmp/sway-ipc-oracle-mzpstsf8/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_h_in_v"
@@ -315,8 +310,7 @@ verdict = "match"
 [[result]]
 scenario = "tabbed"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-tjq95cyk/config' != '/tmp/sway-ipc-oracle-8epega95/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "tabbed"
@@ -366,8 +360,7 @@ verdict = "match"
 [[result]]
 scenario = "stacked"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-36_9aob7/config' != '/tmp/sway-ipc-oracle-e53nr9yr/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "stacked"
@@ -417,8 +410,7 @@ verdict = "match"
 [[result]]
 scenario = "one_floating"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-h_f4_uix/config' != '/tmp/sway-ipc-oracle-n4rlth5d/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "one_floating"
@@ -468,8 +460,7 @@ verdict = "match"
 [[result]]
 scenario = "two_floating"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-413pkat_/config' != '/tmp/sway-ipc-oracle-7e3v7n9r/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "two_floating"
@@ -519,8 +510,7 @@ verdict = "match"
 [[result]]
 scenario = "three_floating_before_raise"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-leivolkp/config' != '/tmp/sway-ipc-oracle-mlfjn1cx/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "three_floating_before_raise"
@@ -570,8 +560,7 @@ verdict = "match"
 [[result]]
 scenario = "three_floating_after_raise"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-leivolkp/config' != '/tmp/sway-ipc-oracle-mlfjn1cx/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "three_floating_after_raise"
@@ -621,8 +610,7 @@ verdict = "match"
 [[result]]
 scenario = "fullscreen"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-bxz_urha/config' != '/tmp/sway-ipc-oracle-yuusrjnp/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "fullscreen"
@@ -672,8 +660,7 @@ verdict = "match"
 [[result]]
 scenario = "marked"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-f0pxc_td/config' != '/tmp/sway-ipc-oracle-148q5dlc/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "marked"
@@ -723,8 +710,7 @@ verdict = "match"
 [[result]]
 scenario = "two_workspaces"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-8zmd796j/config' != '/tmp/sway-ipc-oracle-ry9ggm_t/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "two_workspaces"
@@ -774,8 +760,7 @@ verdict = "match"
 [[result]]
 scenario = "numbered_sparse"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-6p7cu69a/config' != '/tmp/sway-ipc-oracle-r5qqwuxt/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "numbered_sparse"
@@ -825,8 +810,7 @@ verdict = "match"
 [[result]]
 scenario = "named_workspace"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-xg89xwev/config' != '/tmp/sway-ipc-oracle-w6w4cbug/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "named_workspace"
@@ -876,8 +860,7 @@ verdict = "match"
 [[result]]
 scenario = "empty_named"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-ex739kgt/config' != '/tmp/sway-ipc-oracle-wh9jhhdp/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "empty_named"
@@ -927,8 +910,7 @@ verdict = "match"
 [[result]]
 scenario = "two_outputs"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-p4e3sver/config' != '/tmp/sway-ipc-oracle-w75_wmkm/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "two_outputs"
@@ -978,8 +960,7 @@ verdict = "match"
 [[result]]
 scenario = "scratchpad_hidden"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-srrk8qgp/config' != '/tmp/sway-ipc-oracle-np5h0me1/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_hidden"
@@ -1029,8 +1010,7 @@ verdict = "match"
 [[result]]
 scenario = "scratchpad_shown"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-srrk8qgp/config' != '/tmp/sway-ipc-oracle-np5h0me1/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_shown"
@@ -1080,8 +1060,7 @@ verdict = "match"
 [[result]]
 scenario = "sticky_workspace_switch"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-hv5y9g7e/config' != '/tmp/sway-ipc-oracle-d2mhkafa/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "sticky_workspace_switch"
@@ -1131,8 +1110,7 @@ verdict = "match"
 [[result]]
 scenario = "nested_tabbed_in_stacked"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-g9_tohwa/config' != '/tmp/sway-ipc-oracle-v9ofu90_/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
@@ -1182,8 +1160,7 @@ verdict = "match"
 [[result]]
 scenario = "nested_stacked_in_tabbed"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-0tksa8iu/config' != '/tmp/sway-ipc-oracle-0hp_46n_/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_stacked_in_tabbed"
@@ -1233,8 +1210,7 @@ verdict = "match"
 [[result]]
 scenario = "borders_and_gaps"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-dhntyn07/config' != '/tmp/sway-ipc-oracle-oy2g4uqk/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "borders_and_gaps"
@@ -1284,8 +1260,7 @@ verdict = "match"
 [[result]]
 scenario = "urgent_via_command"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-62clplau/config' != '/tmp/sway-ipc-oracle-1_emb_at/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "urgent_via_command"
@@ -1335,8 +1310,7 @@ verdict = "match"
 [[result]]
 scenario = "markup_title"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-gzf51dix/config' != '/tmp/sway-ipc-oracle-pzlbtxh4/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "markup_title"
@@ -1386,8 +1360,7 @@ verdict = "match"
 [[result]]
 scenario = "fullscreen_workspace"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-kzf0q3ya/config' != '/tmp/sway-ipc-oracle-2yfff_wq/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "fullscreen_workspace"
@@ -1437,8 +1410,7 @@ verdict = "match"
 [[result]]
 scenario = "fullscreen_global"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-8y3mcwy3/config' != '/tmp/sway-ipc-oracle-778wmv_z/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "fullscreen_global"
@@ -1488,8 +1460,7 @@ verdict = "match"
 [[result]]
 scenario = "container_mark"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-asi_jugn/config' != '/tmp/sway-ipc-oracle-6iaq7p4o/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "container_mark"
@@ -1539,8 +1510,7 @@ verdict = "match"
 [[result]]
 scenario = "disabled_output_evacuation"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-wifa3f0_/config' != '/tmp/sway-ipc-oracle-w5q75gkh/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "disabled_output_evacuation"
@@ -1590,8 +1560,7 @@ verdict = "match"
 [[result]]
 scenario = "differential_seed_0"
 request = "version"
-verdict = "mismatch"
-differences = ["$version.human_readable: \"1.12-88869399 (Sep 25 2026, branch 'HEAD')\" != '26.04 (5f4ad1d8)'", "$version.loaded_config_file_name: '/tmp/sway-ipc-oracle-dwvo05pi/config' != '/tmp/sway-ipc-oracle-oqpwng3c/config.kdl'", "$version.major: 1 != 26", "$version.minor: 12 != 4", "$version.variant: 'sway' != 'swayward'"]
+verdict = "match"
 
 [[result]]
 scenario = "differential_seed_0"

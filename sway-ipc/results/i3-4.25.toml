@@ -10,11 +10,11 @@ commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
 oracle_commit = "2747d33c294382f4a4db3739f40475e26dfbad12"
 date = "2026-09-26"
 normalization = "sway-ipc/normalize.toml"
-normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
+normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "version-runtime-identity", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 97
-match = 88
-differs = 144
+difference_fields = 96
+match = 117
+differs = 115
 not_applicable = 151
 
 [[result]]
@@ -83,8 +83,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "empty"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "empty"
@@ -157,8 +156,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "one_window"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "one_window"
@@ -232,8 +230,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "two_split_h"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "two_split_h"
@@ -307,8 +304,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "two_split_v"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "two_split_v"
@@ -382,8 +378,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "nested_h_in_v"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_h_in_v"
@@ -457,8 +452,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "tabbed"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "tabbed"
@@ -532,8 +526,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "stacked"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "stacked"
@@ -607,8 +600,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "one_floating"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "one_floating"
@@ -682,8 +674,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "two_floating"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "two_floating"
@@ -757,8 +748,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "three_floating_before_raise"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "three_floating_before_raise"
@@ -832,8 +822,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "three_floating_after_raise"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "three_floating_after_raise"
@@ -907,8 +896,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "fullscreen"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "fullscreen"
@@ -982,8 +970,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "marked"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "marked"
@@ -1057,8 +1044,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "two_workspaces"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "two_workspaces"
@@ -1132,8 +1118,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "numbered_sparse"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "numbered_sparse"
@@ -1207,8 +1192,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "named_workspace"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "named_workspace"
@@ -1282,8 +1266,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "empty_named"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "empty_named"
@@ -1357,8 +1340,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "two_outputs"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "two_outputs"
@@ -1432,8 +1414,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "scratchpad_hidden"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_hidden"
@@ -1507,8 +1488,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "scratchpad_shown"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "scratchpad_shown"
@@ -1582,8 +1562,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "sticky_workspace_switch"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "sticky_workspace_switch"
@@ -1657,8 +1636,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "nested_tabbed_in_stacked"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
@@ -1732,8 +1710,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "nested_stacked_in_tabbed"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "nested_stacked_in_tabbed"
@@ -1807,8 +1784,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "borders_and_gaps"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "borders_and_gaps"
@@ -1900,8 +1876,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "markup_title"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "markup_title"
@@ -1975,8 +1950,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "fullscreen_workspace"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "fullscreen_workspace"
@@ -2050,8 +2024,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "fullscreen_global"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "fullscreen_global"
@@ -2125,8 +2098,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "container_mark"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "container_mark"
@@ -2218,8 +2190,7 @@ reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77),
 [[result]]
 scenario = "differential_seed_0"
 request = "version"
-verdict = "differs"
-differences = ["$version: keys differ"]
+verdict = "match"
 
 [[result]]
 scenario = "differential_seed_0"

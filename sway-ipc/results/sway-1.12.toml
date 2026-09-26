@@ -5,12 +5,12 @@
 
 [run]
 compositor = "sway"
-version = "1.12-88869399 (Sep 25 2026, branch 'HEAD')"
+version = "1.12-88869399 (Sep 26 2026, branch 'HEAD')"
 commit = "88869399f421d9180dd8b6ed0b5a1f4a3585d252"
-oracle_commit = "d1a24f7fc3099976f261d753893f9eec17b96826"
+oracle_commit = "664bd49a5362c18dde39084749d218bd1628b150"
 date = "2026-09-26"
 normalization = "sway-ipc/normalize.toml"
-normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
+normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "version-runtime-identity", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
 difference_fields = 0
 match = 310
