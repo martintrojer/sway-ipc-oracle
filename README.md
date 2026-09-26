@@ -53,30 +53,21 @@ Run one test file against your own sway build:
 
 ## Compositor inventory
 
-The runners need an i3/sway IPC socket with `i3-ipc` framing, compatible
-commands, and the i3 `GET_TREE` schema. "Runnable" means an adapter can start
-the project and test that interface directly, without translating another
-protocol.
+Compositors that speak i3/sway IPC, and whether they have a snapshot.
 
-| Project | IPC | Runnable? | Snapshotted? | Why not? |
-| --- | --- | :---: | :---: | --- |
-| [i3](https://i3wm.org/docs/ipc.html) | i3 IPC | Yes | Yes | — |
-| [sway](https://github.com/swaywm/sway/blob/master/sway/sway-ipc.7.scd) | i3-compatible sway IPC | Yes | Yes | — |
-| [swayward](https://github.com/martintrojer/swayward) | sway IPC | Yes | Yes | — |
-| [SwayFX](https://github.com/wlrfx/swayfx) | sway IPC, with effect commands | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
-| [scroll](https://github.com/dawsers/scroll) | sway IPC, with scrolling-layout extensions through `scrollmsg` | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
-| [swirl](https://github.com/visnudeva/swirl) | sway IPC through stock `swaymsg` | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
-| [miracle-wm](https://wiki.miracle-wm.org/develop/ipc/) | i3/sway IPC; no `GET_CONFIG` or `GET_BAR_CONFIG`, and no `GET_INPUTS` or `GET_SEATS` yet | Yes | No | The project has not received the courtesy notice required before this oracle publishes measurements. |
-| [niri](https://niri-wm.github.io/niri/IPC.html) | Its own newline-delimited JSON protocol on `NIRI_SOCKET` | No | No | It has no i3/sway IPC endpoint. |
-| [Hyprland](https://wiki.hypr.land/IPC/) | Hyprland command and event sockets | No | No | Plugins can add i3-like layouts, but there is no i3/sway IPC endpoint. |
-| [river](https://man.archlinux.org/man/river.1.en) | `river-window-management-v1` Wayland protocol | No | No | It has no i3/sway IPC endpoint. |
-| [Qtile](https://github.com/qtile/qtile/blob/master/libqtile/ipc.py) | Qtile's own Unix-socket protocol | No | No | It has no i3/sway IPC endpoint. |
-| [Wayfire](https://wayfire.org/2023/10/07/Wayfire-0-8.html) | Its own extensible JSON IPC plugin | No | No | Its upstream IPC is not i3/sway IPC. A separate experimental [`wayfire-ipc`](https://github.com/AR-CADE/wayfire-ipc) plugin would make the measurement depend on an adapter inside the compositor. |
-| [COSMIC](https://github.com/pop-os/cosmic-protocols) | COSMIC-specific Wayland protocol extensions | No | No | It has no i3/sway IPC endpoint. |
-| [i3-gaps](https://github.com/Airblader/i3) | i3 IPC | Covered | Covered by i3 | i3-gaps was merged into i3 for version 4.22 and its repository was archived. |
+| Project | IPC | Snapshot |
+| --- | --- | --- |
+| [i3](https://i3wm.org/docs/ipc.html) | i3 IPC | Yes |
+| [sway](https://github.com/swaywm/sway/blob/master/sway/sway-ipc.7.scd) | sway IPC | Yes |
+| [swayward](https://github.com/martintrojer/swayward) | sway IPC | Yes |
+| [SwayFX](https://github.com/wlrfx/swayfx) | sway IPC, plus effect commands | Not yet |
+| [scroll](https://github.com/dawsers/scroll) | sway IPC, plus scrolling-layout extensions (`scrollmsg`) | Not yet |
+| [swirl](https://github.com/visnudeva/swirl) | sway IPC (stock `swaymsg`) | Not yet |
+| [miracle-wm](https://wiki.miracle-wm.org/develop/ipc/) | i3/sway IPC; no `GET_CONFIG`, `GET_BAR_CONFIG`, `GET_INPUTS` or `GET_SEATS` yet | Not yet |
 
-A runnable project gets a snapshot only after its maintainers have had a
-courtesy note, as i3 and sway did.
+i3-gaps was merged into i3 in 4.22, so the i3 snapshot covers it. A project gets
+a snapshot only after its maintainers have had a courtesy note, as i3 and sway
+did.
 
 ## Contributing
 
