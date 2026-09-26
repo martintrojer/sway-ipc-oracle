@@ -16,3 +16,10 @@ sway_extension_source = "sway/sway/ipc-json.c:502-540,582-667 and sway/sway/ipc-
 fields = ["name", "active", "primary", "current_workspace", "rect"]
 i3_source = "i3/src/ipc.c:996-1048, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
 sway_extension_source = "sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[i3.fuzz]]
+corpus = "command-fuzz"
+cases = ["bad-criteria-open", "bad-criteria-regex", "bad-criteria-name"]
+reason = "the input uses sway's app_id criterion, which i3 does not implement"
+i3_source = "i3/parser-specs/commands.spec:43-58, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+sway_extension_source = "sway/sway/criteria.c:578-620, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"

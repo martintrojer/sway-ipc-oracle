@@ -1330,6 +1330,8 @@ def write_fuzz_results(path, compositor, corpus, rows, seed, budget):
     for row in rows:
         lines += ["[[result]]", f"case = {toml_string(row['case'])}",
                   f"verdict = {toml_string(row['verdict'])}"]
+        if row.get("reason"):
+            lines.append(f"reason = {toml_string(row['reason'])}")
         if row.get("expected") != row.get("actual"):
             lines += [f"expected = {toml_string(json.dumps(row.get('expected'), ensure_ascii=False, sort_keys=True))}",
                       f"actual = {toml_string(json.dumps(row.get('actual'), ensure_ascii=False, sort_keys=True))}"]
@@ -1338,6 +1340,16 @@ def write_fuzz_results(path, compositor, corpus, rows, seed, budget):
     path.write_text("\n".join(lines))
     print("; ".join(f"{key}: {counts[key]}" for key in verdicts))
     return bool(counts[difference] or counts["crash"] or counts["hang"])
+
+
+def fuzz_not_applicable(compositor, corpus, case):
+    if compositor != "i3":
+        return None
+    for rule in load_applicability()["i3"].get("fuzz", []):
+        if rule["corpus"] == corpus and case in rule["cases"]:
+            return (f"{rule['reason']}; i3 source: {rule['i3_source']}; "
+                    f"sway extension source: {rule['sway_extension_source']}")
+    return None
 
 
 def fuzz_cases(args):
@@ -1405,12 +1417,13 @@ def fuzz_main(args, parser):
                              "observation": observation})
             continue
         expected = expected_by_name[case["name"]]
+        reason = fuzz_not_applicable(args.compositor, corpus, case["name"])
         verdict = health if health != "healthy" else (
-            "match" if observation == expected else
+            "not applicable" if reason else "match" if observation == expected else
             "differs" if args.compositor == "i3" else "mismatch")
         rows.append({"case": case["name"], "verdict": verdict,
                      "expected": expected, "actual": observation,
-                     "version": version})
+                     "reason": reason, "version": version})
     if args.capture:
         FUZZ_FIXTURES.mkdir(parents=True, exist_ok=True)
         fixture_path.write_text(json.dumps({"seed": args.seed, "cases": captured},
@@ -1432,6 +1445,9 @@ def fuzz_self_test():
         "bad-magic", "truncated-header", "oversized-length", "unknown-type",
         "subscribe-invalid-json", "command-invalid-json", "many-clients",
     }
+    assert fuzz_not_applicable("i3", "command-fuzz", "bad-criteria-open")
+    assert not fuzz_not_applicable("i3", "command-fuzz", "unknown-command")
+    assert not fuzz_not_applicable("sway", "command-fuzz", "bad-criteria-open")
     print("sway IPC fuzz self-test passed")
     return 0
 

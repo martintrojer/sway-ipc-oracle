@@ -64,11 +64,13 @@ swayward 0fbb931c is 54/446/0. The i3 replay is pending.
 
 Malformed commands (`command-fuzz`) and broken IPC framing (`wire-fuzz`),
 captured from sway 1.12 and replayed at the fixed CI budget. Figures are
-match/mismatch/not applicable/crash/hang. Crash and hang record compositor
-health, separately from mismatch.
+match/mismatch/not applicable/crash/hang, or match/differs/not applicable/crash/hang
+for i3. Crash and hang record compositor health, separately from mismatch.
 
 | Snapshot | match/mismatch/n.a./crash/hang | Commit |
 | --- | --- | --- |
+| `i3-4.25-command-fuzz` | 13/8/3/0/0 | `9be3249a` |
+| `i3-4.25-wire-fuzz` | 3/7/0/0/0 | `9be3249a` |
 | `sway-1.12-command-fuzz` | 24/0/0/0/0 | `88869399` |
 | `sway-1.12-wire-fuzz` | 10/0/0/0/0 | `88869399` |
 | `swayward-0fbb931c-command-fuzz` | 19/5/0/0/0 | `0fbb931c` |
