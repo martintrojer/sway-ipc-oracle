@@ -27,13 +27,19 @@ Each row is one pinned compositor measured against the oracle. The i3-suite
 column is pass/skip/fail (fail includes assertions the run never reached),
 excluding files listed as flaky. The sway-ipc column is match/mismatch/not
 applicable; for i3 it is match/differs/not applicable, because i3's protocol
-lacks sway's extensions. These are measurements, not scores.
+lacks sway's extensions. These are measurements, not scores. Rows marked "not
+yet measured" are compositors that speak i3/sway IPC but have no snapshot yet;
+see the inventory below.
 
 | Snapshot | i3 suite (pass/skip/fail) | Flaky files | sway IPC | Commit |
 | --- | --- | --- | --- | --- |
 | `i3-4.25` | 3,754/1/0 | 0 | 28/59/93 | `9be3249a` |
 | `sway-1.12` | 1,469/20/2,110 | 8 | 93/0/0 | `88869399` |
 | `swayward-0fbb931c` | 1,443/11/2,279 | 1 | 93/0/0 | `0fbb931c` |
+| SwayFX | not yet measured | — | — | — |
+| scroll | not yet measured | — | — | — |
+| swirl | not yet measured | — | — | — |
+| miracle-wm | not yet measured | — | — | — |
 
 Most of sway's non-passes against i3's tests are deliberate: sway is a Wayland
 compositor, and many i3 tests assume X11. Every non-pass carries a reviewed

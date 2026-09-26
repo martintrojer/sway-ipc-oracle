@@ -198,6 +198,8 @@ for line in readme.splitlines():
     cells = [c.strip() for c in line.strip().strip("|").split("|")]
     if len(cells) == 5 and cells[0].startswith("`") and cells[0].strip("`") in names.values():
         table[cells[0].strip("`")] = cells
+    elif len(cells) == 5 and cells[1] == "not yet measured" and cells[2:] != ["—", "—", "—"]:
+        raise SystemExit(f"README placeholder row for {cells[0]} must not carry figures")
 def counts(entry):
     return entry.get("pass", 0), entry.get("skip", 0), entry.get("fail", 0) + entry.get("unreached", 0)
 for compositor, name in names.items():
