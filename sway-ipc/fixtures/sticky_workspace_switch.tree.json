@@ -184,16 +184,16 @@
                 "height": 27,
                 "width": 700,
                 "x": 285,
-                "y": 431
+                "y": 429
               },
               "floating": "user_on",
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "e2957292318aec8e711d7b42ae9e94d6",
+              "foreign_toplevel_identifier": "f18c1a7e9d6077b0e13f1794edf34249",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -210,13 +210,13 @@
               "name": "fixture-1",
               "nodes": [],
               "orientation": "none",
-              "percent": 0.20356120257695062,
-              "pid": 4150689,
+              "percent": 0.20551852183249822,
+              "pid": 782,
               "rect": {
-                "height": 493,
+                "height": 498,
                 "width": 700,
                 "x": 285,
-                "y": 458
+                "y": 456
               },
               "sandbox_app_id": null,
               "sandbox_engine": null,
@@ -230,7 +230,7 @@
               "visible": true,
               "window": null,
               "window_rect": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 2,
                 "y": 0

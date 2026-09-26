@@ -184,7 +184,7 @@
               "current_border_width": 2,
               "deco_rect": {
                 "height": 27,
-                "width": 630,
+                "width": 634,
                 "x": 315,
                 "y": 161
               },
@@ -192,10 +192,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "8c8b59c12a0a6b43cc34d399472506c8",
+              "foreign_toplevel_identifier": "1bd02c7ee5c9408daa41e2e507bdd4be",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -212,11 +212,11 @@
               "name": "fixture-1",
               "nodes": [],
               "orientation": "none",
-              "percent": 0.3773320060844667,
-              "pid": 4150501,
+              "percent": 0.3846915264853257,
+              "pid": 755,
               "rect": {
-                "height": 1044,
-                "width": 630,
+                "height": 1058,
+                "width": 634,
                 "x": 315,
                 "y": 188
               },
@@ -232,8 +232,8 @@
               "visible": true,
               "window": null,
               "window_rect": {
-                "height": 1042,
-                "width": 626,
+                "height": 1056,
+                "width": 630,
                 "x": 2,
                 "y": 0
               }

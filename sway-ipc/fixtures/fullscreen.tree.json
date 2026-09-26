@@ -206,10 +206,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "7209237f4ac03861d735a592193af1b5",
+              "foreign_toplevel_identifier": "450fb92b66d98b42bb2a71bcde03a730",
               "fullscreen_mode": 1,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -227,7 +227,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4149124,
+              "pid": 500,
               "rect": {
                 "height": 1408,
                 "width": 1270,

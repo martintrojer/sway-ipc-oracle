@@ -245,6 +245,28 @@ for compositor, name in names.items():
     if table.get(name) != expected:
         raise SystemExit(f"README snapshot row for {name} should be: | {' | '.join(expected)} |")
 
+derived_rows = {}
+in_derived = False
+for line in readme.splitlines():
+    if line == "### i3-derived sway IPC corpus":
+        in_derived = True
+    elif in_derived and line.startswith("### "):
+        break
+    elif in_derived:
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) == 4 and cells[0].startswith("`"):
+            derived_rows[cells[0].strip("`")] = cells
+for compositor, name in names.items():
+    run = tomllib.load(open(f"sway-ipc/results/{name}-i3-derived.toml", "rb"))["run"]
+    expected = [f"`{name}`", *(f"{n:,}" for n in (
+        run.get("match", 0), run.get("mismatch", run.get("differs", 0)),
+        run.get("not_applicable", 0),
+    ))]
+    if derived_rows.get(name) != expected:
+        raise SystemExit(
+            f"README i3-derived row for {name} should be: | {' | '.join(expected)} |"
+        )
+
 # Fuzz corpora: results replay the sway-captured fixture, and the README
 # fuzz table quotes every verdict count of every measured snapshot.
 import json
@@ -350,7 +372,7 @@ requests = {
 for row in manifest["scenarios"]:
     assert row["provenance"]["test"].endswith(".t") and row["provenance"]["line"] > 0
     capture = json.loads((root / f"{row['name']}.json").read_text())
-    assert set(capture) == {"tree", "workspaces", "outputs"}
+    assert set(capture) == requests
 
 random_root = Path("sway-ipc/random")
 random_manifest = json.loads((random_root / "sequences.json").read_text())

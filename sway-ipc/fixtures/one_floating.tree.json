@@ -182,18 +182,18 @@
               "current_border_width": 2,
               "deco_rect": {
                 "height": 27,
-                "width": 1270,
+                "width": 700,
                 "x": 285,
-                "y": 431
+                "y": 429
               },
               "floating": "user_on",
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "6e7b43a9d0c872623221e401a012819b",
+              "foreign_toplevel_identifier": "f53c09c33ac07dfb1ca131590d77a73f",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -210,13 +210,13 @@
               "name": "fixture-2",
               "nodes": [],
               "orientation": "none",
-              "percent": 0.49076704545454547,
-              "pid": 4148509,
+              "percent": 0.20551852183249822,
+              "pid": 331,
               "rect": {
-                "height": 664,
-                "width": 1270,
+                "height": 498,
+                "width": 700,
                 "x": 285,
-                "y": 458
+                "y": 456
               },
               "sandbox_app_id": null,
               "sandbox_engine": null,
@@ -230,8 +230,8 @@
               "visible": true,
               "window": null,
               "window_rect": {
-                "height": 662,
-                "width": 1266,
+                "height": 496,
+                "width": 696,
                 "x": 2,
                 "y": 0
               }
@@ -269,10 +269,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "f5934fd94eb47b06e829280ff7752be6",
+              "foreign_toplevel_identifier": "ac0790a0eceb3ed8cc31000645ffe07f",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -290,7 +290,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4148446,
+              "pid": 309,
               "rect": {
                 "height": 1381,
                 "width": 1270,

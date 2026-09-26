@@ -24,7 +24,11 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "sway-ipc/fixtures"
 MAGIC = b"i3-ipc"
-TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "tick": 10, "inputs": 100}
+TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "marks": 5, "version": 7, "binding_modes": 8, "binding_state": 12, "inputs": 100, "seats": 101, "tick": 10}
+QUERY_REQUESTS = (
+    "tree", "workspaces", "outputs", "marks", "binding_modes",
+    "binding_state", "seats", "inputs", "version",
+)
 EVENTS = ("workspace", "output", "mode", "window", "barconfig_update", "binding", "shutdown", "tick", "input")
 NORMAL = "__oracle_normalized__"
 RUN_MARKER = "SWAY_IPC_ORACLE_RUN"

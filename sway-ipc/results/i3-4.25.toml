@@ -7,15 +7,15 @@
 compositor = "i3"
 version = "4.25-25-g9be3249a"
 commit = "9be3249ac5b377ed3270e36bca83df53d8023337"
-oracle_commit = "1e3a2714fc20ed64cda40697b3c52b38d931e3d4"
-date = "2026-09-25"
+oracle_commit = "2747d33c294382f4a4db3739f40475e26dfbad12"
+date = "2026-09-26"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 87
-match = 28
-differs = 59
-not_applicable = 93
+difference_fields = 97
+match = 88
+differs = 144
+not_applicable = 151
 
 [[result]]
 scenario = "empty"
@@ -53,6 +53,45 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "empty"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "empty"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "empty"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "empty"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "empty"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "one_window"
 request = "tree"
 verdict = "differs"
@@ -86,6 +125,46 @@ scenario = "one_window"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "one_window"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "one_window"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "one_window"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "one_window"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "one_window"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "two_split_h"
@@ -123,6 +202,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "two_split_h"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_h"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_split_h"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_h"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_split_h"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_split_h"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "two_split_h"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
 scenario = "two_split_v"
 request = "tree"
 verdict = "differs"
@@ -158,6 +277,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "two_split_v"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_split_v"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_split_v"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_split_v"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "two_split_v"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
 scenario = "nested_h_in_v"
 request = "tree"
 verdict = "differs"
@@ -191,6 +350,46 @@ scenario = "nested_h_in_v"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[4].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "tabbed"
@@ -228,6 +427,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "tabbed"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "tabbed"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "tabbed"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "tabbed"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "tabbed"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
 scenario = "stacked"
 request = "tree"
 verdict = "differs"
@@ -261,6 +500,46 @@ scenario = "stacked"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "stacked"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "stacked"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "stacked"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "stacked"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "stacked"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "stacked"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "stacked"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
 
 [[result]]
 scenario = "one_floating"
@@ -298,6 +577,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "one_floating"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "one_floating"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "one_floating"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "one_floating"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "one_floating"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[1].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
 scenario = "two_floating"
 request = "tree"
 verdict = "differs"
@@ -333,6 +652,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "two_floating"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_floating"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_floating"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_floating"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_floating"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_floating"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "two_floating"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
 scenario = "three_floating_before_raise"
 request = "tree"
 verdict = "differs"
@@ -368,6 +727,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "three_floating_before_raise"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-tiled --title=fixture-tiled sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-tiled -title fixture-tiled'", "$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[5].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
 scenario = "three_floating_after_raise"
 request = "tree"
 verdict = "differs"
@@ -401,6 +800,46 @@ scenario = "three_floating_after_raise"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-tiled --title=fixture-tiled sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-tiled -title fixture-tiled'", "$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[5].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "fullscreen"
@@ -438,6 +877,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "fullscreen"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "fullscreen"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "fullscreen"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "fullscreen"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "fullscreen"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
 scenario = "marked"
 request = "tree"
 verdict = "differs"
@@ -471,6 +950,46 @@ scenario = "marked"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "marked"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "marked"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "marked"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "marked"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "marked"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "two_workspaces"
@@ -508,6 +1027,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "two_workspaces"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_workspaces"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_workspaces"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_workspaces"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "two_workspaces"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
 scenario = "numbered_sparse"
 request = "tree"
 verdict = "differs"
@@ -541,6 +1100,46 @@ scenario = "numbered_sparse"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "numbered_sparse"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "numbered_sparse"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'", "$commands[4].command: \"exec foot --app-id=fixture-7 --title=fixture-7 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-7 -title fixture-7'"]
 
 [[result]]
 scenario = "named_workspace"
@@ -578,6 +1177,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "named_workspace"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "named_workspace"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "named_workspace"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "named_workspace"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "named_workspace"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-mail --title=fixture-mail sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-mail -title fixture-mail'"]
+
+[[result]]
 scenario = "empty_named"
 request = "tree"
 verdict = "differs"
@@ -611,6 +1250,45 @@ scenario = "empty_named"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "empty_named"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "empty_named"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "empty_named"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "empty_named"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "empty_named"
+request = "commands"
+verdict = "match"
 
 [[result]]
 scenario = "two_outputs"
@@ -649,6 +1327,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "two_outputs"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_outputs"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_outputs"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "two_outputs"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "two_outputs"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[3].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'"]
+
+[[result]]
 scenario = "scratchpad_hidden"
 request = "tree"
 verdict = "differs"
@@ -682,6 +1400,46 @@ scenario = "scratchpad_hidden"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "scratchpad_shown"
@@ -719,6 +1477,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "scratchpad_shown"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
 scenario = "sticky_workspace_switch"
 request = "tree"
 verdict = "differs"
@@ -752,6 +1550,46 @@ scenario = "sticky_workspace_switch"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "nested_tabbed_in_stacked"
@@ -789,6 +1627,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[7].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
 scenario = "nested_stacked_in_tabbed"
 request = "tree"
 verdict = "differs"
@@ -822,6 +1700,46 @@ scenario = "nested_stacked_in_tabbed"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[1].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[7].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
 
 [[result]]
 scenario = "borders_and_gaps"
@@ -859,6 +1777,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "borders_and_gaps"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[2].command: \"exec foot --app-id=fixture-normal --title=fixture-normal sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-normal -title fixture-normal'", "$commands[4].command: \"exec foot --app-id=fixture-pixel --title=fixture-pixel sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-pixel -title fixture-pixel'", "$commands[6].command: \"exec foot --app-id=fixture-none --title=fixture-none sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-none -title fixture-none'"]
+
+[[result]]
 scenario = "urgent_via_command"
 request = "tree"
 verdict = "not applicable"
@@ -912,6 +1870,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "markup_title"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "markup_title"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "markup_title"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "markup_title"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "markup_title"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "markup_title"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "markup_title"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-markup --title='<b>bold literal</b>' sh -c 'sleep 300'\" != \"exec --no-startup-id xterm -name fixture-markup -title '<b>bold literal</b>'\""]
+
+[[result]]
 scenario = "fullscreen_workspace"
 request = "tree"
 verdict = "differs"
@@ -947,6 +1945,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "fullscreen_workspace"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
+
+[[result]]
 scenario = "fullscreen_global"
 request = "tree"
 verdict = "differs"
@@ -980,6 +2018,46 @@ scenario = "fullscreen_global"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "fullscreen_global"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "fullscreen_global"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'"]
 
 [[result]]
 scenario = "container_mark"
@@ -1017,6 +2095,46 @@ verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
 
 [[result]]
+scenario = "container_mark"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "container_mark"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "container_mark"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "container_mark"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "container_mark"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "container_mark"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "container_mark"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-1 --title=fixture-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-1 -title fixture-1'", "$commands[2].command: \"exec foot --app-id=fixture-2 --title=fixture-2 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-2 -title fixture-2'", "$commands[4].command: \"exec foot --app-id=fixture-3 --title=fixture-3 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-3 -title fixture-3'"]
+
+[[result]]
 scenario = "disabled_output_evacuation"
 request = "tree"
 verdict = "not applicable"
@@ -1068,3 +2186,43 @@ scenario = "differential_seed_0"
 request = "outputs"
 verdict = "not applicable"
 reason = "sway extension fields: adaptive_sync_status, allow_tearing, border, current_border_width, current_mode, deco_rect, dpms, features, floating, floating_nodes, focus, focused, fullscreen_mode, geometry, hdr, id, layout, make, marks, max_render_time, model, modes, nodes, non_desktop, orientation, percent, power, scale, scale_filter, scratchpad_state, serial, sticky, subpixel_hinting, transform, type, urgent, window, window_rect; source: sway/sway/ipc-json.c:299-412 and sway/sway/ipc-server.c:676-704, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "binding_modes"
+verdict = "differs"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "differential_seed_0"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "seats"
+verdict = "not applicable"
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "inputs"
+verdict = "not applicable"
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "version"
+verdict = "differs"
+differences = ["$version: keys differ"]
+
+[[result]]
+scenario = "differential_seed_0"
+request = "commands"
+verdict = "differs"
+differences = ["$commands[0].command: \"exec foot --app-id=fixture-diff-1 --title=fixture-diff-1 sh -c 'sleep 300'\" != 'exec --no-startup-id xterm -name fixture-diff-1 -title fixture-diff-1'"]

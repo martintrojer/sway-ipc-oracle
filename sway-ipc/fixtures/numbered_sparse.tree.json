@@ -208,10 +208,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "a01036c8dcd52231d3977dcf9b25ab9a",
+              "foreign_toplevel_identifier": "f38845b47b90a5c9e45ef8d279935e96",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -229,7 +229,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4149518,
+              "pid": 603,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -320,10 +320,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "a7bae02e390dcd5ae2fc96d819caaaad",
+              "foreign_toplevel_identifier": "a1f56a89d501060c02e94788ef963f0e",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -341,7 +341,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4149548,
+              "pid": 625,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -432,10 +432,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "6e6a4814419eeb98ee1b0bf7b7be68f6",
+              "foreign_toplevel_identifier": "19e96d1beb1b848868ea6fa0d5d44230",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -453,7 +453,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4149576,
+              "pid": 647,
               "rect": {
                 "height": 1381,
                 "width": 1270,

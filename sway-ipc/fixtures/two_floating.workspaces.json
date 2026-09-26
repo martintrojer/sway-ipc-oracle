@@ -19,16 +19,16 @@
           "height": 27,
           "width": 700,
           "x": 285,
-          "y": 431
+          "y": 429
         },
         "floating": "user_on",
         "floating_nodes": [],
         "focus": [],
         "focused": false,
-        "foreign_toplevel_identifier": "7cf40c9d6901a3d4801f40e252db5d81",
+        "foreign_toplevel_identifier": "d3c84055a2056a1640ae5f0c2c765be4",
         "fullscreen_mode": 0,
         "geometry": {
-          "height": 491,
+          "height": 496,
           "width": 696,
           "x": 0,
           "y": 0
@@ -45,13 +45,13 @@
         "name": "fixture-1",
         "nodes": [],
         "orientation": "none",
-        "percent": 0.20356120257695062,
-        "pid": 4148660,
+        "percent": 0.20551852183249822,
+        "pid": 358,
         "rect": {
-          "height": 493,
+          "height": 498,
           "width": 700,
           "x": 285,
-          "y": 458
+          "y": 456
         },
         "sandbox_app_id": null,
         "sandbox_engine": null,
@@ -65,7 +65,7 @@
         "visible": true,
         "window": null,
         "window_rect": {
-          "height": 491,
+          "height": 496,
           "width": 696,
           "x": 2,
           "y": 0
@@ -80,16 +80,16 @@
           "height": 27,
           "width": 700,
           "x": 285,
-          "y": 431
+          "y": 429
         },
         "floating": "user_on",
         "floating_nodes": [],
         "focus": [],
         "focused": true,
-        "foreign_toplevel_identifier": "c3ec6615c54f841d3f24e285ecbc24e3",
+        "foreign_toplevel_identifier": "23d8b4d743d5a81592d3ffd5b075dcc2",
         "fullscreen_mode": 0,
         "geometry": {
-          "height": 491,
+          "height": 496,
           "width": 696,
           "x": 0,
           "y": 0
@@ -106,13 +106,13 @@
         "name": "fixture-2",
         "nodes": [],
         "orientation": "none",
-        "percent": 0.20356120257695062,
-        "pid": 4148697,
+        "percent": 0.20551852183249822,
+        "pid": 380,
         "rect": {
-          "height": 493,
+          "height": 498,
           "width": 700,
           "x": 285,
-          "y": 458
+          "y": 456
         },
         "sandbox_app_id": null,
         "sandbox_engine": null,
@@ -126,7 +126,7 @@
         "visible": true,
         "window": null,
         "window_rect": {
-          "height": 491,
+          "height": 496,
           "width": 696,
           "x": 2,
           "y": 0

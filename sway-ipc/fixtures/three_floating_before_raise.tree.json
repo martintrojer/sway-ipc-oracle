@@ -184,16 +184,16 @@
                 "height": 27,
                 "width": 700,
                 "x": 285,
-                "y": 431
+                "y": 429
               },
               "floating": "user_on",
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "cef8494bcf2fa15674d0392e9cfd3001",
+              "foreign_toplevel_identifier": "d784e5a49f725624a0e316c264144ff1",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -210,13 +210,13 @@
               "name": "fixture-1",
               "nodes": [],
               "orientation": "none",
-              "percent": 0.20356120257695062,
-              "pid": 4148868,
+              "percent": 0.20551852183249822,
+              "pid": 429,
               "rect": {
-                "height": 493,
+                "height": 498,
                 "width": 700,
                 "x": 285,
-                "y": 458
+                "y": 456
               },
               "sandbox_app_id": null,
               "sandbox_engine": null,
@@ -230,7 +230,7 @@
               "visible": true,
               "window": null,
               "window_rect": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 2,
                 "y": 0
@@ -245,16 +245,16 @@
                 "height": 27,
                 "width": 700,
                 "x": 285,
-                "y": 431
+                "y": 429
               },
               "floating": "user_on",
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "0b29509a2164dca5d86fc86a96ca7d4c",
+              "foreign_toplevel_identifier": "5bfbf344f215be4e71385ef433cd11bc",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -271,13 +271,13 @@
               "name": "fixture-2",
               "nodes": [],
               "orientation": "none",
-              "percent": 0.20356120257695062,
-              "pid": 4148912,
+              "percent": 0.20551852183249822,
+              "pid": 451,
               "rect": {
-                "height": 493,
+                "height": 498,
                 "width": 700,
                 "x": 285,
-                "y": 458
+                "y": 456
               },
               "sandbox_app_id": null,
               "sandbox_engine": null,
@@ -291,7 +291,7 @@
               "visible": true,
               "window": null,
               "window_rect": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 2,
                 "y": 0
@@ -306,16 +306,16 @@
                 "height": 27,
                 "width": 700,
                 "x": 285,
-                "y": 431
+                "y": 429
               },
               "floating": "user_on",
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "2a0c3a4a86ba71ac12ef77a3c0a5bf05",
+              "foreign_toplevel_identifier": "704c81c09537a2571109c80cdecf4ddf",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -332,13 +332,13 @@
               "name": "fixture-3",
               "nodes": [],
               "orientation": "none",
-              "percent": 0.20356120257695062,
-              "pid": 4148936,
+              "percent": 0.20551852183249822,
+              "pid": 473,
               "rect": {
-                "height": 493,
+                "height": 498,
                 "width": 700,
                 "x": 285,
-                "y": 458
+                "y": 456
               },
               "sandbox_app_id": null,
               "sandbox_engine": null,
@@ -352,7 +352,7 @@
               "visible": true,
               "window": null,
               "window_rect": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 2,
                 "y": 0
@@ -393,10 +393,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "df7c57e6c342ac3af65771ba974e3933",
+              "foreign_toplevel_identifier": "a2f39ec5c3c53e251ab2c30e6428b358",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -414,7 +414,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4148819,
+              "pid": 407,
               "rect": {
                 "height": 1381,
                 "width": 1270,

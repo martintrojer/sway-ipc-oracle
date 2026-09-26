@@ -33,9 +33,9 @@ inventory below.
 
 | Snapshot | i3 suite (pass/skip/fail) | Unstable | sway IPC | Events | Commit |
 | --- | --- | --- | --- | --- | --- |
-| `i3-4.25` | 3,754/1/0 | 0 | 28/59/93 | 1/28/9 | `9be3249a` |
-| `sway-1.12` | 1,502/20/2,137 | 81 | 93/0/0 | 32/0/0 | `88869399` |
-| `swayward-0fbb931c` | 1,443/11/2,279 | 12 | 93/0/0 | 0/31/3 | `0fbb931c` |
+| `i3-4.25` | 3,754/1/0 | 0 | 88/144/151 | 1/28/9 | `9be3249a` |
+| `sway-1.12` | 1,502/20/2,137 | 81 | 310/0/0 | 32/0/0 | `88869399` |
+| `swayward-0fbb931c` | 1,443/11/2,279 | 12 | 248/62/0 | 0/31/3 | `0fbb931c` |
 | SwayFX | not yet measured | — | — | — | — |
 | scroll | not yet measured | — | — | — | — |
 | swirl | not yet measured | — | — | — | — |
@@ -53,6 +53,18 @@ event families and compares the ordered event stream (match/mismatch/not
 applicable; match/differs/not applicable for i3).
 `sway-ipc/command-coverage.toml` records which of sway 1.12's 90 top-level
 commands the scenarios exercise, and why the rest cannot run headless.
+
+### i3-derived sway IPC corpus
+
+The derived corpus contains 303 distinct states reached by i3's unchanged test
+suite. Counts are match/mismatch/not applicable; i3 uses differs instead of
+mismatch because its protocol lacks sway extensions.
+
+| Snapshot | Match | Mismatch or differs | Not applicable |
+| --- | ---: | ---: | ---: |
+| `i3-4.25` | 900 | 1,524 | 1,616 |
+| `sway-1.12` | 3,030 | 0 | 0 |
+| `swayward-0fbb931c` | 2,281 | 749 | 0 |
 
 ### Random sequence corpus
 

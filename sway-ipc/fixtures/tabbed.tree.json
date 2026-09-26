@@ -207,10 +207,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "f678ad4d9155144f0de1c8f181729165",
+              "foreign_toplevel_identifier": "a90c87d0b39c00394d791ac64101ea19",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -228,7 +228,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4147824,
+              "pid": 211,
               "rect": {
                 "height": 1381,
                 "width": 1270,
@@ -268,10 +268,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "6089dae283a57053d11802117eb01e8d",
+              "foreign_toplevel_identifier": "38d0f92aeed0d6ab305bc25860d39520",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -289,7 +289,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 1.0,
-              "pid": 4147850,
+              "pid": 233,
               "rect": {
                 "height": 1381,
                 "width": 1270,

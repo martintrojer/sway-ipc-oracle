@@ -7,14 +7,14 @@
 compositor = "swayward"
 version = "26.04 (0fbb931c)"
 commit = "0fbb931cda0b3225a52f1e14d6da4457f5510f90"
-oracle_commit = "1e3a2714fc20ed64cda40697b3c52b38d931e3d4"
-date = "2026-09-25"
+oracle_commit = "1dab8b546ad734a6b8a6cdb8a7383798a6bd6087"
+date = "2026-09-26"
 normalization = "sway-ipc/normalize.toml"
 normalization_rules = ["runtime-identifiers", "focus-by-child-position", "rectangle-semantics", "backend-output-reference", "backend-output-properties", "backend-output-capabilities", "backend-output-name", "floating-rect-run-variance", "tree-rect-tolerance", "floating-percent-run-variance", "tree-percent-tolerance", "focus-child-position-comparison", "backend-mode-array-length"]
 scenario_isolation = "fresh compositor per scenario"
-difference_fields = 0
-match = 93
-mismatch = 0
+difference_fields = 3
+match = 248
+mismatch = 62
 not_applicable = 0
 
 [[result]]
@@ -33,6 +33,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "empty"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "empty"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "empty"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "empty"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "one_window"
 request = "tree"
 verdict = "match"
@@ -45,6 +82,43 @@ verdict = "match"
 [[result]]
 scenario = "one_window"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "one_window"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "one_window"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "one_window"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -63,6 +137,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "two_split_h"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_h"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_split_h"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_h"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "two_split_h"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_h"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_h"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "two_split_v"
 request = "tree"
 verdict = "match"
@@ -75,6 +186,43 @@ verdict = "match"
 [[result]]
 scenario = "two_split_v"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_split_v"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "two_split_v"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_split_v"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -93,6 +241,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "nested_h_in_v"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "nested_h_in_v"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "tabbed"
 request = "tree"
 verdict = "match"
@@ -105,6 +290,43 @@ verdict = "match"
 [[result]]
 scenario = "tabbed"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "tabbed"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "tabbed"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "tabbed"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -123,6 +345,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "stacked"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "stacked"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "stacked"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "stacked"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "stacked"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "stacked"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "stacked"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "one_floating"
 request = "tree"
 verdict = "match"
@@ -135,6 +394,43 @@ verdict = "match"
 [[result]]
 scenario = "one_floating"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "one_floating"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "one_floating"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "one_floating"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -153,6 +449,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "two_floating"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_floating"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_floating"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_floating"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "two_floating"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_floating"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_floating"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "three_floating_before_raise"
 request = "tree"
 verdict = "match"
@@ -165,6 +498,43 @@ verdict = "match"
 [[result]]
 scenario = "three_floating_before_raise"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_before_raise"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -183,6 +553,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "three_floating_after_raise"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "three_floating_after_raise"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "fullscreen"
 request = "tree"
 verdict = "match"
@@ -195,6 +602,43 @@ verdict = "match"
 [[result]]
 scenario = "fullscreen"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "fullscreen"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "fullscreen"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -213,6 +657,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "marked"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "marked"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "marked"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "marked"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "two_workspaces"
 request = "tree"
 verdict = "match"
@@ -225,6 +706,43 @@ verdict = "match"
 [[result]]
 scenario = "two_workspaces"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_workspaces"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "two_workspaces"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_workspaces"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -243,6 +761,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "numbered_sparse"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "numbered_sparse"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "numbered_sparse"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "numbered_sparse"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "named_workspace"
 request = "tree"
 verdict = "match"
@@ -255,6 +810,43 @@ verdict = "match"
 [[result]]
 scenario = "named_workspace"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "named_workspace"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "named_workspace"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "named_workspace"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -273,6 +865,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "empty_named"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "empty_named"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "empty_named"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "empty_named"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "two_outputs"
 request = "tree"
 verdict = "match"
@@ -285,6 +914,43 @@ verdict = "match"
 [[result]]
 scenario = "two_outputs"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "two_outputs"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "two_outputs"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "two_outputs"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -303,6 +969,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "scratchpad_hidden"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_hidden"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "scratchpad_shown"
 request = "tree"
 verdict = "match"
@@ -315,6 +1018,43 @@ verdict = "match"
 [[result]]
 scenario = "scratchpad_shown"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "scratchpad_shown"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -333,6 +1073,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "sticky_workspace_switch"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "sticky_workspace_switch"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "nested_tabbed_in_stacked"
 request = "tree"
 verdict = "match"
@@ -345,6 +1122,43 @@ verdict = "match"
 [[result]]
 scenario = "nested_tabbed_in_stacked"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "nested_tabbed_in_stacked"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -363,6 +1177,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "nested_stacked_in_tabbed"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "borders_and_gaps"
 request = "tree"
 verdict = "match"
@@ -375,6 +1226,43 @@ verdict = "match"
 [[result]]
 scenario = "borders_and_gaps"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "borders_and_gaps"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -393,6 +1281,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "urgent_via_command"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "urgent_via_command"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "urgent_via_command"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "urgent_via_command"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "urgent_via_command"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "urgent_via_command"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "urgent_via_command"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "markup_title"
 request = "tree"
 verdict = "match"
@@ -405,6 +1330,43 @@ verdict = "match"
 [[result]]
 scenario = "markup_title"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "markup_title"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "markup_title"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "markup_title"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "markup_title"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "markup_title"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "markup_title"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "markup_title"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -423,6 +1385,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "fullscreen_workspace"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_workspace"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "fullscreen_global"
 request = "tree"
 verdict = "match"
@@ -435,6 +1434,43 @@ verdict = "match"
 [[result]]
 scenario = "fullscreen_global"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "fullscreen_global"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "fullscreen_global"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "fullscreen_global"
+request = "commands"
 verdict = "match"
 
 [[result]]
@@ -453,6 +1489,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "container_mark"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "container_mark"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "container_mark"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "container_mark"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "container_mark"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "container_mark"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "container_mark"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "disabled_output_evacuation"
 request = "tree"
 verdict = "match"
@@ -468,6 +1541,43 @@ request = "outputs"
 verdict = "match"
 
 [[result]]
+scenario = "disabled_output_evacuation"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "disabled_output_evacuation"
+request = "commands"
+verdict = "match"
+
+[[result]]
 scenario = "differential_seed_0"
 request = "tree"
 verdict = "match"
@@ -480,4 +1590,41 @@ verdict = "match"
 [[result]]
 scenario = "differential_seed_0"
 request = "outputs"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "marks"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "binding_modes"
+verdict = "mismatch"
+differences = ["$binding_modes: length 2 != 1"]
+
+[[result]]
+scenario = "differential_seed_0"
+request = "binding_state"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "seats"
+verdict = "mismatch"
+differences = ["$seats[0].capabilities: 0 != 3", "$seats[0].name: 'seat0' != 'headless'"]
+
+[[result]]
+scenario = "differential_seed_0"
+request = "inputs"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "version"
+verdict = "match"
+
+[[result]]
+scenario = "differential_seed_0"
+request = "commands"
 verdict = "match"

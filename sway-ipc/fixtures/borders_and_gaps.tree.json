@@ -208,10 +208,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "1f755b7795a835398f837f3199325aab",
+              "foreign_toplevel_identifier": "2a37c6ad81d85e7670b39a6c0d12972c",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -229,7 +229,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 0.3245481927710843,
-              "pid": 4151764,
+              "pid": 951,
               "rect": {
                 "height": 404,
                 "width": 1190,
@@ -269,10 +269,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": false,
-              "foreign_toplevel_identifier": "98694861f75828698551fb13b8a44ef4",
+              "foreign_toplevel_identifier": "d5dba3783d17549be6b2fbf6d32a58e4",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -290,7 +290,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 0.3245481927710843,
-              "pid": 4151811,
+              "pid": 973,
               "rect": {
                 "height": 431,
                 "width": 1190,
@@ -330,10 +330,10 @@
               "floating_nodes": [],
               "focus": [],
               "focused": true,
-              "foreign_toplevel_identifier": "f70b6a447cd23811957b756d1ba180a7",
+              "foreign_toplevel_identifier": "ee4c1e7657ca458bc3239dee081c4433",
               "fullscreen_mode": 0,
               "geometry": {
-                "height": 491,
+                "height": 496,
                 "width": 696,
                 "x": 0,
                 "y": 0
@@ -351,7 +351,7 @@
               "nodes": [],
               "orientation": "none",
               "percent": 0.3253012048192771,
-              "pid": 4151855,
+              "pid": 995,
               "rect": {
                 "height": 432,
                 "width": 1190,

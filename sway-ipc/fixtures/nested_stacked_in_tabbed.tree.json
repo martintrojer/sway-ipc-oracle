@@ -262,10 +262,10 @@
                       "floating_nodes": [],
                       "focus": [],
                       "focused": true,
-                      "foreign_toplevel_identifier": "03d82b859c3998f7a783a9a841d0f5e8",
+                      "foreign_toplevel_identifier": "5d762ad976aef93b601ea9d3c0b416aa",
                       "fullscreen_mode": 0,
                       "geometry": {
-                        "height": 491,
+                        "height": 496,
                         "width": 696,
                         "x": 0,
                         "y": 0
@@ -283,7 +283,7 @@
                       "nodes": [],
                       "orientation": "none",
                       "percent": 0.5,
-                      "pid": 4151395,
+                      "pid": 880,
                       "rect": {
                         "height": 1300,
                         "width": 635,
@@ -323,10 +323,10 @@
                       "floating_nodes": [],
                       "focus": [],
                       "focused": false,
-                      "foreign_toplevel_identifier": "8ef7da27b1c3a9e79cffed4d242fbe62",
+                      "foreign_toplevel_identifier": "7deb7661b50c5a3ef4fec4d940d6f9e0",
                       "fullscreen_mode": 0,
                       "geometry": {
-                        "height": 491,
+                        "height": 496,
                         "width": 696,
                         "x": 0,
                         "y": 0
@@ -344,7 +344,7 @@
                       "nodes": [],
                       "orientation": "none",
                       "percent": 0.5,
-                      "pid": 4151595,
+                      "pid": 924,
                       "rect": {
                         "height": 1300,
                         "width": 635,
@@ -405,10 +405,10 @@
                   "floating_nodes": [],
                   "focus": [],
                   "focused": false,
-                  "foreign_toplevel_identifier": "3c62dbd4ef8e0ea3a04c62aaeed165e8",
+                  "foreign_toplevel_identifier": "b6f0491a952ddb87af0d949c33074649",
                   "fullscreen_mode": 0,
                   "geometry": {
-                    "height": 491,
+                    "height": 496,
                     "width": 696,
                     "x": 0,
                     "y": 0
@@ -426,7 +426,7 @@
                   "nodes": [],
                   "orientation": "none",
                   "percent": 1.0,
-                  "pid": 4151528,
+                  "pid": 902,
                   "rect": {
                     "height": 1327,
                     "width": 1270,

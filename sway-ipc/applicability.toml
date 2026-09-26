@@ -23,3 +23,37 @@ cases = ["bad-criteria-open", "bad-criteria-regex", "bad-criteria-name"]
 reason = "the input uses sway's app_id criterion, which i3 does not implement"
 i3_source = "i3/parser-specs/commands.spec:43-58, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
 sway_extension_source = "sway/sway/criteria.c:578-620, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[i3.marks]
+fields = []
+i3_source = "i3/docs/ipc:620-631 and i3/src/ipc.c:1051-1068, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[i3.binding_modes]
+fields = []
+i3_source = "i3/docs/ipc:786-798 and i3/src/ipc.c:1370-1386, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[i3.binding_state]
+fields = ["name"]
+i3_source = "i3/docs/ipc:897-913 and i3/src/ipc.c:1390-1413, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[i3.version]
+fields = ["major", "minor", "patch", "human_readable", "loaded_config_file_name"]
+i3_source = "i3/docs/ipc:745-784 and i3/src/ipc.c GET_VERSION, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+sway_extension_source = "sway/sway/ipc-json.c ipc_json_get_version, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[i3.command]
+fields = ["success", "error"]
+i3_source = "i3/docs/ipc:185-203, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+sway_extension_source = "sway/sway/commands.c command_results_to_json, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[i3.commands]
+i3_source = "i3/docs/ipc:185-203, pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+sway_extension_source = "sway/sway/commands.c command_results_to_json, pinned at 88869399f421d9180dd8b6ed0b5a1f4a3585d252"
+
+[i3.seats]
+applicable = false
+reason = "i3 has no GET_SEATS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
+
+[i3.inputs]
+applicable = false
+reason = "i3 has no GET_INPUTS request; i3/docs/ipc request table (lines 62-77), pinned at 9be3249ac5b377ed3270e36bca83df53d8023337"
