@@ -448,6 +448,11 @@ An empty diff means the measured content matches the committed results.
 
 The check validates each result file, compiles the Python runner, exercises the TAP counter, and compares fixture fields with the pinned sway source.
 
+## Contributing
+
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before changing a runner, an adapter or
+a result. It explains how snapshots stay reproducible and fair.
+
 ## Licence
 
 The repository uses the BSD-3-Clause licence. The vendored i3 tests retain the original i3 copyright notice in [`i3/LICENSE`](i3/LICENSE).
