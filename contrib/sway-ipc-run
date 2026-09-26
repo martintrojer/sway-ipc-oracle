@@ -674,9 +674,6 @@ class SwaywardAdapter(WaylandAdapter):
         )
         return "".join(outputs) + self.config_text
 
-    def open_window_command(self, ident, title):
-        return f"spawn foot --app-id={shlex.quote(ident)} --title={shlex.quote(title)} sh -c 'sleep 300'"
-
     @staticmethod
     def version_details(reply):
         version = reply.get("human_readable", "unknown")
@@ -714,8 +711,8 @@ class I3Adapter(Adapter):
         commit = version.rsplit("g", 1)[-1] if "-g" in version else "unknown"
         return version, commit
 
-    def run_command(self, text):
-        command(self.socket, text.replace("app_id=", "instance="))
+    def command_reply(self, text):
+        return ipc(self.socket, "command", text.replace("app_id=", "instance="))
 
     def reset(self):
         reply = ipc(self.socket, "command", '[instance="^fixture-"] kill')
