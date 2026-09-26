@@ -57,8 +57,12 @@ commands the scenarios exercise, and why the rest cannot run headless.
 ### Random sequence corpus
 
 The random corpus replays 500 captured 20-step sequences and reports
-match/mismatch/not applicable per seed. Sway's self-check is 500/0/0;
-swayward 0fbb931c is 54/446/0. The i3 replay is pending.
+match/mismatch/not applicable per seed. The i3 replay is pending.
+
+| Snapshot | match/mismatch/n.a. | Commit |
+| --- | --- | --- |
+| `sway-1.12-random` | 500/0/0 | `88869399` |
+| `swayward-0fbb931c-random` | 54/446/0 | `0fbb931c` |
 
 ### Fuzz corpora
 

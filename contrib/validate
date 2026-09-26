@@ -282,13 +282,28 @@ extra = set(fuzz_rows) - expected_rows
 if extra:
     raise SystemExit(f"README fuzz rows without a result file: {sorted(extra)}")
 
+random_rows = {}
+for line in readme.splitlines():
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if len(cells) == 3 and cells[0].startswith("`") and cells[0].endswith("-random`"):
+        random_rows[cells[0].strip("`")] = cells
+expected_rows = set()
 for compositor, name in names.items():
     path = Path(f"sway-ipc/results/{name}-random.toml")
     if not path.exists():
         continue
     run = tomllib.load(path.open("rb"))["run"]
-    if sum(run.get(key, 0) for key in ("match", "mismatch", "not_applicable")) != run["seeds"]:
+    figures = [run.get(key, 0) for key in ("match", "mismatch", "not_applicable")]
+    if sum(figures) != run["seeds"]:
         raise SystemExit(f"{path}: verdict counts do not sum to its seeds")
+    stem = f"{name}-random"
+    expected_rows.add(stem)
+    expected = [f"`{stem}`", "/".join(map(str, figures)), f"`{pins[compositor][:8]}`"]
+    if random_rows.get(stem) != expected:
+        raise SystemExit(f"README random row for {stem} should be: | {' | '.join(expected)} |")
+extra = set(random_rows) - expected_rows
+if extra:
+    raise SystemExit(f"README random rows without a result file: {sorted(extra)}")
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
 if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then
