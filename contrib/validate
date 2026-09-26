@@ -180,7 +180,7 @@ names = pins["snapshot"]
 for oracle in ("i3", "sway-ipc"):
     for path in sorted(Path(oracle, "results").glob("*.toml")):
         stem = path.stem
-        for suffix in ("-i3-derived", "-events"):
+        for suffix in ("-i3-derived", "-events", "-command-fuzz", "-wire-fuzz"):
             stem = stem.removesuffix(suffix)
         compositor = next((c for c, n in names.items() if n == stem), None)
         if compositor is None:
@@ -217,6 +217,43 @@ for compositor, name in names.items():
     expected = [f"`{name}`", suite, flaky, fields, events, commit]
     if table.get(name) != expected:
         raise SystemExit(f"README snapshot row for {name} should be: | {' | '.join(expected)} |")
+
+# Fuzz corpora: results replay the sway-captured fixture, and the README
+# fuzz table quotes every verdict count of every measured snapshot.
+import json
+verdicts = ("match", "mismatch", "not_applicable", "crash", "hang")
+fuzz_rows = {}
+for line in readme.splitlines():
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if len(cells) == 3 and cells[0].startswith("`") and cells[0].endswith("-fuzz`"):
+        fuzz_rows[cells[0].strip("`")] = cells
+expected_rows = set()
+for corpus in ("command-fuzz", "wire-fuzz"):
+    fixture = json.loads(Path(f"sway-ipc/fuzz/{corpus}.json").read_text())
+    known = {row["case"] for row in fixture["cases"]}
+    for compositor, name in names.items():
+        path = Path(f"sway-ipc/results/{name}-{corpus}.toml")
+        if not path.exists():
+            continue
+        doc = tomllib.load(path.open("rb"))
+        run, rows = doc["run"], doc.get("result", [])
+        if run.get("corpus") != corpus:
+            raise SystemExit(f"{path}: [run] corpus is not {corpus}")
+        unknown = {row["case"] for row in rows} - known
+        if unknown:
+            raise SystemExit(f"{path}: cases not in sway-ipc/fuzz/{corpus}.json: {sorted(unknown)}")
+        key = "differs" if compositor == "i3" else "mismatch"
+        figures = [run.get(v if v != "mismatch" else key, 0) for v in verdicts]
+        if sum(figures) != len(rows) or run.get("cases") != len(rows):
+            raise SystemExit(f"{path}: verdict counts do not sum to its rows")
+        stem = f"{name}-{corpus}"
+        expected_rows.add(stem)
+        expected = [f"`{stem}`", "/".join(map(str, figures)), f"`{pins[compositor][:8]}`"]
+        if fuzz_rows.get(stem) != expected:
+            raise SystemExit(f"README fuzz row for {stem} should be: | {' | '.join(expected)} |")
+extra = set(fuzz_rows) - expected_rows
+if extra:
+    raise SystemExit(f"README fuzz rows without a result file: {sorted(extra)}")
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
 if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then
@@ -260,6 +297,7 @@ for row in manifest["scenarios"]:
     assert set(capture) == {"tree", "workspaces", "outputs"}
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" ./contrib/tests/sway-ipc-applicability
+./contrib/tests/sway-ipc-fuzz
 ./contrib/i3-suite-run --self-test
 ./contrib/tests/sway-ipc-reap-clients
 
