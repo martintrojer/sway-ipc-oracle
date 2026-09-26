@@ -26,6 +26,7 @@ FIXTURES = ROOT / "sway-ipc/fixtures"
 MAGIC = b"i3-ipc"
 TYPES = {"command": 0, "workspaces": 1, "subscribe": 2, "outputs": 3, "tree": 4, "version": 7, "inputs": 100}
 NORMAL = "__oracle_normalized__"
+RUN_MARKER = "SWAY_IPC_ORACLE_RUN"
 I3_DERIVED = ROOT / "sway-ipc/i3-derived"
 with (ROOT / "pins.toml").open("rb") as file:
     PINS = tomllib.load(file)
@@ -181,6 +182,34 @@ def wait_for(predicate, message, seconds=8):
             return value
         time.sleep(0.05)
     raise RuntimeError(f"timed out waiting for {message}")
+
+
+def marked_processes(marker):
+    needle = f"{RUN_MARKER}={marker}".encode()
+    found = []
+    for path in Path("/proc").glob("[0-9]*/environ"):
+        try:
+            if needle in path.read_bytes().split(b"\0"):
+                found.append(int(path.parent.name))
+        except (FileNotFoundError, PermissionError, ProcessLookupError):
+            pass
+    return found
+
+
+def reap_marked_processes(marker, grace=0.5):
+    for pid in marked_processes(marker):
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+    deadline = time.monotonic() + grace
+    while time.monotonic() < deadline and marked_processes(marker):
+        time.sleep(0.05)
+    for pid in marked_processes(marker):
+        try:
+            os.kill(pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
 
 
 def load_rules():
@@ -347,6 +376,8 @@ class Adapter:
         self.socket = run_dir / "ipc.sock"
         self.process = None
         self.env = os.environ.copy()
+        self.marker = f"{os.getpid()}-{time.monotonic_ns()}"
+        self.env[RUN_MARKER] = self.marker
         for name in ("SWAYSOCK", "I3SOCK", "WAYLAND_DISPLAY", "DISPLAY"):
             self.env.pop(name, None)
 
@@ -374,6 +405,7 @@ class Adapter:
             except subprocess.TimeoutExpired:
                 os.killpg(self.process.pid, signal.SIGKILL)
                 self.process.wait()
+        reap_marked_processes(self.marker)
 
     def command_reply(self, text):
         return ipc(self.socket, "command", text)

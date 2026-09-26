@@ -235,6 +235,7 @@ for row in manifest["scenarios"]:
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" ./contrib/tests/sway-ipc-applicability
 ./contrib/i3-suite-run --self-test
+./contrib/tests/sway-ipc-reap-clients
 
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
