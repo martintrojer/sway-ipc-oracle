@@ -29,6 +29,9 @@ EVENTS = ("workspace", "output", "mode", "window", "barconfig_update", "binding"
 NORMAL = "__oracle_normalized__"
 RUN_MARKER = "SWAY_IPC_ORACLE_RUN"
 I3_DERIVED = ROOT / "sway-ipc/i3-derived"
+FUZZ_FIXTURES = ROOT / "sway-ipc/fuzz"
+FUZZ_SCRATCH = Path("/var/home/martintrojer/hacking/swayward-scratch")
+FUZZ_BUDGETS = {"ci": (24, 10), "local": (48, 16)}
 with (ROOT / "pins.toml").open("rb") as file:
     PINS = tomllib.load(file)
 
@@ -166,6 +169,138 @@ class EventSubscription:
 
     def close(self):
         self.stream.close()
+
+
+def command_fuzz_cases(seed=0):
+    """Commands derived from sway's criteria and command grammar."""
+    fixed = [
+        ("empty", ""),
+        ("whitespace", " \t "),
+        ("unknown-command", "oracle_unknown"),
+        ("bad-criteria-open", '[app_id="foot" focus'),
+        ("bad-criteria-regex", '[app_id="["] focus'),
+        ("bad-criteria-name", "[oracle_field=value] focus"),
+        ("missing-argument", "workspace"),
+        ("extra-argument", "fullscreen toggle extra"),
+        ("resize-missing-unit", "resize grow width 10"),
+        ("resize-px", "resize grow width 10 px"),
+        ("resize-ppt", "resize grow width 10 ppt"),
+        ("resize-odd-unit", "resize grow width 10 em"),
+        ("semicolon-chain", "nop first; nop second"),
+        ("comma-chain", "nop first, nop second"),
+        ("mixed-chain", "nop first, nop second; nop third"),
+        ("quoted-semicolon", 'nop "one;two"'),
+        ("quoted-comma", 'nop "one,two"'),
+        ("unterminated-quote", 'nop "unterminated'),
+        ("escaped-quote", 'nop "one\\\"two"'),
+        ("unicode", "nop λ-日本語-🙂"),
+        ("unicode-workspace", "workspace λ-日本語-🙂"),
+        ("nul", "nop before\0after"),
+        ("leading-separator", "; nop after"),
+        ("trailing-separator", "nop before,"),
+    ]
+    rng = random.Random(seed)
+    generated = []
+    atoms = ("focus", "move", "workspace", "resize", "layout", "nop")
+    separators = (";", ",")
+    for number in range(23):
+        left, right = rng.choice(atoms), rng.choice(atoms)
+        generated.append((f"generated-{number:02d}",
+                          f'{left} "fuzz {rng.randrange(1000)}" {rng.choice(separators)} {right}'))
+    generated.append(("very-long", "nop " + "x" * 65536))
+    return fixed + generated
+
+
+def wire_fuzz_cases():
+    return [
+        {"name": "bad-magic", "data": b"bad-ip" + struct.pack("=II", 0, 7), "shutdown": True},
+        {"name": "truncated-header", "data": MAGIC + b"\x00\x00", "shutdown": True},
+        {"name": "truncated-payload", "data": MAGIC + struct.pack("=II", 10, 0) + b"nop", "shutdown": True},
+        {"name": "oversized-length", "data": MAGIC + struct.pack("=II", 0xffffffff, 0), "shutdown": True},
+        {"name": "unknown-type", "data": MAGIC + struct.pack("=II", 0, 0x7fffffff)},
+        {"name": "subscribe-invalid-json", "data": MAGIC + struct.pack("=II", 1, 2) + b"{"},
+        {"name": "subscribe-wrong-json", "data": MAGIC + struct.pack("=II", 2, 2) + b"{}"},
+        {"name": "command-invalid-json", "data": MAGIC + struct.pack("=II", 1, 0) + b"{"},
+        {"name": "command-invalid-utf8", "data": MAGIC + struct.pack("=II", 1, 0) + b"\xff"},
+        {"name": "many-clients", "clients": 32},
+        {"name": "zero-command", "data": MAGIC + struct.pack("=II", 0, 0)},
+        {"name": "two-frames", "data": (MAGIC + struct.pack("=II", 0, 7)) * 2, "replies": 2},
+        {"name": "event-type-as-request", "data": MAGIC + struct.pack("=II", 0, 1 << 31)},
+        {"name": "length-one-version", "data": MAGIC + struct.pack("=II", 1, 7) + b"x"},
+        {"name": "subscribe-null", "data": MAGIC + struct.pack("=II", 4, 2) + b"null"},
+        {"name": "subscribe-empty", "data": MAGIC + struct.pack("=II", 2, 2) + b"[]"},
+    ]
+
+
+def recv_wire_reply(stream):
+    header = recv_exact(stream, 14)
+    length, reply_type = struct.unpack("=II", header[6:])
+    body = recv_exact(stream, length)
+    try:
+        payload = json.loads(body)
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        payload = {"raw_hex": body.hex()}
+    if reply_type == TYPES["version"] and isinstance(payload, dict):
+        # Version values name the build and config path; framing is what this corpus tests.
+        payload = {"keys": sorted(payload)}
+    return {"magic": header[:6].decode(errors="backslashreplace"),
+            "type": reply_type, "payload": payload}
+
+
+def wire_observation(sock_path, case):
+    if "clients" in case:
+        streams = []
+        try:
+            for _ in range(case["clients"]):
+                stream = socket.socket(socket.AF_UNIX)
+                stream.settimeout(2)
+                deadline = time.monotonic() + 2
+                while True:
+                    try:
+                        stream.connect(os.fspath(sock_path))
+                        break
+                    except BlockingIOError:
+                        # Python does not retry EAGAIN from a full Unix listen backlog.
+                        if time.monotonic() > deadline:
+                            raise socket.timeout("listen backlog stayed full")
+                        time.sleep(0.01)
+                stream.sendall(MAGIC + struct.pack("=II", 0, TYPES["version"]))
+                streams.append(stream)
+            replies = sum(recv_wire_reply(stream)["type"] == TYPES["version"]
+                          for stream in streams)
+            return {"outcome": "reply", "clients": len(streams), "replies": replies}
+        except (ConnectionError, OSError, RuntimeError, socket.timeout) as error:
+            return {"outcome": "error", "error": type(error).__name__}
+        finally:
+            for stream in streams:
+                stream.close()
+    try:
+        with socket.socket(socket.AF_UNIX) as stream:
+            stream.settimeout(2)
+            stream.connect(os.fspath(sock_path))
+            stream.sendall(case["data"])
+            if case.get("shutdown"):
+                stream.shutdown(socket.SHUT_WR)
+            replies = [recv_wire_reply(stream) for _ in range(case.get("replies", 1))]
+            return {"outcome": "reply", "replies": replies}
+    except socket.timeout:
+        return {"outcome": "timeout"}
+    except (BrokenPipeError, ConnectionResetError, RuntimeError):
+        return {"outcome": "disconnect"}
+    except OSError as error:
+        return {"outcome": "error", "error": type(error).__name__}
+
+
+def subprocess_health(adapter):
+    if adapter.process.poll() is not None:
+        return "crash"
+    try:
+        ipc(adapter.socket, "version")
+    except socket.timeout:
+        return "hang"
+    except (OSError, RuntimeError, ValueError):
+        return "crash" if adapter.process.poll() is not None else "hang"
+    return "healthy"
 
 
 def subscribed_event(sock_path, family, trigger):
@@ -992,6 +1127,137 @@ def scenario_main(args, parser):
     return bool(counts.get("mismatch", 0))
 
 
+def fuzz_result_path(compositor, corpus):
+    return ROOT / "sway-ipc/results" / f"{PINS['snapshot'][compositor]}-{corpus}.toml"
+
+
+def write_fuzz_results(path, compositor, corpus, rows, seed, budget):
+    difference = "differs" if compositor == "i3" else "mismatch"
+    verdicts = ("match", difference, "not applicable", "crash", "hang")
+    counts = {verdict: sum(row["verdict"] == verdict for row in rows)
+              for verdict in verdicts}
+    lines = [
+        f"# Generated by contrib/sway-ipc-run {corpus}.",
+        "# Crash and hang are compositor-health verdicts, not mismatches.",
+        "# Always report every verdict count together.", "", "[run]",
+        f"compositor = {toml_string(compositor)}",
+        f"version = {toml_string(rows[0]['version'])}",
+        f"commit = {toml_string(PINS[compositor])}",
+        f"oracle_commit = {toml_string(subprocess.check_output(['git', '-C', ROOT, 'rev-parse', 'HEAD'], text=True).strip())}",
+        f"date = {toml_string(datetime.date.today().isoformat())}",
+        f"corpus = {toml_string(corpus)}", f"seed = {seed}",
+        f"budget = {toml_string(budget)}", f"cases = {len(rows)}",
+        *[f"{key.replace(' ', '_')} = {counts[key]}" for key in verdicts], "",
+    ]
+    for row in rows:
+        lines += ["[[result]]", f"case = {toml_string(row['case'])}",
+                  f"verdict = {toml_string(row['verdict'])}"]
+        if row.get("expected") != row.get("actual"):
+            lines += [f"expected = {toml_string(json.dumps(row.get('expected'), ensure_ascii=False, sort_keys=True))}",
+                      f"actual = {toml_string(json.dumps(row.get('actual'), ensure_ascii=False, sort_keys=True))}"]
+        lines.append("")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines))
+    print("; ".join(f"{key}: {counts[key]}" for key in verdicts))
+    return bool(counts[difference] or counts["crash"] or counts["hang"])
+
+
+def fuzz_cases(args):
+    command_limit, wire_limit = FUZZ_BUDGETS[args.budget]
+    if args.mode == "command-fuzz":
+        cases = command_fuzz_cases(args.seed)[:command_limit]
+        return [{"name": name, "command": text} for name, text in cases]
+    return wire_fuzz_cases()[:wire_limit]
+
+
+def fuzz_main(args, parser):
+    if args.compositor is None or args.binary is None:
+        parser.error(f"{args.mode} requires --compositor and --binary")
+    if args.capture and args.compositor != "sway":
+        parser.error("fuzz capture is restricted to sway")
+    require_clean_binary(args.binary, args.compositor)
+    corpus = args.mode
+    fixture_path = FUZZ_FIXTURES / f"{corpus}.json"
+    cases = fuzz_cases(args)
+    if args.capture:
+        # Capture the larger corpus once; CI snapshots replay its deterministic prefix.
+        original_budget = args.budget
+        args.budget = "local"
+        cases = fuzz_cases(args)
+        args.budget = original_budget
+    expected_by_name = {}
+    if not args.capture:
+        fixture = json.loads(fixture_path.read_text())
+        fixture_cases = {row["case"]: row for row in fixture["cases"]}
+        expected_by_name = {name: row["observation"] for name, row in fixture_cases.items()}
+        cases = [case for case in cases if case["name"] in fixture_cases]
+    FUZZ_SCRATCH.mkdir(parents=True, exist_ok=True)
+    captured, rows = [], []
+    for case in cases:
+        with tempfile.TemporaryDirectory(prefix=f"oracle-{corpus}-", dir=FUZZ_SCRATCH) as directory:
+            adapter = ADAPTERS[args.compositor](args, Path(directory))
+            with open(Path(directory) / "compositor.log", "w") as log:
+                try:
+                    version_reply = adapter.start(log)
+                    version, _ = adapter.version_details(version_reply)
+                    if corpus == "command-fuzz":
+                        before = {kind: ipc(adapter.socket, kind)
+                                  for kind in ("tree", "workspaces", "outputs")}
+                        try:
+                            reply = adapter.command_reply(case["command"])
+                            observation = {"outcome": "reply", "reply": reply}
+                        except socket.timeout:
+                            observation = {"outcome": "timeout"}
+                        except (OSError, RuntimeError, ValueError) as error:
+                            observation = {"outcome": "error", "error": type(error).__name__}
+                        time.sleep(0.03)
+                        health = subprocess_health(adapter)
+                        if health == "healthy":
+                            after = {kind: ipc(adapter.socket, kind)
+                                     for kind in ("tree", "workspaces", "outputs")}
+                            observation["state_changed"] = before != after
+                    else:
+                        observation = wire_observation(adapter.socket, case)
+                        health = subprocess_health(adapter)
+                finally:
+                    adapter.stop()
+        if args.capture:
+            captured.append({"case": case["name"], "input":
+                             case.get("command", case.get("data", b"").hex()),
+                             "observation": observation})
+            continue
+        expected = expected_by_name[case["name"]]
+        verdict = health if health != "healthy" else (
+            "match" if observation == expected else
+            "differs" if args.compositor == "i3" else "mismatch")
+        rows.append({"case": case["name"], "verdict": verdict,
+                     "expected": expected, "actual": observation,
+                     "version": version})
+    if args.capture:
+        FUZZ_FIXTURES.mkdir(parents=True, exist_ok=True)
+        fixture_path.write_text(json.dumps({"seed": args.seed, "cases": captured},
+                                           indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+        print(f"captured {len(captured)} {corpus} cases from sway")
+        return 0
+    out = args.out or fuzz_result_path(args.compositor, corpus)
+    return write_fuzz_results(out, args.compositor, corpus, rows, args.seed, args.budget)
+
+
+def fuzz_self_test():
+    assert command_fuzz_cases(7) == command_fuzz_cases(7)
+    assert command_fuzz_cases(7) != command_fuzz_cases(8)
+    names = {name for name, _ in command_fuzz_cases()}
+    assert {"bad-criteria-open", "resize-px", "resize-ppt", "mixed-chain",
+            "unicode", "very-long"} <= names
+    assert len(wire_fuzz_cases()) == FUZZ_BUDGETS["local"][1]
+    assert {case["name"] for case in wire_fuzz_cases()} >= {
+        "bad-magic", "truncated-header", "oversized-length", "unknown-type",
+        "subscribe-invalid-json", "command-invalid-json", "many-clients",
+    }
+    print("sway IPC fuzz self-test passed")
+    return 0
+
+
 def write_differential_results(path, args, rows):
     counts = {"match": sum(row["verdict"] == "match" for row in rows),
               "mismatch": sum(row["verdict"] == "mismatch" for row in rows)}
@@ -1076,7 +1342,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Run, capture, or compare data-driven sway IPC scenarios."
     )
-    parser.add_argument("mode", nargs="?", choices=("scenarios", "differential", "i3-derived"), default="scenarios")
+    parser.add_argument("mode", nargs="?", choices=("scenarios", "differential", "i3-derived", "command-fuzz", "wire-fuzz", "fuzz-self-test"), default="scenarios")
     parser.add_argument("--compositor", choices=ADAPTERS)
     parser.add_argument("--binary", type=Path)
     parser.add_argument("--scenario", action="append")
@@ -1095,6 +1361,8 @@ def main():
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--seeds", type=int, default=5, help="fixed-seed CI budget")
     parser.add_argument("--steps", type=int, default=10)
+    parser.add_argument("--budget", choices=FUZZ_BUDGETS, default="ci",
+                        help="fuzz case budget (ci is the committed snapshot budget)")
     parser.add_argument("--save-scenarios", action="store_true",
                         help="save minimized mismatches as sway-captured scenarios")
     parser.add_argument("--triage", default="untriaged",
@@ -1102,6 +1370,10 @@ def main():
     parser.add_argument("--finding", help="task ID or documented deviation name")
     parser.add_argument("--source", help="source citation supporting the triage")
     args = parser.parse_args()
+    if args.mode == "fuzz-self-test":
+        return fuzz_self_test()
+    if args.mode in ("command-fuzz", "wire-fuzz"):
+        return fuzz_main(args, parser)
     if args.mode == "differential":
         return differential_main(args)
     if args.mode == "i3-derived":
