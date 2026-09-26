@@ -74,4 +74,35 @@ original = ["a", "noise-1", "b", "noise-2", "c"]
 minimal = runner.minimize_commands(original, lambda items: "a" in items and "c" in items)
 assert minimal == ["a", "c"]
 
+objects = {}
+digest = runner.store_random_object(objects, {"tree": [], "command": [{"success": True}]})
+assert digest == runner.store_random_object(
+    objects, {"command": [{"success": True}], "tree": []}
+)
+assert len(objects) == 1
+empty_tree = {
+    "type": "root", "rect": {"x": 0, "y": 0, "width": 1, "height": 1},
+    "nodes": [], "floating_nodes": [], "focus": [],
+}
+assert runner.random_result_rows(
+    7,
+    ["splith", "focus left"],
+    [
+        {"command": [{"success": True}], "tree": empty_tree, "workspaces": []},
+        {"command": [{"success": True}], "tree": empty_tree, "workspaces": []},
+    ],
+    [
+        {"command": [{"success": True}], "tree": empty_tree, "workspaces": []},
+        {"command": [{"success": False}], "tree": empty_tree, "workspaces": []},
+    ],
+    runner.load_rules(),
+)[0] == {
+    "seed": 7,
+    "verdict": "mismatch",
+    "step": 2,
+    "request": "command",
+    "commands": ["splith", "focus left"],
+    "differences": ["$command[0].success: True != False"],
+}
+
 print("i3 applicability and differential checks passed")

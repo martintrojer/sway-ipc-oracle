@@ -47,6 +47,15 @@ deduplication, and stores one raw sway capture per distinct shape. The manifest
 records X11-identity and process-lifecycle sequences that could not be replayed;
 the runner does not invent Wayland substitutes for them.
 
+## Random sequence corpus
+
+`sway-ipc/random/` contains 500 deterministic 20-step command sequences. The
+runner captured every command reply, `GET_TREE`, and `GET_WORKSPACES` reply from
+pinned sway 1.12 after the state settled. `objects/` stores canonical JSON by
+content hash, and `sequences.json` maps each seed and step to those objects.
+Capture with `contrib/sway-ipc-run random --compositor sway --binary /path/to/sway
+--capture --seeds 500 --steps 20`; replay by omitting `--capture`.
+
 ## Oracle policy
 
 Never edit these fixtures by hand to make a compositor test pass. If a

@@ -180,7 +180,7 @@ names = pins["snapshot"]
 for oracle in ("i3", "sway-ipc"):
     for path in sorted(Path(oracle, "results").glob("*.toml")):
         stem = path.stem
-        for suffix in ("-i3-derived", "-events", "-command-fuzz", "-wire-fuzz"):
+        for suffix in ("-i3-derived", "-events", "-command-fuzz", "-wire-fuzz", "-random"):
             stem = stem.removesuffix(suffix)
         compositor = next((c for c, n in names.items() if n == stem), None)
         if compositor is None:
@@ -281,6 +281,14 @@ for corpus in ("command-fuzz", "wire-fuzz"):
 extra = set(fuzz_rows) - expected_rows
 if extra:
     raise SystemExit(f"README fuzz rows without a result file: {sorted(extra)}")
+
+for compositor, name in names.items():
+    path = Path(f"sway-ipc/results/{name}-random.toml")
+    if not path.exists():
+        continue
+    run = tomllib.load(path.open("rb"))["run"]
+    if sum(run.get(key, 0) for key in ("match", "mismatch", "not_applicable")) != run["seeds"]:
+        raise SystemExit(f"{path}: verdict counts do not sum to its seeds")
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" python3 -m py_compile contrib/sway-ipc-run
 if grep -En 'endswith\("\.(percent|rect)"\)|get\("floating"\) *==' contrib/sway-ipc-run; then
@@ -311,7 +319,9 @@ for row in entries:
         raise SystemExit(f"command census {row['name']}: unknown scenarios {sorted(unknown)}")
 PY
 python3 - <<'PY'
+import hashlib
 import json
+import tomllib
 from pathlib import Path
 root = Path("sway-ipc/i3-derived")
 manifest = json.loads((root / "scenarios.json").read_text())
@@ -322,6 +332,22 @@ for row in manifest["scenarios"]:
     assert row["provenance"]["test"].endswith(".t") and row["provenance"]["line"] > 0
     capture = json.loads((root / f"{row['name']}.json").read_text())
     assert set(capture) == {"tree", "workspaces", "outputs"}
+
+random_root = Path("sway-ipc/random")
+random_manifest = json.loads((random_root / "sequences.json").read_text())
+assert random_manifest["sway_commit"] == tomllib.load(open("pins.toml", "rb"))["sway"]
+assert len(random_manifest["sequences"]) == random_manifest["seeds"]
+used = set()
+for sequence in random_manifest["sequences"]:
+    assert len(sequence["commands"]) == random_manifest["steps"]
+    assert len(sequence["observations"]) == random_manifest["steps"]
+    used.update(sequence["observations"])
+objects = {path.stem for path in (random_root / "objects").glob("*.json")}
+assert used == objects
+for digest in objects:
+    value = json.loads((random_root / "objects" / f"{digest}.json").read_text())
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"))
+    assert hashlib.sha256(encoded.encode()).hexdigest()[:16] == digest
 PY
 PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/sway-ipc-oracle-pycache" ./contrib/tests/sway-ipc-applicability
 ./contrib/tests/sway-ipc-fuzz

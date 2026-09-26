@@ -29,6 +29,7 @@ EVENTS = ("workspace", "output", "mode", "window", "barconfig_update", "binding"
 NORMAL = "__oracle_normalized__"
 RUN_MARKER = "SWAY_IPC_ORACLE_RUN"
 I3_DERIVED = ROOT / "sway-ipc/i3-derived"
+RANDOM = ROOT / "sway-ipc/random"
 FUZZ_FIXTURES = ROOT / "sway-ipc/fuzz"
 FUZZ_SCRATCH = Path("/var/home/martintrojer/hacking/swayward-scratch")
 FUZZ_BUDGETS = {"ci": (24, 10), "local": (48, 16)}
@@ -538,6 +539,7 @@ class Adapter:
         self.env[RUN_MARKER] = self.marker
         for name in ("SWAYSOCK", "I3SOCK", "WAYLAND_DISPLAY", "DISPLAY"):
             self.env.pop(name, None)
+        self.env["FOOT_SERVER_SOCKET"] = str(run_dir / "no-foot-server")
 
     def wrapped(self, command):
         limited = ["timeout", "--kill-after=5", str(self.args.timeout), *command]
@@ -698,8 +700,12 @@ DIFFERENTIAL_CONFIGS = {
 
 def differential_action(adapter, text):
     before = fixture_window_count(ipc(adapter.socket, "tree"))
+    if isinstance(adapter, I3Adapter) and text.startswith("exec foot --app-id="):
+        ident = text.split("--app-id=", 1)[1].split(" ", 1)[0]
+        text = f"exec --no-startup-id xterm -name {ident} -title {ident}"
     reply = adapter.command_reply(text)
-    if text.startswith("exec foot --app-id=") and reply and reply[0].get("success"):
+    if (text.startswith(("exec foot --app-id=", "exec --no-startup-id xterm -name "))
+            and reply and reply[0].get("success")):
         wait_for(lambda: fixture_window_count(ipc(adapter.socket, "tree")) > before,
                  "generated window")
     else:
@@ -974,6 +980,178 @@ def i3_derived_main(args, parser):
     print("; ".join(f"{key}: {counts[key]}" for key in counts))
     return bool(counts.get("mismatch", 0))
 
+
+def store_random_object(objects, value):
+    """Add one canonical JSON value to a content-addressed object map."""
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"))
+    digest = hashlib.sha256(encoded.encode()).hexdigest()[:16]
+    objects.setdefault(digest, encoded)
+    return digest
+
+def random_result_rows(seed, commands, expected, actual, rules):
+    """Return the first per-step divergence, or one matching seed row."""
+    for index, (left, right) in enumerate(zip(expected, actual), 1):
+        for request in ("command", "tree", "workspaces"):
+            differences = compare(left[request], right[request], request, rules)
+            if differences:
+                return [{"seed": seed, "verdict": "mismatch", "step": index,
+                         "request": request, "commands": commands[:index],
+                         "differences": differences}]
+    if len(expected) != len(actual):
+        return [{"seed": seed, "verdict": "mismatch", "step": len(actual) + 1,
+                 "request": "sequence", "commands": commands[:len(actual) + 1],
+                 "differences": [f"$sequence: length {len(expected)} != {len(actual)}"]}]
+    return [{"seed": seed, "verdict": "match"}]
+
+def random_observation(adapter, text):
+    reply = differential_action(adapter, text)
+    previous = None
+    for _ in range(40):
+        state = {request: ipc(adapter.socket, request)
+                 for request in ("tree", "workspaces")}
+        encoded = json.dumps(state, sort_keys=True)
+        if encoded == previous:
+            return state | {"command": reply}
+        previous = encoded
+        time.sleep(0.05)
+    raise RuntimeError("random sequence state did not settle")
+
+def random_manifest():
+    manifest = json.loads((RANDOM / "sequences.json").read_text())
+    objects = {
+        path.stem: json.loads(path.read_text())
+        for path in (RANDOM / "objects").glob("*.json")
+    }
+    return manifest, objects
+
+def random_capture(args, parser):
+    if args.compositor != "sway":
+        parser.error("random --capture is restricted to sway")
+    require_clean_binary(args.binary, "sway")
+    objects, sequences = {}, []
+    scratch = Path("/var/home/martintrojer/hacking/swayward-scratch/random-capture")
+    scratch.mkdir(parents=True, exist_ok=True)
+    for seed in range(args.seed, args.seed + args.seeds):
+        commands = generate_commands(seed, args.steps)
+        run_dir = scratch / str(seed)
+        shutil.rmtree(run_dir, ignore_errors=True)
+        run_dir.mkdir()
+        adapter = SwayAdapter(args, run_dir)
+        adapter.config_text = DIFFERENTIAL_CONFIGS["sway"]
+        with open(run_dir / "compositor.log", "w") as log:
+            try:
+                adapter.start(log)
+                reply = adapter.command_reply("output * mode --custom 1280x720@60Hz")
+                if not reply or not reply[0].get("success"):
+                    raise RuntimeError(f"could not set random output mode: {reply}")
+                observations = [store_random_object(objects, random_observation(adapter, text))
+                                for text in commands]
+            finally:
+                adapter.stop()
+        sequences.append({"seed": seed, "commands": commands,
+                          "observations": observations})
+        shutil.rmtree(run_dir)
+        if (seed - args.seed + 1) % 25 == 0:
+            print(f"captured {seed - args.seed + 1}/{args.seeds} seeds", flush=True)
+    object_dir = RANDOM / "objects"
+    shutil.rmtree(RANDOM, ignore_errors=True)
+    object_dir.mkdir(parents=True)
+    for digest, encoded in sorted(objects.items()):
+        (object_dir / f"{digest}.json").write_text(encoded + "\n")
+    manifest = {
+        "description": "Seeded command sequences and per-step replies captured from sway 1.12",
+        "sway_commit": PINS["sway"], "seed_start": args.seed,
+        "seeds": args.seeds, "steps": args.steps, "sequences": sequences,
+        "excluded": [],
+    }
+    (RANDOM / "sequences.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n"
+    )
+    print(f"captured {args.seeds} seeds; {len(objects)} distinct observations")
+    return 0
+
+def write_random_results(path, args, version, commit, rows):
+    counts = {key: sum(row["verdict"] == key for row in rows)
+              for key in ("match", "mismatch", "not applicable")}
+    grouped = []
+    for row in rows:
+        if row["verdict"] == "match":
+            grouped.append(row)
+            continue
+        key = (tuple(row["commands"]), row["request"], tuple(row["differences"]))
+        existing = next((item for item in grouped if item.get("key") == key), None)
+        if existing:
+            existing["seeds"].append(row["seed"])
+        else:
+            grouped.append({**row, "key": key, "seeds": [row["seed"]]})
+    rules = load_rules()
+    lines = [
+        "# Generated by contrib/sway-ipc-run random.",
+        "# One row is one seed. Mismatches show the shortest captured prefix ending at",
+        "# the first divergent request; identical reproducers are grouped by seed.", "",
+        "[run]", f"compositor = {toml_string(args.compositor)}",
+        f"version = {toml_string(version)}", f"commit = {toml_string(commit)}",
+        f"oracle_commit = {toml_string(subprocess.check_output(['git', '-C', ROOT, 'rev-parse', 'HEAD'], text=True).strip())}",
+        f"date = {toml_string(datetime.date.today().isoformat())}",
+        'normalization = "sway-ipc/normalize.toml"',
+        "normalization_rules = [" + ", ".join(toml_string(name) for name in rule_names(rules)) + "]",
+        'scenario_isolation = "fresh compositor per seed"',
+        f"seeds = {len(rows)}", f"steps = {args.steps}",
+        *[f"{key.replace(' ', '_')} = {counts[key]}" for key in counts], "",
+    ]
+    for row in grouped:
+        lines += ["[[result]]", f"seed = {row['seed']}",
+                  f"verdict = {toml_string(row['verdict'])}"]
+        if row["verdict"] == "mismatch":
+            lines += ["seeds = [" + ", ".join(str(seed) for seed in row["seeds"]) + "]",
+                      f"step = {row['step']}", f"request = {toml_string(row['request'])}",
+                      "commands = [" + ", ".join(toml_string(x) for x in row["commands"]) + "]",
+                      "differences = [" + ", ".join(toml_string(x) for x in row["differences"]) + "]"]
+        lines.append("")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines))
+    print("; ".join(f"{key}: {value}" for key, value in counts.items()))
+    return bool(counts["mismatch"])
+
+def random_main(args, parser):
+    if args.compositor is None or args.binary is None:
+        parser.error("random requires --compositor and --binary")
+    if args.capture:
+        return random_capture(args, parser)
+    require_clean_binary(args.binary, args.compositor)
+    manifest, objects = random_manifest()
+    args.steps = manifest["steps"]
+    rows, rules, version_reply = [], load_rules(), None
+    scratch = Path("/var/home/martintrojer/hacking/swayward-scratch/random-replay")
+    scratch.mkdir(parents=True, exist_ok=True)
+    for number, sequence in enumerate(manifest["sequences"], 1):
+        run_dir = scratch / str(sequence["seed"])
+        shutil.rmtree(run_dir, ignore_errors=True)
+        run_dir.mkdir()
+        adapter = ADAPTERS[args.compositor](args, run_dir)
+        if args.compositor in DIFFERENTIAL_CONFIGS:
+            adapter.config_text = DIFFERENTIAL_CONFIGS[args.compositor]
+        actual = []
+        with open(run_dir / "compositor.log", "w") as log:
+            try:
+                version_reply = adapter.start(log)
+                reply = adapter.command_reply("output * mode --custom 1280x720@60Hz")
+                if not reply or not reply[0].get("success"):
+                    raise RuntimeError(f"could not set random output mode: {reply}")
+                for text in sequence["commands"]:
+                    actual.append(random_observation(adapter, text))
+            finally:
+                adapter.stop()
+        expected = [objects[digest] for digest in sequence["observations"]]
+        rows += random_result_rows(sequence["seed"], sequence["commands"],
+                                   expected, actual, rules)
+        shutil.rmtree(run_dir)
+        if number % 25 == 0:
+            print(f"replayed {number}/{len(manifest['sequences'])} seeds", flush=True)
+    version, _ = adapter.version_details(version_reply)
+    commit = PINS[args.compositor]
+    out = args.out or ROOT / "sway-ipc/results" / f"{PINS['snapshot'][args.compositor]}-random.toml"
+    return write_random_results(out, args, version, commit, rows)
 
 def selected_scenarios(names):
     with open(ROOT / "sway-ipc/scenarios.toml", "rb") as file:
@@ -1342,7 +1520,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Run, capture, or compare data-driven sway IPC scenarios."
     )
-    parser.add_argument("mode", nargs="?", choices=("scenarios", "differential", "i3-derived", "command-fuzz", "wire-fuzz", "fuzz-self-test"), default="scenarios")
+    parser.add_argument("mode", nargs="?", choices=("scenarios", "differential", "i3-derived", "random", "command-fuzz", "wire-fuzz", "fuzz-self-test"), default="scenarios")
     parser.add_argument("--compositor", choices=ADAPTERS)
     parser.add_argument("--binary", type=Path)
     parser.add_argument("--scenario", action="append")
@@ -1378,6 +1556,8 @@ def main():
         return differential_main(args)
     if args.mode == "i3-derived":
         return i3_derived_main(args, parser)
+    if args.mode == "random":
+        return random_main(args, parser)
     if args.compositor is None or args.binary is None:
         parser.error("scenarios requires --compositor and --binary")
     return scenario_main(args, parser)

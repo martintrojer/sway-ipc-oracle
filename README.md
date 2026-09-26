@@ -54,6 +54,12 @@ applicable; match/differs/not applicable for i3).
 `sway-ipc/command-coverage.toml` records which of sway 1.12's 90 top-level
 commands the scenarios exercise, and why the rest cannot run headless.
 
+### Random sequence corpus
+
+The random corpus replays 500 captured 20-step sequences and reports
+match/mismatch/not applicable per seed. Sway's self-check is 500/0/0;
+swayward 0fbb931c is 54/446/0. The i3 replay is pending.
+
 ### Fuzz corpora
 
 Malformed commands (`command-fuzz`) and broken IPC framing (`wire-fuzz`),
