@@ -1,0 +1,92 @@
+# Comparison rules ported from swayward src/tests/ipc/fixtures.rs.
+# Every ignored field has a reason; all other JSON values and array lengths are
+# compared exactly. Tree-specific checks retain layout information hidden here.
+
+[[ignore_key]]
+name = "runtime-identifiers"
+keys = ["id", "pid", "foreign_toplevel_identifier"]
+reason = "IDs and process metadata are allocated independently by each run."
+
+[[ignore_key]]
+name = "focus-by-child-position"
+keys = ["focus"]
+reason = "Focus arrays contain dynamic node IDs; compare them by child position."
+
+[[ignore_key]]
+name = "rectangle-semantics"
+keys = ["rect", "deco_rect", "window_rect", "geometry"]
+reason = "Rectangles vary with font metrics; compare outer tree rectangles with 10 px tolerance and preserve rectangle-role relationships."
+
+[[ignore_key]]
+name = "backend-output-reference"
+keys = ["output"]
+reason = "Output names depend on the nested Wayland, headless, or X11 backend."
+
+[[ignore_key]]
+name = "backend-output-properties"
+keys = ["make", "model", "serial", "adaptive_sync_status", "modes"]
+reason = "Output identity, modes, and adaptive-sync support depend on the backend."
+
+[[ignore_path]]
+name = "backend-output-capabilities"
+suffixes = [".current_mode.refresh", ".features.adaptive_sync"]
+reason = "Refresh and adaptive-sync support depend on the backend."
+
+[[shape_path]]
+name = "version-runtime-identity"
+paths = ["$version.major", "$version.minor", "$version.patch", "$version.human_readable", "$version.loaded_config_file_name", "$version.variant"]
+reason = "GET_VERSION identifies the compositor build and the config path used by that run; compare each field's presence and JSON type, not its compositor- or run-specific value."
+evidence = "sway-ipc(7) defines GET_VERSION as version information about the sway process, documents major/minor/patch as integers, human_readable as a string likely containing the git hash and branch, and loaded_config_file_name as the loaded config path: https://man.archlinux.org/man/sway-ipc.7.en#7._GET_VERSION"
+
+[[ignore_output_key]]
+name = "backend-output-name"
+keys = ["name"]
+reason = "Output names depend on the backend."
+
+[[tree_field_rule]]
+name = "floating-rect-run-variance"
+field = "rect"
+action = "ignore"
+selector = { floating = "user_on" }
+reason = "Sway 1.12 chooses floating defaults from client state that is not stable across fresh runs."
+evidence = "Five fresh runs each of one_floating, two_floating, and three_floating_raise observed x=285,y=458 with either 700x493/percent=0.20356120257695062 or 1270x664/percent=0.49076704545454547; three_floating_raise run 1 contained both defaults while runs 2-5 contained only 700x493."
+
+[[tree_field_rule]]
+name = "tree-rect-tolerance"
+field = "rect"
+action = "rect_tolerance"
+tolerance = 10
+reason = "The sway capture used host font metrics; 10 px admits titlebar differences but rejects a wrong layout or unit placeholder."
+
+[[tree_field_rule]]
+name = "floating-percent-run-variance"
+field = "percent"
+action = "ignore"
+selector = { floating = "user_on" }
+reason = "Floating percent changes with sway's variable default floating rectangle."
+evidence = "Five fresh runs each of one_floating, two_floating, and three_floating_raise observed percent=0.20356120257695062 at 700x493 and percent=0.49076704545454547 at 1270x664."
+
+[[tree_field_rule]]
+name = "floating-descendant-percent-run-variance"
+field = "percent"
+action = "ignore"
+selector = { under_floating = true }
+reason = "Descendant percentages within a floating container change with sway's variable floating geometry."
+evidence = "Fresh sway 1.12 random replays varied descendant percentages for seeds 226, 290, 363 and 440: 0.5/0.5 versus 0.5009523809523809/0.4990476190476191, and 2.5806451612903225 versus 2.585278276481149."
+
+[[tree_field_rule]]
+name = "tree-percent-tolerance"
+field = "percent"
+action = "numeric_tolerance"
+tolerance = 1e-9
+reason = "All non-floating percentages, including workspace percentages, are semantic layout values and are compared within floating-point tolerance."
+
+[focus]
+name = "focus-child-position-comparison"
+mode = "child_position"
+reason = "Child position maps independently allocated IDs while preserving focus membership and order."
+
+[arrays]
+name = "backend-mode-array-length"
+ignore_length_suffixes = [".modes"]
+reason = "Sway's nested output advertised no modes while headless backends advertise synthetic modes."
